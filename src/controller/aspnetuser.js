@@ -259,7 +259,6 @@ layui.define(['table', 'form', 'common', 'setter', 'laydate', 'verification'], f
 
                         //角色数据响应机构下拉事件
                         form.on('select(sel-organization-edit-filter)', function (data) {
-                            console.log(data);
                             $("#sel-aspnetrole-edit").empty();
                             common.ajax(setter.apiAddress.awinerole.list, "GET", "", { tenantId: data.value }, function (res) {
                                 $("#sel-aspnetrole-edit").append("<option value=\"\">请选择角色</option>");
@@ -349,7 +348,6 @@ layui.define(['table', 'form', 'common', 'setter', 'laydate', 'verification'], f
                                 layer.msg("只能选一个角色");
                                 return;
                             }
-                            console.log(selected[0].id);
                             //监听提交
                             //form.on('submit(userprofile-form-submit)', function (data) {
                             //    common.ajax(setter.apiAddress.aspnetuser.update, "POST", "", data.field, function (res) {

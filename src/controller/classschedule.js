@@ -519,7 +519,6 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                         }
                     });
                     //初始化正式学生
-                    console.log(data.classId);
                     table.render({
                         elem: '#classtime-student-table'
                         , url: setter.apiAddress.studentcourseitem.list
@@ -715,7 +714,6 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                     });
                     //提交出勤数据
                     form.on('submit(complete-all-students-signin-form-submit)', function (data) {
-                        console.log(attendanceManage.attendanceData);
                         let count = attendanceManage.officialStatistics(1) + attendanceManage.listeningStatistics(2) + attendanceManage.officialStatistics(2) + attendanceManage.listeningStatistics(3) + attendanceManage.officialStatistics(3);
                         if (count != studentCount) {
                             layer.msg('请检查所有学生考勤情况', { icon: 5 });

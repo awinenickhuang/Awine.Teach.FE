@@ -74,7 +74,6 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                                 , calendar: true
                                 , format: 'yyyy-MM-dd'
                                 , done: function (value, date, endDate) {
-                                    console.log(date.year);
                                     $("#year").val(date.year);
                                 }
                             });
@@ -121,7 +120,6 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                             , calendar: true
                             , format: 'yyyy-MM-dd'
                             , done: function (value, date, endDate) {
-                                console.log(date.year);
                                 $("#year").val(date.year);
                             }
                         });

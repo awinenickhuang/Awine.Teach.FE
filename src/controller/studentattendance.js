@@ -38,7 +38,6 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
         form.render("select");
     });
     form.on('select(course-search-filter)', function (data) {
-        console.log(data);
         //搜索 -> 初始班级数据
         $("#sel-class-search").empty();
         if (data.value == "") {
