@@ -1,0 +1,43 @@
+﻿<script type="text/html" template>
+    <link rel="stylesheet" href="{{ layui.setter.base }}style/template.css?v={{ layui.admin.v }}-1" media="all">
+</script>
+
+<form class="layui-form" id="course-add-form" lay-filter="course-add-form-filter" style="padding:15px;">
+    <div class="layui-form-item">
+        <label class="layui-form-label">课程名称</label>
+        <div class="layui-input-block ">
+            <input type="text" id="name" name="Name" lay-verify="required|normallength" maxlength="32" autocomplete="off" placeholder="" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">课程名师</label>
+        <div class="layui-input-block">
+            <select class="sel" id="sel-teacher-list" name="TeacherId" lay-verify="required|select" lay-filter=""></select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">课程状态</label>
+        <div class="layui-input-block">
+            <select id="sel-enabled-status-list" name="EnabledStatus" lay-verify="required|select">
+                <option value="">请选择</option>
+                <option value="1">启用</option>
+                <option value="2">停用</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">显示顺序</label>
+        <div class="layui-input-block ">
+            <input type="text" id="displayOrder" name="DisplayOrder" lay-verify="required|number" maxlength="3" autocomplete="off" placeholder="" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">课程介绍</label>
+        <div class="layui-input-block">
+            <textarea placeholder="请输入课程介绍" class="layui-textarea" id="LAY_CourseIntroduction" name="CourseIntroduction" lay-verify="course_introduction_verify"></textarea>
+        </div>
+    </div>
+    <div class="layui-form-item content-center">
+        <button class="layui-btn layui-btn-sm" type="button" lay-submit lay-filter="course-add-form-submit"><i class="layui-icon layui-icon-ok"></i>立即提交</button>
+    </div>
+</form>

@@ -1,0 +1,26 @@
+﻿<title>收款方式</title>
+<script type="text/html" template>
+    <link rel="stylesheet" href="{{ layui.setter.base }}style/template.css?v={{ layui.admin.v }}-1" media="all">
+</script>
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a lay-href="">主页</a>
+        <a><cite>收款方式</cite></a>
+    </div>
+</div>
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-card-body">
+            <script type="text/html" id="paymentmethod-toolbar">
+                <div class="layui-btn-container">
+                    <button class="layui-btn layui-btn-sm btn-paymentmethod" lay-event="add"><i class="layui-icon layui-icon-addition"></i>添加</button>
+                </div>
+            </script>
+            <table class="layui-table" id="paymentmethod-table" lay-filter="paymentmethod-table"></table>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use('paymentmethod', layui.factory('paymentmethod')).use(['paymentmethod'], function () {
+    });
+</script>

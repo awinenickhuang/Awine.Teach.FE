@@ -1,0 +1,37 @@
+﻿<script type="text/html" template>
+    <link rel="stylesheet" href="{{ layui.setter.base }}style/template.css?v={{ layui.admin.v }}-1" media="all">
+</script>
+
+<form class="layui-form" id="editclassfication-edit-form" lay-filter="editclassfication-edit-form-filter">
+    <div class="layui-form-item">
+        <div class="layui-row layui-col-space15">
+            <div class="layui-form-item">
+                <label class="layui-form-label">机构名称</label>
+                <div class="layui-input-block">
+                    <script type="text/html" template>
+                        <input type="text" name="Name" value="{{ d.params.name || '' }}" readonly="readonly" lay-verify="required|normallength" placeholder="" maxlength="32" autocomplete="off" class="layui-input">
+                        <input type="hidden" name="Id" value="{{ d.params.id || '' }}" lay-verify="required" class="layui-input">
+                    </script>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label lines">机构类型</label>
+                <div class="layui-input-block">
+                    <select id="sel-editclassfication-list" name="ClassiFication" lay-verify="required|select">
+                        <option value="">请选择</option>
+                        <optgroup label="免费用户">
+                            <option value=1>免费</option>
+                            <option value=2>试用</option>
+                        </optgroup>
+                        <optgroup label="付费用户">
+                            <option value=3>VIP</option>
+                        </optgroup>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item content-center">
+            <button class="layui-btn" type="button" lay-submit lay-filter="editclassfication-edit-form-submit"><i class="layui-icon layui-icon-ok"></i>立即提交</button>
+        </div>
+    </div>
+</form>

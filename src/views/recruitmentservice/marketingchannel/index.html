@@ -1,0 +1,26 @@
+﻿<title>营销渠道</title>
+<script type="text/html" template>
+    <link rel="stylesheet" href="{{ layui.setter.base }}style/template.css?v={{ layui.admin.v }}-1" media="all">
+</script>
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a lay-href="">主页</a>
+        <a><cite>营销渠道</cite></a>
+    </div>
+</div>
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-card-body">
+            <script type="text/html" id="marketingchannel-toolbar">
+                <div class="layui-btn-container">
+                    <button class="layui-btn layui-btn-sm" lay-event="add"><i class="layui-icon layui-icon-addition"></i>添加</button>
+                </div>
+            </script>
+            <table class="layui-table" id="marketingchannel-table" lay-filter="marketingchannel-table"></table>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use('marketingchannel', layui.factory('marketingchannel')).use(['marketingchannel'], function () {
+    });
+</script>

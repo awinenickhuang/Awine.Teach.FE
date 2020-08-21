@@ -1,0 +1,238 @@
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md8">
+            <div class="layui-row layui-col-space15">
+                <div class="layui-col-md6">
+                    <div class="layui-card">
+                        <div class="layui-card-header">快捷方式</div>
+                        <div class="layui-card-body">
+                            <div class="layui-carousel layadmin-carousel layadmin-shortcut">
+                                <div carousel-item>
+                                    <ul class="layui-row layui-col-space10">
+                                        <li class="layui-col-xs3">
+                                            <a lay-href="/recruitmentservice/consultrecord/index">
+                                                <i class="layui-icon layui-icon-console"></i>
+                                                <cite>咨询跟进</cite>
+                                            </a>
+                                        </li>
+                                        <li class="layui-col-xs3">
+                                            <a lay-href="/teachingaffairservice/student/index">
+                                                <i class="layui-icon layui-icon-chart"></i>
+                                                <cite>学生管理</cite>
+                                            </a>
+                                        </li>
+                                        <li class="layui-col-xs3">
+                                            <a lay-href="/foundationalservice/aspnetuser/index">
+                                                <i class="layui-icon layui-icon-template-1"></i>
+                                                <cite>员工档案</cite>
+                                            </a>
+                                        </li>
+                                        <li class="layui-col-xs3">
+                                            <a lay-href="/recruitmentservice/marketanalysis/index">
+                                                <i class="layui-icon layui-icon-chat"></i>
+                                                <cite>市场分析</cite>
+                                            </a>
+                                        </li>
+                                        <li class="layui-col-xs3">
+                                            <a lay-href="/foundationalservice/tenant/index">
+                                                <i class="layui-icon layui-icon-find-fill"></i>
+                                                <cite>机构管理</cite>
+                                            </a>
+                                        </li>
+                                        <li class="layui-col-xs3">
+                                            <a lay-href="/teachingaffairservice/course/index">
+                                                <i class="layui-icon layui-icon-survey"></i>
+                                                <cite>课程管理</cite>
+                                            </a>
+                                        </li>
+                                        <li class="layui-col-xs3">
+                                            <a lay-href="/teachingaffairservice/classes/index">
+                                                <i class="layui-icon layui-icon-user"></i>
+                                                <cite>班级管理</cite>
+                                            </a>
+                                        </li>
+                                        <li class="layui-col-xs3">
+                                            <a lay-href="/teachingaffairservice/classschedule/index">
+                                                <i class="layui-icon layui-icon-set"></i>
+                                                <cite>课表管理</cite>
+                                            </a>
+                                        </li>
+                                    </ul>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md6">
+                    <div class="layui-card">
+                        <div class="layui-card-header">待办事项</div>
+                        <div class="layui-card-body">
+                            <div class="layui-carousel layadmin-carousel layadmin-backlog">
+                                <div carousel-item>
+                                    <ul class="layui-row layui-col-space10">
+                                        <li class="layui-col-xs6">
+                                            <a lay-href="#" class="layadmin-backlog-body">
+                                                <h3>待审评论</h3>
+                                                <p><cite>66</cite></p>
+                                            </a>
+                                        </li>
+                                        <li class="layui-col-xs6">
+                                            <a lay-href="#" class="layadmin-backlog-body">
+                                                <h3>待审帖子</h3>
+                                                <p><cite>12</cite></p>
+                                            </a>
+                                        </li>
+                                        <li class="layui-col-xs6">
+                                            <a lay-href="#" class="layadmin-backlog-body">
+                                                <h3>待审商品</h3>
+                                                <p><cite>99</cite></p>
+                                            </a>
+                                        </li>
+                                        <li class="layui-col-xs6">
+                                            <a href="javascript:;" onclick="layer.tips('不跳转', this, {tips: 3});" class="layadmin-backlog-body">
+                                                <h3>待发货</h3>
+                                                <p><cite>20</cite></p>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md12">
+                    <div class="layui-card">
+                        <div class="layui-card-header">数据概览</div>
+                        <div class="layui-card-body">
+
+                            <div class="layui-carousel layadmin-carousel layadmin-dataview" data-anim="fade" lay-filter="LAY-index-dataview">
+                                <div carousel-item id="LAY-index-dataview">
+                                    <div><i class="layui-icon layui-icon-loading1 layadmin-loading"></i></div>
+                                    <div></div>
+                                    <div></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-card">
+                        <div class="layui-tab layui-tab-brief layadmin-latestData">
+                            <ul class="layui-tab-title">
+                                <li class="layui-this">今日热搜</li>
+                                <li>今日热帖</li>
+                            </ul>
+                            <div class="layui-tab-content">
+                                <div class="layui-tab-item layui-show">
+                                    <table id="LAY-index-topSearch"></table>
+                                </div>
+                                <div class="layui-tab-item">
+                                    <table id="LAY-index-topCard"></table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md4">
+            <div class="layui-card">
+                <div class="layui-card-header">版本信息</div>
+                <div class="layui-card-body layui-text">
+                    <table class="layui-table">
+                        <colgroup>
+                            <col width="100">
+                            <col>
+                        </colgroup>
+                        <tbody>
+                            <tr>
+                                <td>当前版本</td>
+                                <td>
+                                    <script type="text/html" template>
+                                        v{{ layui.admin.v }}
+                                    </script>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>基于框架</td>
+                                <td>
+                                    <script type="text/html" template>
+                                        .NetCore3.1 & Layui2.5.6
+                                    </script>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>主要特色</td>
+                                <td>实用 / 高效 / 清爽 / 极简</td>
+                            </tr>
+                            <tr>
+                                <td>获取渠道</td>
+                                <td style="padding-bottom: 0;">
+                                    <div class="layui-btn-container">
+                                        <a href="#" target="_blank" class="layui-btn layui-btn-danger">升级VIP</a>
+                                        <a href="#" target="_blank" class="layui-btn">免费试用</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="layui-card">
+                <div class="layui-card-header">效果报告</div>
+                <div class="layui-card-body layadmin-takerates">
+                    <div class="layui-progress" lay-showPercent="yes">
+                        <h3>转化率（日同比 28% <span class="layui-edge layui-edge-top" lay-tips="增长" lay-offset="-15"></span>）</h3>
+                        <div class="layui-progress-bar" lay-percent="65%"></div>
+                    </div>
+                    <div class="layui-progress" lay-showPercent="yes">
+                        <h3>签到率（日同比 11% <span class="layui-edge layui-edge-bottom" lay-tips="下降" lay-offset="-15"></span>）</h3>
+                        <div class="layui-progress-bar" lay-percent="32%"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-card">
+                <div class="layui-card-header">实时监控</div>
+                <div class="layui-card-body layadmin-takerates">
+                    <div class="layui-progress" lay-showPercent="yes">
+                        <h3>CPU使用率</h3>
+                        <div class="layui-progress-bar" lay-percent="58%"></div>
+                    </div>
+                    <div class="layui-progress" lay-showPercent="yes">
+                        <h3>内存占用率</h3>
+                        <div class="layui-progress-bar layui-bg-red" lay-percent="90%"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-card">
+                <div class="layui-card-header">用户服务</div>
+                <div class="layui-card-body">
+                    <div class="layui-carousel layadmin-carousel layadmin-news" data-autoplay="true" data-anim="fade" lay-filter="news">
+                        <div carousel-item>
+                            <div><a href="#" target="_blank" class="layui-bg-red">快速上手文档</a></div>
+                            <div><a href="#" target="_blank" class="layui-bg-green">联系我的客服</a></div>
+                            <div><a href="#" target="_blank" class="layui-bg-blue">定制需求反馈</a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    服务商自白
+                    <i class="layui-icon layui-icon-tips" lay-tips="要支持的噢" lay-offset="5"></i>
+                </div>
+                <div class="layui-card-body layui-text layadmin-text">
+                    <p>微恩（Awine）教育，一直以来致力于把教育行业线下的业务整体搬到线上来，从招生、管理、报名、上课、人事、财务等业务整合成线上一站式智能化产品，能够帮机构完成招生引流、进销存管理、财务管理、数据分析、家校互动等，让机构的办学成本降低，效率提高，全面提升管理教学、办学水平。</p>
+                    <p>我们一直坚持只提供简洁、高频、实用的功能。如何为您产生更大的价值和优质的服务是我们一直在努力探索和研究的。</p>
+                    <p>与您一起成长，共同进步是我们的第一要务，其次才是赚钱。</p>
+                    <p>—— 微恩教育（<a href="http://www.awine.tech/" target="_blank">Awine</a>）</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script>
+    layui.use('console', layui.factory('console'));
+</script>
+

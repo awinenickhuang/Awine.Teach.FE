@@ -1,0 +1,19 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>登录成功-转跳中</title>
+</head>
+<body>
+    <script src="../src/lib/oidc-client.js"></script>
+    <script>
+        //完成OpenID Connect协议与IdentityServer的登录握手
+        new Oidc.UserManager().signinRedirectCallback().then(function () {
+            window.location = "index.html";
+        }).catch(function (ex) {
+            console.log("授权出错:" + ex);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+﻿<script type="text/html" template>
+    <link rel="stylesheet" href="{{ layui.setter.base }}style/template.css?v={{ layui.admin.v }}-1" media="all">
+</script>
+<form class="layui-form layui-card-header layuiadmin-card-header-auto layui-row" id="userprofile-add-form" lay-filter="userprofile-add-form">
+    <div class="layui-form-item">
+        <label class="layui-form-label">机构</label>
+        <div class="layui-input-block">
+            <select class="sel" id="sel-organization-list" name="TenantId" lay-verify="required|select" lay-filter="organization-add-filter"></select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">部门</label>
+        <div class="layui-input-block">
+            <select class="sel" id="sel-department-list" name="DepartmentId" lay-verify="required|select" lay-filter=""></select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">角色</label>
+        <div class="layui-input-block">
+            <select class="sel" id="sel-aspnetRole-list" name="RoleId" lay-verify="required|select" lay-filter=""></select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label lines">性别</label>
+        <div class="layui-input-block">
+            <select id="sel-gender-list" name="Gender" lay-verify="">
+                <option value=1>男</option>
+                <option value=2>女</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">姓名</label>
+        <div class="layui-input-block">
+            <input type="text" id="userName" name="UserName" lay-verify="required|username" maxlength="6" autocomplete="off" placeholder="请输入姓名" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">邮箱</label>
+        <div class="layui-input-block ">
+            <input type="text" id="email" name="Email" lay-verify="required|email" maxlength="32" autocomplete="off" placeholder="请输入邮箱" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">账号</label>
+        <div class="layui-input-block ">
+            <input type="text" id="account" name="Account" lay-verify="required|phone" maxlength="16" autocomplete="off" placeholder="请输入手机号码" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">密码</label>
+        <div class="layui-input-block ">
+            <input type="password" id="passwordHash" name="PasswordHash" lay-verify="required|password" maxlength="20" autocomplete="off" placeholder="请输入手机密码" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">手机</label>
+        <div class="layui-input-block ">
+            <input type="text" id="phoneNumber" name="PhoneNumber" lay-verify="required|phone" maxlength="20" autocomplete="off" placeholder="请输入手机号码" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item content-center">
+        <button class="layui-btn layui-btn-sm" type="button" lay-submit lay-filter="userprofile-form-submit"><i class="layui-icon layui-icon-ok"></i>立即提交</button>
+    </div>
+</form>

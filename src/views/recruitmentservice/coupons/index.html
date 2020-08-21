@@ -1,0 +1,26 @@
+﻿<title>优惠券</title>
+<script type="text/html" template>
+    <link rel="stylesheet" href="{{ layui.setter.base }}style/template.css?v={{ layui.admin.v }}-1" media="all">
+</script>
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a lay-href="">主页</a>
+        <a><cite>优惠券</cite></a>
+    </div>
+</div>
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-card-body">
+            <script type="text/html" id="trialclass-toolbar">
+                <div class="layui-btn-container">
+                    <a class="layui-btn layui-btn-sm" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a>
+                </div>
+            </script>
+            <table class="layui-table" id="trialclass-table" lay-filter="trialclass-table"></table>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use('coupons', layui.factory('coupons')).use(['coupons'], function () {
+    });
+</script>

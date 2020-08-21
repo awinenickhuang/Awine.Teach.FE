@@ -1,0 +1,373 @@
+﻿/**
+ @Name：用户管理
+ */
+layui.define(['table', 'form', 'common', 'setter', 'laydate', 'verification'], function (exports) {
+    var $ = layui.$
+        , admin = layui.admin
+        , view = layui.view
+        , table = layui.table
+        , common = layui.common
+        , setter = layui.setter
+        , laydate = layui.laydate
+        , form = layui.form;
+
+    form.render(null, 'userprofile-search');
+
+    //搜索
+    form.on('submit(userprofile-search)', function (data) {
+        var field = data.field;
+        //执行重载
+        table.reload('userprofile-table', {
+            where: {
+                userName: $("#name").val(),
+                tenantId: $("#organization-search-sel").val(),
+                departmentId: $("#department-search-sel").val(),
+                roleId: $("#aspnetRole-search-sel").val()
+            },
+            page: {
+                curr: 1 //重新从第 1 页开始
+            }
+        });
+    });
+
+    $("#department-search-sel").append("<option value=\"\">请选择部门</option>");
+    $("#aspnetRole-search-sel").append("<option value=\"\">请选择角色</option>");
+    common.ajax(setter.apiAddress.tenant.list, "Get", "", {}, function (res) {
+        $("#organization-search-sel").append("<option value=\"\">请选择机构</option>");
+        $.each(res.data, function (index, item) {
+            $("#organization-search-sel").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
+        });
+        form.render("select");
+    });
+
+    form.on('select(organization-search-filter)', function (data) {
+        //部门
+        $("#department-search-sel").empty();
+        common.ajax(setter.apiAddress.department.list, "GET", "", { tenantId: data.tenantId }, function (res) {
+            $("#department-search-sel").append("<option value=\"\">请选择部门</option>");
+            $.each(res.data, function (index, item) {
+                $("#department-search-sel").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
+            });
+            form.render("select");
+        });
+        //角色
+        $("#aspnetRole-search-sel").empty();
+        common.ajax(setter.apiAddress.awinerole.list, "GET", "", { tenantId: data.value }, function (res) {
+            $("#aspnetRole-search-sel").append("<option value=\"\">请选择角色</option>");
+            $.each(res.data, function (index, item) {
+                $("#aspnetRole-search-sel").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
+            });
+            form.render("select");
+        });
+    });
+
+    table.render({
+        elem: '#userprofile-table'
+        , url: setter.apiAddress.aspnetuser.pagelist
+        , toolbar: '#userprofile-toolbar'
+        , cols: [[
+            { field: 'userName', title: '姓名', align: 'left' },
+            { field: 'account', title: '账号', align: 'left' },
+            { field: 'tenantName', title: '机构', align: 'left' },
+            { field: 'departmentName', title: '部门', align: 'left' },
+            { field: 'aspnetRoleName', title: '角色', align: 'left' },
+            { field: 'phoneNumber', title: '电话', align: 'left' },
+            {
+                field: 'lockoutEnabled', title: '可否锁定', width: 100, align: 'center',
+                templet: function (d) {
+                    if (d.lockoutEnabled) {
+                        return '<span style="color:#009688;">是</span>';
+                    }
+                    else {
+                        return '<span style="color:#FF5722;">否</span>';
+                    }
+                }
+            },
+            {
+                field: 'enableStatus', title: '用户状态', align: 'center', width: 100,
+                templet: function (d) {
+                    switch (d.enableStatus) {
+                        case 1:
+                            return '<input type="checkbox" name="enableStatus" lay-skin="switch" checked="" lay-text="启用|停用" value= ' + d.id + ' lay-filter="user-enabled-status" >';
+                            break;
+                        case 2:
+                            return '<input type="checkbox" name="enableStatus" lay-skin="switch" lay-text="启用|停用" value= ' + d.id + ' lay-filter="user-enabled-status" >';
+                            break;
+                        default:
+                            return '-';
+                            break;
+                    }
+                }
+            },
+            { field: 'createTime', width: 200, title: '创建时间', align: 'center' },
+            {
+                width: 160, title: '操作', align: 'center'
+                , templet: function (d) {
+                    var htmlButton = new Array();
+                    htmlButton.push('<div class="layui-btn-group">')
+                    htmlButton.push('<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a>');
+                    htmlButton.push('<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="resetpassword"><i class="layui-icon layui-icon-password"></i>重置密码</a>');
+                    htmlButton.push('</div>')
+                    return htmlButton.join('');
+                }
+            }
+        ]]
+        , page: true
+        , cellMinWidth: 80
+        , text: {
+            none: '暂无相关数据'
+        }
+        , response: {
+            statusCode: 200
+        }
+        , parseData: function (res) {
+            return {
+                "code": res.statusCode,
+                "msg": res.message,
+                "count": res.data.totalCount,
+                "data": res.data.items
+            };
+        }
+    });
+
+    //监听课程启用状态开关
+    form.on('switch(user-enabled-status)', function (data) {
+        var enabledStatus = this.checked ? 1 : 2;
+        if (enabledStatus == 1) {
+            layer.tips('提示：用户可以正常登录', data.othis, { tips: [2, '#FFB800'] })
+        }
+        if (enabledStatus == 2) {
+            layer.tips('提示：用户不可正常登录', data.othis, { tips: [2, '#FFB800'] })
+        }
+        common.ajax(setter.apiAddress.aspnetuser.enableordisable, "POST", "", { Id: data.value, enableStatus: enabledStatus }, function (res) {
+            if (res.statusCode == 200) {
+                layui.table.reload('userprofile-table');
+            }
+            layer.msg(res.message);
+        });
+    });
+
+    //头工具栏事件
+    table.on('toolbar(userprofile-table)', function (obj) {
+        var checkStatus = table.checkStatus(obj.config.id);
+        switch (obj.event) {
+            case 'add':
+                admin.popupRight({
+                    title: '添加'
+                    , area: ['30%', '100%']
+                    , resize: false
+                    , closeBtn: 1
+                    , success: function (layero, index) {
+                        view(this.id).render('foundationalservice/aspnetuser/add').done(function () {
+                            $("#sel-aspnetRole-list").append("<option value=\"\">请选择角色</option>");
+                            $("#sel-department-list").append("<option value=\"\">请选择部门</option>");
+                            common.ajax(setter.apiAddress.tenant.list, "Get", "", {}, function (res) {
+                                $("#sel-organization-list").append("<option value=\"\">请选择机构</option>");
+                                $.each(res.data, function (index, item) {
+                                    $("#sel-organization-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
+                                });
+                                form.render("select");
+                            });
+
+                            form.on('select(organization-add-filter)', function (data) {
+                                $("#sel-aspnetRole-list").empty();
+                                common.ajax(setter.apiAddress.awinerole.list, "GET", "", { tenantId: data.value }, function (res) {
+                                    $("#sel-aspnetRole-list").append("<option value=\"\">请选择角色</option>");
+                                    $.each(res.data, function (index, item) {
+                                        $("#sel-aspnetRole-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
+                                    });
+                                    form.render("select");
+                                });
+                                $("#sel-department-list").empty();
+                                common.ajax(setter.apiAddress.department.list, "GET", "", { tenantId: data.value }, function (res) {
+                                    $("#sel-department-list").append("<option value=\"\">请选择部门</option>");
+                                    $.each(res.data, function (index, item) {
+                                        $("#sel-department-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
+                                    });
+                                    form.render("select");
+                                });
+                            });
+
+                            form.render();
+                            //监听提交
+                            form.on('submit(userprofile-form-submit)', function (data) {
+                                common.ajax(setter.apiAddress.aspnetuser.add, "POST", "", data.field, function (res) {
+                                    if (res.statusCode == 200) {
+                                        layer.close(index);
+                                        table.reload('userprofile-table');
+                                    }
+                                    layer.msg(res.message);
+                                });
+                            });
+                        });
+                    }
+                });
+                break;
+        };
+    });
+
+    //编辑&修改状态
+    table.on('tool(userprofile-table)', function (obj) {
+        var data = obj.data;
+        if (obj.event === 'edit') {
+            admin.popupRight({
+                title: '编辑'
+                , area: ['30%', '100%']
+                , resize: false
+                , closeBtn: 1
+                , success: function (layero, index) {
+                    view(this.id).render('foundationalservice/aspnetuser/edit', data).done(function () {
+                        form.render();
+                        //初始机构数据
+                        common.ajax(setter.apiAddress.tenant.list, "Get", "", {}, function (res) {
+                            $("#sel-organization-edit").append("<option value=\"\">请选择机构</option>");
+                            $.each(res.data, function (index, item) {
+                                if (data.tenantId == item.id) {
+                                    $("#sel-organization-edit").append("<option selected=\"selected\" value=\"" + item.id + "\">" + item.name + "</option>");
+                                } else {
+                                    $("#sel-organization-edit").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
+                                }
+                            });
+                            form.render("select");
+                        });
+                        //初始化角色
+                        common.ajax(setter.apiAddress.awinerole.list, "GET", "", { tenantId: data.tenantId }, function (res) {
+                            $("#sel-aspnetrole-edit").append("<option value=\"\">请选择角色</option>");
+                            $.each(res.data, function (index, item) {
+                                if (data.roleId == item.id) {
+                                    $("#sel-aspnetrole-edit").append("<option selected=\"selected\" value=\"" + item.id + "\">" + item.name + "</option>");
+                                } else {
+                                    $("#sel-aspnetrole-edit").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
+                                }
+                            });
+                            form.render("select");
+                        });
+                        //初始化部门
+                        common.ajax(setter.apiAddress.department.list, "GET", "", { tenantId: data.tenantId }, function (res) {
+                            $("#sel-department-edit").append("<option value=\"\">请选择部门</option>");
+                            $.each(res.data, function (index, item) {
+                                if (data.departmentId == item.id) {
+                                    $("#sel-department-edit").append("<option selected=\"selected\" value=\"" + item.id + "\">" + item.name + "</option>");
+                                } else {
+                                    $("#sel-department-edit").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
+                                }
+                            });
+                            form.render("select");
+                        });
+
+                        $('#sel-gender-edit').val(data.gender);
+
+                        //角色数据响应机构下拉事件
+                        form.on('select(sel-organization-edit-filter)', function (data) {
+                            console.log(data);
+                            $("#sel-aspnetrole-edit").empty();
+                            common.ajax(setter.apiAddress.awinerole.list, "GET", "", { tenantId: data.value }, function (res) {
+                                $("#sel-aspnetrole-edit").append("<option value=\"\">请选择角色</option>");
+                                $.each(res.data, function (index, item) {
+                                    $("#sel-aspnetrole-edit").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
+                                });
+                                form.render("select");
+                            });
+                        });
+
+                        //监听提交
+                        form.on('submit(userprofile-form-submit)', function (data) {
+                            common.ajax(setter.apiAddress.aspnetuser.update, "POST", "", data.field, function (res) {
+                                if (res.statusCode == 200) {
+                                    layer.close(index);
+                                    table.reload('userprofile-table');
+                                }
+                                layer.msg(res.message);
+                            });
+                        });
+                    });
+                }
+            });
+        } else if (obj.event === 'resetpassword') {
+            admin.popup({
+                title: '重置密码'
+                , area: ['30%', '35%']
+                , resize: false
+                , success: function (layero, index) {
+                    view(this.id).render('foundationalservice/aspnetuser/resetpassword', data).done(function () {
+                        form.render();
+
+                        //监听提交
+                        form.on('submit(user-reset-password-form-submit)', function (data) {
+                            common.ajax(setter.apiAddress.aspnetuser.resetpassword, "POST", "", data.field, function (res) {
+                                if (res.statusCode == 200) {
+                                    layer.close(index);
+                                    layer.msg(res.message);
+                                }
+                                layer.msg(res.message);
+                            });
+                        });
+                    });
+                }
+            });
+        } else if (obj.event === 'rolesettings') {
+            admin.popup({
+                title: '设置角色'
+                , area: ['50%', '50%']
+                , resize: false
+                , success: function (layero, index) {
+                    view(this.id).render('foundationalservice/aspnetuser/rolesettings', data).done(function () {
+                        form.render();
+                        $("#usercontainer").html('<span>当前用户：' + data.userName + '</span>');
+                        var role_settings_tab = table.render({
+                            elem: '#user-role-settings-table'
+                            , url: setter.apiAddress.awinerole.pagelist + "?tenantId=" + data.tenantId
+                            , cols: [[
+                                { type: 'checkbox' },
+                                //, { field: 'id', title: 'ID' },
+                                { field: 'name', title: '名称' }
+                            ]]
+                            , page: true
+                            , text: {
+                                none: '暂无相关数据'
+                            }
+                            , response: {
+                                statusCode: 200
+                            }
+                            , parseData: function (res) {
+                                return {
+                                    "code": res.statusCode,
+                                    "msg": res.message,
+                                    "count": res.data.totalCount,
+                                    "data": res.data.items
+                                };
+                            }
+                        });
+
+                        $('.layui-btn.btn-user-role-settings').on('click', function () {
+                            var selected = layui.table.checkStatus("user-role-settings-table").data;
+                            if (selected.length <= 0) {
+                                layer.msg("请选一个角色");
+                                return;
+                            }
+                            if (selected.length > 1) {
+                                layer.msg("只能选一个角色");
+                                return;
+                            }
+                            console.log(selected[0].id);
+                            //监听提交
+                            //form.on('submit(userprofile-form-submit)', function (data) {
+                            //    common.ajax(setter.apiAddress.aspnetuser.update, "POST", "", data.field, function (res) {
+                            //        if (res.statusCode == 200) {
+                            //            layer.close(index);
+                            //            table.reload('userprofile-table');
+                            //        }
+                            //        layer.msg(res.message);
+                            //    });
+                            //});
+
+
+                        });
+                    });
+                }
+            });
+        }
+    });
+
+    exports('aspnetuser', {})
+});

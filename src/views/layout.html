@@ -1,0 +1,145 @@
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <!-- 头部区域 -->
+        <ul class="layui-nav layui-layout-left">
+            <li class="layui-nav-item layadmin-flexible" lay-unselect>
+                <a href="javascript:;" layadmin-event="flexible" title="侧边伸缩">
+                    <i class="layui-icon layui-icon-shrink-right" id="LAY_app_flexible"></i>
+                </a>
+            </li>
+            <li class="layui-nav-item layui-hide-xs layui-hide-sm layui-show-md-inline-block">
+                <a lay-href="" title="">
+                    <script type="text/html" template>
+                        <cite>{{sessionStorage.getItem("tenantname")!=null ?sessionStorage.getItem("tenantname"):'请登录'}}</cite>
+                    </script>
+                </a>
+            </li>
+            <li class="layui-nav-item layui-this layui-hide-xs layui-hide-sm layui-show-md-inline-block">
+                <a lay-href="" title="">
+                    个人桌面
+                </a>
+            </li>
+            <li class="layui-nav-item" lay-unselect>
+                <a href="javascript:;" layadmin-event="refresh" title="刷新">
+                    <i class="layui-icon layui-icon-refresh-3"></i>
+                </a>
+            </li>
+        </ul>
+        <ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right">
+
+            <li class="layui-nav-item" lay-unselect>
+                <a lay-href="message/" layadmin-event="message">
+                    <i class="layui-icon layui-icon-notice"></i>
+
+                    <!-- 如果有新消息，则显示小圆点 -->
+                    <!--<script type="text/html" template lay-url="./json/message/new.js">
+                        {{# if(d.data.newmsg){ }}
+                        <span class="layui-badge-dot"></span>
+                        {{# } }}
+                    </script>-->
+
+                </a>
+            </li>
+            <li class="layui-nav-item layui-hide-xs" lay-unselect>
+                <a href="javascript:;" layadmin-event="theme">
+                    <i class="layui-icon layui-icon-theme"></i>
+                </a>
+            </li>
+            <li class="layui-nav-item layui-hide-xs" lay-unselect>
+                <a href="javascript:;" layadmin-event="note">
+                    <i class="layui-icon layui-icon-note"></i>
+                </a>
+            </li>
+            <li class="layui-nav-item layui-hide-xs" lay-unselect>
+                <a href="javascript:;" layadmin-event="fullscreen">
+                    <i class="layui-icon layui-icon-screen-full"></i>
+                </a>
+            </li>
+            <li class="layui-nav-item" lay-unselect>
+                <a href="javascript:;">
+                    <script type="text/html" template>
+                        <cite>{{sessionStorage.getItem("username")!=null ?sessionStorage.getItem("username"):'请登录'}}</cite>
+                    </script>
+                </a>
+                <dl class="layui-nav-child">
+                    <dd><a lay-href="system/userinfo">我的资料</a></dd>
+                    <dd><a lay-href="system/updatepassword">我的密码</a></dd>
+                    <dd><a href="#" class="logout">退出登录</a></dd>
+                </dl>
+            </li>
+
+            <li class="layui-nav-item layui-hide-xs" lay-unselect>
+                <a href="javascript:;" layadmin-event="about"><i class="layui-icon layui-icon-more-vertical"></i></a>
+            </li>
+            <li class="layui-nav-item layui-show-xs-inline-block layui-hide-sm" lay-unselect>
+                <a href="javascript:;" layadmin-event="more"><i class="layui-icon layui-icon-more-vertical"></i></a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- 侧边菜单 -->
+    <div class="layui-side layui-side-menu">
+        <div class="layui-side-scroll">
+            <script type="text/html" template>
+                <div class="layui-logo" lay-href="">
+                    <span>{{ layui.setter.name || 'Awine.Tech' }}</span>
+                </div>
+                <ul class="layui-nav layui-nav-tree" lay-shrink="all" id="LAY-system-side-menu" lay-filter="layadmin-system-side-menu">
+                    <!--系统菜单-->
+                    {{# layui.each(d.params, function(index, item){ }}
+                    <li data-name="{{ item.name }}" data-jump="" class="layui-nav-item">
+                        <a href="javascript:;" lay-tips="{{ item.name }}" lay-direction="2">
+                            <i class="layui-icon {{item.moduleIcon}}"></i> <cite> {{ item.name }}</cite> <span class="layui-nav-more"></span>
+                        </a>
+
+                        {{# layui.each(item.children, function(index, childrenitem){ }}
+                        <dl class="layui-nav-child">
+                            <dd data-name="{{ childrenitem.name }}" data-jump="{{ childrenitem.redirectUri }}">
+                                <a href="javascript:;" lay-href="{{ childrenitem.redirectUri }}">{{ childrenitem.name }}</a>
+                            </dd>
+                        </dl>
+                        {{# }); }}
+                    </li>
+                    {{# }); }}
+                    <!--系统菜单-->
+                </ul>
+            </script>
+        </div>
+    </div>
+
+    <!-- 页面标签 -->
+    <script type="text/html" template lay-done="layui.element.render('nav', 'layadmin-pagetabs-nav')">
+        {{# if(layui.setter.pageTabs){ }}
+        <div class="layadmin-pagetabs" id="LAY_app_tabs">
+            <div class="layui-icon layadmin-tabs-control layui-icon-prev" layadmin-event="leftPage"></div>
+            <div class="layui-icon layadmin-tabs-control layui-icon-next" layadmin-event="rightPage"></div>
+            <div class="layui-icon layadmin-tabs-control layui-icon-down">
+                <ul class="layui-nav layadmin-tabs-select" lay-filter="layadmin-pagetabs-nav">
+                    <li class="layui-nav-item" lay-unselect>
+                        <a href="javascript:;"></a>
+                        <dl class="layui-nav-child layui-anim-fadein">
+                            <dd layadmin-event="closeThisTabs"><a href="javascript:;">关闭当前标签页</a></dd>
+                            <dd layadmin-event="closeOtherTabs"><a href="javascript:;">关闭其它标签页</a></dd>
+                            <dd layadmin-event="closeAllTabs"><a href="javascript:;">关闭全部标签页</a></dd>
+                        </dl>
+                    </li>
+                </ul>
+            </div>
+            <div class="layui-tab" lay-unauto lay-allowClose="true" lay-filter="layadmin-layout-tabs">
+                <ul class="layui-tab-title" id="LAY_app_tabsheader">
+                    <li lay-id="/"><i class="layui-icon layui-icon-home"></i></li>
+                </ul>
+            </div>
+        </div>
+        {{# } }}
+    </script>
+
+    <!-- 主体内容 -->
+    <div class="layui-body" id="LAY_app_body">
+        <div class="layadmin-tabsbody-item layui-show"></div>
+    </div>
+
+    <!-- 辅助元素，一般用于移动设备下遮罩 -->
+    <div class="layadmin-body-shade" layadmin-event="shade"></div>
+
+</div>

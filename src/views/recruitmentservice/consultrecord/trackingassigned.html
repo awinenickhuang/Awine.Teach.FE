@@ -1,0 +1,31 @@
+﻿<script type="text/html" template>
+    <link rel="stylesheet" href="{{ layui.setter.base }}style/template.css?v={{ layui.admin.v }}-1" media="all">
+</script>
+<form class="layui-form" style="padding:15px;" id="trackingassigned-form" lay-filter="trackingassigned-form">
+    <div class="layui-form-item">
+        <label class="layui-form-label">当前跟进人</label>
+        <div class="layui-input-block">
+            <script type="text/html" template>
+                <input type="text" id="trackingStafferName" value="{{ d.params.trackingStafferName || '待指派' }}" readonly lay-verify="required" maxlength="12" autocomplete="off" class="layui-input">
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">请选择部门</label>
+        <div class="layui-input-block">
+            <script type="text/html" template>
+                <input type="hidden" id="consultRecordId" name="ConsultRecordId" value="{{ d.params.id || '' }}" lay-verify="required" maxlength="36" autocomplete="off" class="layui-input">
+            </script>
+            <select class="sel" id="sel-department-list" lay-verify="required|select" lay-filter="sel-department-list-filter"></select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">选择跟进人</label>
+        <div class="layui-input-block">
+            <select class="sel" id="sel-staffer-list" name="TrackingStafferId" lay-verify="required|select" lay-filter=""></select>
+        </div>
+    </div>
+    <div class="layui-form-item content-center">
+        <button class="layui-btn layui-btn-sm" type="button" lay-submit lay-filter="trackingassigned-form-submit"><i class="layui-icon layui-icon-ok"></i>立即提交</button>
+    </div>
+</form>
