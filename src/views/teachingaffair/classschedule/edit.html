@@ -1,0 +1,44 @@
+﻿<script type="text/html" template>
+    <link rel="stylesheet" href="{{ layui.setter.base }}style/template.css?v={{ layui.admin.v }}-1" media="all">
+</script>
+<form class="layui-form layui-card-header layuiadmin-card-header-auto layui-row" id="calendar-classtime-edit-form" lay-filter="calendar-classtime-edit-form">
+    <div class="layui-form-item">
+        <label class="layui-form-label">选择课程</label>
+        <div class="layui-input-block">
+            <select class="sel" id="sel-course-list" name="CourseId" lay-verify="required|select" lay-filter="sel-course-selectedfilter"></select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">选择班级</label>
+        <div class="layui-input-block">
+            <select class="sel" id="sel-classes-list" name="ClassId" lay-verify="required|select" lay-filter=""></select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">上课时段</label>
+        <div class="layui-input-block">
+            <script type="text/html" template>
+                <input type="hidden" id="startHours" name="StartHours" value="{{ d.params.startHours || '0' }}" />
+                <input type="hidden" id="startMinutes" name="StartMinutes" value="{{ d.params.startMinutes || '0' }}" />
+                <input type="hidden" id="endHours" name="EndHours" value="{{ d.params.endHours || '0' }}" />
+                <input type="hidden" id="endMinutes" name="EndMinutes" value="{{ d.params.endMinutes || '0' }}" />
+            </script>
+            <input type="text" class="layui-input" id="courseTime" name="CourseTime" placeholder="" lay-verify="required" required readonly>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">选择老师</label>
+        <div class="layui-input-block">
+            <select class="sel" id="sel-teacher-list" name="TeacherId" lay-verify="required|select" lay-filter=""></select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">选择教室</label>
+        <div class="layui-input-block">
+            <select class="sel" id="sel-class-room-list" name="ClassRoomId" lay-verify="required|select" lay-filter=""></select>
+        </div>
+    </div>
+    <div class="layui-form-item content-center">
+        <button class="layui-btn layui-btn-sm" type="button" lay-submit lay-filter="calendar-classtime-edit-form-submit"><i class="layui-icon layui-icon-ok"></i>立即提交</button>
+    </div>
+</form>

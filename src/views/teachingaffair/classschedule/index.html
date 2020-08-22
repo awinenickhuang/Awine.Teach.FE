@@ -1,0 +1,44 @@
+﻿<title>课表管理</title>
+<script type="text/html" template>
+    <link rel="stylesheet" href="{{ layui.setter.base }}style/template.css?v={{ layui.admin.v }}-1" media="all">
+    <link rel="stylesheet" href="{{ layui.setter.base }}style/fullCalendar.css?v={{ layui.admin.v }}-1" media="all">
+</script>
+<style>
+    .tootiptext a {
+        color: #ffffff;
+        font-size: 13px;
+        font-weight: bold;
+    }
+</style>
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a lay-href="">主页</a>
+        <a><cite>课表管理</cite></a>
+    </div>
+</div>
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-form layui-card-header layuiadmin-card-header-auto layui-row layui-col-space10" lay-filter="student-search-form">
+            <div class="layui-col-md3">
+                <select class="sel" id="sel-course-search" name="CourseId" placeholder="请选择课程" lay-filter="course-search-filter"></select>
+            </div>
+            <div class="layui-col-md3">
+                <select class="sel" id="sel-class-search" name="ClassId" placeholder="请选择班级" lay-filter="class-search-filter"></select>
+            </div>
+            <div class="layui-col-md3">
+                <select class="sel" id="sel-teacher-search" name="TeacherId" placeholder="请选择老师" lay-filter="teacher-search-filter"></select>
+            </div>
+            <div class="layui-col-md3">
+                <select class="sel" id="sel-class-room-search" name="ClassRoomId" placeholder="请选择教室" lay-filter="class-room-search-filter"></select>
+            </div>
+        </div>
+        <div class="layui-card-body" style="padding:20px 15px 15px 15px;">
+            <div id='schedule-overview-calendar'></div>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use('classschedule', layui.factory('classschedule')).use(['classschedule'], function () {
+
+    });
+</script>

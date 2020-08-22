@@ -1,0 +1,42 @@
+﻿<script type="text/html" template>
+    <link rel="stylesheet" href="{{ layui.setter.base }}style/template.css?v={{ layui.admin.v }}-1" media="all">
+</script>
+
+<form class="layui-form" id="course-edit-form" lay-filter="course-edit-form-filter" style="padding:15px;">
+    <div class="layui-form-item">
+        <label class="layui-form-label">课程名称</label>
+        <div class="layui-input-block ">
+            <script type="text/html" template>
+                <input type="text" name="Name" value="{{ d.params.name || '' }}" lay-verify="required|normallength" readonly placeholder="" maxlength="32" autocomplete="off" class="layui-input">
+                <input type="hidden" name="Id" value="{{ d.params.id || '' }}" lay-verify="required" class="layui-input">
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">课程名师</label>
+        <div class="layui-input-block">
+            <select class="sel" id="sel-teacher-edit" name="TeacherId" lay-verify="required|select" lay-filter=""></select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">显示顺序</label>
+        <div class="layui-input-block ">
+            <script type="text/html" template>
+                <input type="text" id="displayOrder" name="DisplayOrder" value="{{ d.params.displayOrder || '0' }}" lay-verify="required|number" maxlength="3" autocomplete="off" placeholder="" class="layui-input">
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">课程介绍</label>
+        <div class="layui-input-block">
+            <script type="text/html" template>
+                <textarea placeholder="请输入课程介绍" class="layui-textarea" id="LAY_CourseIntroduction" name="CourseIntroduction" lay-verify="course_introduction_verify">
+                    {{ d.params.courseIntroduction || '' }}
+                </textarea>
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item content-center">
+        <button class="layui-btn layui-btn-sm" type="button" lay-submit lay-filter="course-edit-form-submit"><i class="layui-icon layui-icon-ok"></i>立即提交</button>
+    </div>
+</form>

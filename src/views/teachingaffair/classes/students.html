@@ -1,0 +1,40 @@
+﻿<title>班级学生列表</title>
+<script type="text/html" template>
+    <link rel="stylesheet" href="{{ layui.setter.base }}style/template.css?v={{ layui.admin.v }}-1" media="all">
+</script>
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a lay-href="">主页</a>
+        <a><cite>班级学生列表</cite></a>
+    </div>
+</div>
+<div class="layui-fluid" style="padding-top:5px;">
+    <div class="layui-card">
+        <div class="layui-card-body" style="padding:0;border:none; margin-top:15px;">
+            <div class="layui-tab layui-tab-brief" lay-filter="class-table-filter">
+                <ul class="layui-tab-title">
+                    <li class="layui-this"><i class="layui-icon layui-icon-menu-fill"></i> 学生列表</li>
+                    <li><i class="layui-icon layui-icon-user"></i> 添加学生</li>
+                </ul>
+                <div class="layui-tab-content">
+                    <div class="layui-tab-item layui-show">
+                        <script type="text/html" id="classes-studens-toolbar">
+                            <div class="layui-btn-container">
+                                <button class="layui-btn layui-btn-sm" lay-event="remove"><i class="layui-icon layui-icon-subtraction"></i>移出本班</button>
+                            </div>
+                        </script>
+                        <table class="layui-table" id="class-students-table" lay-filter="class-students-table"></table>
+                    </div>
+                    <div class="layui-tab-item">
+                        <script type="text/html" id="students-tobe-assigned-table-toolbar">
+                            <div class="layui-btn-container">
+                                <button class="layui-btn layui-btn-sm" lay-event="add"><i class="layui-icon layui-icon-addition"></i>添加</button>
+                            </div>
+                        </script>
+                        <table class="layui-table" id="students-tobe-assigned-table" lay-filter="students-tobe-assigned-table"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

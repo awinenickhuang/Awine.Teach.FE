@@ -1,0 +1,84 @@
+﻿<script type="text/html" template>
+    <link rel="stylesheet" href="{{ layui.setter.base }}style/template.css?v={{ layui.admin.v }}-1" media="all">
+</script>
+<div style="padding: 20px; background-color: #F2F2F2;">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">课节信息</div>
+                <div class="layui-card-body">
+                    <div class="layui-row layui-col-space10">
+                        <form class="" id="schedule-detail-form" lay-filter="schedule-detail-form-filter">
+                            <script type="text/html" template>
+
+                                <div class="layui-col-xs12">
+                                    <strong>
+                                        授课课程：
+                                    </strong>
+                                    <span style="color:#01AAED;">
+                                        {{ d.params.courseName || '' }}&nbsp;&nbsp;
+                                    </span>
+                                    <strong>授课班级：</strong>
+                                    <span style="color:#01AAED;">
+                                        {{ d.params.classesName || '' }}&nbsp;&nbsp;
+                                    </span>
+                                    <strong>
+                                        授课老师：
+                                    </strong>
+                                    <span style="color:#01AAED;">
+                                        {{ d.params.teacherName || '' }}&nbsp;&nbsp;
+                                    </span>
+                                    <strong>
+                                        授课教室：
+                                    </strong>
+                                    <span style="color:#01AAED;">
+                                        {{ d.params.classRoom || '' }}&nbsp;&nbsp;
+                                    </span>
+                                    <strong>
+                                        课节状态：
+                                    </strong>
+                                    <em>
+                                        {{#  if(d.params.classStatus === 1){ }}
+                                        <span style="color:#FFB800;">待上课</span>
+                                        {{#  }else{ }}
+                                        <span style="color:#FF5722;">已结课</span>
+                                        {{#  } }}
+                                    </em>
+                                    <strong>
+                                        &nbsp;&nbsp;点名情况：
+                                    </strong>
+                                    出勤：{{ d.params.actualAttendanceNumber || '0' }} （人）  缺勤：{{ d.params.actualAbsenceNumber || '0' }} （人）  请假：{{ d.params.actualleaveNumber || '0' }} （人）
+                                </div>
+                                <input type="hidden" id="scheduleId" name="ScheduleId" value="{{ d.params.scheduleId || '0' }}" />
+                            </script>
+                            <div class="layui-col-xs12" style="text-align:right;">
+                                <button class="layui-btn layui-btn-danger layui-btn-xs" type="button" lay-submit lay-filter="schedule-detail-form-submit"><i class="layui-icon layui-icon-close-fill"></i>删除课节</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">正式学生</div>
+                <div class="layui-card-body">
+                    <table class="layui-table" id="classtime-student-table" lay-filter="classtime-student-table" style="margin:0;"></table>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">试听学生</div>
+                <div class="layui-card-body">
+                    <script type="text/html" id="listen-student-table-toolbar">
+                        <div class="layui-btn-container">
+                            <a class="layui-btn layui-btn-sm" lay-submit lay-event="listensignin"><i class="layui-icon layui-icon-ok"></i>完成点名</a>
+                        </div>
+                    </script>
+                    <table class="layui-table" id="listen-student-table" lay-filter="listen-student-table"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

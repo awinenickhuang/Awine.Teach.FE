@@ -1,0 +1,120 @@
+﻿<title>学生管理</title>
+
+<script type="text/html" template>
+    <link rel="stylesheet" href="{{ layui.setter.base }}style/template.css?v={{ layui.admin.v }}-1" media="all">
+</script>
+<style>
+    .layui-laypage {
+        padding: 5px 0 0 15px;
+    }
+</style>
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a lay-href="">主页</a>
+        <a><cite>学生管理</cite></a>
+    </div>
+</div>
+<div class="layui-fluid" style="padding-bottom:0">
+    <div class="layui-card">
+        <div class="layui-form layui-card-header layuiadmin-card-header-auto layui-row layui-col-space10" lay-filter="student-search-form">
+            <div class="layui-col-md2">
+                <select class="sel" id="sel-course-search" name="CourseId" placeholder="请选择课程" lay-filter="course-search-filter"></select>
+            </div>
+            <div class="layui-col-md2">
+                <select class="sel" id="sel-class-search" name="ClassId" placeholder="请选择班级"></select>
+            </div>
+            <div class="layui-col-md2">
+                <select id="sel-status-search" name="Status">
+                    <option value="0">请选择状态</option>
+                    <option value="1">在校</option>
+                    <option value="2">停课</option>
+                    <option value="3">退费</option>
+                    <option value="4">毕业</option>
+                </select>
+            </div>
+            <div class="layui-col-md2">
+                <input type="text" id="name" name="Name" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;" placeholder="请输入姓名" autocomplete="off" class="layui-input">
+            </div>
+            <div class="layui-col-md2">
+                <input type="text" id="phoneNumber" name="PhoneNumber" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;" placeholder="请输入电话" autocomplete="off" class="layui-input">
+            </div>
+            <div class="layui-col-md2">
+                <select id="sel-otherconditions-search" name="OtherConditions">
+                    <option value="0">不限性别</option>
+                    <option value="1">男同学</option>
+                    <option value="2">女同学</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="layui-fluid layadmin-maillist-fluid" style="padding-bottom: 10px; ">
+    <div class="layui-row layui-col-space10" id="students"></div>
+</div>
+<div class="layui-fluid" style="padding-top:0; padding-left:15px;padding-bottom:0;">
+    <div class="layui-card">
+        <div id="students-paging-controls"></div>
+    </div>
+</div>
+<script id="studenttemplate" type="text/html">
+    {{#  layui.each(d.items, function(index, item){ }}
+    <div class="layui-col-md4 layui-col-sm6">
+        <div class="layadmin-contact-box">
+            <div class="layui-col-md4 layui-col-sm6">
+                <a href="#/teachingaffair/student/studentprofile/uid={{item.id}}">
+                    <div class="layadmin-text-center">
+                        <img src="{{ layui.setter.base }}style/res/template/studentimage.jpg">
+                        <div class="layadmin-maillist-img layadmin-font-blod">学生</div>
+                    </div>
+                </a>
+            </div>
+            <div class="layui-col-md8 layadmin-padding-left20 layui-col-sm6">
+                <a href="#/teachingaffair/student/studentprofile/uid={{item.id}}">
+                    <h3 class="layadmin-title">
+                        <strong>{{item.name}}</strong>
+                    </h3>
+                    <p class="layadmin-textimg">
+                        <i class="layui-icon layui-icon-location"></i>
+                        {{#  if(item.address === null){ }}
+                        暂未录入联系地址
+                        {{#  }else{ }}
+                        {{item.address}}
+                        {{#  } }}
+                    </p>
+                </a>
+                <div class="layadmin-address">
+                    <a href="#/teachingaffair/student/studentprofile/uid={{item.id}}">
+                        <p class="layadmin-textimg">
+                            <i class="layui-icon layui-icon-user"></i>
+                            {{#  if(item.gender === 1){ }}
+                            <span style="color:#01AAED;">男生</span>
+                            {{#  }else{ }}
+                            <span style="color:#FFB800;">女生</span>
+                            {{#  } }}
+                        </p>
+                        <p class="layadmin-textimg">
+                            <i class="layui-icon layui-icon-at"></i>
+                            {{item.age}}（岁）
+                        </p>
+                        <p class="layadmin-textimg">
+                            <i class="layui-icon layui-icon-snowflake"></i>
+                            {{item.phoneNumber}}
+                        </p>
+                        <p class="layadmin-textimg">
+                            <i class="layui-icon layui-icon-time"></i>
+                            {{item.createTime}}
+                        </p>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{#  }); }}
+    {{#  if(d.items.length === 0){ }}
+    <div style="width:100%; text-align:center; color:#ff6a00;"><i class="layui-icon ayui-icon-face-cry"></i>   暂无学生数据</div>
+    {{#  } }}
+</script>
+<script>
+    layui.use('student', layui.factory('student')).use(['student'], function () {
+    });
+</script>

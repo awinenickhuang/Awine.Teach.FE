@@ -1,0 +1,75 @@
+﻿<script type="text/html" template>
+    <link rel="stylesheet" href="{{ layui.setter.base }}style/template.css?v={{ layui.admin.v }}-1" media="all">
+</script>
+
+<form class="layui-form layui-card-header layuiadmin-card-header-auto layui-row" id="classes-edit-form" lay-filter="classes-edit-form-filter">
+    <div class="layui-form-item">
+        <label class="layui-form-label">班级名称</label>
+        <div class="layui-input-block ">
+            <script type="text/html" template>
+                <input type="text" name="Name" value="{{ d.params.name || '' }}" lay-verify="required|normallength" readonly placeholder="" maxlength="32" autocomplete="off" class="layui-input">
+                <input type="hidden" name="Id" value="{{ d.params.id || '' }}" lay-verify="required" class="layui-input">
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">班级容量</label>
+        <div class="layui-input-block">
+            <script type="text/html" template>
+                <input type="text" id="classSize" name="ClassSize" lay-verify="required|positive" value="{{ d.params.classSize || '' }}" maxlength="12" placeholder="人" autocomplete="off" class="layui-input">
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">开班日期</label>
+        <div class="layui-input-block">
+            <script type="text/html" template>
+                <input type="text" id="startDateEdit" name="StartDate" lay-verify="required" readonly value="{{ d.params.startDate || '' }}" maxlength="32" placeholder="请选择" autocomplete="off" class="layui-input">
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">所授课程</label>
+        <div class="layui-input-block">
+            <select class="sel" id="sel-course-edit" name="CourseId" lay-verify="required|select" lay-filter="sel-course-edit-filter"></select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">授课老师</label>
+        <div class="layui-input-block">
+            <select class="sel" id="sel-teacher-edit" name="TeacherId" lay-verify="required|select" lay-filter=""></select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">上课教室</label>
+        <div class="layui-input-block">
+            <script type="text/html" template>
+                <select class="sel" id="sel-class-room-edit" name="ClassRoomId" lay-verify="required|select" lay-filter=""></select>
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">招生状态</label>
+        <div class="layui-input-block">
+            <select id="sel-recruitstatus-edit" name="RecruitStatus" lay-verify="required|select">
+                <option value="">请选择</option>
+                <option value=1>开放招生</option>
+                <option value=2>暂停招生</option>
+                <option value=3>授课结束</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">班级类型</label>
+        <div class="layui-input-block">
+            <select id="sel-typeofclass-edit" name="TypeOfClass" lay-verify="required|select">
+                <option value="">请选择</option>
+                <option value=1>班课</option>
+                <option value=2>一对一</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item content-center">
+        <button class="layui-btn layui-btn-sm" type="button" lay-submit lay-filter="classes-edit-form-submit"><i class="layui-icon layui-icon-ok"></i>立即提交</button>
+    </div>
+</form>
