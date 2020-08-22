@@ -62,7 +62,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification'], f
                     , area: ['30%', '35%']
                     , resize: false
                     , success: function (layero, index) {
-                        view(this.id).render('foundationalservice/industry/add').done(function () {
+                        view(this.id).render('foundational/industry/add').done(function () {
                             //监听提交
                             form.on('submit(industry-form-submit)', function (data) {
                                 common.ajax(setter.apiAddress.industry.add, "POST", "", data.field, function (res) {
@@ -98,7 +98,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification'], f
                 , area: ['30%', '35%']
                 , resize: false
                 , success: function (layero, index) {
-                    view(this.id).render('foundationalservice/industry/edit', data).done(function () {
+                    view(this.id).render('foundational/industry/edit', data).done(function () {
                         form.render();
                         form.on('submit(industry-edit-form-submit)', function (data) {
                             common.ajax(setter.apiAddress.industry.update, "POST", "", data.field, function (res) {

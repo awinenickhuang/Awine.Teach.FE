@@ -86,9 +86,9 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
         , toolbar: '#studentattendance-toolbar'
         , cols: [[
             { type: 'checkbox' },
-            { field: 'studentName', title: '学生' },
-            { field: 'courseName', title: '课程' },
-            { field: 'className', title: '班级' },
+            { field: 'studentName', title: '学生姓名' },
+            { field: 'courseName', title: '课程名称' },
+            { field: 'className', title: '班级名称' },
             {
                 field: 'attendanceStatus', title: '出勤状态', align: 'center', width: 100,
                 templet: function (d) {

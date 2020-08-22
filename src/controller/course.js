@@ -105,7 +105,7 @@ layui.define(['table', 'form', 'layedit', 'common', 'setter', 'element', 'verifi
                     , resize: false
                     , closeBtn: 1
                     , success: function (layero, index) {
-                        view(this.id).render('teachingaffairservice/course/add').done(function () {
+                        view(this.id).render('teachingaffair/course/add').done(function () {
                             form.render();
 
                             //初始化老师
@@ -180,7 +180,7 @@ layui.define(['table', 'form', 'layedit', 'common', 'setter', 'element', 'verifi
                 , resize: false
                 , closeBtn: 1
                 , success: function (layero, index) {
-                    view(this.id).render('teachingaffairservice/course/edit', data).done(function () {
+                    view(this.id).render('teachingaffair/course/edit', data).done(function () {
                         form.render();
                         //初始化老师
                         common.ajax(setter.apiAddress.aspnetuser.list, "GET", "", {}, function (res) {
@@ -244,7 +244,7 @@ layui.define(['table', 'form', 'layedit', 'common', 'setter', 'element', 'verifi
                 , resize: false
                 , closeBtn: 1
                 , success: function (layero, index) {
-                    view(this.id).render('teachingaffairservice/course/chargemanner', data).done(function () {
+                    view(this.id).render('teachingaffair/course/chargemanner', data).done(function () {
                         form.render();
                         //初始化课程收费方式列表
                         table.render({

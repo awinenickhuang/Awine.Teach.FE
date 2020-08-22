@@ -158,7 +158,7 @@ layui.define(['table', 'form', 'common', 'setter', 'laydate', 'verification'], f
                     , resize: false
                     , closeBtn: 1
                     , success: function (layero, index) {
-                        view(this.id).render('foundationalservice/aspnetuser/add').done(function () {
+                        view(this.id).render('foundational/aspnetuser/add').done(function () {
                             $("#sel-aspnetRole-list").append("<option value=\"\">请选择角色</option>");
                             $("#sel-department-list").append("<option value=\"\">请选择部门</option>");
                             common.ajax(setter.apiAddress.tenant.list, "Get", "", {}, function (res) {
@@ -216,7 +216,7 @@ layui.define(['table', 'form', 'common', 'setter', 'laydate', 'verification'], f
                 , resize: false
                 , closeBtn: 1
                 , success: function (layero, index) {
-                    view(this.id).render('foundationalservice/aspnetuser/edit', data).done(function () {
+                    view(this.id).render('foundational/aspnetuser/edit', data).done(function () {
                         form.render();
                         //初始机构数据
                         common.ajax(setter.apiAddress.tenant.list, "Get", "", {}, function (res) {
@@ -288,7 +288,7 @@ layui.define(['table', 'form', 'common', 'setter', 'laydate', 'verification'], f
                 , area: ['30%', '35%']
                 , resize: false
                 , success: function (layero, index) {
-                    view(this.id).render('foundationalservice/aspnetuser/resetpassword', data).done(function () {
+                    view(this.id).render('foundational/aspnetuser/resetpassword', data).done(function () {
                         form.render();
 
                         //监听提交
@@ -310,7 +310,7 @@ layui.define(['table', 'form', 'common', 'setter', 'laydate', 'verification'], f
                 , area: ['50%', '50%']
                 , resize: false
                 , success: function (layero, index) {
-                    view(this.id).render('foundationalservice/aspnetuser/rolesettings', data).done(function () {
+                    view(this.id).render('foundational/aspnetuser/rolesettings', data).done(function () {
                         form.render();
                         $("#usercontainer").html('<span>当前用户：' + data.userName + '</span>');
                         var role_settings_tab = table.render({

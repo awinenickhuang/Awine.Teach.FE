@@ -87,7 +87,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 't
                     , area: ['30%', '30%']
                     , resize: false
                     , success: function (layero, index) {
-                        view(this.id).render('foundationalservice/aspnetrole/add').done(function () {
+                        view(this.id).render('foundational/aspnetrole/add').done(function () {
                             //初始机构数据
                             common.ajax(setter.apiAddress.tenant.list, "GET", "", "", function (res) {
                                 $("#sel-organization-list").append("<option value=\"\">请选择</option>");
@@ -229,7 +229,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 't
                 , area: ['30%', '30%']
                 , resize: false
                 , success: function (layero, index) {
-                    view(this.id).render('foundationalservice/aspnetrole/edit', data).done(function () {
+                    view(this.id).render('foundational/aspnetrole/edit', data).done(function () {
                         common.ajax(setter.apiAddress.tenant.list, "GET", "", "", function (res) {
                             $("#sel-organization-list").append("<option value=\"\">请选择</option>");
                             $.each(res.data, function (index, item) {
@@ -262,7 +262,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 't
                 , resize: true
                 , closeBtn: 1
                 , success: function (layero, index) {
-                    view(this.id).render('foundationalservice/aspnetrole/operationpermissions').done(function () {
+                    view(this.id).render('foundational/aspnetrole/operationpermissions').done(function () {
                         treeGrid.set({ headers: { Authorization: "Bearer " + sessionStorage.access_token } });
                         operationPermissions.initOperationPermissions(data.id);
                         //监听保存操作权限事件

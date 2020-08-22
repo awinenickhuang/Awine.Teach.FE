@@ -178,7 +178,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'r
                     , resize: false
                     , closeBtn: 1
                     , success: function (layero, index) {
-                        view(this.id).render('recruitmentservice/consultrecord/add').done(function () {
+                        view(this.id).render('marketing/consultrecord/add').done(function () {
                             $("#hiddenClinchIntentionAddStar").val(1);
                             rate.render({
                                 elem: '#clinchIntention-add'
@@ -235,7 +235,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'r
                     , resize: false
                     , closeBtn: 1
                     , success: function (layero, index) {
-                        view(this.id).render('recruitmentservice/consultrecord/edit', data).done(function () {
+                        view(this.id).render('marketing/consultrecord/edit', data).done(function () {
                             $("#hiddenClinchIntentionEditStar").val(data.clinchIntentionStar);
                             rate.render({
                                 elem: '#clinchIntention-edit'
@@ -305,7 +305,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'r
                     , resize: false
                     , closeBtn: 1
                     , success: function (layero, index) {
-                        view(this.id).render('recruitmentservice/consultrecord/communicationrecord', data).done(function () {
+                        view(this.id).render('marketing/consultrecord/communicationrecord', data).done(function () {
 
                             $("#sel-trackingstate-edit").find("option[value=" + data.trackingState + "]").prop("selected", true);
                             form.render();
@@ -397,7 +397,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'r
                     , resize: false
                     , closeBtn: 1
                     , success: function (layero, index) {
-                        view(this.id).render('recruitmentservice/consultrecord/trackingassigned', data).done(function () {
+                        view(this.id).render('marketing/consultrecord/trackingassigned', data).done(function () {
                             //初始化部门
                             common.ajax(setter.apiAddress.department.list, "GET", "", { tenantId: data.tenantId }, function (res) {
                                 $("#sel-department-list").append("<option value=\"\">请选择部门</option>");
@@ -456,7 +456,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'r
                     , resize: false
                     , closeBtn: 1
                     , success: function (layero, index) {
-                        view(this.id).render('recruitmentservice/consultrecord/listenhandling', data).done(function () {
+                        view(this.id).render('marketing/consultrecord/listenhandling', data).done(function () {
                             form.render();
                         });
                     }
@@ -482,7 +482,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'r
                     , resize: false
                     , closeBtn: 1
                     , success: function (layero, index) {
-                        view(this.id).render('recruitmentservice/consultrecord/register', data).done(function () {
+                        view(this.id).render('marketing/consultrecord/register', data).done(function () {
                             laydate.render({
                                 elem: '#classTime',
                                 type: 'datetime',

@@ -87,7 +87,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification'], f
                     , area: ['30%', '45%']
                     , resize: false
                     , success: function (layero, index) {
-                        view(this.id).render('foundationalservice/department/add').done(function () {
+                        view(this.id).render('foundational/department/add').done(function () {
                             //初始机构数据
                             common.ajax(setter.apiAddress.tenant.list, "GET", "", "", function (res) {
                                 $("#sel-organization-list").append("<option value=\"\">请选择</option>");
@@ -131,7 +131,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification'], f
                 , area: ['30%', '45%']
                 , resize: false
                 , success: function (layero, index) {
-                    view(this.id).render('foundationalservice/department/edit', data).done(function () {
+                    view(this.id).render('foundational/department/edit', data).done(function () {
                         form.render();
                         //初始机构数据
                         common.ajax(setter.apiAddress.tenant.list, "GET", "", "", function (res) {

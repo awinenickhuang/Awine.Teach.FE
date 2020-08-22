@@ -200,7 +200,7 @@ layui.define(function (exports) {
                 {
                     field: 'status', title: '标题',
                     templet: function (d) {
-                        return '<a href="#/operationservice/announcements/details/id=' + d.id + '">' + d.title + '</a>';
+                        return '<a href="#/platformoperation/announcements/details/id=' + d.id + '">' + d.title + '</a>';
                     }
                 },
                 { field: 'createTime', width: 200, align: 'center', title: '时间' },

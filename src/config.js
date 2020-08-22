@@ -249,6 +249,9 @@ layui.define(['laytpl', 'layer', 'element', 'util'], function (exports) {
                 addstudentsintoclass: 'http://localhost:8002/api/studentcourseitem/addstudentsintoclass',
                 removestudentfromclass: 'http://localhost:8002/api/studentcourseitem/removestudentfromclass',
             },
+            studentcourseorder: {
+                list: 'http://localhost:8002/api/studentcourseorder/list',
+            },
             studentattendance: {
                 pagelist: 'http://localhost:8002/api/studentattendance/pagelist',
                 add: 'http://localhost:8002/api/studentattendance/add',
@@ -312,10 +315,10 @@ layui.define(['laytpl', 'layer', 'element', 'util'], function (exports) {
                 delete: 'http://localhost:8003/api/financialitem/delete',
             },
             announcements: {
-                pagelist: 'http://localhost:8005/api/announcement/pagelist',
-                single: 'http://localhost:8005/api/announcement/single',
-                add: 'http://localhost:8005/api/announcement/add',
-                delete: 'http://localhost:8005/api/announcement/delete',
+                pagelist: 'http://localhost:8004/api/announcement/pagelist',
+                single: 'http://localhost:8004/api/announcement/single',
+                add: 'http://localhost:8004/api/announcement/add',
+                delete: 'http://localhost:8004/api/announcement/delete',
             }
         }
     });

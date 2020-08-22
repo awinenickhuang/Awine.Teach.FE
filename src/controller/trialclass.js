@@ -161,7 +161,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                     , resize: false
                     , closeBtn: 1
                     , success: function (layero, index) {
-                        view(this.id).render('recruitmentservice/trialclass/signinstatus', data).done(function () {
+                        view(this.id).render('marketing/trialclass/signinstatus', data).done(function () {
                             form.render();
                             form.on('submit(signin-add-form-submit)', function (data) {
                                 common.ajax(setter.apiAddress.trialclass.updatelisteningstate, "POST", "", data.field, function (res) {
@@ -187,7 +187,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                 , area: ['50%', '35%']
                 , resize: false
                 , success: function (layero, index) {
-                    view(this.id).render('recruitmentservice/trialclass/edit', data).done(function () {
+                    view(this.id).render('marketing/trialclass/edit', data).done(function () {
                         form.render();
                         form.on('submit(trialclass-edit-form-submit)', function (data) {
                             common.ajax(setter.apiAddress.marketingchannel.update, "POST", "", data.field, function (res) {

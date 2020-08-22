@@ -86,7 +86,7 @@ layui.define(['form', 'common', 'setter', 'treeGrid', 'treeSelect', 'verificatio
                 , resize: false
                 , closeBtn: 1
                 , success: function (layero, index) {
-                    view(this.id).render('foundationalservice/module/edit', data).done(function () {
+                    view(this.id).render('foundational/module/edit', data).done(function () {
                         form.render();
                         customTreeSelect.initTreeSelect("module-edit-select-tree", data.parentId);
                         form.on('submit(modules-edit-form-submit)', function (data) {
@@ -109,7 +109,7 @@ layui.define(['form', 'common', 'setter', 'treeGrid', 'treeSelect', 'verificatio
                 , resize: false
                 , closeBtn: 1
                 , success: function (layero, index) {
-                    view(this.id).render('/foundationalservice/module/buttons', data).done(function () {
+                    view(this.id).render('/foundational/module/buttons', data).done(function () {
                         //按钮分页列表
                         table.render({
                             elem: '#buttons-table'
@@ -224,7 +224,7 @@ layui.define(['form', 'common', 'setter', 'treeGrid', 'treeSelect', 'verificatio
                 , resize: false
                 , closeBtn: 1
                 , success: function (layero, index) {
-                    view(this.id).render('foundationalservice/module/add').done(function () {
+                    view(this.id).render('foundational/module/add').done(function () {
                         customTreeSelect.initTreeSelect("module-select-tree", "");
                         form.render(null, "modules-add-form");
                         form.on('submit(modules-add-form-submit)', function (data) {

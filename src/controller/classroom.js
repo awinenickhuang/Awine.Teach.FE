@@ -62,7 +62,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification'], f
                     , area: ['30%', '35%']
                     , resize: false
                     , success: function (layero, index) {
-                        view(this.id).render('teachingaffairservice/classroom/add').done(function () {
+                        view(this.id).render('teachingaffair/classroom/add').done(function () {
                             //监听提交
                             form.on('submit(classroom-form-submit)', function (data) {
                                 common.ajax(setter.apiAddress.classroom.add, "POST", "", data.field, function (res) {
@@ -98,7 +98,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification'], f
                 , area: ['30%', '35%']
                 , resize: false
                 , success: function (layero, index) {
-                    view(this.id).render('teachingaffairservice/classroom/edit', data).done(function () {
+                    view(this.id).render('teachingaffair/classroom/edit', data).done(function () {
                         form.render();
                         form.on('submit(classroom-edit-form-submit)', function (data) {
                             common.ajax(setter.apiAddress.classroom.update, "POST", "", data.field, function (res) {

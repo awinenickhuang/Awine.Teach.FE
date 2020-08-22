@@ -68,7 +68,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                 , resize: false
                 , closeBtn: 1
                 , success: function (layero, index) {
-                    view(this.id).render('teachingaffairservice/classschedule/add').done(function () {
+                    view(this.id).render('teachingaffair/classschedule/add').done(function () {
                         layer.closeAll('tips');
                         form.render();
                         courseScheduleManagement.initDateCtrl(info.dateStr);
@@ -401,7 +401,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
             , resize: false
             , closeBtn: 1
             , success: function (layero, index) {
-                view(this.id).render('teachingaffairservice/classschedule/callsignin', data).done(function () {
+                view(this.id).render('teachingaffair/classschedule/callsignin', data).done(function () {
                     layer.closeAll('tips');
                     //本节课上课学生总数
                     var studentCount = 0;
@@ -740,13 +740,17 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
             layer.msg('课节已结课，不能再调整课节了哦。', { icon: 5 });
             return;
         }
+        if (data.classId == '00000000-0000-0000-0000-000000000000') {
+            layer.msg('本课节为试听课，不支持调整课节哦。', { icon: 5 });
+            return;
+        }
         admin.popupRight({
             title: '调整课节'
             , area: ['30%', '100%']
             , resize: false
             , closeBtn: 1
             , success: function (layero, index) {
-                view(this.id).render('teachingaffairservice/classschedule/edit', data).done(function () {
+                view(this.id).render('teachingaffair/classschedule/edit', data).done(function () {
 
                     layer.closeAll('tips');
                     form.render();
@@ -936,7 +940,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
             , resize: false
             , closeBtn: 1
             , success: function (layero, index) {
-                view(this.id).render('teachingaffairservice/classschedule/details', data).done(function () {
+                view(this.id).render('teachingaffair/classschedule/details', data).done(function () {
 
                     layer.closeAll('tips');
                     form.render();

@@ -13,116 +13,203 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
         , laypage = layui.laypage
         , element = layui.element;
 
-    //初始化学生基本信息
-    common.ajax(setter.apiAddress.student.single, "GET", "", { id: layui.router().search.uid }, function (res) {
-        if (res.statusCode == 200) {
-            if (res.data) {
-                var gettpl = studentprofiletemplate.innerHTML
-                    , view = document.getElementById('studentprofileview');
-                laytpl(gettpl).render(res.data, function (html) {
-                    view.innerHTML = html;
-                });
-            } else {
-                layer.msg("找不到你要查看的学生信息");
-            }
-        } else {
-            layer.msg(res.message);
-        }
-    });
-
-    //初始化学生购买项目-报读课程信息
-    common.ajax(setter.apiAddress.studentcourseitem.list, "GET", "", { studentId: layui.router().search.uid }, function (res) {
-        if (res.statusCode == 200) {
-            var gettpl = studentcoursetemplate.innerHTML
-                , view = document.getElementById('studentcoursetemplateview');
-            laytpl(gettpl).render(res.data, function (html) {
-                view.innerHTML = html;
+    var studentProfiles = {
+        initStudentInformation: function () {
+            //初始化学生基本信息
+            common.ajax(setter.apiAddress.student.single, "GET", "", { id: layui.router().search.uid }, function (res) {
+                if (res.statusCode == 200) {
+                    if (res.data) {
+                        var gettpl = studentprofiletemplate.innerHTML
+                            , view = document.getElementById('studentprofileview');
+                        laytpl(gettpl).render(res.data, function (html) {
+                            view.innerHTML = html;
+                        });
+                    } else {
+                        layer.msg("找不到你要查看的学生信息");
+                    }
+                } else {
+                    layer.msg(res.message);
+                }
             });
-        } else {
-            layer.msg(res.message);
-        }
-    });
+        },
+        initStudentCourseItem: function () {
+            //初始化学生购买项目-报读课程信息
+            common.ajax(setter.apiAddress.studentcourseitem.list, "GET", "", { studentId: layui.router().search.uid }, function (res) {
+                if (res.statusCode == 200) {
+                    var gettpl = studentcoursetemplate.innerHTML
+                        , view = document.getElementById('studentcoursetemplateview');
+                    laytpl(gettpl).render(res.data, function (html) {
+                        view.innerHTML = html;
+                    });
+                } else {
+                    layer.msg(res.message);
+                }
+            });
+        },
+        initStudentAttendance: function () {
+            table.render({
+                elem: '#attendance-table'
+                , url: setter.apiAddress.studentattendance.pagelist
+                , cols: [[
+                    { field: 'studentName', align: 'center', title: '学生姓名' },
+                    { field: 'courseName', align: 'center', title: '课程名称' },
+                    { field: 'className', align: 'center', title: '班级名称' },
+                    {
+                        field: 'attendanceStatus', title: '出勤状态', align: 'center', templet: function (d) {
+                            switch (d.attendanceStatus) {
+                                case 1:
+                                    return '<span style="color:#009688;">出勤</span>';
+                                    break;
+                                case 2:
+                                    return '<span style="color:#FF5722;">缺勤</span>';
+                                    break;
+                                case 3:
+                                    return '<span style="color:#FFB800;">请假</span>';
+                                    break;
+                                default:
+                                    return '<span style="color:#FFB800;">/</span>';
+                                    break;
+                            }
+                        }
+                    },
+                    { field: 'consumedQuantity', align: 'center', title: '扣减课时' },
+                    {
+                        field: 'recordStatus', title: '数据状态', align: 'center', templet: function (d) {
+                            switch (d.recordStatus) {
+                                case 1:
+                                    return '<span style="color:#009688;">正常</span>';
+                                    break;
+                                case 2:
+                                    return '<span style="color:#FF5722;">取消</span>';
+                                    break;
+                                default:
+                                    return '<span style="color:#FFB800;">/</span>';
+                                    break;
 
-    //监听Tab切换
+                            }
+                        }
+                    },
+                    { field: 'createTime', align: 'center', title: '创建时间' }
+                ]]
+                , page: true
+                , cellMinWidth: 80
+                , text: {
+                    none: '暂无相关数据'
+                }
+                , where: { studentId: layui.router().search.uid }
+                , response: {
+                    statusCode: 200
+                }
+                , parseData: function (res) {
+                    return {
+                        "code": res.statusCode,
+                        "msg": res.message,
+                        "count": res.data.totalCount,
+                        "data": res.data.items
+                    };
+                }
+            });
+        },
+        initStudentCourseOrder: function () {
+            table.render({
+                elem: '#studentcourseorder-table'
+                , url: setter.apiAddress.studentcourseorder.list
+                , cols: [[
+                    { field: 'courseName', align: 'center', title: '报读课程' },
+                    {
+                        field: 'receivableAmount', title: '应收金额（元）', align: 'center', templet: function (d) {
+                            return '<span style="color:#009688;">' + common.fixedMoney(d.receivableAmount) + '</span>';
+                        }
+                    },
+                    {
+                        field: 'discountAmount', title: '优惠金额（元）', align: 'center', templet: function (d) {
+                            return '<span style="color:#FFB800;">' + common.fixedMoney(d.discountAmount) + '</span>';
+                        }
+                    },
+                    {
+                        field: 'realityAmount', title: '实收金额（元）', align: 'center', templet: function (d) {
+                            return '<span style="color:#FF5722;">' + common.fixedMoney(d.realityAmount) + '</span>';
+                        }
+                    },
+                    {
+                        field: 'chargeManner', title: '收费方式', align: 'center', templet: function (d) {
+                            switch (d.chargeManner) {
+                                case 1:
+                                    return '<span style="color:#009688;">按课时收费</span>';
+                                    break;
+                                case 2:
+                                    return '<span style="color:#FF5722;">按月收费</span>';
+                                    break;
+                                default:
+                                    return '<span style="color:#FFB800;">/</span>';
+                                    break;
+                            }
+                        }
+                    },
+                    {
+                        field: 'purchaseQuantity', title: '购买数量', align: 'center', templet: function (d) {
+                            switch (d.chargeManner) {
+                                case 1:
+                                    return '<span style="color:#2F4056;">' + d.purchaseQuantity + '（课时）</span>';
+                                    break;
+                                case 2:
+                                    return '<span style="color:#393D49;">' + d.purchaseQuantity + '（月）</span>';
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                    },
+                    { field: 'pricingStandard', align: 'center', title: '定价标准' },
+                    { field: 'paymentMethodName', align: 'center', title: '支付方式' },
+                    { field: 'operatorName', align: 'center', title: '经办人员' },
+                    { field: 'noteInformation', align: 'center', title: '备注信息' },
+                    { field: 'createTime', align: 'center', title: '创建时间' }
+                ]]
+                , page: false
+                , cellMinWidth: 80
+                , text: {
+                    none: '暂无相关数据'
+                }
+                , where: { studentId: layui.router().search.uid }
+                , response: {
+                    statusCode: 200
+                }
+                , parseData: function (res) {
+                    return {
+                        "code": res.statusCode,
+                        "msg": res.message,
+                        "data": res.data
+                    };
+                }
+            });
+        }
+    };
+
+    studentProfiles.initStudentInformation();
+    studentProfiles.initStudentCourseItem();
+
+    //监听学生相关信息Tab切换
     element.on('tab(studentprofile-filter)', function (data) {
         switch (data.index) {
             case 1://出勤记录
-                table.render({
-                    elem: '#attendance-table'
-                    , url: setter.apiAddress.studentattendance.pagelist
-                    , cols: [[
-                        { field: 'studentName', align: 'center', title: '学生姓名' },
-                        { field: 'courseName', align: 'center', title: '课程名称' },
-                        { field: 'className', align: 'center', title: '班级名称' },
-                        {
-                            field: 'attendanceStatus', title: '出勤状态', align: 'center', templet: function (d) {
-                                switch (d.attendanceStatus) {
-                                    case 1:
-                                        return '<span style="color:#009688;">出勤</span>';
-                                        break;
-                                    case 2:
-                                        return '<span style="color:#FF5722;">缺勤</span>';
-                                        break;
-                                    case 3:
-                                        return '<span style="color:#FFB800;">请假</span>';
-                                        break;
-                                    default:
-                                        return '<span style="color:#FFB800;">/</span>';
-                                        break;
-                                }
-                            }
-                        },
-                        { field: 'deductionsClassAmount', align: 'center', title: '扣减课时' },
-                        { field: 'deductionsTuitionfee', align: 'center', title: '扣减学费' },
-                        {
-                            field: 'recordStatus', title: '数据状态', align: 'center', templet: function (d) {
-                                switch (d.recordStatus) {
-                                    case 1:
-                                        return '<span style="color:#009688;">正常</span>';
-                                        break;
-                                    case 2:
-                                        return '<span style="color:#FF5722;">取消</span>';
-                                        break;
-                                    default:
-                                        return '<span style="color:#FFB800;">/</span>';
-                                        break;
-
-                                }
-                            }
-                        },
-                        { field: 'createTime', align: 'center', title: '创建时间' }
-                    ]]
-                    , page: true
-                    , cellMinWidth: 80
-                    , text: {
-                        none: '暂无相关数据'
-                    }
-                    , where: { studentId: layui.router().search.uid }
-                    , response: {
-                        statusCode: 200
-                    }
-                    , parseData: function (res) {
-                        return {
-                            "code": res.statusCode,
-                            "msg": res.message,
-                            "count": res.data.totalCount,
-                            "data": res.data.items
-                        };
-                    }
-                });
+                studentProfiles.initStudentAttendance();
+                break;
+            case 4://订单记录
+                studentProfiles.initStudentCourseOrder();
                 break;
         }
     });
 
-    //报名或扩科
+    //续费或扩科
     $(document).on('click', '#btn-student-register', function () {
         admin.popupRight({
-            title: '报名或扩课'
+            title: '续费或扩科'
             , area: ['30%', '100%']
             , resize: false
             , closeBtn: 1
             , success: function (layero, index) {
-                view(this.id).render('teachingaffairservice/student/register').done(function () {
+                view(this.id).render('teachingaffair/student/register').done(function () {
                     form.render();
                     //初始化报名数据
                     var studentSupplement = {
@@ -338,6 +425,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                         common.ajax(setter.apiAddress.student.supplement, "POST", "", studentSupplement.supplementData, function (res) {
                             if (res.statusCode == 200) {
                                 layer.close(index);
+                                studentProfiles.initStudentCourseItem();
                             }
                             layer.msg(res.message);
                         });

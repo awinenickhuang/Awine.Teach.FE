@@ -111,7 +111,7 @@ layui.define(['table', 'form', 'common', 'setter', 'verification', 'laydate'], f
                     , resize: false
                     , closeBtn: 1
                     , success: function (layero, index) {
-                        view(this.id).render('foundationalservice/tenant/add').done(function () {
+                        view(this.id).render('foundational/tenant/add').done(function () {
 
                             form.render(null, "tenant-add-form");
 
@@ -207,7 +207,7 @@ layui.define(['table', 'form', 'common', 'setter', 'verification', 'laydate'], f
                 , resize: false
                 , closeBtn: 1
                 , success: function (layero, index) {
-                    view(this.id).render('foundationalservice/tenant/edit', data).done(function () {
+                    view(this.id).render('foundational/tenant/edit', data).done(function () {
 
                         form.render();
 
@@ -317,7 +317,7 @@ layui.define(['table', 'form', 'common', 'setter', 'verification', 'laydate'], f
                 , area: ['30%', '35%']
                 , resize: false
                 , success: function (layero, index) {
-                    view(this.id).render('foundationalservice/tenant/editclassfication', data).done(function () {
+                    view(this.id).render('foundational/tenant/editclassfication', data).done(function () {
                         $('#sel-editclassfication-list').val(data.classiFication);
                         form.render();
                         //监听提交
@@ -339,7 +339,7 @@ layui.define(['table', 'form', 'common', 'setter', 'verification', 'laydate'], f
                 , area: ['30%', '35%']
                 , resize: false
                 , success: function (layero, index) {
-                    view(this.id).render('foundationalservice/tenant/editstatus', data).done(function () {
+                    view(this.id).render('foundational/tenant/editstatus', data).done(function () {
                         $('#sel-editstatus-list').val(data.status);
                         form.render();
                         //监听提交

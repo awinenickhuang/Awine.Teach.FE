@@ -58,7 +58,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification'], f
                     , area: ['30%', '35%']
                     , resize: false
                     , success: function (layero, index) {
-                        view(this.id).render('recruitmentservice/marketingchannel/add').done(function () {
+                        view(this.id).render('marketing/marketingchannel/add').done(function () {
                             form.render();
                             //监听提交
                             form.on('submit(marketingchannel-add-form-submit)', function (data) {
@@ -85,7 +85,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification'], f
                 , area: ['30%', '35%']
                 , resize: false
                 , success: function (layero, index) {
-                    view(this.id).render('recruitmentservice/marketingchannel/edit', data).done(function () {
+                    view(this.id).render('marketing/marketingchannel/edit', data).done(function () {
                         form.render();
                         form.on('submit(marketingchannel-edit-form-submit)', function (data) {
                             common.ajax(setter.apiAddress.marketingchannel.update, "POST", "", data.field, function (res) {

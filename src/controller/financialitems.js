@@ -93,7 +93,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification'], f
                     , area: ['30%', '35%']
                     , resize: false
                     , success: function (layero, index) {
-                        view(this.id).render('financialservice/financialitems/add').done(function () {
+                        view(this.id).render('financial/financialitems/add').done(function () {
                             form.render();
                             //监听提交
                             form.on('submit(financialitems-form-submit)', function (data) {

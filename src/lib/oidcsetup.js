@@ -19,7 +19,7 @@
         // needed if you want to use the silent_renew
         response_type: "id_token token",
         //scope: "openid profile email api1 api2.read_only",
-        scope: "openid profile filemanagementservice foundationservice recruitmentservice teachingaffairservice financialservice operationservice",
+        scope: "openid profile filemanagementservice foundationservice teachingaffairservice financialservice operationservice",
 
         // this will toggle if profile endpoint is used
         loadUserInfo: false,

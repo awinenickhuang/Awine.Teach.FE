@@ -55,12 +55,17 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
         var checkStatus = table.checkStatus(obj.config.id);
         switch (obj.event) {
             case 'add':
-                admin.popup({
+                admin.popupRight({
                     title: '添加'
-                    , area: ['50%', '60%']
+                    , area: ['50%', '100%']
                     , resize: false
                     , success: function (layero, index) {
-                        view(this.id).render('operationservice/announcements/add').done(function () {
+                        view(this.id).render('platformoperation/announcements/add').done(function () {
+                            form.render();
+                            //监听消息类型切换事件
+                            form.on('select(sel-announcementType-list-filter)', function (data) {
+                                //$("#tenantId").val();
+                            });
                             var lay_edit_index = layedit.build('layedit_content', {
                                 //暴露layupload参数设置接口 --详细查看layupload参数说明
                                 uploadImage: {
