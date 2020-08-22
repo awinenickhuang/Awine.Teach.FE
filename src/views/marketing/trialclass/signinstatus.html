@@ -1,0 +1,21 @@
+﻿<script type="text/html" template>
+    <link rel="stylesheet" href="{{ layui.setter.base }}style/template.css?v={{ layui.admin.v }}-1" media="all">
+</script>
+
+<form class="layui-form layui-card-header layuiadmin-card-header-auto layui-row" id="signin-add-form" lay-filter="signin-add-form-filter">
+    <div class="layui-form-item">
+        <label class="layui-form-label lines">状态</label>
+        <div class="layui-input-block">
+            <script type="text/html" template>
+                <input type="hidden" name="Id" value="{{ d.params.id || '' }}" lay-verify="required" class="layui-input">
+            </script>
+            <select id="sel-listeningState-list" name="ListeningState" lay-verify="required|select">
+                <option value=2>已到课（完结）</option>
+                <option value=3>已失效（完结）</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item content-center">
+        <button class="layui-btn layui-btn-sm" type="button" lay-submit lay-filter="signin-add-form-submit"><i class="layui-icon layui-icon-ok"></i>立即提交</button>
+    </div>
+</form>

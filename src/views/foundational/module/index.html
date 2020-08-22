@@ -1,0 +1,26 @@
+﻿<title>模块管理</title>
+<script type="text/html" template>
+    <link rel="stylesheet" href="{{ layui.setter.base }}style/template.css?v={{ layui.admin.v }}-1" media="all">
+</script>
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a lay-href="">主页</a>
+        <a><cite>模块管理</cite></a>
+    </div>
+</div>
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-card-body">
+            <script type="text/html" id="module-table-toolbar">
+                <div class="layui-btn-container">
+                    <a class="layui-btn layui-btn-sm btn-module-add" data-type="add"><i class="layui-icon layui-icon-addition"></i>添加</a>
+                </div>
+            </script>
+            <table class="layui-table" id="module-tree-table" lay-filter="module-tree-table"></table>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use('module', layui.factory('module')).use(['module'], function () {
+    });
+</script>

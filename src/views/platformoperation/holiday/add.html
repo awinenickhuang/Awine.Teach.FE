@@ -1,0 +1,27 @@
+﻿<script type="text/html" template>
+    <link rel="stylesheet" href="{{ layui.setter.base }}style/template.css?v={{ layui.admin.v }}-1" media="all">
+</script>
+
+<form class="layui-form" id="holiday-add-form" lay-filter="holiday-add-form">
+    <div class="layui-form-item">
+        <label class="layui-form-label">假日日期</label>
+        <div class="layui-input-block">
+            <input type="text" id="holidayDate" name="HolidayDate" lay-verify="required|normallength" readonly maxlength="32" autocomplete="off" placeholder="" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">年份标识</label>
+        <div class="layui-input-block">
+            <input type="text" id="year" name="Year" lay-verify="required|number" maxlength="3" readonly autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">假日名称</label>
+        <div class="layui-input-block ">
+            <input type="text" id="holidayName" name="HolidayName" lay-verify="required|normallength" maxlength="16" autocomplete="off" placeholder="" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item content-center">
+        <button class="layui-btn layui-btn-sm" type="button" lay-submit lay-filter="holiday-form-submit"><i class="layui-icon layui-icon-ok"></i>立即提交</button>
+    </div>
+</form>

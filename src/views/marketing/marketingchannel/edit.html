@@ -1,0 +1,34 @@
+﻿<script type="text/html" template>
+    <link rel="stylesheet" href="{{ layui.setter.base }}style/template.css?v={{ layui.admin.v }}-1" media="all">
+</script>
+
+<form class="layui-form" id="marketingchannel-edit-form" lay-filter="marketingchannel-edit-form-filter">
+    <div class="layui-form-item">
+        <label class="layui-form-label">名称</label>
+        <div class="layui-input-block ">
+            <script type="text/html" template>
+                <input type="text" name="Name" value="{{ d.params.name || '' }}" lay-verify="required|normallength" readonly placeholder="" maxlength="6" autocomplete="off" class="layui-input">
+                <input type="hidden" name="Id" value="{{ d.params.id || '' }}" lay-verify="required" class="layui-input">
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">描述</label>
+        <div class="layui-input-block">
+            <script type="text/html" template>
+                <input type="text" id="describe" name="Describe" value="{{ d.params.describe || '' }}" lay-verify="" maxlength="64" autocomplete="off" class="layui-input">
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">排序</label>
+        <div class="layui-input-block">
+            <script type="text/html" template>
+                <input type="text" id="displayOrder" name="DisplayOrder" value="{{ d.params.displayOrder || '' }}" lay-verify="required|number" maxlength="2" autocomplete="off" class="layui-input">
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item content-center">
+        <button class="layui-btn layui-btn-sm" type="button" lay-submit lay-filter="marketingchannel-edit-form-submit"><i class="layui-icon layui-icon-ok"></i>立即提交</button>
+    </div>
+</form>

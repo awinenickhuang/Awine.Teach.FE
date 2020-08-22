@@ -1,0 +1,58 @@
+﻿<script type="text/html" template>
+    <link rel="stylesheet" href="{{ layui.setter.base }}style/template.css?v={{ layui.admin.v }}-1" media="all">
+</script>
+<form class="layui-form" id="modules-edit-form" lay-filter="modules-edit-form" style="padding:15px;">
+    <div class="layui-form-item">
+        <label class="layui-form-label">模块名称</label>
+        <div class="layui-input-block ">
+            <script type="text/html" template>
+                <input type="hidden" id="id" name="Id" value="{{ d.params.id || '' }}" lay-verify="required" class="layui-input">
+                <input type="text" id="name" name="Name" value="{{ d.params.name || '' }}" lay-verify="required|normallength" maxlength="30" autocomplete="off" placeholder="" class="layui-input">
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label lines">所属模块</label>
+        <div class="layui-input-block">
+            <script type="text/html" template>
+                <input type="hidden" id="parentId" name="ParentId" value="{{ d.params.parentId || '' }}" lay-verify="required" class="layui-input">
+            </script>
+            <input type="text" id="module-edit-select-tree" value="" lay-filter="module-edit-select-tree" readonly="" class="layui-input edittype-txt parent-module">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label lines">模块描述</label>
+        <div class="layui-input-block">
+            <script type="text/html" template>
+                <input type="text" id="descText" name="DescText" value="{{ d.params.descText || '' }}" lay-verify="required" maxlength="100" autocomplete="off" placeholder="" class="layui-input">
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label lines">转跳地址</label>
+        <div class="layui-input-block">
+            <script type="text/html" template>
+                <input type="text" id="redirectUri" name="RedirectUri" value="{{ d.params.redirectUri || '' }}" lay-verify="required" maxlength="100" autocomplete="off" placeholder="" class="layui-input">
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label lines">模块图标</label>
+        <div class="layui-input-block">
+            <script type="text/html" template>
+                <input type="text" id="moduleIcon" name="ModuleIcon" value="{{ d.params.moduleIcon || '' }}" maxlength="100" autocomplete="off" placeholder="" class="layui-input">
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label lines">显示顺序</label>
+        <div class="layui-input-block">
+            <script type="text/html" template>
+                <input type="text" id="displayOrder" name="DisplayOrder" value="{{ d.params.displayOrder || '0' }}" lay-verify="required|number" maxlength="3" autocomplete="off" placeholder="" class="layui-input">
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item content-center">
+        <button class="layui-btn layui-btn-sm" id="btn-save" type="button" lay-filter="modules-edit-form-submit" lay-submit="modules-edit-form-submit"><i class="layui-icon layui-icon-ok"></i>立即提交</button>
+    </div>
+</form>

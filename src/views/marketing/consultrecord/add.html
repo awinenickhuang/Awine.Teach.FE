@@ -1,0 +1,67 @@
+﻿<script type="text/html" template>
+    <link rel="stylesheet" href="{{ layui.setter.base }}style/template.css?v={{ layui.admin.v }}-1" media="all">
+</script>
+<style>
+    .layui-rate {
+        padding: 7px 5px 5px 0;
+    }
+</style>
+<form class="layui-form" style="padding:15px;" id="consultrecord-add-form" lay-filter="consultrecord-add-form-filter">
+    <div class="layui-form-item">
+        <label class="layui-form-label">成交意向</label>
+        <div class="layui-input-block">
+            <div id="clinchIntention-add"></div>
+            <input type="hidden" id="hiddenClinchIntentionAddStar" name="ClinchIntentionStar" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">学生姓名</label>
+        <div class="layui-input-block ">
+            <input type="text" id="name" name="Name" lay-verify="required|normallength" maxlength="6" autocomplete="off" placeholder="" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label lines">学生性别</label>
+        <div class="layui-input-block">
+            <select id="sel-gender-list" name="Gender" lay-verify="required|select">
+                <option value="1">男</option>
+                <option value="2">女</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">学生年龄</label>
+        <div class="layui-input-block">
+            <script type="text/html" template>
+                <input type="text" id="age" name="Age" lay-verify="required|number" maxlength="2" autocomplete="off" placeholder="" class="layui-input">
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">联系电话</label>
+        <div class="layui-input-block">
+            <input type="text" id="phoneNumber" name="PhoneNumber" lay-verify="required|phone" maxlength="16" autocomplete="off" placeholder="" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">基本情况</label>
+        <div class="layui-input-block">
+            <input type="text" id="basicSituation" name="BasicSituation" lay-verify="required|normallength" maxlength="50" autocomplete="off" placeholder="最多输入50个字符" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">咨询课程</label>
+        <div class="layui-input-block">
+            <select class="sel" id="sel-counselingcourse-list" name="CounselingCourseId" lay-verify="required|select" lay-filter=""></select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">营销渠道</label>
+        <div class="layui-input-block">
+            <select class="sel" id="sel-marketingchannel-list" name="MarketingChannelId" lay-verify="required|select" lay-filter=""></select>
+        </div>
+    </div>
+    <div class="layui-form-item content-center">
+        <button class="layui-btn layui-btn-sm" type="button" lay-submit lay-filter="consultrecord-add-form-submit"><i class="layui-icon layui-icon-ok"></i>立即提交</button>
+    </div>
+</form>

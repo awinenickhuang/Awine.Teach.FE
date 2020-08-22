@@ -1,0 +1,63 @@
+﻿<title>按钮管理</title>
+<script type="text/html" template>
+    <link rel="stylesheet" href="{{ layui.setter.base }}style/template.css?v={{ layui.admin.v }}-1" media="all">
+</script>
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a lay-href="">主页</a>
+        <a><cite>按钮管理</cite></a>
+    </div>
+</div>
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-tab layui-tab-brief" lay-filter="button-manage-tab">
+            <ul class="layui-tab-title">
+                <li class="layui-this" lay-id="0">按钮</li>
+                <li lay-id="1">新增</li>
+            </ul>
+            <div class="layui-tab-content">
+                <!--按钮列表-->
+                <div class="layui-tab-item layui-show">
+                    <table class="layui-table" id="buttons-table" lay-filter="buttons-table"></table>
+                </div>
+                <!--新增按钮-->
+                <div class="layui-tab-item">
+                    <div class="layui-card-body">
+                        <div class="layui-form layui-form-pane" lay-filter="buttons-add-form-filter">
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">按钮</label>
+                                <div class="layui-input-block">
+                                    <script type="text/html" template>
+                                        <input type="hidden" name="ModuleId" value="{{ d.params.id || '' }}" lay-verify="required" class="layui-input">
+                                    </script>
+                                    <input type="text" id="name" name="Name" lay-verify="required|normallength" maxlength="64" autocomplete="off" placeholder="" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">图标</label>
+                                <div class="layui-input-block">
+                                    <input type="text" id="buttonIcon" name="ButtonIcon" lay-verify="required|normallength" maxlength="64" autocomplete="off" placeholder="" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">权限</label>
+                                <div class="layui-input-block">
+                                    <input type="text" id="accessCode" name="AccessCode" lay-verify="required|normallength" maxlength="64" autocomplete="off" placeholder="" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">排序</label>
+                                <div class="layui-input-block">
+                                    <input type="text" id="displayOrder" name="DisplayOrder" lay-verify="required|number" maxlength="9" autocomplete="off" placeholder="" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-form-item content-center">
+                                <button class="layui-btn layui-btn-sm" type="button" lay-submit lay-filter="buttons-add-form-submit"><i class="layui-icon layui-icon-ok"></i>立即提交</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

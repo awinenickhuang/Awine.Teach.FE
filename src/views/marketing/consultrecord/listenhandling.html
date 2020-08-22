@@ -1,0 +1,362 @@
+﻿<title>试听办理</title>
+<script type="text/html" template>
+    <link rel="stylesheet" href="{{ layui.setter.base }}style/template.css?v={{ layui.admin.v }}-1" media="all">
+</script>
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a lay-href="">主页</a>
+        <a><cite>试听办理</cite></a>
+    </div>
+</div>
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-tab layui-tab-brief" lay-filter="trialclass-genre-filter">
+            <ul class="layui-tab-title">
+                <li class="layui-this" lay-id="0"><i class="layui-icon layui-icon-find-fill"></i> 跟班试听</li>
+                <li lay-id="1"><i class="layui-icon layui-icon-friends"></i> 一对一试听</li>
+            </ul>
+            <div class="layui-tab-content">
+                <!--跟班试听-->
+                <div class="layui-tab-item layui-show">
+                    <form class="layui-form layui-form-pane" id="trialclass-handling-followclass-form" lay-filter="trialclass-handling-followclass-form-filter">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">学生姓名</label>
+                            <div class="layui-input-block ">
+                                <script type="text/html" template>
+                                    <input type="hidden" id="studentId" name="StudentId" value="{{ d.params.id || '' }}" lay-verify="required" class="layui-input">
+                                    <input type="text" name="StudentName" value="{{ d.params.name || '' }}" readonly lay-verify="required|normallength" placeholder="" maxlength="6" autocomplete="off" class="layui-input">
+                                </script>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">手机号码</label>
+                            <div class="layui-input-block">
+                                <script type="text/html" template>
+                                    <input type="text" id="phoneNumber" name="PhoneNumber" value="{{ d.params.phoneNumber || '' }}" readonly lay-verify="required|phone" maxlength="16" autocomplete="off" placeholder="" class="layui-input">
+                                </script>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">试听课程</label>
+                            <div class="layui-input-block">
+                                <select class="sel" id="sel-listening-course-list" name="SCourseId" lay-verify="required|select" lay-filter="sel-listening-course-list-filter"></select>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">试听班级</label>
+                            <div class="layui-input-block">
+                                <select class="sel" id="sel-listening-class-list" name="SCourseId" lay-verify="required|select" lay-filter="sel-listening-class-list-filter"></select>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+
+                            <table class="layui-table" id="listening-course-schedule-table" lay-filter="listening-course-schedule-table">
+                            </table>
+                        </div>
+                        <div class="layui-form-item content-center">
+                            <button class="layui-btn layui-btn-sm" type="button" lay-submit lay-filter="trialclass-handling-followclass-form-submit"><i class="layui-icon layui-icon-ok"></i>立即提交</button>
+                        </div>
+                    </form>
+                </div>
+                <!--一对一试听-->
+                <div class="layui-tab-item">
+                    <form class="layui-form layui-form-pane" id="trialclass-handling-form" lay-filter="trialclass-handling-form-filter">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">学生姓名</label>
+                            <div class="layui-input-block ">
+                                <script type="text/html" template>
+                                    <input type="hidden" name="StudentId" value="{{ d.params.id || '' }}" lay-verify="required" class="layui-input">
+                                    <input type="text" name="StudentName" value="{{ d.params.name || '' }}" readonly lay-verify="required|normallength" placeholder="" maxlength="6" autocomplete="off" class="layui-input">
+                                    <input type="hidden" name="StudentCategory" value="1" lay-verify="required" class="layui-input">
+                                    <input type="hidden" name="ClassScheduleId" value="00000000-0000-0000-0000-000000000000" lay-verify="required" class="layui-input">
+                                    <input type="hidden" name="Gender" value="{{ d.params.gender || '' }}" lay-verify="required" class="layui-input">
+                                </script>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">手机号码</label>
+                            <div class="layui-input-block">
+                                <script type="text/html" template>
+                                    <input type="text" id="phoneNumber" name="PhoneNumber" value="{{ d.params.phoneNumber || '' }}" readonly lay-verify="required|phone" maxlength="16" autocomplete="off" placeholder="" class="layui-input">
+                                </script>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">试听日期</label>
+                            <div class="layui-input-block">
+                                <input type="text" id="courseDates" name="CourseDates" readonly lay-verify="required" placeholder="" maxlength="32" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">试听时段</label>
+                            <div class="layui-input-block">
+                                <input type="text" id="classTimeRange" name="ClassTimeRange" readonly lay-verify="required" placeholder="" maxlength="32" autocomplete="off" class="layui-input">
+                                <input type="hidden" id="startHours" name="StartHours" />
+                                <input type="hidden" id="startMinutes" name="StartMinutes" />
+                                <input type="hidden" id="endHours" name="EndHours" />
+                                <input type="hidden" id="endMinutes" name="EndMinutes" />
+                                <input type="hidden" id="studentCategory" name="StudentCategory" value="1" />
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">试听课程</label>
+                            <div class="layui-input-block">
+                                <select class="sel" id="sel-course-list" name="CourseId" lay-verify="required|select" lay-filter="sel-course-list-filter"></select>
+                                <script type="text/html" template>
+                                </script>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">授课老师</label>
+                            <div class="layui-input-block">
+                                <select class="sel" id="sel-teacher-list" name="TeacherId" lay-verify="required|select" lay-filter="sel-teacher-list-filter"></select>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">试听教室</label>
+                            <div class="layui-input-block">
+                                <select class="sel" id="sel-class-room-list" name="ClassRoomId" lay-verify="required|select" lay-filter=""></select>
+                            </div>
+                        </div>
+                        <div class="layui-form-item content-center">
+                            <button class="layui-btn layui-btn-sm" type="button" lay-submit lay-filter="trialclass-handling-form-submit"><i class="layui-icon layui-icon-ok"></i>立即提交</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['table', 'form', 'common', 'setter', 'element', 'verification', 'laydate'], function () {
+        var $ = layui.$
+            , admin = layui.admin
+            , view = layui.view
+            , table = layui.table
+            , common = layui.common
+            , setter = layui.setter
+            , form = layui.form
+            , element = layui.element
+            , laydate = layui.laydate;
+        var listening = {
+            initSchedule: function (courseId, classId) {
+                table.render({
+                    elem: '#listening-course-schedule-table'
+                    , url: setter.apiAddress.courseschedule.pagelist
+                    , cols: [[
+                        {
+                            field: 'id', title: '选择课节', width: 100, align: 'center',
+                            templet: function (d) {
+                                var buttonArr = [];
+                                buttonArr.push('<input id="btn_' + d.id + '" name="radio-select" type="radio" name="radio-listenfollowclass-' + d.id + '" value="' + d.id + '" lay-filter="listenfollowclass-select-filter">&nbsp;&nbsp;');
+                                return buttonArr.join('');
+                            }
+                        },
+                        { field: 'courseName', title: '课程名称', align: 'center' },
+                        {
+                            field: 'courseDates', title: '上课日期', align: 'center', templet: function (d) {
+                                return common.formatDate(d.courseDates, "yyyy-MM-dd");
+                            }
+                        },
+                        {
+                            field: 'courseDates', title: '课节时间', align: 'center', templet: function (d) {
+                                return common.formatZero(d.startHours, 2) + ":" + common.formatZero(d.startMinutes, 2) + " - " + common.formatZero(d.endHours, 2) + ":" + common.formatZero(d.endMinutes, 2);
+                            }
+                        },
+                        {
+                            field: 'classStatus', title: '课节状态', align: 'center', width: 100,
+                            templet: function (d) {
+                                switch (d.classStatus) {
+                                    case 1:
+                                        return '<span style="color:#009688;">待上课</span>';
+                                        break;
+                                    case 2:
+                                        return '<span style="color:#FF5722;">已结课</span>';
+                                        break;
+                                    default:
+                                        return '-';
+                                        break;
+                                }
+                            }
+                        },
+                        { field: 'teacherName', title: '授课老师', align: 'center' }
+                    ]]
+                    , page: true
+                    , cellMinWidth: 80
+                    , text: {
+                        none: '该班级暂无排课数据，请在 - 教务服务 - 班级管理中进行排课。'
+                    }
+                    , response: {
+                        statusCode: 200
+                    }
+                    , where: { courseId: courseId, classId: classId, classStatus: 1 }
+                    , parseData: function (res) {
+                        return {
+                            "code": res.statusCode,
+                            "msg": res.message,
+                            "count": res.data.totalCount,
+                            "data": res.data.items
+                        };
+                    }
+                });
+            },
+            // 设置最小可选的日期
+            minDate: function () {
+                var now = new Date();
+                return now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDate();
+            },
+            initTrialDate: function () {
+                //试听日期
+                laydate.render({
+                    elem: '#courseDates',
+                    type: 'date',
+                    format: 'yyyy-MM-dd',
+                    min: listening.minDate()
+                });
+            },
+            initTrialSession: function () {
+                //试听时间段
+                laydate.render({
+                    elem: '#classTimeRange'
+                    , type: 'time'
+                    , format: 'H点m分'
+                    , calendar: true
+                    , range: '至'
+                    , done: function (value, date, endDate) {
+                        //赋值课节时间段
+                        $("#startHours").val(date.hours);
+                        $("#startMinutes").val(date.minutes);
+                        $("#endHours").val(endDate.hours);
+                        $("#endMinutes").val(endDate.minutes);
+                        //验证课节时间段是否正确
+                        if (endDate.hours - date.hours <= 0 & endDate.minutes - date.minutes <= 0) {
+                            layer.msg("时间段不正确");
+                            form.render("select");
+                            return false;
+                        }
+                        //如果时间段正确则加载课程下拉列表
+                        listening.initOnetoOneCourse();
+                    }
+                });
+            },
+            initCourse: function () {
+                //初始跟班试听课程数据
+                common.ajax(setter.apiAddress.course.list, "GET", "", { enabledStatus: 1 }, function (res) {
+                    $("#sel-listening-course-list").append("<option value=\"\">请选择课程</option>");
+                    $.each(res.data, function (index, item) {
+                        $("#sel-listening-course-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
+                    });
+                    form.render("select");
+                });
+            },
+            initOnetoOneCourse: function () {
+                //初始化一对一试听的课程数据
+                $("#sel-course-list").append("<option value=\"\">请选择课程</option>");
+                common.ajax(setter.apiAddress.course.list, "GET", "", { enabledStatus: 1 }, function (res) {
+                    $.each(res.data, function (index, item) {
+                        $("#sel-course-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
+                    });
+                    form.render("select");
+                });
+            },
+            initTeachers: function (courseDates, startHours, startMinutes, endHours, endMinutes) {
+                common.ajax(setter.apiAddress.courseschedule.getallwithconflictstate, "GET", "", {
+                    courseDates: courseDates,
+                    startHours: startHours,
+                    startMinutes: startMinutes,
+                    endHours: endHours,
+                    endMinutes: endMinutes
+                }, function (res) {
+                    $("#sel-teacher-list").empty();
+                    $("#sel-teacher-list").append("<option value=\"\">请选择老师</option>");
+                    $.each(res.data, function (index, item) {
+                        if (item.conflictState == 1) {
+                            $("#sel-teacher-list").append("<option value=\"" + item.id + "\">" + item.userName + "（空闲）</option>");
+                        }
+                        if (item.conflictState == 2) {
+                            $("#sel-teacher-list").append("<option value=\"" + item.id + "\">" + item.userName + "（冲突）</option>");
+                        }
+                    });
+                    form.render("select");
+                });
+            },
+            initClassRooms: function (courseDates, startHours, startMinutes, endHours, endMinutes) {
+                common.ajax(setter.apiAddress.classroom.getallwithconflictstate, "GET", "", { courseDates: courseDates, startHours: startHours, startMinutes: startMinutes, endHours: endHours, endMinutes: endMinutes }, function (res) {
+                    $("#sel-class-room-list").empty();
+                    $("#sel-class-room-list").append("<option value=\"\">请选择教室</option>");
+                    $.each(res.data, function (index, item) {
+                        if (item.conflictState == 1) {
+                            $("#sel-class-room-list").append("<option value=\"" + item.id + "\">" + item.name + "（空闲）</option>");
+                        }
+                        if (item.conflictState == 2) {
+                            $("#sel-class-room-list").append("<option value=\"" + item.id + "\">" + item.name + "（冲突）</option>");
+                        }
+                    });
+                    form.render("select");
+                });
+            }
+        };
+        //课程选择时加载班级
+        form.on('select(sel-listening-course-list-filter)', function (data) {
+            listening.initSchedule(data.value, "0000");
+            $("#sel-listening-class-list").empty();
+            $("#sel-listening-class-list").append("<option value=\"\">请选择课程</option>");
+            common.ajax(setter.apiAddress.classes.list, "GET", "", { courseId: data.value, recruitStatus: 1 }, function (res) {
+                $.each(res.data, function (index, item) {
+                    $("#sel-listening-class-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
+                });
+                form.render("select");
+            });
+        });
+        //班级选择时加载班级课表
+        form.on('select(sel-listening-class-list-filter)', function (data) {
+            listening.initSchedule($("#sel-listening-course-list").val(), data.value);
+        });
+
+        listening.initCourse();
+
+        var listenfollowclassData = {
+            studentId: '',
+            studentCategory: 1,
+            courseScheduleId: ''
+        };
+
+        form.on('radio(listenfollowclass-select-filter)', function (data) {
+            listenfollowclassData.courseScheduleId = data.value;
+            listenfollowclassData.studentId = $("#studentId").val();
+        });
+
+        //监听跟班试听提交
+        form.on('submit(trialclass-handling-followclass-form-submit)', function (data) {
+            common.ajax(setter.apiAddress.trialclass.listenfollowclass, "POST", "", listenfollowclassData, function (res) {
+                if (res.statusCode == 200) {
+                    layer.closeAll();
+                }
+                layer.msg(res.message);
+            });
+        });
+
+        //------------------------------------一对一试听逻辑-------------------------------------
+
+        listening.initTrialDate();
+        listening.initTrialSession();
+
+
+        //一对一课程下拉事件 - 加班课程的开班信息 - 加载上课教室信息
+        form.on('select(sel-course-list-filter)', function (data) {
+            listening.initTeachers();
+        });
+        form.on('select(sel-teacher-list-filter)', function (data) {
+            listening.initClassRooms();
+        });
+        //监听提交
+        form.on('submit(trialclass-handling-form-submit)', function (data) {
+            common.ajax(setter.apiAddress.trialclass.onetoonelisten, "POST", "", data.field, function (res) {
+                if (res.statusCode == 200) {
+                    layer.closeAll();
+                }
+                layer.msg(res.message);
+            });
+        });
+    });
+</script>
