@@ -162,7 +162,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 't
             treeGrid.render({
                 id: "operationpermissions-table"
                 , elem: '#operationpermissions-table'
-                , url: setter.apiAddress.awinemodule.listwithchedkedstatus + "?roleId=" + role
+                , url: setter.apiAddress.awinemodule.listwithchedkedstatus
                 , idField: 'id'
                 , treeId: 'id'
                 , treeUpId: 'parentId'
@@ -197,6 +197,9 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 't
                             form.render('checkbox');
                         });
                     });
+                }
+                , where: {
+                    roleId: role
                 }
                 , parseData: function (res) {
                     return {

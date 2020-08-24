@@ -56,7 +56,7 @@ layui.define('view', function (exports) {
                     , closeBtn: false
                     , offset: 'r'
                     , shade: 0.1
-                    , shadeClose: false
+                    , shadeClose: true //点击页面其他区域是否可以关闭
                     , move: false
                     , skin: 'layui-anim layui-anim-rl layui-layer-adminRight'
                     , area: '300px'

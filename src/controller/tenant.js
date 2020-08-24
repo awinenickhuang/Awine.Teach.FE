@@ -70,13 +70,14 @@ layui.define(['table', 'form', 'common', 'setter', 'verification', 'laydate'], f
                 field: 'createTime', width: 200, title: '创建时间', align: 'center'
             },
             {
-                width: 200, title: '操作', align: 'center'
+                width: 260, title: '操作', align: 'center'
                 , templet: function (d) {
                     var htmlButton = new Array();
                     htmlButton.push('<div class="layui-btn-group">')
                     htmlButton.push('<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a>');
                     htmlButton.push('<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="updatestatus"><i class="layui-icon layui-icon-password"></i>状态</a>');
                     htmlButton.push('<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="updateclassfication"><i class="layui-icon layui-icon-auz"></i>类型</a>');
+                    htmlButton.push('<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="branches"><i class="layui-icon layui-icon-set-fill"></i>机构数量</a>');
                     htmlButton.push('</div>')
                     return htmlButton.join('');
                 }
@@ -345,6 +346,28 @@ layui.define(['table', 'form', 'common', 'setter', 'verification', 'laydate'], f
                         //监听提交
                         form.on('submit(editstatus-edit-form-submit)', function (data) {
                             common.ajax(setter.apiAddress.tenant.updatestatus, "POST", "", $("#editstatus-edit-form").serialize(), function (res) {
+                                if (res.statusCode == 200) {
+                                    layer.close(index);
+                                    table.reload('tenant-table');
+                                }
+                                layer.msg(res.message);
+                            });
+                        });
+                    });
+                }
+            });
+        } else if (obj.event === 'branches') {
+            admin.popup({
+                title: '分支机构个数设置'
+                , area: ['30%', '35%']
+                , resize: false
+                , success: function (layero, index) {
+                    view(this.id).render('foundational/tenant/branches', data).done(function () {
+                        $('#sel-editstatus-list').val(data.status);
+                        form.render();
+                        //监听提交
+                        form.on('submit(branches-edit-form-submit)', function (data) {
+                            common.ajax(setter.apiAddress.tenant.updatenumberofbranches, "POST", "", $("#branches-edit-form").serialize(), function (res) {
                                 if (res.statusCode == 200) {
                                     layer.close(index);
                                     table.reload('tenant-table');

@@ -138,7 +138,7 @@ layui.define(['laytpl', 'layer'], function (exports) {
             , content: ''
             , id: 'LAY-system-view-popup'
             , skin: 'layui-layer-admin' + (skin ? ' ' + skin : '')
-            , shadeClose: false
+            , shadeClose: false //点击页面其他区域是否可以关闭
             , move: false
             , closeBtn: false
             , success: function (layero, index) {

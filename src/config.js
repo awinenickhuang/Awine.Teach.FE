@@ -193,6 +193,7 @@ layui.define(['laytpl', 'layer', 'element', 'util'], function (exports) {
                 delete: 'http://localhost:8001/api/platformtenant/delete',
                 updateclassfication: 'http://localhost:8001/api/platformtenant/updateclassfication',
                 updatestatus: 'http://localhost:8001/api/platformtenant/updatestatus',
+                updatenumberofbranches: 'http://localhost:8001/api/platformtenant/updatenumberofbranches'
             },
             department: {
                 list: 'http://localhost:8001/api/department/list',
