@@ -16,52 +16,45 @@
 
                     <div class="layui-form" lay-filter="">
                         <div class="layui-form-item">
-                            <label class="layui-form-label">账号</label>
+                            <label class="layui-form-label">姓名</label>
                             <div class="layui-input-block">
-                                <input type="text" name="username" value="xianxin" readonly class="layui-input">
+                                <input type="text" id="username" value="" readonly class="layui-input">
                             </div>
                         </div>
                         <div class="layui-form-item">
-                            <label class="layui-form-label">角色</label>
+                            <label class="layui-form-label">账号</label>
                             <div class="layui-input-block">
-                                <input type="text" name="username" value="xianxin" readonly class="layui-input">
+                                <input type="text" id="account" value="" readonly class="layui-input">
                             </div>
                         </div>
                         <div class="layui-form-item">
                             <label class="layui-form-label">性别</label>
                             <div class="layui-input-block">
-                                <input type="radio" name="sex" value="男" title="男">
-                                <input type="radio" name="sex" value="女" title="女" checked>
-                            </div>
-                        </div>
-                        <div class="layui-form-item">
-                            <label class="layui-form-label">头像</label>
-                            <div class="layui-input-inline">
-                                <input name="avatar" lay-verify="required" id="LAY_avatarSrc" placeholder="图片地址" value="http://cdn.layui.com/avatar/168.jpg" class="layui-input">
-                            </div>
-                            <div class="layui-input-block layui-btn-container" style="width: auto;">
-                                <button type="button" class="layui-btn layui-btn-primary" id="LAY_avatarUpload">
-                                    <i class="layui-icon">&#xe67c;</i>上传图片
-                                </button>
-                                <button class="layui-btn layui-btn-primary" layadmin-event="avartatPreview">查看图片</button>
+                                <input type="text" id="gender" value="" readonly class="layui-input">
                             </div>
                         </div>
                         <div class="layui-form-item">
                             <label class="layui-form-label">手机</label>
                             <div class="layui-input-block">
-                                <input type="text" name="cellphone" value="" lay-verify="required|phone" autocomplete="off" class="layui-input" maxlength="16">
+                                <input type="text" id="phonenumber" value="" readonly class="layui-input">
                             </div>
                         </div>
                         <div class="layui-form-item">
-                            <label class="layui-form-label">邮箱</label>
+                            <label class="layui-form-label">机构</label>
                             <div class="layui-input-block">
-                                <input type="text" name="email" value="" lay-verify="required|email" autocomplete="off" class="layui-input" maxlength="32">
+                                <input type="text" id="tenantname" value="" readonly class="layui-input">
                             </div>
                         </div>
                         <div class="layui-form-item">
+                            <label class="layui-form-label">部门</label>
                             <div class="layui-input-block">
-                                <button class="layui-btn" lay-submit lay-filter="setmyinfo"><i class="layui-icon layui-icon-ok"></i>确认修改</button>
-                                <button type="reset" class="layui-btn layui-btn-primary"><i class="layui-icon layui-icon-close"></i>重新填写</button>
+                                <input type="text" id="departmentname" value="" readonly class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">角色</label>
+                            <div class="layui-input-block">
+                                <input type="text" id="rolename" value="" readonly class="layui-input">
                             </div>
                         </div>
                     </div>
@@ -71,7 +64,35 @@
         </div>
     </div>
 </div>
-
 <script>
-    layui.use('set', layui.factory('set'));
+    layui.use(['form', 'common', 'setter', 'element'], function () {
+        var $ = layui.$
+            , admin = layui.admin
+            , view = layui.view
+            , common = layui.common
+            , setter = layui.setter
+            , form = layui.form;
+
+        //初始化当前登录用户信息
+        common.ajax(setter.apiAddress.aspnetuser.details, "GET", "", "", function (res) {
+            if (res.statusCode == 200) {
+                $('#username').val(res.data.userName);
+                $('#account').val(res.data.account);
+                if (res.data.gender == 1) {
+                    $('#gender').val('男');
+                } else {
+                    $('#gender').val('女');
+                }
+                $('#phonenumber').val(res.data.phoneNumber);
+                $('#tenantname').val(res.data.tenantName);
+                $('#departmentname').val(res.data.departmentName);
+                $('#rolename').val(res.data.roleName);
+            } else {
+                layer.msg(res.message);
+            }
+        });
+
+        form.render();
+
+    });
 </script>

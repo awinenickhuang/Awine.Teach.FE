@@ -176,7 +176,8 @@ layui.define(['laytpl', 'layer', 'element', 'util'], function (exports) {
                 resetpassword: 'http://localhost:8001/api/aspnetuser/resetpassword',
                 updatepassword: 'http://localhost:8001/api/aspnetuser/updatepassword',
                 enableordisable: 'http://localhost:8001/api/aspnetuser/enableordisable',
-                allindepartment: 'http://localhost:8001/api/aspnetuser/allindepartment'
+                allindepartment: 'http://localhost:8001/api/aspnetuser/allindepartment',
+                details: 'http://localhost:8001/api/aspnetuser/details',
             },
             industry: {
                 add: 'http://localhost:8001/api/industry/add',
