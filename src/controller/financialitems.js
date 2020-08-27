@@ -1,5 +1,5 @@
 ﻿/**
- @Name：行业数据字典管理
+ @Name：收支项目
  */
 layui.define(['table', 'form', 'common', 'setter', 'element', 'verification'], function (exports) {
     var $ = layui.$
@@ -36,7 +36,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification'], f
             { field: 'displayOrder', width: 100, align: 'center', title: '显示顺序' },
             { field: 'createTime', width: 200, align: 'center', title: '创建时间' },
             {
-                width: 150,
+                width: 100,
                 title: '操作',
                 align: 'center',
                 templet: function (d) {

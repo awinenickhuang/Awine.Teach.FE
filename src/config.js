@@ -316,6 +316,12 @@ layui.define(['laytpl', 'layer', 'element', 'util'], function (exports) {
                 updatestatus: 'http://localhost:8003/api/financialitem/updatestatus',
                 delete: 'http://localhost:8003/api/financialitem/delete',
             },
+            dailyspending: {
+                pagelist: 'http://localhost:8003/api/dailyspending/pagelist',
+                add: 'http://localhost:8003/api/dailyspending/add',
+                update: 'http://localhost:8003/api/dailyspending/update',
+                delete: 'http://localhost:8003/api/dailyspending/delete',
+            },
             announcements: {
                 pagelist: 'http://localhost:8004/api/announcement/pagelist',
                 single: 'http://localhost:8004/api/announcement/single',

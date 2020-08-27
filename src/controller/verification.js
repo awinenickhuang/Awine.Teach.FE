@@ -148,7 +148,7 @@ layui.define(['form', 'common'], function (exports) {
         //小数最多只能保留两位
         , decimalplaces: [
             /^-?\d+(\.\d{1,2})?$/
-            , '金额最多只能保留两位'
+            , '请输入正确的金额，且最多只能保留两位小数'
         ]
         //描述性输入框长度验证
         , describelength: [
