@@ -410,6 +410,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'r
                             form.on('select(sel-department-list-filter)', function (data) {
                                 $("#sel-staffer-list").empty();
                                 $("#city-edit-name").val("");
+                                //加载部门下的员工
                                 common.ajax(setter.apiAddress.aspnetuser.allindepartment, "GET", "", { departmentId: data.value }, function (res) {
                                     $("#sel-staffer-list").append("<option value=\"\">请选择</option>");
                                     $.each(res.data, function (index, item) {
@@ -417,6 +418,9 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'r
                                     });
                                     form.render("select");
                                 });
+                            });
+                            form.on('select(sel-staffer-list-filter)', function (data) {
+                                $("#trackingStafferName").val(data.elem[data.elem.selectedIndex].text);
                             });
                             //监听提交
                             form.on('submit(trackingassigned-form-submit)', function (data) {
@@ -505,6 +509,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'r
                                     paymentMethodId: '',//支付方式标识
                                     noteInformation: '',
                                     salesStaffId: data.trackingStafferId,
+                                    salesStaffName: data.trackingStafferName,
                                     marketingChannelId: data.marketingChannelId,
                                     purchaseQuantity: 0,//购买数量
                                     chargeMannerId: ''//收费方式标识
@@ -580,6 +585,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'r
                             //业绩归属人下拉事件
                             form.on('select(sel-salesstaff-list-filter)', function (data) {
                                 studentregister.registerData.salesStaffId = data.value;
+                                studentregister.registerData.salesStaffName = data.elem[data.elem.selectedIndex].text;
                             });
 
                             //初始化支付方式

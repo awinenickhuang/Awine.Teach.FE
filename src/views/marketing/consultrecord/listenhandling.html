@@ -110,6 +110,7 @@
                             <label class="layui-form-label">授课老师</label>
                             <div class="layui-input-block">
                                 <select class="sel" id="sel-teacher-list" name="TeacherId" lay-verify="required|select" lay-filter="sel-teacher-list-filter"></select>
+                                <input type="hidden" id="hiddenTeacherName" name="TeacherName" lay-verify="required" maxlength="16" autocomplete="off" class="layui-input" />
                             </div>
                         </div>
                         <div class="layui-form-item">
@@ -260,13 +261,13 @@
                 });
             },
             initTeachers: function (courseDates, startHours, startMinutes, endHours, endMinutes) {
-                common.ajax(setter.apiAddress.courseschedule.getallwithconflictstate, "GET", "", {
-                    courseDates: courseDates,
-                    startHours: startHours,
-                    startMinutes: startMinutes,
-                    endHours: endHours,
-                    endMinutes: endMinutes
-                }, function (res) {
+                //加载所有老师
+                common.ajax(setter.apiAddress.aspnetuser.list, "GET", "", { enableStatus: 1 }, function (res) {
+                    //加载完老师之后加载今年所有的排课信息
+                    //common.ajax(setter.apiAddress.aspnetuser.list, "GET", "", { enableStatus: 1 }, function (res) {
+
+                    //});
+
                     $("#sel-teacher-list").empty();
                     $("#sel-teacher-list").append("<option value=\"\">请选择老师</option>");
                     $.each(res.data, function (index, item) {
@@ -279,6 +280,26 @@
                     });
                     form.render("select");
                 });
+
+                //common.ajax(setter.apiAddress.aspnetuser.list, "GET", { enableStatus: 1 }, {
+                //    courseDates: courseDates,
+                //    startHours: startHours,
+                //    startMinutes: startMinutes,
+                //    endHours: endHours,
+                //    endMinutes: endMinutes
+                //}, function (res) {
+                //    $("#sel-teacher-list").empty();
+                //    $("#sel-teacher-list").append("<option value=\"\">请选择老师</option>");
+                //    $.each(res.data, function (index, item) {
+                //        if (item.conflictState == 1) {
+                //            $("#sel-teacher-list").append("<option value=\"" + item.id + "\">" + item.userName + "（空闲）</option>");
+                //        }
+                //        if (item.conflictState == 2) {
+                //            $("#sel-teacher-list").append("<option value=\"" + item.id + "\">" + item.userName + "（冲突）</option>");
+                //        }
+                //    });
+                //    form.render("select");
+                //});
             },
             initClassRooms: function (courseDates, startHours, startMinutes, endHours, endMinutes) {
                 common.ajax(setter.apiAddress.classroom.getallwithconflictstate, "GET", "", { courseDates: courseDates, startHours: startHours, startMinutes: startMinutes, endHours: endHours, endMinutes: endMinutes }, function (res) {
@@ -347,6 +368,7 @@
             listening.initTeachers();
         });
         form.on('select(sel-teacher-list-filter)', function (data) {
+            $("#hiddenTeacherName").val(data.elem[data.elem.selectedIndex].text);
             listening.initClassRooms();
         });
         //监听提交

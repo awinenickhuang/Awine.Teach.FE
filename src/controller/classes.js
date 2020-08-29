@@ -213,6 +213,11 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                             //监听课程选择事件
                             form.on('select(sel-course-list-filter)', function (data) {
                                 let teacherId = data.elem[data.elem.selectedIndex].dataset.teacher;
+                                if (data.value === "") {
+                                    $("#sel-teacher-list").empty();
+                                    form.render("select");
+                                    return;
+                                }
                                 //初始化老师 -> 默认跟随课程名师
                                 common.ajax(setter.apiAddress.aspnetuser.list, "GET", "", {}, function (res) {
                                     $("#sel-teacher-list").empty();
@@ -226,14 +231,18 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                                     });
                                     form.render("select");
                                 });
-                                //初始化教室
-                                common.ajax(setter.apiAddress.classroom.list, "GET", "", {}, function (res) {
-                                    $("#sel-class-room-list").append("<option value=\"\">请选择</option>");
-                                    $.each(res.data, function (index, item) {
-                                        $("#sel-class-room-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
-                                    });
-                                    form.render("select");
+                            });
+                            //初始化教室
+                            $("#sel-class-room-list").empty();
+                            common.ajax(setter.apiAddress.classroom.list, "GET", "", {}, function (res) {
+                                $("#sel-class-room-list").append("<option value=\"\">请选择</option>");
+                                $.each(res.data, function (index, item) {
+                                    $("#sel-class-room-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
                                 });
+                                form.render("select");
+                            });
+                            form.on('select(sel-teacher-list-filter)', function (data) {
+                                $("#hiddenTeacherName").val(data.elem[data.elem.selectedIndex].text);
                             });
                             //监听提交
                             form.on('submit(classes-add-form-submit)', function (data) {
@@ -283,7 +292,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                                 });
                                 form.render("select");
                             });
-                            //初始化老师
+                            //初始化老师 -> 当前班级的老师
                             common.ajax(setter.apiAddress.aspnetuser.list, "GET", "", {}, function (res) {
                                 $("#sel-teacher-edit").append("<option value=\"\">请选择</option>");
                                 $.each(res.data, function (index, item) {
@@ -298,7 +307,12 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                             //监听课程选择事件
                             form.on('select(sel-course-edit-filter)', function (data) {
                                 let teacherId = data.elem[data.elem.selectedIndex].dataset.teacher;
-                                //初始化老师 -> 默认跟随课程名师
+                                if (data.value === "") {
+                                    $("#sel-teacher-edit").empty();
+                                    form.render("select");
+                                    return;
+                                }
+                                //初始化老师 -> 课程选择时 - 默认跟随课程名师
                                 common.ajax(setter.apiAddress.aspnetuser.list, "GET", "", {}, function (res) {
                                     $("#sel-teacher-edit").empty();
                                     $("#sel-teacher-edit").append("<option value=\"\">请选择</option>");
@@ -323,6 +337,9 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                                     }
                                 });
                                 form.render("select");
+                            });
+                            form.on('select(sel-teacher-edit-filter)', function (data) {
+                                $("#hiddenEditTeacherName").val(data.elem[data.elem.selectedIndex].text);
                             });
                             $("#sel-recruitstatus-edit").val(data.recruitStatus);
                             $("#sel-typeofclass-edit").val(data.typeOfClass);

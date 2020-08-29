@@ -116,7 +116,9 @@ layui.define(['table', 'form', 'layedit', 'common', 'setter', 'element', 'verifi
                                 });
                                 form.render("select");
                             });
-
+                            form.on('select(sel-teacher-list-filter)', function (data) {
+                                $("#hiddenTeacherName").val(data.elem[data.elem.selectedIndex].text);
+                            });
                             //创建富文本编辑器
                             var LAY_IntroductionIndex = layedit.build('LAY_CourseIntroduction', {
                                 tool: [
@@ -194,7 +196,9 @@ layui.define(['table', 'form', 'layedit', 'common', 'setter', 'element', 'verifi
                             });
                             form.render("select");
                         });
-
+                        form.on('select(sel-teacher-edit-filter)', function (data) {
+                            $("#hiddenEditTeacherName").val(data.elem[data.elem.selectedIndex].text);
+                        });
                         //创建富文本编辑器
                         var LAY_IntroductionIndex = layedit.build('LAY_CourseIntroduction', {
                             tool: [

@@ -253,6 +253,7 @@ layui.define(['laytpl', 'layer', 'element', 'util'], function (exports) {
             },
             studentcourseorder: {
                 list: 'http://localhost:8002/api/studentcourseorder/list',
+                pagelist: 'http://localhost:8002/api/studentcourseorder/pagelist',
             },
             studentattendance: {
                 pagelist: 'http://localhost:8002/api/studentattendance/pagelist',
@@ -293,7 +294,6 @@ layui.define(['laytpl', 'layer', 'element', 'util'], function (exports) {
                 updaterecruitstatus: 'http://localhost:8002/api/classes/updaterecruitstatus'
             },
             courseschedule: {
-                getallwithconflictstate: 'http://localhost:8002/api/courseschedule/getallwithconflictstate',
                 list: 'http://localhost:8002/api/courseschedule/list',
                 listschedule: 'http://localhost:8002/api/courseschedule/listschedule',
                 pagelist: 'http://localhost:8002/api/courseschedule/pagelist',

@@ -15,7 +15,10 @@
     <div class="layui-form-item">
         <label class="layui-form-label">课程名师</label>
         <div class="layui-input-block">
-            <select class="sel" id="sel-teacher-edit" name="TeacherId" lay-verify="required|select" lay-filter=""></select>
+            <select class="sel" id="sel-teacher-edit" name="TeacherId" lay-verify="required|select" lay-filter="sel-teacher-edit-filter"></select>
+            <script type="text/html" template>
+                <input type="hidden" id="hiddenEditTeacherName" name="TeacherName" value="{{ d.params.teacherName || '' }}" />
+            </script>
         </div>
     </div>
     <div class="layui-form-item">

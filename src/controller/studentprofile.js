@@ -222,6 +222,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                             paymentMethodId: '',//支付方式标识
                             noteInformation: '',
                             salesStaffId: '',
+                            salesStaffName: '',
                             marketingChannelId: '',
                             purchaseQuantity: 0,//购买数量
                             courseChargeMannerId: ''//收费方式标识
@@ -293,6 +294,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                     //业绩归属人下拉事件
                     form.on('select(sel-salesstaff-list-filter)', function (data) {
                         studentSupplement.supplementData.salesStaffId = data.value;
+                        studentSupplement.supplementData.salesStaffName = data.elem[data.elem.selectedIndex].text;
                     });
 
                     //初始渠道数据

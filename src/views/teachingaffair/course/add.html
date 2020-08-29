@@ -12,7 +12,8 @@
     <div class="layui-form-item">
         <label class="layui-form-label">课程名师</label>
         <div class="layui-input-block">
-            <select class="sel" id="sel-teacher-list" name="TeacherId" lay-verify="required|select" lay-filter=""></select>
+            <select class="sel" id="sel-teacher-list" name="TeacherId" lay-verify="required|select" lay-filter="sel-teacher-list-filter"></select>
+            <input type="hidden" id="hiddenTeacherName" name="TeacherName" />
         </div>
     </div>
     <div class="layui-form-item">

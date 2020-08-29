@@ -6,7 +6,7 @@
         <label class="layui-form-label">当前跟进人</label>
         <div class="layui-input-block">
             <script type="text/html" template>
-                <input type="text" id="trackingStafferName" value="{{ d.params.trackingStafferName || '待指派' }}" readonly lay-verify="required" maxlength="12" autocomplete="off" class="layui-input">
+                <input type="text" id="currentTrackingStafferName" value="{{ d.params.trackingStafferName || '待指派' }}" readonly lay-verify="required" maxlength="16" autocomplete="off" class="layui-input">
             </script>
         </div>
     </div>
@@ -22,7 +22,10 @@
     <div class="layui-form-item">
         <label class="layui-form-label">选择跟进人</label>
         <div class="layui-input-block">
-            <select class="sel" id="sel-staffer-list" name="TrackingStafferId" lay-verify="required|select" lay-filter=""></select>
+            <select class="sel" id="sel-staffer-list" name="TrackingStafferId" lay-verify="required|select" lay-filter="sel-staffer-list-filter"></select>
+            <script type="text/html" template>
+                <input type="hidden" id="trackingStafferName" name="TrackingStafferName" lay-verify="required" maxlength="16" autocomplete="off" class="layui-input" />
+            </script>
         </div>
     </div>
     <div class="layui-form-item content-center">
