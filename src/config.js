@@ -214,7 +214,8 @@ layui.define(['laytpl', 'layer', 'element', 'util'], function (exports) {
                 add: 'http://localhost:8002/api/consultrecord/add',
                 update: 'http://localhost:8002/api/consultrecord/update',
                 trackingassigned: 'http://localhost:8002/api/consultrecord/trackingassigned',
-
+                statistical: 'http://localhost:8002/api/consultrecord/statistical',
+                chartreport: 'http://localhost:8002/api/consultrecord/chartreport',
             },
             communicationrecord: {
                 pagelist: 'http://localhost:8002/api/communicationrecord/pagelist',

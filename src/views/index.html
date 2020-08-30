@@ -66,33 +66,41 @@
                 </div>
                 <div class="layui-col-md6">
                     <div class="layui-card">
-                        <div class="layui-card-header">待办事项</div>
+                        <div class="layui-card-header">生源统计</div>
                         <div class="layui-card-body">
                             <div class="layui-carousel layadmin-carousel layadmin-backlog">
                                 <div carousel-item>
                                     <ul class="layui-row layui-col-space10">
                                         <li class="layui-col-xs6">
-                                            <a lay-href="#" class="layadmin-backlog-body">
-                                                <h3>待审评论</h3>
-                                                <p><cite>66</cite></p>
+                                            <a lay-href="/marketing/consultrecord/index" class="layadmin-backlog-body">
+                                                <h3>生源总数</h3>
+                                                <p id="totalAmount"></p>
                                             </a>
                                         </li>
                                         <li class="layui-col-xs6">
-                                            <a lay-href="#" class="layadmin-backlog-body">
-                                                <h3>待审帖子</h3>
-                                                <p><cite>12</cite></p>
+                                            <a lay-href="/marketing/consultrecord/index" class="layadmin-backlog-body">
+                                                <h3>待跟进</h3>
+                                                <p id="tofollowupAmount"></p>
                                             </a>
                                         </li>
                                         <li class="layui-col-xs6">
-                                            <a lay-href="#" class="layadmin-backlog-body">
-                                                <h3>待审商品</h3>
-                                                <p><cite>99</cite></p>
+                                            <a lay-href="/marketing/consultrecord/index" class="layadmin-backlog-body">
+                                                <h3>跟进中</h3>
+                                                <p id="inthefollowupAmount"></p>
                                             </a>
                                         </li>
                                         <li class="layui-col-xs6">
-                                            <a href="javascript:;" onclick="layer.tips('不跳转', this, {tips: 3});" class="layadmin-backlog-body">
-                                                <h3>待发货</h3>
-                                                <p><cite>20</cite></p>
+                                            <a href="/marketing/consultrecord/index" class="layadmin-backlog-body">
+                                                <h3>已报班</h3>
+                                                <p id="tradedAmount"></p>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                    <ul class="layui-row layui-col-space10">
+                                        <li class="layui-col-xs6">
+                                            <a href="javascript:;" class="layadmin-backlog-body">
+                                                <h3>开班数量</h3>
+                                                <p><cite style="color: #FF5722;">5</cite></p>
                                             </a>
                                         </li>
                                     </ul>
@@ -108,11 +116,18 @@
 
                             <div class="layui-carousel layadmin-carousel layadmin-dataview" data-anim="fade" lay-filter="LAY-index-dataview">
                                 <div carousel-item id="LAY-index-dataview">
-                                    <div><i class="layui-icon layui-icon-loading1 layadmin-loading"></i></div>
+                                    <!--数据概览第一个图表 - 开始-->
+                                    <!--<div><i class="layui-icon layui-icon-loading1 layadmin-loading"></i></div>-->
+                                    <!--数据概览第一个图表 - 结束-->
+                                    <!--数据概览第一个图表 - 开始-->
+                                    <!--<div></div>-->
+                                    <!--数据概览第一个图表 - 结束-->
+                                    <!--本月生源走势分析 - 开始-->
                                     <div></div>
-                                    <div></div>
+                                    <!--本月生源走势分析 - 结束-->
                                 </div>
                             </div>
+
                         </div>
                     </div>
                     <div class="layui-card">
@@ -178,7 +193,7 @@
                 </div>
             </div>
             <div class="layui-card">
-                <div class="layui-card-header">效果报告</div>
+                <div class="layui-card-header">招生进度</div>
                 <div class="layui-card-body layadmin-takerates">
                     <div class="layui-progress" lay-showPercent="yes">
                         <h3>转化率（日同比 28% <span class="layui-edge layui-edge-top" lay-tips="增长" lay-offset="-15"></span>）</h3>
@@ -191,7 +206,7 @@
                 </div>
             </div>
             <div class="layui-card">
-                <div class="layui-card-header">实时监控</div>
+                <div class="layui-card-header">招生进度</div>
                 <div class="layui-card-body layadmin-takerates">
                     <div class="layui-progress" lay-showPercent="yes">
                         <h3>CPU使用率</h3>
@@ -219,13 +234,13 @@
             <div class="layui-card">
                 <div class="layui-card-header">
                     服务商自白
-                    <i class="layui-icon layui-icon-tips" lay-tips="要支持的噢" lay-offset="5"></i>
+                    <i class="layui-icon layui-icon-tips" lay-tips="谢谢您支持" lay-offset="5"></i>
                 </div>
                 <div class="layui-card-body layui-text layadmin-text">
-                    <p>微恩（Awine）教育，一直以来致力于把教育行业线下的业务整体搬到线上来，从招生、管理、报名、上课、人事、财务等业务整合成线上一站式智能化产品，能够帮机构完成招生引流、进销存管理、财务管理、数据分析、家校互动等，让机构的办学成本降低，效率提高，全面提升管理教学、办学水平。</p>
+                    <p>我们一直以来致力于把教育行业线下的业务整体搬到线上来，从招生、管理、报名、上课、人事、财务等业务整合成线上一站式智能化产品，能够帮机构完成招生引流、教务管理、财务管理、数据分析、家校互动等，让机构的办学成本降低，效率提高，全面提升管理教学、办学水平。</p>
                     <p>我们一直坚持只提供简洁、高频、实用的功能。如何为您产生更大的价值和优质的服务是我们一直在努力探索和研究的。</p>
-                    <p>与您一起成长，共同进步是我们的第一要务，其次才是赚钱。</p>
-                    <p>—— 微恩教育（<a href="http://www.awine.tech/" target="_blank">Awine</a>）</p>
+                    <p>与您一起成长，共同进步将永远是我们的第一要务。</p>
+                    <p>—— 成都知识索引科技有限公司（<a href="http://www.awine.tech/" target="_blank">Awine</a>）</p>
                 </div>
             </div>
 
