@@ -1,5 +1,5 @@
 ﻿/**
- @Name：平台公告
+ @Name：行业资讯
  */
 layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'layedit'], function (exports) {
     var $ = layui.$
@@ -13,9 +13,9 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
         , element = layui.element;
 
     table.render({
-        elem: '#announcements-table'
-        , url: setter.apiAddress.announcements.pagelist
-        , toolbar: '#announcements-toolbar'
+        elem: '#news-table'
+        , url: setter.apiAddress.news.pagelist
+        , toolbar: '#news-toolbar'
         , cols: [[
             { field: 'title', title: '标题' },
             { field: 'createTime', width: 200, align: 'center', title: '创建时间' },
@@ -51,21 +51,17 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
     });
 
     //头工具栏事件
-    table.on('toolbar(announcements-table)', function (obj) {
+    table.on('toolbar(news-table)', function (obj) {
         var checkStatus = table.checkStatus(obj.config.id);
         switch (obj.event) {
             case 'add':
                 admin.popup({
                     title: '添加'
-                    , area: ['50%', '70%']
+                    , area: ['50%', '80%']
                     , resize: false
                     , success: function (layero, index) {
-                        view(this.id).render('platformoperation/announcements/add').done(function () {
+                        view(this.id).render('platformoperation/news/add').done(function () {
                             form.render();
-                            //监听消息类型切换事件
-                            form.on('select(sel-announcementType-list-filter)', function (data) {
-                                //$("#tenantId").val();
-                            });
                             var lay_edit_index = layedit.build('layedit_content', {
                                 //暴露layupload参数设置接口 --详细查看layupload参数说明
                                 uploadImage: {
@@ -96,11 +92,11 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                                 }
                             });
                             //监听提交
-                            form.on('submit(announcements-form-submit)', function (data) {
-                                common.ajax(setter.apiAddress.announcements.add, "POST", "", data.field, function (res) {
+                            form.on('submit(news-form-submit)', function (data) {
+                                common.ajax(setter.apiAddress.news.add, "POST", "", data.field, function (res) {
                                     if (res.statusCode == 200) {
                                         layer.close(index);
-                                        table.reload('announcements-table');
+                                        table.reload('news-table');
                                     }
                                     layer.msg(res.message);
                                 });
@@ -112,14 +108,14 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
         };
     });
 
-    table.on('tool(announcements-table)', function (obj) {
+    table.on('tool(news-table)', function (obj) {
         var data = obj.data;
         if (obj.event === 'del') {
             layer.confirm('删除后不可恢复，确定？', { icon: 3 }, function (index) {
-                common.ajax(setter.apiAddress.announcements.delete, "POST", "", { Id: data.id }, function (res) {
+                common.ajax(setter.apiAddress.news.delete, "POST", "", { Id: data.id }, function (res) {
                     if (res.statusCode == 200) {
                         layer.close(index);
-                        table.reload('announcements-table');
+                        table.reload('news-table');
                     }
                     layer.msg(res.message);
                 });
@@ -127,5 +123,5 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
         }
     });
 
-    exports('announcements', {})
+    exports('news', {})
 });

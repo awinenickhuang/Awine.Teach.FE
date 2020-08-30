@@ -328,6 +328,12 @@ layui.define(['laytpl', 'layer', 'element', 'util'], function (exports) {
                 single: 'http://localhost:8004/api/announcement/single',
                 add: 'http://localhost:8004/api/announcement/add',
                 delete: 'http://localhost:8004/api/announcement/delete',
+            },
+            news: {
+                pagelist: 'http://localhost:8004/api/news/pagelist',
+                single: 'http://localhost:8004/api/news/single',
+                add: 'http://localhost:8004/api/news/add',
+                delete: 'http://localhost:8004/api/news/delete',
             }
         }
     });
