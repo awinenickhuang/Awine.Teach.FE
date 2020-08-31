@@ -68,7 +68,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                 , resize: false
                 , closeBtn: 1
                 , success: function (layero, index) {
-                    view(this.id).render('teachingaffair/classschedule/add').done(function () {
+                    view(this.id).render('teaching/classschedule/add').done(function () {
                         layer.closeAll('tips');
                         form.render();
                         courseScheduleManagement.initDateCtrl(info.dateStr);
@@ -401,7 +401,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
             , resize: false
             , closeBtn: 1
             , success: function (layero, index) {
-                view(this.id).render('teachingaffair/classschedule/callsignin', data).done(function () {
+                view(this.id).render('teaching/classschedule/callsignin', data).done(function () {
                     layer.closeAll('tips');
                     //本节课上课学生总数
                     var studentCount = 0;
@@ -750,7 +750,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
             , resize: false
             , closeBtn: 1
             , success: function (layero, index) {
-                view(this.id).render('teachingaffair/classschedule/edit', data).done(function () {
+                view(this.id).render('teaching/classschedule/edit', data).done(function () {
 
                     layer.closeAll('tips');
                     form.render();
@@ -940,7 +940,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
             , resize: false
             , closeBtn: 1
             , success: function (layero, index) {
-                view(this.id).render('teachingaffair/classschedule/details', data).done(function () {
+                view(this.id).render('teaching/classschedule/details', data).done(function () {
 
                     layer.closeAll('tips');
                     form.render();

@@ -60,7 +60,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification'], f
                     , area: ['30%', '35%']
                     , resize: false
                     , success: function (layero, index) {
-                        view(this.id).render('teachingaffair/paymentmethod/add').done(function () {
+                        view(this.id).render('teaching/paymentmethod/add').done(function () {
                             form.render();
                             //监听提交
                             form.on('submit(paymentmethod-add-form-submit)', function (data) {
@@ -97,7 +97,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification'], f
                 , area: ['30%', '35%']
                 , resize: false
                 , success: function (layero, index) {
-                    view(this.id).render('teachingaffair/paymentmethod/edit', data).done(function () {
+                    view(this.id).render('teaching/paymentmethod/edit', data).done(function () {
                         form.render();
                         form.on('submit(paymentmethod-edit-form-submit)', function (data) {
                             common.ajax(setter.apiAddress.paymentmethod.update, "POST", "", data.field, function (res) {

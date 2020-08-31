@@ -209,7 +209,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
             , resize: false
             , closeBtn: 1
             , success: function (layero, index) {
-                view(this.id).render('teachingaffair/student/register').done(function () {
+                view(this.id).render('teaching/student/register').done(function () {
                     form.render();
                     //初始化报名数据
                     var studentSupplement = {

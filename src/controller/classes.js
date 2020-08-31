@@ -174,7 +174,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                     , resize: false
                     , closeBtn: 1
                     , success: function (layero, index) {
-                        view(this.id).render('teachingaffair/classes/add').done(function () {
+                        view(this.id).render('teaching/classes/add').done(function () {
                             form.render();
                             laydate.render({
                                 elem: '#startDateAdd',
@@ -255,7 +255,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                     , resize: false
                     , closeBtn: 1
                     , success: function (layero, index) {
-                        view(this.id).render('teachingaffair/classes/edit', data).done(function () {
+                        view(this.id).render('teaching/classes/edit', data).done(function () {
                             form.render();
                             laydate.render({
                                 elem: '#startDateEdit',
@@ -354,7 +354,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                     , resize: false
                     , closeBtn: 1
                     , success: function (layero, index) {
-                        view(this.id).render('teachingaffair/classes/courseschedule', data).done(function () {
+                        view(this.id).render('teaching/classes/courseschedule', data).done(function () {
                             //定义需要的数据
                             var classStartDate = data.startDate;
                             var classRoomId = data.classRoomId;
@@ -672,7 +672,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                     , resize: false
                     , closeBtn: 1
                     , success: function (layero, index) {
-                        view(this.id).render('teachingaffair/classes/students', data).done(function () {
+                        view(this.id).render('teaching/classes/students', data).done(function () {
                             //初始化班级学生列表
                             table.render({
                                 elem: '#class-students-table'
