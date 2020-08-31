@@ -10,31 +10,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification'], f
         , setter = layui.setter
         , form = layui.form
         , element = layui.element;
-
-    form.render(null, 'department-search-form');
-
-    //搜索
-    form.on('submit(department-search)', function (data) {
-        var field = data.field;
-        //执行重载
-        table.reload('department-table', {
-            where: {
-                tenantId: $("#organization-search-sel").val(),
-            },
-            page: {
-                curr: 1 //重新从第 1 页开始
-            }
-        });
-    });
-
-    common.ajax(setter.apiAddress.tenant.list, "Get", "", {}, function (res) {
-        $("#organization-search-sel").append("<option value=\"\">请选择机构</option>");
-        $.each(res.data, function (index, item) {
-            $("#organization-search-sel").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
-        });
-        form.render("select");
-    });
-
+    //加载机构 -> 部门数据
     table.render({
         elem: '#department-table'
         , url: setter.apiAddress.department.pagelist
@@ -61,6 +37,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification'], f
         ]]
         , page: true
         , cellMinWidth: 80
+        , height: 'full-160'
         , text: {
             none: '暂无相关数据'
         }
@@ -81,6 +58,39 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification'], f
     table.on('toolbar(department-table)', function (obj) {
         var checkStatus = table.checkStatus(obj.config.id);
         switch (obj.event) {
+            case 'search':
+                admin.popup({
+                    title: '部门搜索'
+                    , area: ['50%', '30%']
+                    , resize: false
+                    , success: function (layero, index) {
+                        view(this.id).render('foundational/department/search').done(function () {
+                            //初始机构数据
+                            common.ajax(setter.apiAddress.tenant.list, "Get", "", {}, function (res) {
+                                $("#sel-organization-search").append("<option value=\"\">请选择机构</option>");
+                                $.each(res.data, function (index, item) {
+                                    $("#sel-organization-search").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
+                                });
+                                form.render("select");
+                            });
+                            //监听提交//搜索
+                            form.on('submit(department-search-submit)', function (data) {
+                                var field = data.field;
+                                layer.close(index);
+                                //执行重载
+                                table.reload('department-table', {
+                                    where: {
+                                        tenantId: field.OrganizationId,
+                                    },
+                                    page: {
+                                        curr: 1 //重新从第 1 页开始
+                                    }
+                                });
+                            });
+                        });
+                    }
+                });
+                break;
             case 'add':
                 admin.popup({
                     title: '添加'

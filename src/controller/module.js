@@ -26,11 +26,12 @@ layui.define(['form', 'common', 'setter', 'treeGrid', 'treeSelect', 'verificatio
         , treeShowName: 'name'
         , isFilter: false
         , iconOpen: false
-        , isOpenDefault: true
+        , isOpenDefault: false//默认收起
         , loading: true
         , method: 'get'
         , isPage: false
         , cellMinWidth: 80
+        , height: 'full-160'
         , cols: [[
             { field: 'name', title: '名称', sort: false }
             , { field: 'descText', title: '描述', sort: false }

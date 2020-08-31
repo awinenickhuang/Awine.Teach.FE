@@ -32,6 +32,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification'], f
         ]]
         , page: true
         , cellMinWidth: 80
+        , height: 'full-160'
         , text: {
             none: '暂无相关数据'
         }

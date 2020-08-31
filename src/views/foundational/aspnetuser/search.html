@@ -1,0 +1,33 @@
+﻿<script type="text/html" template>
+    <link rel="stylesheet" href="{{ layui.setter.base }}style/template.css?v={{ layui.admin.v }}-1" media="all">
+</script>
+
+<form class="layui-form" id="aspnetuser-search-form" lay-filter="aspnetuser-search-form">
+    <div class="layui-form-item">
+        <label class="layui-form-label">选择机构</label>
+        <div class="layui-input-block">
+            <select class="sel" id="sel-organization-list" name="organizationId" lay-verify="" lay-filter="organization-list-filter" placeholder="请选择机构"></select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">选择部门</label>
+        <div class="layui-input-block">
+            <select class="sel" id="sel-department-list" name="departmentId" lay-verify="" lay-filter="" placeholder="请选择角色"></select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">选择角色</label>
+        <div class="layui-input-block">
+            <select class="sel" id="sel-aspnetrole-list" name="roleId" lay-verify="" lay-filter="" placeholder="请选择角色"></select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">输入姓名</label>
+        <div class="layui-input-block">
+            <input type="text" name="name" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;" id="name" placeholder="请输入姓名" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item content-center">
+        <button class="layui-btn layui-btn-sm" type="button" lay-submit lay-filter="aspnetuser-search-submit"><i class="layui-icon layui-icon-ok"></i>立即搜索</button>
+    </div>
+</form>

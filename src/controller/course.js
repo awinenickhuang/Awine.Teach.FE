@@ -60,6 +60,7 @@ layui.define(['table', 'form', 'layedit', 'common', 'setter', 'element', 'verifi
         ]]
         , page: true
         , cellMinWidth: 80
+        , height: 'full-160'
         , text: {
             none: '暂无课程数据'
         }

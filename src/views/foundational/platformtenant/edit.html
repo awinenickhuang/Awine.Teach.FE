@@ -4,6 +4,14 @@
 
 <form class="layui-form layui-card-header layuiadmin-card-header-auto layui-row" id="organization-edit-form" lay-filter="organization-edit-form">
     <div class="layui-form-item">
+        <label class="layui-form-label">到期时间</label>
+        <div class="layui-input-block ">
+            <script type="text/html" template>
+                <input type="text" id="vipExpirationTime" name="VIPExpirationTime" value="{{ d.params.vipExpirationTime || '' }}" class="layui-input" readonly placeholder="yyyy-MM-dd">
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item">
         <label class="layui-form-label">机构名称</label>
         <div class="layui-input-block">
             <script type="text/html" template>
@@ -29,6 +37,14 @@
         </div>
     </div>
     <div class="layui-form-item">
+        <label class="layui-form-label">联系地址</label>
+        <div class="layui-input-block">
+            <script type="text/html" template>
+                <input type="text" name="Address" value="{{ d.params.address || '' }}" maxlength="32" placeholder="" lay-verify="required|normallength" autocomplete="off" class="layui-input">
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item">
         <label class="layui-form-label">选择省份</label>
         <div class="layui-input-block">
             <select class="sel" id="sel-province-edit-code" name="ProvinceId" lay-verify="required|select" lay-filter="provincefilter"></select>
@@ -50,11 +66,9 @@
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">联系地址</label>
+        <label class="layui-form-label lines">业务类型</label>
         <div class="layui-input-block">
-            <script type="text/html" template>
-                <input type="text" name="Address" value="{{ d.params.address || '' }}" maxlength="32" placeholder="" lay-verify="required|normallength" autocomplete="off" class="layui-input">
-            </script>
+            <select class="sel" id="sel-industry-list" name="IndustryId" lay-verify="required|select" lay-filter=""></select>
         </div>
     </div>
     <div class="layui-form-item content-center">

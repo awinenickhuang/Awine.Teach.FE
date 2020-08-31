@@ -2,6 +2,12 @@
 <script type="text/html" template>
     <link rel="stylesheet" href="{{ layui.setter.base }}style/template.css?v={{ layui.admin.v }}-1" media="all">
 </script>
+<style>
+    .caller-img {
+        width: 80px;
+        height: 80px;
+    }
+</style>
 <div class="layui-card layadmin-header">
     <div class="layui-breadcrumb" lay-filter="breadcrumb">
         <a lay-href="">主页</a>
@@ -9,19 +15,71 @@
     </div>
 </div>
 <div class="layui-fluid">
-    <div class="layui-card">
-        <div class="layui-card-body">
-            <script type="text/html" id="tenant-toolbar">
-                <div class="layui-btn-container">
-                    <a class="layui-btn layui-btn-sm" lay-event="add"><i class="layui-icon layui-icon-addition"></i>添加</a>
+    <div class="layadmin-caller">
+        <div class="layui-tab layui-tab-brief" lay-filter="tenant-tab-filter">
+            <ul class="layui-tab-title">
+                <li class="layui-this">我的机构</li>
+                <li>分支机构</li>
+            </ul>
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                    <div class="caller-contar" id="tenanttemplateview">
+                        <!--机构信息展示区-->
+                    </div>
+                    <div id="demo-template-caller1"></div>
                 </div>
-            </script>
-            <table class="layui-table" id="tenant-table" lay-filter="tenant-table"></table>
+                <div class="layui-tab-item">
+                    <p style="width:100%; text-align:center;padding-top:10px;"><i class="layui-icon layui-icon-face-cry"></i>   暂无分支机构信息</p>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+<script type="text/html" id="tenanttemplate">
+    {{#  layui.each(d, function(index, item){ }}
+    <div class="caller-contar">
+        <div class="caller-item">
+            <img src="{{ layui.setter.base }}style/res/template/tenant_default_logo.png" alt="" class="caller-img caller-fl">
+            <div class="caller-main caller-fl">
+                <p><i class="layui-icon layui-icon-home"></i>&nbsp;&nbsp;<strong style="color:#01AAED;">{{item.name}}</strong></p>
+                <p><i class="layui-icon layui-icon-tips"></i>&nbsp;&nbsp;行业细分：{{item.industryName}}</p>
+                <p>
+                    <i class="layui-icon layui-icon-vercode"></i>&nbsp;&nbsp;付费类型：
+                    {{#  if(item.classiFication===1){ }}
+                    免费
+                    {{#  }else if(item.classiFication===2){ }}
+                    试用
+                    {{#  } if(item.classiFication===3){}}
+                    付费（VIP）
+                    {{#  } }}
+                </p>
+                <p>
+                    <i class="layui-icon layui-icon-password"></i>&nbsp;&nbsp;机构状态：
+                    {{#  if(item.status===1){ }}
+                    正常
+                    {{#  }else if(item.status===2){ }}
+                    锁定（异常）
+                    {{#  } if(item.status===3){}}
+                    锁定（过期）
+                    {{#  } }}
+                </p>
+                <p><i class="layui-icon layui-icon-friends"></i>&nbsp;&nbsp;联系人：{{item.contacts}}&nbsp;&nbsp;&nbsp;&nbsp;联系方式：{{item.contactsPhone}}</p>
+                <p><i class="layui-icon layui-icon-snowflake"></i>&nbsp;&nbsp;允许拥有的分支机构数量：{{item.numberOfBranches}}（家）</p>
+                <p><i class="layui-icon layui-icon-time"></i>&nbsp;&nbsp;入驻时间：{{item.createTime}}</p>
+                <p class="caller-adds"><i class="layui-icon layui-icon-location"></i>{{item.provinceName}}{{item.cityName}}{{item.districtName}}{{item.address}}</p>
+            </div>
+            <button class="layui-btn layui-btn-sm caller-fr" id="btn-tenant-edit" style="margin-right:5px;">
+                <i class="layui-icon layui-icon-edit"></i>
+                更新机构信息
+            </button>
+        </div>
+    </div>
+    {{#  }); }}
+    {{#  if(d.length === 0){ }}
+    <p style="width:100%; text-align:center;padding-top:10px;"><i class="layui-icon layui-icon-face-cry"></i>   暂无机构信息</p>
+    {{#  } }}
+</script>
 <script>
-    layui.use('tenant', layui.factory('tenant')).use(['admin', 'tenant', 'table', 'common', 'setter', 'layer'], function () {
-
+    layui.use('tenant', layui.factory('tenant')).use(['tenant'], function () {
     });
 </script>

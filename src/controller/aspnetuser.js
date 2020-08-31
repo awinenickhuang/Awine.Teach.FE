@@ -11,56 +11,7 @@ layui.define(['table', 'form', 'common', 'setter', 'laydate', 'verification'], f
         , laydate = layui.laydate
         , form = layui.form;
 
-    form.render(null, 'userprofile-search');
-
-    //搜索
-    form.on('submit(userprofile-search)', function (data) {
-        var field = data.field;
-        //执行重载
-        table.reload('userprofile-table', {
-            where: {
-                userName: $("#name").val(),
-                tenantId: $("#organization-search-sel").val(),
-                departmentId: $("#department-search-sel").val(),
-                roleId: $("#aspnetRole-search-sel").val()
-            },
-            page: {
-                curr: 1 //重新从第 1 页开始
-            }
-        });
-    });
-
-    $("#department-search-sel").append("<option value=\"\">请选择部门</option>");
-    $("#aspnetRole-search-sel").append("<option value=\"\">请选择角色</option>");
-    common.ajax(setter.apiAddress.tenant.list, "Get", "", {}, function (res) {
-        $("#organization-search-sel").append("<option value=\"\">请选择机构</option>");
-        $.each(res.data, function (index, item) {
-            $("#organization-search-sel").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
-        });
-        form.render("select");
-    });
-
-    form.on('select(organization-search-filter)', function (data) {
-        //部门
-        $("#department-search-sel").empty();
-        common.ajax(setter.apiAddress.department.list, "GET", "", { tenantId: data.tenantId }, function (res) {
-            $("#department-search-sel").append("<option value=\"\">请选择部门</option>");
-            $.each(res.data, function (index, item) {
-                $("#department-search-sel").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
-            });
-            form.render("select");
-        });
-        //角色
-        $("#aspnetRole-search-sel").empty();
-        common.ajax(setter.apiAddress.awinerole.list, "GET", "", { tenantId: data.value }, function (res) {
-            $("#aspnetRole-search-sel").append("<option value=\"\">请选择角色</option>");
-            $.each(res.data, function (index, item) {
-                $("#aspnetRole-search-sel").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
-            });
-            form.render("select");
-        });
-    });
-
+    //加载用户数据
     table.render({
         elem: '#userprofile-table'
         , url: setter.apiAddress.aspnetuser.pagelist
@@ -114,6 +65,7 @@ layui.define(['table', 'form', 'common', 'setter', 'laydate', 'verification'], f
         ]]
         , page: true
         , cellMinWidth: 80
+        , height: 'full-160'
         , text: {
             none: '暂无相关数据'
         }
@@ -151,6 +103,63 @@ layui.define(['table', 'form', 'common', 'setter', 'laydate', 'verification'], f
     table.on('toolbar(userprofile-table)', function (obj) {
         var checkStatus = table.checkStatus(obj.config.id);
         switch (obj.event) {
+            case 'search':
+                admin.popup({
+                    title: '用户搜索'
+                    , area: ['50%', '40%']
+                    , resize: false
+                    , success: function (layero, index) {
+                        view(this.id).render('foundational/aspnetuser/search').done(function () {
+                            //机构
+                            common.ajax(setter.apiAddress.tenant.list, "Get", "", {}, function (res) {
+                                $("#sel-organization-list").empty();
+                                $("#sel-organization-list").append("<option value=\"\">请选择机构</option>");
+                                $.each(res.data, function (index, item) {
+                                    $("#sel-organization-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
+                                });
+                                form.render("select");
+                            });
+                            form.on('select(organization-list-filter)', function (data) {
+                                //部门
+                                $("#sel-department-list").empty();
+                                common.ajax(setter.apiAddress.department.list, "GET", "", { tenantId: data.tenantId }, function (res) {
+                                    $("#sel-department-list").append("<option value=\"\">请选择部门</option>");
+                                    $.each(res.data, function (index, item) {
+                                        $("#sel-department-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
+                                    });
+                                    form.render("select");
+                                });
+                                //角色
+                                $("#sel-aspnetrole-list").empty();
+                                common.ajax(setter.apiAddress.awinerole.list, "GET", "", { tenantId: data.value }, function (res) {
+                                    $("#sel-aspnetrole-list").append("<option value=\"\">请选择角色</option>");
+                                    $.each(res.data, function (index, item) {
+                                        $("#sel-aspnetrole-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
+                                    });
+                                    form.render("select");
+                                });
+                            });
+                            //监听提交//搜索
+                            form.on('submit(aspnetuser-search-submit)', function (data) {
+                                var field = data.field;
+                                layer.close(index);
+                                //执行重载
+                                table.reload('userprofile-table', {
+                                    where: {
+                                        userName: field.name,
+                                        tenantId: field.organizationId,
+                                        departmentId: field.departmentId,
+                                        roleId: field.roleId
+                                    },
+                                    page: {
+                                        curr: 1 //重新从第 1 页开始
+                                    }
+                                });
+                            });
+                        });
+                    }
+                });
+                break;
             case 'add':
                 admin.popupRight({
                     title: '添加'

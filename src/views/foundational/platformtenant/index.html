@@ -1,28 +1,27 @@
-﻿<title>角色管理</title>
+﻿<title>机构管理</title>
 <script type="text/html" template>
     <link rel="stylesheet" href="{{ layui.setter.base }}style/template.css?v={{ layui.admin.v }}-1" media="all">
 </script>
 <div class="layui-card layadmin-header">
     <div class="layui-breadcrumb" lay-filter="breadcrumb">
         <a lay-href="">主页</a>
-        <a><cite>角色管理</cite></a>
+        <a><cite>机构管理</cite></a>
     </div>
 </div>
 <div class="layui-fluid">
     <div class="layui-card">
         <div class="layui-card-body">
-            <script type="text/html" id="awinerole-toolbar">
+            <script type="text/html" id="tenant-toolbar">
                 <div class="layui-btn-container">
-                    <a class="layui-btn layui-btn-sm" lay-event="search"><i class="layui-icon layui-icon-refresh"></i>搜索</a>
                     <a class="layui-btn layui-btn-sm" lay-event="add"><i class="layui-icon layui-icon-addition"></i>添加</a>
                 </div>
             </script>
-            <table class="layui-table" id="awinerole-table" lay-filter="awinerole-table"></table>
+            <table class="layui-table" id="tenant-table" lay-filter="tenant-table"></table>
         </div>
     </div>
 </div>
 <script>
-    layui.use('aspnetrole', layui.factory('aspnetrole')).use(['admin', 'aspnetrole', 'table', 'common', 'setter', 'layer', 'laydate', 'upload'], function () {
+    layui.use('platformtenant', layui.factory('platformtenant')).use(['admin', 'platformtenant', 'table', 'common', 'setter', 'layer'], function () {
 
     });
 </script>
