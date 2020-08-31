@@ -82,7 +82,7 @@ layui.define(['table', 'form', 'common', 'setter', 'laydate', 'verification'], f
         }
     });
 
-    //监听课程启用状态开关
+    //监听启用状态开关
     form.on('switch(user-enabled-status)', function (data) {
         var enabledStatus = this.checked ? 1 : 2;
         if (enabledStatus == 1) {
@@ -168,6 +168,7 @@ layui.define(['table', 'form', 'common', 'setter', 'laydate', 'verification'], f
                     , closeBtn: 1
                     , success: function (layero, index) {
                         view(this.id).render('foundational/aspnetuser/add').done(function () {
+                            form.render();
                             $("#sel-aspnetRole-list").append("<option value=\"\">请选择角色</option>");
                             $("#sel-department-list").append("<option value=\"\">请选择部门</option>");
                             common.ajax(setter.apiAddress.tenant.list, "Get", "", {}, function (res) {
@@ -177,7 +178,7 @@ layui.define(['table', 'form', 'common', 'setter', 'laydate', 'verification'], f
                                 });
                                 form.render("select");
                             });
-
+                            //机构选择加载角色及部门
                             form.on('select(organization-add-filter)', function (data) {
                                 $("#sel-aspnetRole-list").empty();
                                 common.ajax(setter.apiAddress.awinerole.list, "GET", "", { tenantId: data.value }, function (res) {
@@ -196,8 +197,6 @@ layui.define(['table', 'form', 'common', 'setter', 'laydate', 'verification'], f
                                     form.render("select");
                                 });
                             });
-
-                            form.render();
                             //监听提交
                             form.on('submit(userprofile-form-submit)', function (data) {
                                 common.ajax(setter.apiAddress.aspnetuser.add, "POST", "", data.field, function (res) {

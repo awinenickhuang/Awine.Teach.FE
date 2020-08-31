@@ -189,6 +189,7 @@ layui.define(['laytpl', 'layer', 'element', 'util'], function (exports) {
             tenant: {
                 list: 'http://localhost:8001/api/platformtenant/list',
                 pagelist: 'http://localhost:8001/api/platformtenant/pagelist',
+                single: 'http://localhost:8001/api/platformtenant/single',
                 add: 'http://localhost:8001/api/platformtenant/add',
                 update: 'http://localhost:8001/api/platformtenant/update',
                 delete: 'http://localhost:8001/api/platformtenant/delete',
