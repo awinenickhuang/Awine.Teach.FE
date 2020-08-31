@@ -60,7 +60,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                     , area: ['50%', '70%']
                     , resize: false
                     , success: function (layero, index) {
-                        view(this.id).render('platformoperation/announcements/add').done(function () {
+                        view(this.id).render('operation/announcements/add').done(function () {
                             form.render();
                             //监听消息类型切换事件
                             form.on('select(sel-announcementType-list-filter)', function (data) {

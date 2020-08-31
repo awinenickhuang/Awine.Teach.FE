@@ -60,7 +60,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                     , area: ['50%', '80%']
                     , resize: false
                     , success: function (layero, index) {
-                        view(this.id).render('platformoperation/news/add').done(function () {
+                        view(this.id).render('operation/news/add').done(function () {
                             form.render();
                             var lay_edit_index = layedit.build('layedit_content', {
                                 //暴露layupload参数设置接口 --详细查看layupload参数说明

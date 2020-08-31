@@ -262,7 +262,7 @@ layui.define(function (exports) {
                 {
                     field: 'title', title: '标题',
                     templet: function (d) {
-                        return '<a href="#/platformoperation/announcements/details/id=' + d.id + '">' + d.title + '</a>';
+                        return '<a href="#/operation/announcements/details/id=' + d.id + '">' + d.title + '</a>';
                     }
                 },
                 { field: 'createTime', width: 200, align: 'center', title: '时间' }
@@ -298,7 +298,7 @@ layui.define(function (exports) {
                 {
                     field: 'title', title: '标题',
                     templet: function (d) {
-                        return '<a href="#/platformoperation/news/details/id=' + d.id + '">' + d.title + '</a>';
+                        return '<a href="#/operation/news/details/id=' + d.id + '">' + d.title + '</a>';
                     }
                 },
                 { field: 'createTime', width: 200, align: 'center', title: '时间' }
