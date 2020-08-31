@@ -10,6 +10,40 @@ layui.define(function (exports) {
       使用 layui.use 分段加载不同的模块，实现不同区域的同时渲染，从而保证视图的快速呈现
     */
 
+    //招生进度
+    layui.use(['admin', 'common', 'setter'], function () {
+        var $ = layui.$
+            , admin = layui.admin
+            , element = layui.element
+            , common = layui.common
+            , setter = layui.setter;
+
+        common.ajax(setter.apiAddress.classes.list, "GET", "", { recruitStatus: 1 }, function (res) {
+            if (res.statusCode == 200) {
+                var firstGroup = [];
+                var secondGroup = [];
+                $.each(res.data, function (index, item) {
+                    if (index < 2) {
+                        firstGroup.push('<div class="layui-progress" lay-showPercent="yes">');
+                        firstGroup.push('<h3>' + item.name + '</h3>');
+                        firstGroup.push('<div class="layui-progress-bar" lay-percent="58%"></div>');
+                        firstGroup.push('</div>');
+                    }
+                    if (index > 1 & index < 4) {
+                        secondGroup.push('<div class="layui-progress" lay-showPercent="yes">');
+                        secondGroup.push('<h3>' + item.name + '</h3>');
+                        secondGroup.push('<div class="layui-progress-bar layui-bg-red" lay-percent="58%"></div>');
+                        secondGroup.push('</div>');
+                    }
+                });
+
+                $("#class-group-first").html(firstGroup.join(''));
+                $("#class-group-second").html(secondGroup.join(''));
+                element.render('progress');
+            }
+        });
+    });
+
     //区块轮播切换
     layui.use(['admin', 'carousel', 'oidcsetup'], function () {
         var $ = layui.$
@@ -40,9 +74,6 @@ layui.define(function (exports) {
                 , anim: othis.data('anim')
             });
         });
-
-        element.render('progress');
-
     });
 
     //数据概览
@@ -220,20 +251,21 @@ layui.define(function (exports) {
             , table = layui.table
             , setter = layui.setter;
 
-        //今日热搜
+        //行业资讯
         table.render({
             elem: '#LAY-index-topSearch'
             , url: setter.apiAddress.announcements.pagelist
             , page: true
+            , limit: 7
             , cols: [[
                 { type: 'numbers', fixed: 'left' },
                 {
-                    field: 'status', title: '标题',
+                    field: 'title', title: '标题',
                     templet: function (d) {
                         return '<a href="#/platformoperation/announcements/details/id=' + d.id + '">' + d.title + '</a>';
                     }
                 },
-                { field: 'createTime', width: 200, align: 'center', title: '时间' },
+                { field: 'createTime', width: 200, align: 'center', title: '时间' }
             ]]
             , skin: 'line'
             , page: true
@@ -254,20 +286,40 @@ layui.define(function (exports) {
             }
         });
 
-        //今日热贴
+        //平台公告
         table.render({
             elem: '#LAY-index-topCard'
-            , url: ''
+            , url: setter.apiAddress.news.pagelist
             , page: true
+            , limit: 7
             , cellMinWidth: 120
             , cols: [[
-                { type: 'numbers', fixed: 'left' }
-                , { field: 'title', title: '标题', minWidth: 300, templet: '<div><a href="{{ d.href }}" target="_blank" class="layui-table-link">{{ d.title }}</div>' }
-                , { field: 'username', title: '发帖者' }
-                , { field: 'channel', title: '类别' }
-                , { field: 'crt', title: '点击率', sort: true }
+                { type: 'numbers', fixed: 'left' },
+                {
+                    field: 'title', title: '标题',
+                    templet: function (d) {
+                        return '<a href="#/platformoperation/news/details/id=' + d.id + '">' + d.title + '</a>';
+                    }
+                },
+                { field: 'createTime', width: 200, align: 'center', title: '时间' }
             ]]
             , skin: 'line'
+            , page: true
+            , cellMinWidth: 80
+            , text: {
+                none: '暂无相关数据'
+            }
+            , response: {
+                statusCode: 200
+            }
+            , parseData: function (res) {
+                return {
+                    "code": res.statusCode,
+                    "msg": res.message,
+                    "count": res.data.totalCount,
+                    "data": res.data.items
+                };
+            }
         });
     });
 

@@ -1,0 +1,56 @@
+﻿<title>订制需求与优化建议反馈</title>
+
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a lay-href="">主页</a>
+        <a><cite>建议反馈</cite></a>
+    </div>
+</div>
+
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">订制需求与优化建议反馈</div>
+                <div class="layui-card-body" pad15>
+
+                    <div class="layui-form" lay-filter="">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">建议反馈</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="FeedbackMessage" lay-verify="required" maxlength="200" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <div class="layui-input-block">
+                                <button class="layui-btn layui-btn-sm" lay-submit lay-filter="feedbackmessage-submit"><i class="layui-icon layui-icon-ok"></i>立即提交</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['form', 'common', 'setter', 'element'], function () {
+        var $ = layui.$
+            , admin = layui.admin
+            , view = layui.view
+            , common = layui.common
+            , setter = layui.setter
+            , form = layui.form;
+
+        form.on('submit(feedbackmessage-submit)', function (obj) {
+            common.ajax(setter.apiAddress.feedback.add, "POST", "", obj.field, function (res) {
+                if (res.statusCode == 200) {
+                    layer.msg(res.message);
+                } else {
+                    layer.msg(res.message);
+                }
+            });
+        });
+
+    });
+</script>

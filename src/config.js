@@ -284,7 +284,6 @@ layui.define(['laytpl', 'layer', 'element', 'util'], function (exports) {
                 add: 'http://localhost:8002/api/classroom/add',
                 update: 'http://localhost:8002/api/classroom/update',
                 delete: 'http://localhost:8002/api/classroom/delete',
-                getallwithconflictstate: 'http://localhost:8002/api/classroom/getallwithconflictstate'
             },
             classes: {
                 pagelist: 'http://localhost:8002/api/classes/pagelist',
@@ -334,6 +333,12 @@ layui.define(['laytpl', 'layer', 'element', 'util'], function (exports) {
                 single: 'http://localhost:8004/api/news/single',
                 add: 'http://localhost:8004/api/news/add',
                 delete: 'http://localhost:8004/api/news/delete',
+            },
+            feedback: {
+                pagelist: 'http://localhost:8004/api/feedback/pagelist',
+                single: 'http://localhost:8004/api/feedback/single',
+                add: 'http://localhost:8004/api/feedback/add',
+                delete: 'http://localhost:8004/api/feedback/delete',
             }
         }
     });

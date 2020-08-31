@@ -13,21 +13,20 @@
         <div class="layui-card-body">
             <div class="layui-form layuiadmin-card-header-auto layui-row layui-col-space10" lay-filter="orders-search-filter">
                 <div class="layui-col-md3">
+                    <input type="text" class="layui-input" id="daterange" placeholder=" 日期范围 ">
+                    <input type="hidden" id="order-statr-time" />
+                    <input type="hidden" id="order-end-time" />
+                </div>
+                <div class="layui-col-md3">
                     <select class="sel" id="sel-course-search-list" name="CourseId" lay-verify="" lay-filter="" placeholder="请选择课程">
-                        <option value="1">待跟进</option>
                     </select>
                 </div>
                 <div class="layui-col-md3">
                     <select class="sel" id="sel-marketingchannel-search-list" name="MarketingchannelId" lay-verify="" lay-filter="" placeholder="请选择营销渠道">
-                        <option value="1">待跟进</option>
                     </select>
                 </div>
                 <div class="layui-col-md3">
-                    <input type="text" class="layui-input" id="daterange" placeholder=" 日期范围 ">
-                </div>
-                <div class="layui-col-md3">
                     <select class="sel" id="sel-trackingstaffer-search-list" name="TrackingStafferId" lay-verify="" lay-filter="" placeholder="请选择业绩归属人">
-                        <option value="1">待跟进</option>
                     </select>
                 </div>
             </div>

@@ -29,6 +29,15 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'r
     laydate.render({
         elem: '#daterange'
         , range: true
+        , done: function (value, date, endDate) {
+            if (!value) {
+                $("#consultrecord-statr-time").val('');
+                $("#consultrecord-end-time").val('');
+            } else {
+                $("#consultrecord-statr-time").val(date.year + "-" + date.month + "-" + date.date);
+                $("#consultrecord-end-time").val(endDate.year + "-" + endDate.month + "-" + endDate.date);
+            }
+        }
     });
 
     //搜索
@@ -39,8 +48,8 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'r
             where: {
                 name: $("#name").val(),
                 phoneNumber: $("#phoneNumber").val(),
-                startTime: "",
-                endTime: "",
+                startTime: $("#consultrecord-statr-time").val(),
+                endTime: $("#consultrecord-end-time").val(),
                 counselingCourseId: $("#sel-counselingcourse-search-list").val(),
                 marketingChannelId: $("#sel-marketingchannel-search-list").val(),
                 trackingStafferId: $("#sel-trackingstaffer-search-list").val(),
