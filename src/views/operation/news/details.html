@@ -1,0 +1,54 @@
+﻿<title>公告详情</title>
+
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a lay-href="">主页</a>
+        <a lay-href="">公告</a>
+        <a><cite>详情</cite></a>
+    </div>
+</div>
+
+<div class="layui-fluid">
+    <div class="layui-card layuiAdmin-msg-detail" id="newsview"></div>
+</div>
+<script type="text/html" id="newstemplate">
+    <div class="layui-card-header">
+        <h1>{{ d.title }}</h1>
+        <p>
+            <span>{{ layui.util.timeAgo(d.createTime) }}</span>
+        </p>
+    </div>
+    <div class="layui-card-body layui-text">
+        <div class="layadmin-text">
+            {{ d.content }}
+        </div>
+    </div>
+</script>
+<script>
+    layui.use(['admin', 'setter', 'common', 'laytpl'], function () {
+        var $ = layui.$
+            , admin = layui.admin
+            , table = layui.table
+            , setter = layui.setter
+            , common = layui.common
+            , laytpl = layui.laytpl
+            , element = layui.element;
+
+        //初始化学生基本信息
+        common.ajax(setter.apiAddress.news.single, "GET", "", { id: layui.router().search.id }, function (res) {
+            if (res.statusCode == 200) {
+                if (res.data) {
+                    var gettpl = newstemplate.innerHTML
+                        , view = document.getElementById('newsview');
+                    laytpl(gettpl).render(res.data, function (html) {
+                        view.innerHTML = html;
+                    });
+                } else {
+                    layer.msg("内容未找到");
+                }
+            } else {
+                layer.msg(res.message);
+            }
+        });
+    });
+</script>

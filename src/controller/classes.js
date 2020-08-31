@@ -359,12 +359,12 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                             var classStartDate = data.startDate;
                             var classRoomId = data.classRoomId;
                             var teacherId = data.teacherId;
-                            var openingDate = '';
                             //初始化排课提交数据对象
                             var scheduleData = {
                                 classId: data.id,
                                 courseId: data.courseId,
                                 teacherId: data.teacherId,
+                                teacherName: data.teacherName,
                                 classRoomId: data.classRoomId,
                                 repeatedWay: 1,
                                 classOpeningDate: classStartDate,
@@ -526,14 +526,13 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                                                 return false;
                                             }
                                             //加载教室及教师信息并判断当前时段教室与教师是否冲突 
-                                            openingDate = $("#classOpeningDate").val();
                                             initScheduleResources.initTeachers(teacherId);
                                             initScheduleResources.initClassRooms(classRoomId);
                                         }
                                     });
                                     //选择了授课老师再加载教室信息
                                     form.on('select(sel-teacher-list-filter)', function (data) {
-                                        console.log(data);
+                                        scheduleData.teacherName = data.elem[data.elem.selectedIndex].text;
                                     });
                                 }
                             });
