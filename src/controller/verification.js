@@ -6,6 +6,17 @@
  * number（数字）
  * date（日期）
  * identity（身份证）
+ * 
+ * 验证必填项：lay-verify=”required”
+ * 数字验证：lay-verify=”int”
+ * 验证用户名：lay-verify=”username”
+ * 验证手机号：lay-verify=”phone”
+ * 验证邮箱：lay-verify=”email”
+ * 验证身份证：lay-verify=”identity”
+ * 验证日期：lay-verify=”date”
+ * 验证链接：lay-verify=”url”
+ * 自定义密码验证：lay-verify=”pass”
+ * 
  */
 
 layui.define(['form', 'common'], function (exports) {
