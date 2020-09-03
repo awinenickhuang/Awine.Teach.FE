@@ -761,6 +761,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                         classId: data.classId,
                         courseId: data.courseId,
                         teacherId: data.teacherId,
+                        teacherName: data.teacherName,
                         classRoomId: data.classRoomId,
                         courseDates: data.courseDates,
                         startHours: $("#startHours").val(),
@@ -786,55 +787,40 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                                 form.render("select");
                             });
                         },
-                        initClassRooms: function (classRoomId, courseDates, startHours, startMinutes, endHours, endMinutes) {
-                            common.ajax(setter.apiAddress.classroom.getallwithconflictstate, "GET", "", { courseDates: courseDates, startHours: startHours, startMinutes: startMinutes, endHours: endHours, endMinutes: endMinutes }, function (res) {
+                        initClassRooms: function (classRoomId) {
+                            common.ajax(setter.apiAddress.classroom.list, "GET", "", {}, function (res) {
                                 $("#sel-class-room-list").empty();
                                 $("#sel-class-room-list").append("<option value=\"\">请选择上课教室</option>");
                                 $.each(res.data, function (index, item) {
                                     if (item.id == classRoomId) {
-                                        if (item.conflictState == 1) {
-                                            $("#sel-class-room-list").append("<option selected=\"selected\" value=\"" + item.id + "\">" + item.name + "（空闲）</option>");
-                                        }
-                                        if (item.conflictState == 2) {
-                                            $("#sel-class-room-list").append("<option selected=\"selected\" value=\"" + item.id + "\">" + item.name + "（冲突）</option>");
-                                        }
+                                        $("#sel-class-room-list").append("<option selected=\"selected\" value=\"" + item.id + "\">" + item.name + "</option>");
                                     } else {
-                                        if (item.conflictState == 1) {
-                                            $("#sel-class-room-list").append("<option value=\"" + item.id + "\">" + item.name + "（空闲）</option>");
-                                        }
-                                        if (item.conflictState == 2) {
-                                            $("#sel-class-room-list").append("<option value=\"" + item.id + "\">" + item.name + "（冲突）</option>");
-                                        }
+                                        $("#sel-class-room-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
                                     }
                                 });
                                 form.render("select");
                             });
                         },
-                        initTeachers: function (teacherId, courseDates, startHours, startMinutes, endHours, endMinutes) {
-                            common.ajax(setter.apiAddress.courseschedule.getallwithconflictstate, "GET", "", { courseDates: courseDates, startHours: startHours, startMinutes: startMinutes, endHours: endHours, endMinutes: endMinutes }, function (res) {
+                        initTeachers: function (teacherId) {
+                            common.ajax(setter.apiAddress.aspnetuser.list, "GET", "", { enableStatus: 1 }, function (res) {
                                 $("#sel-teacher-list").empty();
                                 $("#sel-teacher-list").append("<option value=\"\">请选择上课老师</option>");
                                 $.each(res.data, function (index, item) {
                                     if (item.id == teacherId) {
-                                        if (item.conflictState == 1) {
-                                            $("#sel-teacher-list").append("<option selected=\"selected\" value=\"" + item.id + "\">" + item.userName + "（空闲）</option>");
-                                        }
-                                        if (item.conflictState == 2) {
-                                            $("#sel-teacher-list").append("<option selected=\"selected\" value=\"" + item.id + "\">" + item.userName + "（冲突）</option>");
-                                        }
+                                        $("#sel-teacher-list").append("<option selected=\"selected\" value=\"" + item.id + "\">" + item.userName + "</option>");
                                     } else {
-                                        if (item.conflictState == 1) {
-                                            $("#sel-teacher-list").append("<option value=\"" + item.id + "\">" + item.userName + "（空闲）</option>");
-                                        }
-                                        if (item.conflictState == 2) {
-                                            $("#sel-teacher-list").append("<option value=\"" + item.id + "\">" + item.userName + "（冲突）</option>");
-                                        }
+                                        $("#sel-teacher-list").append("<option value=\"" + item.id + "\">" + item.userName + "</option>");
                                     }
                                 });
                                 form.render("select");
                             });
                         }
                     };
+
+                    //选择教师时改变教师姓名
+                    form.on('select(sel-teacher-list-filter)', function (data) {
+                        scheduleEditData.teacherName = data.elem[data.elem.selectedIndex].text;
+                    });
 
                     laydate.render({
                         elem: '#courseTime' //指定元素
@@ -857,11 +843,12 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                                 return false;
                             }
 
-                            //加载教室及教师信息并判断当前时段教室与教师是否冲突
-                            editschedule.initTeachers(data.teacherId, data.courseDates, date.hours, date.minutes, endDate.hours, endDate.minutes);
-                            editschedule.initClassRooms(data.classRoomId, data.courseDates, date.hours, date.minutes, endDate.hours, endDate.minutes);
+                            //加载教室及教师信息
+                            editschedule.initTeachers(data.teacherId);
+                            editschedule.initClassRooms(data.classRoomId);
                         }
                     });
+
                     $("#courseTime").val(defaultdate);
 
                     //课程处理
