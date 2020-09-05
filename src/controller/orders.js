@@ -80,20 +80,22 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
         elem: '#orders-table'
         , url: setter.apiAddress.studentcourseorder.pagelist
         , toolbar: '#orders-toolbar'
+        , totalRow: true
         , cols: [[
-            { field: 'courseName', align: 'center', title: '课程信息' },
+            { field: 'courseName', title: '课程信息', fixed: 'left', unresize: true, totalRowText: '<span style="color:#FF5722;">订单合计（元）</span>' },
+            //{ field: 'courseName', align: 'center', title: '课程信息' },
             {
-                field: 'receivableAmount', title: '应收金额（元）', align: 'center', templet: function (d) {
+                field: 'receivableAmount', title: '应收金额（元）', align: 'center', totalRow: true, templet: function (d) {
                     return '<span style="color:#009688;">' + common.fixedMoney(d.receivableAmount) + '</span>';
                 }
             },
             {
-                field: 'discountAmount', title: '优惠金额（元）', align: 'center', templet: function (d) {
+                field: 'discountAmount', title: '优惠金额（元）', align: 'center', totalRow: true, templet: function (d) {
                     return '<span style="color:#FFB800;">' + common.fixedMoney(d.discountAmount) + '</span>';
                 }
             },
             {
-                field: 'realityAmount', title: '实收金额（元）', align: 'center', templet: function (d) {
+                field: 'realityAmount', title: '实收金额（元）', align: 'center', totalRow: true, templet: function (d) {
                     return '<span style="color:#FF5722;">' + common.fixedMoney(d.realityAmount) + '</span>';
                 }
             },

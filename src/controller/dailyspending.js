@@ -17,10 +17,12 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
         elem: '#dailyspending-table'
         , url: setter.apiAddress.dailyspending.pagelist
         , toolbar: '#dailyspending-toolbar'
+        , totalRow: true
         , cols: [[
-            { field: 'name', title: '名称' },
+            { field: 'name', title: '名称', fixed: 'left', unresize: true, totalRowText: '<span style="color:#FF5722;">支出合计（元）</span>' },
+            //{ field: 'name', title: '名称' },
             {
-                field: 'amount', title: '金额',
+                field: 'amount', title: '金额', totalRow: true,
                 templet: function (d) {
                     return common.fixedMoney(d.amount);
                 }

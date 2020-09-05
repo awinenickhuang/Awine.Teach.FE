@@ -100,7 +100,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
             { field: 'classRoomName', align: 'center', title: '上课教室（默认）' },
             {
                 field: 'classSize', title: '班级容量（人）', align: 'center', templet: function (d) {
-                    return '<span style="color:#FF5722;">' + d.studentNumber + '</span>/' + d.classSize;
+                    return '<span style="color:#FF5722;">' + d.ownedStudents + '</span> / ' + d.classSize;
                 }
             },
             {
@@ -248,6 +248,10 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                     return;
                 }
                 var data = selected[0];
+                if (data.recruitStatus == 3) {
+                    layer.msg('当前班级招生状态为：授课结束，不允许再修改！');
+                    return;
+                }
                 data.startDate = common.formatDate(data.startDate, "yyyy-MM-dd");
                 admin.popupRight({
                     title: '修改'
@@ -346,6 +350,10 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                     return;
                 }
                 var data = selected[0];
+                if (data.recruitStatus == 3) {
+                    layer.msg('当前班级已经授课结束了');
+                    return;
+                }
                 //格式化为日历控件要求的日期格式
                 data.startDate = common.formatDate(data.startDate, "yyyy-MM-dd");
                 admin.popupRight({
@@ -771,7 +779,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                                             , page: true
                                             , cellMinWidth: 80
                                             , text: {
-                                                none: '暂无学生数据'
+                                                none: '暂无可添加的学生数据'
                                             }
                                             , response: {
                                                 statusCode: 200
