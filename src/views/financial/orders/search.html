@@ -1,0 +1,35 @@
+﻿<script type="text/html" template>
+    <link rel="stylesheet" href="{{ layui.setter.base }}style/template.css?v={{ layui.admin.v }}-1" media="all">
+</script>
+
+<form class="layui-form" id="order-search-form" lay-filter="order-search-form" style="padding:15px;">
+    <div class="layui-form-item">
+        <label class="layui-form-label">日期范围</label>
+        <div class="layui-input-block">
+            <input type="text" class="layui-input" id="daterange" placeholder=" 日期范围 ">
+            <input type="hidden" id="order-statr-time" name="BeginDate" />
+            <input type="hidden" id="order-end-time" name="FinishDate" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">选择课程</label>
+        <div class="layui-input-block">
+            <select class="sel" id="sel-course-search-list" name="CourseId" lay-verify="" lay-filter="" placeholder="请选择课程"></select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">营销渠道</label>
+        <div class="layui-input-block">
+            <select class="sel" id="sel-marketingchannel-search-list" name="MarketingchannelId" lay-verify="" lay-filter="" placeholder="请选择营销渠道"></select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">业绩归属</label>
+        <div class="layui-input-block">
+            <select class="sel" id="sel-trackingstaffer-search-list" name="TrackingStafferId" lay-verify="" lay-filter="" placeholder="请选择业绩归属人"></select>
+        </div>
+    </div>
+    <div class="layui-form-item content-center">
+        <button class="layui-btn layui-btn-sm" type="button" lay-submit lay-filter="order-search-submit"><i class="layui-icon layui-icon-ok"></i>立即搜索</button>
+    </div>
+</form>

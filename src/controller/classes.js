@@ -44,49 +44,6 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
         }
     };
 
-    //初始化班级搜索条件 -> 搜索日历
-    laydate.render({
-        elem: '#input-laydate-select'
-        , range: true
-        , done: function (value, date, endDate) {
-            if (!value) {
-                $("#class-statr-time").val('');
-                $("#class-end-time").val('');
-            } else {
-                $("#class-statr-time").val(date.year + "-" + date.month + "-" + date.date);
-                $("#class-end-time").val(endDate.year + "-" + endDate.month + "-" + endDate.date);
-            }
-        }
-    });
-
-    //初始化班级搜索条件 -> 课程数据
-    common.ajax(setter.apiAddress.course.list, "GET", "", "", function (res) {
-        $("#sel-course-search").append("<option value=\"\">请选择课程</option>");
-        $.each(res.data, function (index, item) {
-            $("#sel-course-search").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
-        });
-        form.render("select");
-    });
-
-    //监听班级搜索事件
-    form.on('submit(classes-search)', function (data) {
-        var field = data.field;
-        //执行重载
-        table.reload('classes-table', {
-            where: {
-                name: $("#name").val(),
-                courseId: $("#sel-course-search").val(),
-                recruitStatus: 0,
-                typeOfClass: $("#sel-typeofclass-search").val(),
-                beginDate: $("#class-statr-time").val(),
-                finishDate: $("#class-end-time").val(),
-            },
-            page: {
-                curr: 1 //重新从第 1 页开始
-            }
-        });
-    });
-
     //初始化班级列表数据
     table.render({
         elem: '#classes-table'
@@ -146,6 +103,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
         ]]
         , page: true
         , cellMinWidth: 80
+        , height: 'full-160'
         , text: {
             none: '暂无班级数据'
         }
@@ -167,6 +125,59 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
         var checkStatus = table.checkStatus(obj.config.id);
         var selected = checkStatus.data;
         switch (obj.event) {
+            case 'search':
+                admin.popupRight({
+                    title: '搜索'
+                    , area: ['35%', '100%']
+                    , resize: false
+                    , closeBtn: 1
+                    , success: function (layero, index) {
+                        view(this.id).render('teaching/classes/search').done(function () {
+                            //初始化班级搜索条件 -> 搜索日历
+                            laydate.render({
+                                elem: '#input-laydate-select'
+                                , range: true
+                                , done: function (value, date, endDate) {
+                                    if (!value) {
+                                        $("#class-statr-time").val('');
+                                        $("#class-end-time").val('');
+                                    } else {
+                                        $("#class-statr-time").val(date.year + "-" + date.month + "-" + date.date);
+                                        $("#class-end-time").val(endDate.year + "-" + endDate.month + "-" + endDate.date);
+                                    }
+                                }
+                            });
+                            //初始化班级搜索条件 -> 课程数据
+                            common.ajax(setter.apiAddress.course.list, "GET", "", "", function (res) {
+                                $("#sel-course-search").append("<option value=\"\">请选择课程</option>");
+                                $.each(res.data, function (index, item) {
+                                    $("#sel-course-search").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
+                                });
+                                form.render("select");
+                            });
+                            //监听提交//搜索
+                            form.on('submit(classes-search-submit)', function (data) {
+                                var field = data.field;
+                                layer.close(index);
+                                //执行重载
+                                table.reload('classes-table', {
+                                    where: {
+                                        name: field.Name,
+                                        courseId: field.CourseId,
+                                        recruitStatus: 0,
+                                        typeOfClass: field.TypeOfClass,
+                                        beginDate: field.StartTime,
+                                        finishDate: field.EndTime,
+                                    },
+                                    page: {
+                                        curr: 1 //重新从第 1 页开始
+                                    }
+                                });
+                            });
+                        });
+                    }
+                });
+                break;
             case 'add':
                 admin.popupRight({
                     title: '添加'

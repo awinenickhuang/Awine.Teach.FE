@@ -12,70 +12,6 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
         , element = layui.element
         , laydate = layui.laydate;
 
-    form.render();
-
-    /*-------------------------------搜索功能--------------------------------*/
-    //初始化搜索条件日期范围
-    laydate.render({
-        elem: '#daterange'
-        , range: true
-        , done: function (value, date, endDate) {
-            if (!value) {
-                $("#order-statr-time").val('');
-                $("#order-end-time").val('');
-            } else {
-                $("#order-statr-time").val(date.year + "-" + date.month + "-" + date.date);
-                $("#order-end-time").val(endDate.year + "-" + endDate.month + "-" + endDate.date);
-            }
-        }
-    });
-
-    //初始化课程数据
-    common.ajax(setter.apiAddress.course.list, "Get", "", {}, function (res) {
-        $("#sel-course-search-list").append("<option value=\"\">请选择课程</option>");
-        $.each(res.data, function (index, item) {
-            $("#sel-course-search-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
-        });
-        form.render("select");
-    });
-
-    //初始化渠道数据
-    common.ajax(setter.apiAddress.marketingchannel.list, "Get", "", {}, function (res) {
-        $("#sel-marketingchannel-search-list").append("<option value=\"\">请选择渠道</option>");
-        $.each(res.data, function (index, item) {
-            $("#sel-marketingchannel-search-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
-        });
-        form.render("select");
-    });
-
-    //初始化员工数据
-    common.ajax(setter.apiAddress.aspnetuser.list, "GET", "", { enableStatus: 1 }, function (res) {
-        $("#sel-trackingstaffer-search-list").append("<option value=\"\">请选择员工</option>");
-        $.each(res.data, function (index, item) {
-            $("#sel-trackingstaffer-search-list").append("<option value=\"" + item.id + "\">" + item.userName + "</option>");
-        });
-        form.render("select");
-    });
-
-    //搜索
-    form.on('submit(orders-search)', function (data) {
-        var field = data.field;
-        //执行重载
-        table.reload('orders-table', {
-            where: {
-                beginDate: $("#order-statr-time").val(),
-                finishDate: $("#order-end-time").val(),
-                courseId: $("#sel-course-search-list").val(),
-                marketingChannelId: $("#sel-marketingchannel-search-list").val(),
-                salesStaffId: $("#sel-trackingstaffer-search-list").val(),
-            },
-            page: {
-                curr: 1 //重新从第 1 页开始
-            }
-        });
-    });
-    /*-------------------------------搜索功能--------------------------------*/
-
     table.render({
         elem: '#orders-table'
         , url: setter.apiAddress.studentcourseorder.pagelist
@@ -180,6 +116,79 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
     table.on('toolbar(orders-table)', function (obj) {
         var checkStatus = table.checkStatus(obj.config.id);
         switch (obj.event) {
+            case 'search':
+                admin.popupRight({
+                    title: '搜索'
+                    , area: ['35%', '100%']
+                    , resize: false
+                    , closeBtn: 1
+                    , success: function (layero, index) {
+                        view(this.id).render('financial/orders/search').done(function () {
+
+                            //初始化搜索条件日期范围
+                            laydate.render({
+                                elem: '#daterange'
+                                , range: true
+                                , done: function (value, date, endDate) {
+                                    if (!value) {
+                                        $("#order-statr-time").val('');
+                                        $("#order-end-time").val('');
+                                    } else {
+                                        $("#order-statr-time").val(date.year + "-" + date.month + "-" + date.date);
+                                        $("#order-end-time").val(endDate.year + "-" + endDate.month + "-" + endDate.date);
+                                    }
+                                }
+                            });
+
+                            //初始化课程数据
+                            common.ajax(setter.apiAddress.course.list, "Get", "", {}, function (res) {
+                                $("#sel-course-search-list").append("<option value=\"\">请选择课程</option>");
+                                $.each(res.data, function (index, item) {
+                                    $("#sel-course-search-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
+                                });
+                                form.render("select");
+                            });
+
+                            //初始化渠道数据
+                            common.ajax(setter.apiAddress.marketingchannel.list, "Get", "", {}, function (res) {
+                                $("#sel-marketingchannel-search-list").append("<option value=\"\">请选择渠道</option>");
+                                $.each(res.data, function (index, item) {
+                                    $("#sel-marketingchannel-search-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
+                                });
+                                form.render("select");
+                            });
+
+                            //初始化员工数据
+                            common.ajax(setter.apiAddress.aspnetuser.list, "GET", "", { enableStatus: 1 }, function (res) {
+                                $("#sel-trackingstaffer-search-list").append("<option value=\"\">请选择员工</option>");
+                                $.each(res.data, function (index, item) {
+                                    $("#sel-trackingstaffer-search-list").append("<option value=\"" + item.id + "\">" + item.userName + "</option>");
+                                });
+                                form.render("select");
+                            });
+
+                            //监听提交//搜索
+                            form.on('submit(order-search-submit)', function (data) {
+                                var field = data.field;
+                                layer.close(index);
+                                //执行重载
+                                table.reload('orders-table', {
+                                    where: {
+                                        beginDate: field.BeginDate,
+                                        finishDate: field.FinishDate,
+                                        courseId: field.CourseId,
+                                        marketingChannelId: field.MarketingchannelId,
+                                        salesStaffId: field.TrackingStafferId
+                                    },
+                                    page: {
+                                        curr: 1 //重新从第 1 页开始
+                                    }
+                                });
+                            });
+                        });
+                    }
+                });
+                break;
             case 'add':
                 admin.popup({
                     title: '添加'

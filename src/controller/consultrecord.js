@@ -14,89 +14,13 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'r
         , rate = layui.rate
         , fullCalendar = layui.fullCalendar;
 
-    form.render(null, 'consultrecord-search-filter');
-
-    //搜索条件折叠效果
-    element.render('collapse');
-
     // 设置最小可选的日期
     function minDate() {
         var now = new Date();
         return now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDate();
     }
 
-    //日期范围
-    laydate.render({
-        elem: '#daterange'
-        , range: true
-        , done: function (value, date, endDate) {
-            if (!value) {
-                $("#consultrecord-statr-time").val('');
-                $("#consultrecord-end-time").val('');
-            } else {
-                $("#consultrecord-statr-time").val(date.year + "-" + date.month + "-" + date.date);
-                $("#consultrecord-end-time").val(endDate.year + "-" + endDate.month + "-" + endDate.date);
-            }
-        }
-    });
-
-    //搜索
-    form.on('submit(consultrecord-search)', function (data) {
-        var field = data.field;
-        //执行重载
-        table.reload('consultrecord-table', {
-            where: {
-                name: $("#name").val(),
-                phoneNumber: $("#phoneNumber").val(),
-                startTime: $("#consultrecord-statr-time").val(),
-                endTime: $("#consultrecord-end-time").val(),
-                counselingCourseId: $("#sel-counselingcourse-search-list").val(),
-                marketingChannelId: $("#sel-marketingchannel-search-list").val(),
-                trackingStafferId: $("#sel-trackingstaffer-search-list").val(),
-                trackingState: $("#sel-trackingstate-list").val(),
-            },
-            page: {
-                curr: 1 //重新从第 1 页开始
-            }
-        });
-    });
-
-    //初始化首页课程数据
-    common.ajax(setter.apiAddress.course.list, "Get", "", {}, function (res) {
-        $("#sel-counselingcourse-search-list").append("<option value=\"\">请选择课程</option>");
-        $.each(res.data, function (index, item) {
-            $("#sel-counselingcourse-search-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
-        });
-        form.render("select");
-    });
-    //初始化首页渠道数据
-    common.ajax(setter.apiAddress.marketingchannel.list, "Get", "", {}, function (res) {
-        $("#sel-marketingchannel-search-list").append("<option value=\"\">请选择渠道</option>");
-        $.each(res.data, function (index, item) {
-            $("#sel-marketingchannel-search-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
-        });
-        form.render("select");
-    });
-    //初始化首页部门数据
-    $("#sel-department-search-list").append("<option value=\"\">请选择部门</option>");
-    common.ajax(setter.apiAddress.department.list, "GET", "", {}, function (res) {
-        $.each(res.data, function (index, item) {
-            $("#sel-department-search-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
-        });
-        form.render("select");
-    });
-    //部门选择时加载部门员工
-    form.on('select(sel-department-search-list-filter)', function (data) {
-        $("#sel-trackingstaffer-search-list").empty();
-        common.ajax(setter.apiAddress.aspnetuser.allindepartment, "GET", "", { departmentId: data.value }, function (res) {
-            $("#sel-trackingstaffer-search-list").append("<option value=\"\">请选择员工</option>");
-            $.each(res.data, function (index, item) {
-                $("#sel-trackingstaffer-search-list").append("<option value=\"" + item.id + "\">" + item.userName + "</option>");
-            });
-            form.render("select");
-        });
-    });
-    //跟进记录数据
+    //初始化跟进记录数据
     table.render({
         elem: '#consultrecord-table'
         , url: setter.apiAddress.consultrecord.pagelist
@@ -159,6 +83,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'r
         ]]
         , page: true
         , cellMinWidth: 80
+        , height: 'full-160'
         , text: {
             none: '暂无相关数据'
         }
@@ -180,6 +105,89 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'r
         var checkStatus = table.checkStatus(obj.config.id);
         var selected = checkStatus.data;
         switch (obj.event) {
+            case 'search':
+                admin.popupRight({
+                    title: '搜索'
+                    , area: ['35%', '100%']
+                    , resize: false
+                    , closeBtn: 1
+                    , success: function (layero, index) {
+                        view(this.id).render('marketing/consultrecord/search').done(function () {
+                            form.render();
+                            //日期范围
+                            laydate.render({
+                                elem: '#daterange'
+                                , range: true
+                                , done: function (value, date, endDate) {
+                                    if (!value) {
+                                        $("#consultrecord-statr-time").val('');
+                                        $("#consultrecord-end-time").val('');
+                                    } else {
+                                        $("#consultrecord-statr-time").val(date.year + "-" + date.month + "-" + date.date);
+                                        $("#consultrecord-end-time").val(endDate.year + "-" + endDate.month + "-" + endDate.date);
+                                    }
+                                }
+                            });
+                            //初始化首页课程数据
+                            common.ajax(setter.apiAddress.course.list, "Get", "", {}, function (res) {
+                                $("#sel-counselingcourse-search-list").append("<option value=\"\">请选择课程</option>");
+                                $.each(res.data, function (index, item) {
+                                    $("#sel-counselingcourse-search-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
+                                });
+                                form.render("select");
+                            });
+                            //初始化首页渠道数据
+                            common.ajax(setter.apiAddress.marketingchannel.list, "Get", "", {}, function (res) {
+                                $("#sel-marketingchannel-search-list").append("<option value=\"\">请选择渠道</option>");
+                                $.each(res.data, function (index, item) {
+                                    $("#sel-marketingchannel-search-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
+                                });
+                                form.render("select");
+                            });
+                            //初始化首页部门数据
+                            $("#sel-department-search-list").append("<option value=\"\">请选择部门</option>");
+                            common.ajax(setter.apiAddress.department.list, "GET", "", {}, function (res) {
+                                $.each(res.data, function (index, item) {
+                                    $("#sel-department-search-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
+                                });
+                                form.render("select");
+                            });
+                            //部门选择时加载部门员工
+                            form.on('select(sel-department-search-list-filter)', function (data) {
+                                $("#sel-trackingstaffer-search-list").empty();
+                                common.ajax(setter.apiAddress.aspnetuser.allindepartment, "GET", "", { departmentId: data.value }, function (res) {
+                                    $("#sel-trackingstaffer-search-list").append("<option value=\"\">请选择员工</option>");
+                                    $.each(res.data, function (index, item) {
+                                        $("#sel-trackingstaffer-search-list").append("<option value=\"" + item.id + "\">" + item.userName + "</option>");
+                                    });
+                                    form.render("select");
+                                });
+                            });
+                            //监听提交//搜索
+                            form.on('submit(consultrecord-search-submit)', function (data) {
+                                var field = data.field;
+                                //执行重载
+                                table.reload('consultrecord-table', {
+                                    where: {
+                                        name: field.StudentName,
+                                        phoneNumber: field.PhoneNumber,
+                                        startTime: field.StartTime,
+                                        endTime: field.EndTime,
+                                        counselingCourseId: field.CounselingcourseId,
+                                        marketingChannelId: field.MarketingchannelId,
+                                        trackingStafferId: field.TrackingStafferId,
+                                        trackingState: field.TrackingState
+                                    },
+                                    page: {
+                                        curr: 1 //重新从第 1 页开始
+                                    }
+                                });
+
+                            });
+                        });
+                    }
+                });
+                break;
             case 'add':
                 admin.popupRight({
                     title: '添加'

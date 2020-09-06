@@ -1,0 +1,67 @@
+﻿<script type="text/html" template>
+    <link rel="stylesheet" href="{{ layui.setter.base }}style/template.css?v={{ layui.admin.v }}-1" media="all">
+</script>
+
+<form class="layui-form" id="consultrecord-search-form" lay-filter="consultrecord-search-form" style="padding:15px;">
+    <div class="layui-form-item">
+        <label class="layui-form-label">选择课程</label>
+        <div class="layui-input-block">
+            <select class="sel" id="sel-counselingcourse-search-list" name="CounselingcourseId" lay-verify="" lay-filter="organization-search-filter" placeholder="请选择课程"></select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">选择渠道</label>
+        <div class="layui-input-block">
+            <select class="sel" id="sel-marketingchannel-search-list" name="MarketingchannelId" lay-verify="" lay-filter="" placeholder="请选择渠道"></select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">跟进状态</label>
+        <div class="layui-input-block">
+            <select id="sel-trackingstate-list" name="TrackingState" lay-verify="">
+                <option value="0">请选择跟进状态</option>
+                <option value="1">待跟进</option>
+                <option value="2">跟进中</option>
+                <option value="3">已邀约</option>
+                <option value="4">已试听</option>
+                <option value="5">已到访</option>
+                <option value="6">已成交</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">学生姓名</label>
+        <div class="layui-input-block">
+            <input type="text" id="studentName" name="StudentName" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;" placeholder="请输入姓名" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">学生电话</label>
+        <div class="layui-input-block">
+            <input type="text" id="phoneNumber" name="PhoneNumber" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;" placeholder="请输入电话" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">选择机构</label>
+        <div class="layui-input-block">
+            <input type="text" class="layui-input" id="daterange" placeholder=" 日期范围 ">
+            <input type="hidden" id="consultrecord-statr-time" name="StartTime" />
+            <input type="hidden" id="consultrecord-end-time" name="EndTime" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">选择部门</label>
+        <div class="layui-input-block">
+            <select class="sel" id="sel-department-search-list" lay-verify="" lay-filter="sel-department-search-list-filter" placeholder="请选择部门"></select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">业绩归属</label>
+        <div class="layui-input-block">
+            <select class="sel" id="sel-trackingstaffer-search-list" name="TrackingStafferId" lay-verify="" lay-filter="" placeholder="请选择跟进人"></select>
+        </div>
+    </div>
+    <div class="layui-form-item content-center">
+        <button class="layui-btn layui-btn-sm" type="button" lay-submit lay-filter="consultrecord-search-submit"><i class="layui-icon layui-icon-ok"></i>立即搜索</button>
+    </div>
+</form>

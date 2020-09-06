@@ -12,74 +12,6 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
         , laydate = layui.laydate
         , element = layui.element;
 
-    form.render(null, 'studentattendance-search-form');
-
-    //初始化搜索条件 -> 搜索日历
-    laydate.render({
-        elem: '#input-laydate-select'
-        , range: true
-        , done: function (value, date, endDate) {
-            if (!value) {
-                $("#statr-time").val('');
-                $("#end-time").val('');
-            } else {
-                $("#statr-time").val(date.year + "-" + date.month + "-" + date.date);
-                $("#end-time").val(endDate.year + "-" + endDate.month + "-" + endDate.date);
-            }
-        }
-    });
-
-    //初始化搜索条件 -> 初始课程数据
-    common.ajax(setter.apiAddress.course.list, "GET", "", "", function (res) {
-        $("#sel-course-search").append("<option value=\"\">请选择课程</option>");
-        $.each(res.data, function (index, item) {
-            $("#sel-course-search").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
-        });
-        form.render("select");
-    });
-    form.on('select(course-search-filter)', function (data) {
-        //搜索 -> 初始班级数据
-        $("#sel-class-search").empty();
-        if (data.value == "") {
-            form.render("select");
-            return;
-        }
-        common.ajax(setter.apiAddress.classes.list, "GET", "", { courseId: data.value }, function (res) {
-            $("#sel-class-search").append("<option value=\"\">请选择班级</option>");
-            $.each(res.data, function (index, item) {
-                $("#sel-class-search").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
-            });
-            form.render("select");
-        });
-    });
-
-    //搜索
-    form.on('submit(studentattendance-search)', function (data) {
-        var field = data.field;
-        let conditions = {
-            studentName: $("#studentName").val(),
-            courseId: $("#sel-course-search").val(),
-            classId: $("#sel-class-search").val(),
-            attendanceStatus: $("#sel-attendancestatus-search").val(),
-            beginDate: $("#statr-time").val(),
-            endDate: $("#end-time").val(),
-        };
-        let otherconditions = $("#sel-otherconditions-search").val();
-        if (otherconditions == 1) {
-            conditions.arrearage = 1;
-        }
-        if (otherconditions == 2) {
-            conditions.expire = 1;
-        }
-        //执行重载
-        table.reload('studentattendance-table', {
-            where: conditions,
-            page: {
-                curr: 1 //重新从第 1 页开始
-            }
-        });
-    });
-
     table.render({
         elem: '#studentattendance-table'
         , url: setter.apiAddress.studentattendance.pagelist
@@ -129,6 +61,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
         ]]
         , page: true
         , cellMinWidth: 80
+        , height: 'full-160'
         , text: {
             none: '暂无相关数据'
         }
@@ -150,6 +83,75 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
         var checkStatus = table.checkStatus(obj.config.id);
         var selected = checkStatus.data;
         switch (obj.event) {
+            case 'search':
+                admin.popupRight({
+                    title: '搜索'
+                    , area: ['35%', '100%']
+                    , resize: false
+                    , closeBtn: 1
+                    , success: function (layero, index) {
+                        view(this.id).render('teaching/studentattendancerecord/search').done(function () {
+                            //初始化搜索条件 -> 搜索日历
+                            laydate.render({
+                                elem: '#input-laydate-select'
+                                , range: true
+                                , done: function (value, date, endDate) {
+                                    if (!value) {
+                                        $("#statr-time").val('');
+                                        $("#end-time").val('');
+                                    } else {
+                                        $("#statr-time").val(date.year + "-" + date.month + "-" + date.date);
+                                        $("#end-time").val(endDate.year + "-" + endDate.month + "-" + endDate.date);
+                                    }
+                                }
+                            });
+                            //初始化搜索条件 -> 初始课程数据
+                            common.ajax(setter.apiAddress.course.list, "GET", "", "", function (res) {
+                                $("#sel-course-search").append("<option value=\"\">请选择课程</option>");
+                                $.each(res.data, function (index, item) {
+                                    $("#sel-course-search").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
+                                });
+                                form.render("select");
+                            });
+                            form.on('select(course-search-filter)', function (data) {
+                                //搜索 -> 初始班级数据
+                                $("#sel-class-search").empty();
+                                if (data.value == "") {
+                                    form.render("select");
+                                    return;
+                                }
+                                common.ajax(setter.apiAddress.classes.list, "GET", "", { courseId: data.value }, function (res) {
+                                    $("#sel-class-search").append("<option value=\"\">请选择班级</option>");
+                                    $.each(res.data, function (index, item) {
+                                        $("#sel-class-search").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
+                                    });
+                                    form.render("select");
+                                });
+                            });
+                            //搜索
+                            form.on('submit(studentattendance-search-submit)', function (data) {
+                                var field = data.field;
+                                let conditions = {
+                                    studentName: field.StudentName,
+                                    courseId: field.CourseId,
+                                    classId: field.ClassId,
+                                    attendanceStatus: field.AttendanceStatus,
+                                    beginDate: field.StartTime,
+                                    endDate: field.EndTime
+                                };
+                                layer.close(index);
+                                //执行重载
+                                table.reload('studentattendance-table', {
+                                    where: conditions,
+                                    page: {
+                                        curr: 1 //重新从第 1 页开始
+                                    }
+                                });
+                            });
+                        });
+                    }
+                });
+                break;
             case 'cancel':
                 if (selected.length <= 0) {
                     layer.msg('请选择上课记录');

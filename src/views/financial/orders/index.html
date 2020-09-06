@@ -8,37 +8,12 @@
         <a><cite>订单管理</cite></a>
     </div>
 </div>
-<div class="layui-fluid" style="padding: 15px 15px 0 15px;">
-    <div class="layui-card">
-        <div class="layui-card-body">
-            <div class="layui-form layuiadmin-card-header-auto layui-row layui-col-space10" lay-filter="orders-search-filter">
-                <div class="layui-col-md3">
-                    <input type="text" class="layui-input" id="daterange" placeholder=" 日期范围 ">
-                    <input type="hidden" id="order-statr-time" />
-                    <input type="hidden" id="order-end-time" />
-                </div>
-                <div class="layui-col-md3">
-                    <select class="sel" id="sel-course-search-list" name="CourseId" lay-verify="" lay-filter="" placeholder="请选择课程">
-                    </select>
-                </div>
-                <div class="layui-col-md3">
-                    <select class="sel" id="sel-marketingchannel-search-list" name="MarketingchannelId" lay-verify="" lay-filter="" placeholder="请选择营销渠道">
-                    </select>
-                </div>
-                <div class="layui-col-md3">
-                    <select class="sel" id="sel-trackingstaffer-search-list" name="TrackingStafferId" lay-verify="" lay-filter="" placeholder="请选择业绩归属人">
-                    </select>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 <div class="layui-fluid">
     <div class="layui-card">
         <div class="layui-card-body">
             <script type="text/html" id="orders-toolbar">
                 <div class="layui-btn-container">
-                    <a class="layui-btn layui-btn-sm" lay-submit lay-filter="orders-search"><i class="layui-icon layui-icon-refresh"></i>搜索</a>
+                    <a class="layui-btn layui-btn-sm" lay-event="search"><i class="layui-icon layui-icon-refresh"></i>搜索</a>
                 </div>
             </script>
             <table class="layui-table" id="orders-table" lay-filter="orders-table"></table>
