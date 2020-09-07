@@ -46,6 +46,24 @@
                             </div>
                         </div>
                         <div class="layui-form-item">
+                            <label class="layui-form-label">VIP有效期</label>
+                            <div class="layui-input-block">
+                                <input type="text" id="vipExpirationTime" value="" readonly class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">机构类型</label>
+                            <div class="layui-input-block">
+                                <input type="text" id="classiFication" value="" readonly class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">行业</label>
+                            <div class="layui-input-block">
+                                <input type="text" id="industryName" value="" readonly class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
                             <label class="layui-form-label">部门</label>
                             <div class="layui-input-block">
                                 <input type="text" id="departmentname" value="" readonly class="layui-input">
@@ -87,6 +105,17 @@
                 $('#tenantname').val(res.data.tenantName);
                 $('#departmentname').val(res.data.departmentName);
                 $('#rolename').val(res.data.roleName);
+                if (res.data.classiFication == 1) {
+                    $('#classiFication').val('免费');
+                } else if (res.data.classiFication == 2) {
+                    $('#classiFication').val('试用');
+                } else if (res.data.classiFication == 3) {
+                    $('#classiFication').val('付费（VIP）');
+                } else {
+                    $('#classiFication').val('/');
+                }
+                $('#vipExpirationTime').val(res.data.vipExpirationTime);
+                $('#industryName').val(res.data.industryName);
             } else {
                 layer.msg(res.message);
             }
