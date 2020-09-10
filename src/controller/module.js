@@ -1,14 +1,14 @@
 ﻿/**
  @Name：模块管理
  */
-layui.define(['form', 'common', 'setter', 'treeGrid', 'treeSelect', 'verification', 'table', 'element'], function (exports) {
+layui.define(['form', 'common', 'setter', 'treeGrid', 'xmSelect', 'verification', 'table', 'element'], function (exports) {
     var $ = layui.$
         , admin = layui.admin
         , view = layui.view
         , common = layui.common
         , setter = layui.setter
         , treeGrid = layui.treeGrid
-        , treeSelect = layui.treeSelect
+        , xmSelect = layui.xmSelect
         , table = layui.table
         , element = layui.element
         , form = layui.form;
@@ -89,7 +89,46 @@ layui.define(['form', 'common', 'setter', 'treeGrid', 'treeSelect', 'verificatio
                 , success: function (layero, index) {
                     view(this.id).render('foundational/module/edit', data).done(function () {
                         form.render();
-                        customTreeSelect.initTreeSelect("module-edit-select-tree", data.parentId);
+
+                        var parentModuleTree = xmSelect.render({
+                            el: '#xmselect-parent-module',
+                            tips: '顶级系统模块',
+                            empty: '呀, 没有数据呢',
+                            model: { label: { type: 'text' } },
+                            toolbar: { show: true },
+                            radio: true,
+                            clickClose: true,
+                            tree: {
+                                show: true,
+                                strict: false,
+                                expandedKeys: [-1],
+                            },
+                            height: 'auto',
+                            prop: {
+                                value: 'id',
+                            },
+                            data: [],
+                            on: function (data) {
+                                var selected = data.arr;
+                                if (selected.length > 0) {
+                                    $("#parentId").val(selected[0].id);
+                                } else {
+                                    $("#parentId").val('');
+                                }
+                            }
+                        });
+                        //加载模块树型数据
+                        common.ajax(setter.apiAddress.awinemodule.treelist, "GET", "", { moduleParentId: data.parentId }, function (res) {
+                            if (res.statusCode == 200) {
+                                parentModuleTree.update({
+                                    data: res.data,
+                                    autoRow: true,
+                                })
+                            } else {
+                                layer.msg("加载模块数据出错");
+                            }
+                        });
+
                         form.on('submit(modules-edit-form-submit)', function (data) {
                             common.ajax(setter.apiAddress.awinemodule.update, "POST", "", $('#modules-edit-form').serialize(), function (res) {
                                 if (res.statusCode == 200) {
@@ -103,7 +142,6 @@ layui.define(['form', 'common', 'setter', 'treeGrid', 'treeSelect', 'verificatio
                 }
             });
         } else if (obj.event === "buttons") {
-
             admin.popupRight({
                 title: data.name + ' - 按钮配置'
                 , area: ['30%', '100%']
@@ -181,41 +219,6 @@ layui.define(['form', 'common', 'setter', 'treeGrid', 'treeSelect', 'verificatio
         }
     });
 
-    var customTreeSelect = {
-        initTreeSelect: function (elementId, nodeId) {
-            treeSelect.render({
-                elem: "#" + elementId,
-                url: setter.apiAddress.awinemodule.treelist,
-                type: 'get',
-                async: false,
-                placeholder: '请选择所属模块',
-                style: {
-                    folder: {
-                        enable: true
-                    },
-                    line: {
-                        enable: true
-                    }
-                },
-                search: true,
-                click: function (data) {
-                    $("#parentId").val(data.current.id);
-                },
-                success: function (data) {
-                    treeObj = treeSelect.zTree(elementId);
-                    var defaultNode = { id: "00000000-0000-0000-0000-000000000000", name: "一级模块" };
-                    treeObj.addNodes(null, 0, defaultNode);
-                    if (nodeId != "") {
-                        var node = treeObj.getNodeByParam('id', nodeId);
-                        treeObj.selectNode(node, true);
-                        treeObj.checkNode(node, true, true);
-                        $(".layui-treeSelect .layui-unselect").val(node.name);
-                    }
-                }
-            });
-        }
-    }
-
     //事件
     var active = {
         add: function () {
@@ -226,8 +229,44 @@ layui.define(['form', 'common', 'setter', 'treeGrid', 'treeSelect', 'verificatio
                 , closeBtn: 1
                 , success: function (layero, index) {
                     view(this.id).render('foundational/module/add').done(function () {
-                        customTreeSelect.initTreeSelect("module-select-tree", "");
-                        form.render(null, "modules-add-form");
+                        var parentModuleTree = xmSelect.render({
+                            el: '#xmselect-parent-module',
+                            tips: '顶级系统模块',
+                            empty: '呀, 没有数据呢',
+                            model: { label: { type: 'text' } },
+                            toolbar: { show: true },
+                            radio: true,
+                            clickClose: true,
+                            tree: {
+                                show: true,
+                                strict: false,
+                                expandedKeys: [-1],
+                            },
+                            height: 'auto',
+                            prop: {
+                                value: 'id',
+                            },
+                            data: [],
+                            on: function (data) {
+                                var selected = data.arr;
+                                if (selected.length > 0) {
+                                    $("#parentId").val(selected[0].id);
+                                } else {
+                                    $("#parentId").val('');
+                                }
+                            }
+                        });
+                        //加载模块树型数据
+                        common.ajax(setter.apiAddress.awinemodule.treelist, "GET", "", {}, function (res) {
+                            if (res.statusCode == 200) {
+                                parentModuleTree.update({
+                                    data: res.data,
+                                    autoRow: true,
+                                })
+                            } else {
+                                layer.msg("加载模块数据出错");
+                            }
+                        });
                         form.on('submit(modules-add-form-submit)', function (data) {
                             common.ajax(setter.apiAddress.awinemodule.add, "POST", "", $("#modules-add-form").serialize(), function (res) {
                                 if (res.statusCode == 200) {

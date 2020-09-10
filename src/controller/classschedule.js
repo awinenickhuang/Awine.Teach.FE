@@ -363,6 +363,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
 
     //教师 -> 搜索条件
     common.ajax(setter.apiAddress.aspnetuser.list, "GET", "", {}, function (res) {
+        $("#sel-teacher-search").empty();
         $("#sel-teacher-search").append("<option value=\"\">请选择老师</option>");
         $.each(res.data, function (index, item) {
             $("#sel-teacher-search").append("<option value=\"" + item.id + "\">" + item.userName + "</option>");
@@ -377,7 +378,8 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
 
     //教室 -> 搜索条件
     common.ajax(setter.apiAddress.classroom.list, "GET", "", {}, function (res) {
-        $("#sel-class-room-search").append("<option value=\"\">请选择</option>");
+        $("#sel-class-room-search").empty();
+        $("#sel-class-room-search").append("<option value=\"\">请选择教室</option>");
         $.each(res.data, function (index, item) {
             $("#sel-class-room-search").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
         });
