@@ -26,13 +26,13 @@ layui.define(function (exports) {
                     if (index < 2) {
                         firstGroup.push('<div class="layui-progress" lay-showPercent="yes">');
                         firstGroup.push('<h3>' + item.name + '</h3>');
-                        firstGroup.push('<div class="layui-progress-bar" lay-percent="58%"></div>');
+                        firstGroup.push('<div class="layui-progress-bar" lay-percent="' + common.Percentage(item.ownedStudents, item.classSize) + '%"></div>');
                         firstGroup.push('</div>');
                     }
                     if (index > 1 & index < 4) {
                         secondGroup.push('<div class="layui-progress" lay-showPercent="yes">');
                         secondGroup.push('<h3>' + item.name + '</h3>');
-                        secondGroup.push('<div class="layui-progress-bar layui-bg-red" lay-percent="58%"></div>');
+                        secondGroup.push('<div class="layui-progress-bar layui-bg-red" lay-percent="' + common.Percentage(item.ownedStudents, item.classSize) + '%"></div>');
                         secondGroup.push('</div>');
                     }
                 });

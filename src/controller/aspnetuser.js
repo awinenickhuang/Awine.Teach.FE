@@ -104,10 +104,11 @@ layui.define(['table', 'form', 'common', 'setter', 'laydate', 'verification'], f
         var checkStatus = table.checkStatus(obj.config.id);
         switch (obj.event) {
             case 'search':
-                admin.popup({
-                    title: '用户搜索'
-                    , area: ['50%', '40%']
+                admin.popupRight({
+                    title: '搜索'
+                    , area: ['30%', '100%']
                     , resize: false
+                    , closeBtn: 1
                     , success: function (layero, index) {
                         view(this.id).render('foundational/aspnetuser/search').done(function () {
                             //机构
@@ -291,10 +292,11 @@ layui.define(['table', 'form', 'common', 'setter', 'laydate', 'verification'], f
                 }
             });
         } else if (obj.event === 'resetpassword') {
-            admin.popup({
+            admin.popupRight({
                 title: '重置密码'
-                , area: ['30%', '35%']
+                , area: ['30%', '100%']
                 , resize: false
+                , closeBtn: 1
                 , success: function (layero, index) {
                     view(this.id).render('foundational/aspnetuser/resetpassword', data).done(function () {
                         form.render();

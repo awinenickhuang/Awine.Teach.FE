@@ -91,6 +91,7 @@ layui.define(['jquery'], function (exports) {
                 return v.toString(16);
             });
         },
+        //格式化金额
         fixedMoney: function (str) {
             if (!str) str = '0.00';
             let ret = Math.round(parseFloat(str) * 100) / 100;
@@ -115,6 +116,7 @@ layui.define(['jquery'], function (exports) {
             if (String(num).length > len) return num;
             return (Array(len).join(0) + num).slice(-len);
         },
+        //取当前时间
         getNowFormatDate: function () {
             var date = new Date();
             var seperator1 = "-";
@@ -129,6 +131,18 @@ layui.define(['jquery'], function (exports) {
             }
             var currentdate = year + seperator1 + month + seperator1 + strDate;
             return currentdate;
+        },
+        /**
+        * 计算百分比
+        * @param   {number} num   分子
+        * @param   {number} total 分母
+        * @returns {number} 返回数百分比
+        */
+        Percentage: function (num, total) {
+            if (num == 0 || total == 0) {
+                return 0;
+            }
+            return (Math.round(num / total * 10000) / 100);// 100.00 - 小数点后两位百分比
         }
     }
     //对外暴露的接口

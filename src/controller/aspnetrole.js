@@ -60,10 +60,11 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 't
         var checkStatus = table.checkStatus(obj.config.id);
         switch (obj.event) {
             case 'search':
-                admin.popup({
-                    title: '角色搜索'
-                    , area: ['50%', '30%']
+                admin.popupRight({
+                    title: '搜索'
+                    , area: ['30%', '100%']
                     , resize: false
+                    , closeBtn: 1
                     , success: function (layero, index) {
                         view(this.id).render('foundational/aspnetrole/search').done(function () {
                             //初始机构数据
@@ -93,10 +94,11 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 't
                 });
                 break;
             case 'add':
-                admin.popup({
+                admin.popupRight({
                     title: '添加'
-                    , area: ['30%', '30%']
+                    , area: ['30%', '100%']
                     , resize: false
+                    , closeBtn: 1
                     , success: function (layero, index) {
                         view(this.id).render('foundational/aspnetrole/add').done(function () {
                             //初始机构数据
@@ -238,10 +240,11 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 't
                 });
             });
         } else if (obj.event === 'edit') {
-            admin.popup({
+            admin.popupRight({
                 title: '修改'
-                , area: ['30%', '30%']
+                , area: ['30%', '100%']
                 , resize: false
+                , closeBtn: 1
                 , success: function (layero, index) {
                     view(this.id).render('foundational/aspnetrole/edit', data).done(function () {
                         common.ajax(setter.apiAddress.tenant.list, "GET", "", "", function (res) {

@@ -314,10 +314,11 @@ layui.define(['table', 'form', 'common', 'setter', 'verification', 'laydate'], f
                 }
             });
         } else if (obj.event === 'updateclassfication') {
-            admin.popup({
+            admin.popupRight({
                 title: '类型管理'
-                , area: ['30%', '35%']
+                , area: ['30%', '100%']
                 , resize: false
+                , closeBtn: 1
                 , success: function (layero, index) {
                     view(this.id).render('foundational/platformtenant/editclassfication', data).done(function () {
                         $('#sel-editclassfication-list').val(data.classiFication);
@@ -336,10 +337,11 @@ layui.define(['table', 'form', 'common', 'setter', 'verification', 'laydate'], f
                 }
             });
         } else if (obj.event === 'updatestatus') {
-            admin.popup({
+            admin.popupRight({
                 title: '状态管理'
-                , area: ['30%', '35%']
+                , area: ['30%', '100%']
                 , resize: false
+                , closeBtn: 1
                 , success: function (layero, index) {
                     view(this.id).render('foundational/platformtenant/editstatus', data).done(function () {
                         $('#sel-editstatus-list').val(data.status);
@@ -358,10 +360,11 @@ layui.define(['table', 'form', 'common', 'setter', 'verification', 'laydate'], f
                 }
             });
         } else if (obj.event === 'branches') {
-            admin.popup({
+            admin.popupRight({
                 title: '分支机构个数设置'
-                , area: ['30%', '35%']
+                , area: ['30%', '100%']
                 , resize: false
+                , closeBtn: 1
                 , success: function (layero, index) {
                     view(this.id).render('foundational/platformtenant/branches', data).done(function () {
                         $('#sel-editstatus-list').val(data.status);

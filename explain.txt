@@ -16,5 +16,5 @@ step3：切换到 layuiAdmin 项目根目录（即 gulpfile.js 所在目录）�
 安装完成后，即可直接执行命令：gulp
 即可完成 src 到 dist 目录的构建
 
-#开发备注
+# 开发备注
 1-第三方模块引用到layui.js，如：layer: "modules/layer"

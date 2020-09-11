@@ -59,10 +59,11 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification'], f
         var checkStatus = table.checkStatus(obj.config.id);
         switch (obj.event) {
             case 'search':
-                admin.popup({
-                    title: '部门搜索'
-                    , area: ['50%', '30%']
+                admin.popupRight({
+                    title: '搜索'
+                    , area: ['30%', '100%']
                     , resize: false
+                    , closeBtn: 1
                     , success: function (layero, index) {
                         view(this.id).render('foundational/department/search').done(function () {
                             //初始机构数据
@@ -92,10 +93,11 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification'], f
                 });
                 break;
             case 'add':
-                admin.popup({
+                admin.popupRight({
                     title: '添加'
-                    , area: ['30%', '45%']
+                    , area: ['30%', '100%']
                     , resize: false
+                    , closeBtn: 1
                     , success: function (layero, index) {
                         view(this.id).render('foundational/department/add').done(function () {
                             //初始机构数据
@@ -136,10 +138,11 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification'], f
                 });
             });
         } else if (obj.event === 'edit') {
-            admin.popup({
+            admin.popupRight({
                 title: '修改'
-                , area: ['30%', '45%']
+                , area: ['30%', '100%']
                 , resize: false
+                , closeBtn: 1
                 , success: function (layero, index) {
                     view(this.id).render('foundational/department/edit', data).done(function () {
                         form.render();
