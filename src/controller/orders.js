@@ -16,25 +16,50 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
         elem: '#orders-table'
         , url: setter.apiAddress.studentcourseorder.pagelist
         , toolbar: '#orders-toolbar'
-        , totalRow: true
         , cols: [[
-            { field: 'courseName', title: '课程信息', fixed: 'left', unresize: true, totalRowText: '<span style="color:#FF5722;">订单合计（元）</span>' },
-            //{ field: 'courseName', align: 'center', title: '课程信息' },
-            {
-                field: 'receivableAmount', title: '应收金额（元）', align: 'center', totalRow: true, templet: function (d) {
+            { field: 'courseName', title: '课程信息', rowspan: 2 }
+            , {
+                field: 'purchaseQuantity', title: '购买数量', align: 'center', rowspan: 2, templet: function (d) {
+                    switch (d.chargeManner) {
+                        case 1:
+                            return '<span style="color:#2F4056;">' + d.purchaseQuantity + '（课时）</span>';
+                            break;
+                        case 2:
+                            return '<span style="color:#393D49;">' + d.purchaseQuantity + '（月）</span>';
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+            , {
+                field: 'receivableAmount', title: '应收（元）', align: 'center', rowspan: 2, templet: function (d) {
                     return '<span style="color:#009688;">' + common.fixedMoney(d.receivableAmount) + '</span>';
                 }
-            },
-            {
-                field: 'discountAmount', title: '优惠金额（元）', align: 'center', totalRow: true, templet: function (d) {
+            }
+            , {
+                field: 'discountAmount', title: '优惠（元）', align: 'center', rowspan: 2, templet: function (d) {
                     return '<span style="color:#FFB800;">' + common.fixedMoney(d.discountAmount) + '</span>';
                 }
-            },
-            {
-                field: 'realityAmount', title: '实收金额（元）', align: 'center', totalRow: true, templet: function (d) {
+            }
+            , {
+                field: 'realityAmount', title: '实收（元）', align: 'center', rowspan: 2, templet: function (d) {
                     return '<span style="color:#FF5722;">' + common.fixedMoney(d.realityAmount) + '</span>';
                 }
-            },
+            }
+            , { field: 'paymentMethodName', align: 'center', title: '支付方式', rowspan: 2 }
+            , { field: 'operatorName', align: 'center', title: '经办人员', rowspan: 2 }
+            , {
+                field: 'noteInformation', title: '备注信息', align: 'center', rowspan: 2, templet: function (d) {
+                    if (d.noteInformation === null) {
+                        return '<span style="color:#2F4056;">——</span>';
+                    }
+                    return d.noteInformation;
+                }
+            }
+            , { align: 'center', title: '定价标准', colspan: 4 }
+            , { field: 'createTime', align: 'center', title: '创建时间', rowspan: 2, fixed: 'right' }
+        ], [
             {
                 field: 'chargeManner', title: '收费方式', align: 'center', templet: function (d) {
                     switch (d.chargeManner) {
@@ -49,33 +74,31 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                             break;
                     }
                 }
-            },
-            {
-                field: 'purchaseQuantity', title: '购买数量', align: 'center', templet: function (d) {
+            }
+            , {
+                field: 'courseDuration', title: '定价方式', align: 'center', templet: function (d) {
                     switch (d.chargeManner) {
                         case 1:
-                            return '<span style="color:#2F4056;">' + d.purchaseQuantity + '（课时）</span>';
+                            return '<span style="color:#2F4056;">' + d.courseDuration + '（课时）</span>';
                             break;
                         case 2:
-                            return '<span style="color:#393D49;">' + d.purchaseQuantity + '（月）</span>';
+                            return '<span style="color:#393D49;">' + d.courseDuration + '（月）</span>';
                             break;
                         default:
                             break;
                     }
                 }
-            },
-            { field: 'pricingStandard', align: 'center', title: '定价标准' },
-            { field: 'paymentMethodName', align: 'center', title: '支付方式' },
-            { field: 'operatorName', align: 'center', title: '经办人员' },
-            {
-                field: 'noteInformation', title: '备注信息', align: 'center', templet: function (d) {
-                    if (d.noteInformation === null) {
-                        return '<span style="color:#2F4056;">——</span>';
-                    }
-                    return d.noteInformation;
+            }
+            , {
+                field: 'totalPrice', title: '总价（元）', align: 'center', templet: function (d) {
+                    return '<span style="color:#FF5722;">' + common.fixedMoney(d.totalPrice) + '</span>';
                 }
-            },
-            { field: 'createTime', align: 'center', title: '创建时间' }
+            }
+            , {
+                field: 'unitPrice', title: '单价（元）', align: 'center', templet: function (d) {
+                    return '<span style="color:#FF5722;">' + common.fixedMoney(d.unitPrice) + '</span>';
+                }
+            }
         ]]
         , page: true
         , cellMinWidth: 80

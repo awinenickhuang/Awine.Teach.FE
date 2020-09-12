@@ -16,11 +16,37 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
         , fullCalendar = layui.fullCalendar;
 
     var courseScheduleManagement = {
+        //初始化搜索条件
         searchconditions: {
             courseId: '',
             classId: '',
             teacherId: '',
             classRoomId: ''
+        },
+        //初始化排课数据
+        scheduleData: {
+            classId: '',
+            courseId: '',
+            teacherId: '',
+            teacherName: '',
+            classRoomId: '',
+            repeatedWay: 3,
+            classOpeningDate: '',
+            daysBetween: 0,
+            exclusionRule: false,
+            weekDays: [],
+            classTime: {
+                startHours: '',
+                startMinutes: '',
+                endHours: '',
+                endMinutes: ''
+            },
+            //结束方式 1-按总课节数 2-按结束日期
+            sescheduleEndWay: {
+                sescheduleEndWayNumber: 1,//结束方式 -> 按总课节数
+                sescheduleEndWaySessionsNumber: 1,//总课节数为一节课
+                sescheduleEndWayClassEndDate: '',
+            }
         },
         //初始化日期时间选择器
         initDateCtrl: function (openingdate) {
@@ -33,10 +59,10 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                 , format: 'HH:mm'
                 , done: function (value, date, endDate) {
 
-                    $("#startHours").val(date.hours);
-                    $("#startMinutes").val(date.minutes);
-                    $("#endHours").val(endDate.hours);
-                    $("#endMinutes").val(endDate.minutes);
+                    courseScheduleManagement.scheduleData.classTime.startHours = date.hours;
+                    courseScheduleManagement.scheduleData.classTime.startMinutes = date.minutes;
+                    courseScheduleManagement.scheduleData.classTime.endHours = endDate.hours;
+                    courseScheduleManagement.scheduleData.classTime.endMinutes = endDate.minutes;
 
                     if (endDate.hours - date.hours <= 0 & endDate.minutes - date.minutes <= 0) {
                         layer.msg('时间段不正确', { icon: 5 });
@@ -45,9 +71,8 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                         return false;
                     }
 
-                    //加载教室及教师信息并判断当前时段教室与教师是否冲突
-                    courseScheduleManagement.initTeachers("", openingdate, date.hours, date.minutes, endDate.hours, endDate.minutes);
-                    courseScheduleManagement.initClassRooms("", openingdate, date.hours, date.minutes, endDate.hours, endDate.minutes);
+                    //课节时间选择后加载其他信息
+                    courseScheduleManagement.initCourse();
                 }
             });
         },
@@ -72,43 +97,11 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                         layer.closeAll('tips');
                         form.render();
                         courseScheduleManagement.initDateCtrl(info.dateStr);
-                        courseScheduleManagement.initCourse();
+                        courseScheduleManagement.scheduleData.classOpeningDate = info.dateStr;
                         //监听提交
                         form.on('submit(calendar-classtime-form-submit)', function (data) {
-
-                            //初始化排课提交数据对象
-                            var scheduleData = {
-                                classId: $("#sel-classes-list").val(),
-                                courseId: $("#sel-course-list").val(),
-                                teacherId: $("#sel-teacher-list").val(),
-                                classRoomId: $("#sel-class-room-list").val(),
-                                repeatedWay: 3,
-                                classOpeningDate: info.dateStr,
-                                daysBetween: 0,
-                                exclusionRule: false,
-                                weekDays: [],
-                                classTime: {
-                                    startHours: $("#startHours").val(),
-                                    startMinutes: $("#startMinutes").val(),
-                                    endHours: $("#endHours").val(),
-                                    endMinutes: $("#endMinutes").val()
-                                },
-                                sescheduleEndWay: {//结束方式 1-按总课节数 2-按结束日期
-                                    sescheduleEndWayNumber: 1,
-                                    sescheduleEndWaySessionsNumber: 1,
-                                    sescheduleEndWayClassEndDate: "",
-                                }
-                            };
-
-                            if ($("#endHours").val() - $("#startHours").val() <= 0 & $("#endMinutes").val() - $("#endHours").val() <= 0) {
-                                layer.msg('时间段不正确', { icon: 5 });
-                                $("#calendar-classtime-add-form")[0].reset();
-                                layui.form.render();
-                                return false;
-                            }
-
                             //向后台提交排课数据
-                            common.ajax(setter.apiAddress.courseschedule.addclassschedulingplan, "POST", "JSON", scheduleData, function (res) {
+                            common.ajax(setter.apiAddress.courseschedule.addclassschedulingplan, "POST", "JSON", courseScheduleManagement.scheduleData, function (res) {
                                 if (res.statusCode == 200) {
                                     layer.close(index);
                                     courseScheduleManagement.initCalendar();
@@ -129,8 +122,9 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                 });
                 form.render("select");
             });
-            //班级
+            //课程选择切换时加载班级信息
             form.on('select(sel-course-selectedfilter)', function (data) {
+                courseScheduleManagement.scheduleData.courseId = data.value;
                 $("#sel-classes-list").empty();
                 if (data.value == "") {
                     $("#sel-classes-list").empty();
@@ -140,58 +134,63 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                 common.ajax(setter.apiAddress.classes.list, "GET", "", { courseId: data.value, recruitStatus: 1 }, function (res) {
                     $("#sel-classes-list").append("<option value=\"\">请选择班级</option>");
                     $.each(res.data, function (index, item) {
-                        $("#sel-classes-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
+                        $("#sel-classes-list").append("<option data-classroomid=\"" + item.classRoomId + "\" data-teacherid=\"" + item.teacherId + "\" data-teachername=\"" + item.teacherName + "\" value=\"" + item.id + "\">" + item.name + "</option>");
                     });
                     form.render("select");
                 })
             });
+            //班级选择切换时加载老师及教室信息
+            form.on('select(sel-classes-selectedfilter)', function (data) {
+                courseScheduleManagement.scheduleData.classId = data.value;
+                courseScheduleManagement.scheduleData.teacherId = data.elem[data.elem.selectedIndex].dataset.teacherid;
+                courseScheduleManagement.scheduleData.teacherName = data.elem[data.elem.selectedIndex].dataset.teachername;
+                courseScheduleManagement.scheduleData.classRoomId = data.elem[data.elem.selectedIndex].dataset.classroomid;
+                //如果没有选班级则清空教师及教室信息
+                if (data.value == "") {
+                    $("#sel-teacher-list").empty();
+                    $("#sel-class-room-list").empty();
+                    form.render("select");
+                    return;
+                }
+                courseScheduleManagement.initTeachers(data.elem[data.elem.selectedIndex].dataset.teacherid);
+                courseScheduleManagement.initClassRooms(data.elem[data.elem.selectedIndex].dataset.classroomid);
+            });
         },
-        initClassRooms: function (classRoomId, courseDates, startHours, startMinutes, endHours, endMinutes) {
-            common.ajax(setter.apiAddress.classroom.getallwithconflictstate, "GET", "", { courseDates: courseDates, startHours: startHours, startMinutes: startMinutes, endHours: endHours, endMinutes: endMinutes }, function (res) {
+        initClassRooms: function (classRoomId) {
+            common.ajax(setter.apiAddress.classroom.list, "GET", "", {}, function (res) {
                 $("#sel-class-room-list").empty();
                 $("#sel-class-room-list").append("<option value=\"\">请选择上课教室</option>");
                 $.each(res.data, function (index, item) {
                     if (item.id == classRoomId) {
-                        if (item.conflictState == 1) {
-                            $("#sel-class-room-list").append("<option selected=\"selected\" value=\"" + item.id + "\">" + item.name + "（空闲）</option>");
-                        }
-                        if (item.conflictState == 2) {
-                            $("#sel-class-room-list").append("<option selected=\"selected\" value=\"" + item.id + "\">" + item.name + "（冲突）</option>");
-                        }
+                        $("#sel-class-room-list").append("<option selected=\"selected\" value=\"" + item.id + "\">" + item.name + "</option>");
                     } else {
-                        if (item.conflictState == 1) {
-                            $("#sel-class-room-list").append("<option value=\"" + item.id + "\">" + item.name + "（空闲）</option>");
-                        }
-                        if (item.conflictState == 2) {
-                            $("#sel-class-room-list").append("<option value=\"" + item.id + "\">" + item.name + "（冲突）</option>");
-                        }
+                        $("#sel-class-room-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
                     }
                 });
                 form.render("select");
             });
+
+            form.on('select(sel-class-room-selectedfilter)', function (data) {
+                courseScheduleManagement.scheduleData.classRoomId = data.value;
+            });
         },
-        initTeachers: function (teacherId, courseDates, startHours, startMinutes, endHours, endMinutes) {
-            common.ajax(setter.apiAddress.courseschedule.getallwithconflictstate, "GET", "", { courseDates: courseDates, startHours: startHours, startMinutes: startMinutes, endHours: endHours, endMinutes: endMinutes }, function (res) {
+        initTeachers: function (teacherId) {
+            common.ajax(setter.apiAddress.aspnetuser.list, "GET", "", { enableStatus: 1 }, function (res) {
                 $("#sel-teacher-list").empty();
                 $("#sel-teacher-list").append("<option value=\"\">请选择上课老师</option>");
                 $.each(res.data, function (index, item) {
                     if (item.id == teacherId) {
-                        if (item.conflictState == 1) {
-                            $("#sel-teacher-list").append("<option selected=\"selected\" value=\"" + item.id + "\">" + item.userName + "（空闲）</option>");
-                        }
-                        if (item.conflictState == 2) {
-                            $("#sel-teacher-list").append("<option selected=\"selected\" value=\"" + item.id + "\">" + item.userName + "（冲突）</option>");
-                        }
+                        $("#sel-teacher-list").append("<option selected=\"selected\" value=\"" + item.id + "\">" + item.userName + "</option>");
                     } else {
-                        if (item.conflictState == 1) {
-                            $("#sel-teacher-list").append("<option value=\"" + item.id + "\">" + item.userName + "（空闲）</option>");
-                        }
-                        if (item.conflictState == 2) {
-                            $("#sel-teacher-list").append("<option value=\"" + item.id + "\">" + item.userName + "（冲突）</option>");
-                        }
+                        $("#sel-teacher-list").append("<option data-teachername=\"" + item.userName + "\" value=\"" + item.id + "\">" + item.userName + "</option>");
                     }
                 });
                 form.render("select");
+            });
+
+            form.on('select(sel-teacher-selectedfilter)', function (data) {
+                courseScheduleManagement.scheduleData.teacherId = data.value;
+                courseScheduleManagement.scheduleData.teacherName = data.elem[data.elem.selectedIndex].dataset.teachername;
             });
         },
         initCalendar: function () {
@@ -717,8 +716,12 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                     //提交出勤数据
                     form.on('submit(complete-all-students-signin-form-submit)', function (data) {
                         let count = attendanceManage.officialStatistics(1) + attendanceManage.listeningStatistics(2) + attendanceManage.officialStatistics(2) + attendanceManage.listeningStatistics(3) + attendanceManage.officialStatistics(3);
+                        if (count == 0) {
+                            layer.msg('该课节没有学生，请先添加学生！', { icon: 5 });
+                            return;
+                        }
                         if (count != studentCount) {
-                            layer.msg('请检查所有学生考勤情况', { icon: 5 });
+                            layer.msg('请检查所有学生考勤情况！', { icon: 5 });
                             return;
                         }
                         layer.confirm('请确认考勤数据，确定？', { icon: 3 }, function (index) {

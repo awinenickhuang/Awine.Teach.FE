@@ -26,15 +26,32 @@
                 <li>订单管理</li>
             </ul>
             <div class="layui-tab-content">
-                <div class="layui-tab-item layui-show" id="studentcoursetemplateview">
+                <div class="layui-tab-item layui-show">
                     <!--报读课程-->
+                    <script type="text/html" id="studentcourseorderitem-toolbar">
+                        <div class="layui-btn-container">
+                            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="renewal"><i class="layui-icon layui-icon-rmb"></i>续费</a>
+                            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="closed"><i class="layui-icon layui-icon-time"></i>停课</a>
+                            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="refund"><i class="layui-icon layui-icon-dialogue"></i>退费</a>
+                            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="graduation"><i class="layui-icon layui-icon-heart"></i>毕业</a>
+                        </div>
+                    </script>
+                    <table class="layui-table" id="studentcourseorderitem-table" lay-filter="studentcourseorderitem-table"></table>
                 </div>
                 <div class="layui-tab-item">
+                    <!--上课记录-->
                     <table class="layui-table" id="attendance-table" lay-filter="attendance-table"></table>
                 </div>
-                <div class="layui-tab-item">成长档案功能开发中</div>
-                <div class="layui-tab-item">优惠券功能开发中</div>
                 <div class="layui-tab-item">
+                    <!--成长档案-->
+                    成长档案功能开发中
+                </div>
+                <div class="layui-tab-item">
+                    <!--优惠券-->
+                    优惠券功能开发中
+                </div>
+                <div class="layui-tab-item">
+                    <!--订单信息-->
                     <table class="layui-table" id="studentcourseorder-table" lay-filter="studentcourseorder-table"></table>
                 </div>
             </div>
@@ -79,60 +96,9 @@
         -->
         <button class="layui-btn layui-btn-sm caller-fr" id="btn-student-register" style="margin-right:5px;">
             <i class="layui-icon layui-icon-chat"></i>
-            续费或扩科
+            扩科
         </button>
     </div>
-    {{#  } }}
-</script>
-<script type="text/html" id="studentcoursetemplate">
-    {{#  layui.each(d, function(index, item){ }}
-    <div class="caller-contar">
-        <div class="caller-item">
-            <img src="{{ layui.setter.base }}style/res/template/course_default_img.jpg" alt="" class="caller-img caller-fl">
-            <div class="caller-main caller-fl">
-                <p>
-                    报读课程：{{item.courseName}}
-                    就读班级：
-                    {{#  if(item.classesId==='00000000-0000-0000-0000-000000000000'){ }}
-                    待分班
-                    {{#  }else{ }}
-                    {{item.classesName}}
-                    {{#  } }}
-                    收费方式：
-                    {{#  if(item.chargeManner===1){ }}
-                    按课时收费
-                    {{#  }else{ }}
-                    按月收费
-                    {{#  } }}
-                    报名时间：
-                    {{item.createTime}}
-                </p>
-                <div class="caller-iconset" style="margin-top:5px;">
-                    购买数量：
-                    {{#  if(item.chargeManner===1){ }}
-                    <strong style="color:#FF5722;">{{item.purchaseQuantity}}个课时</strong>
-                    {{#  }else{ }}
-                    <strong style="color:#FF5722;">{{item.purchaseQuantity}}个月</strong>
-                    {{#  } }}
-                    已消耗数量：
-                    {{#  if(item.chargeManner===1){ }}
-                    <strong style="color:#009688;">{{item.consumedQuantity}}个课时</strong>
-                    {{#  }else{ }}
-                    <strong style="color:#009688;">{{item.consumedQuantity}}个月</strong>
-                    {{#  } }}
-                    剩余数量：
-                    {{#  if(item.chargeManner===1){ }}
-                    <strong style="color:#FFB800;">{{item.remainingNumber}}个课时</strong>
-                    {{#  }else{ }}
-                    <strong style="color:#FFB800;">{{item.remainingNumber}}个月</strong>
-                    {{#  } }}
-                </div>
-            </div>
-        </div>
-    </div>
-    {{#  }); }}
-    {{#  if(d.length === 0){ }}
-    <p style="width:100%; text-align:center;padding-top:10px;"><i class="layui-icon layui-icon-face-cry"></i>   暂无报读数据</p>
     {{#  } }}
 </script>
 <script>

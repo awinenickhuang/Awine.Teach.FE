@@ -245,7 +245,8 @@ layui.define(['laytpl', 'layer', 'element', 'util'], function (exports) {
                 update: 'http://localhost:8002/api/student/update',
                 single: 'http://localhost:8002/api/student/single',
                 registration: 'http://localhost:8002/api/student/registration',
-                supplement: 'http://localhost:8002/api/student/supplement',
+                increaselearningcourses: 'http://localhost:8002/api/student/increaselearningcourses',
+                continuetopaytuition: 'http://localhost:8002/api/student/continuetopaytuition',
             },
             studentcourseitem: {
                 list: 'http://localhost:8002/api/studentcourseitem/list',

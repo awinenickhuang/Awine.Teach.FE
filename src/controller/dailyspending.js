@@ -27,7 +27,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                     return common.fixedMoney(d.amount);
                 }
             },
-            { field: 'displayOrder', title: '项目' },
+            { field: 'financialItemName', title: '项目', align: 'center' },
             { field: 'createTime', align: 'center', title: '创建时间' },
             {
                 width: 100,
@@ -66,10 +66,11 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
         var checkStatus = table.checkStatus(obj.config.id);
         switch (obj.event) {
             case 'search':
-                admin.popup({
+                admin.popupRight({
                     title: '日常支出搜索'
-                    , area: ['50%', '30%']
+                    , area: ['30%', '100%']
                     , resize: false
+                    , closeBtn: 1
                     , success: function (layero, index) {
                         view(this.id).render('financial/dailyspending/search').done(function () {
                             //初始化日期范围

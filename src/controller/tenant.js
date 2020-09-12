@@ -23,7 +23,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                             view.innerHTML = html;
                         });
                     } else {
-                        layer.msg("找不到你要查看的学生信息");
+                        layer.msg("找不到机构信息");
                     }
                     //$("#tenanttemplateview").html(tenants.join(''));
                 } else {

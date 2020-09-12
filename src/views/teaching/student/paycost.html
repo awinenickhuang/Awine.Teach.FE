@@ -1,0 +1,90 @@
+﻿<script type="text/html" template>
+    <link rel="stylesheet" href="{{ layui.setter.base }}style/template.css?v={{ layui.admin.v }}-1" media="all">
+</script>
+<form class="layui-form layui-form-pane" style="padding:15px;" id="continuetopaytuition-form" lay-filter="continuetopaytuition-form">
+    <div class="layui-form-item">
+        <label class="layui-form-label">续费课程</label>
+        <div class="layui-input-block">
+            <input type="text" id="courseName" name="courseName" value="" disabled lay-verify="required|normallength" maxlength="20" autocomplete="off" placeholder="" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">收费方式</label>
+        <div class="layui-input-block">
+            <input type="text" id="chargeManner" name="chargeManner" value="" disabled lay-verify="required|normallength" maxlength="32" autocomplete="off" placeholder="" class="layui-input">
+        </div>
+    </div>
+    <!--授课时长-->
+    <div class="layui-form-item" id="course-duration-classhour-view">
+        <label class="layui-form-label">授课时长</label>
+        <div class="layui-input-block">
+            <input type="text" id="teachingTime" name="teachingTime" value="0" disabled lay-verify="required" maxlength="32" placeholder="授课时长" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <!--总价-->
+    <div class="layui-form-item" id="charge-unitprice-classhour-view">
+        <label class="layui-form-label">总价（元）</label>
+        <div class="layui-input-block">
+            <input type="text" id="totlePrice" name="totlePrice" value="0" disabled lay-verify="required" maxlength="32" placeholder="总价（元）" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <!--单价-->
+    <div class="layui-form-item" id="course-duration-month-view">
+        <label class="layui-form-label">单价（元）</label>
+        <div class="layui-input-block">
+            <input type="text" id="unitPrice" name="unitPrice" value="0" disabled lay-verify="required" maxlength="3" placeholder="单价（元）" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <!--购买数量-->
+    <div class="layui-form-item" id="chargeunitprice-month-view">
+        <label class="layui-form-label">购买数量</label>
+        <div class="layui-input-block">
+            <input type="text" id="purchaseQuantity" name="purchaseQuantity" value="1" lay-verify="required|number" maxlength="3" placeholder="" autocomplete="off" class="layui-input" onkeyup="this.value=this.value.replace(/\D/g,'')" onfocus="this.value=''" onblur="if(this.value==''){this.value=this.defaultValue}" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">优惠（元）</label>
+        <div class="layui-input-block">
+            <input type="text" id="discountAmount" value="0.00" name="DiscountAmount" lay-verify="required|decimalplaces" maxlength="18" placeholder="0" autocomplete="off" class="layui-input" onkeyup="this.value=this.value.replace(/\D/g,'')" onfocus="this.value=''" onblur="if(this.value==''){this.value=this.defaultValue}" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">应收（元）</label>
+        <div class="layui-input-block">
+            <input style="color:red;font-weight:bold;font-size:14px;" value="0.00" readonly type="text" id="receivableAmount" name="ReceivableAmount" lay-verify="required|decimalplaces" maxlength="18" placeholder="0" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">实收（元）</label>
+        <div class="layui-input-block">
+            <input style="color:red;font-weight:bold;font-size:14px;" value="0.00" type="text" id="realityAmount" name="RealityAmount" lay-verify="required|decimalplaces" maxlength="18" placeholder="0" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">支付方式</label>
+        <div class="layui-input-block">
+            <select class="sel" id="sel-paymentmethod-list" name="PaymentMethodId" lay-verify="required|select" lay-filter="sel-paymentmethod-list-filter"></select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">业绩归属</label>
+        <div class="layui-input-block">
+            <select class="sel" id="sel-salesstaff-list" name="SalesStaffId" lay-verify="required|select" lay-filter="sel-salesstaff-list-filter"></select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">销售渠道</label>
+        <div class="layui-input-block">
+            <select class="sel" id="sel-marketingchannel-list" name="MarketingchannelId" lay-verify="required|select" lay-filter="sel-marketingchannel-list-filter"></select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">备注信息</label>
+        <div class="layui-input-block">
+            <input type="text" id="noteInformation" name="NoteInformation" lay-verify="" maxlength="32" autocomplete="off" placeholder="最多输入32个字符" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item content-center">
+        <button class="layui-btn layui-btn-sm" type="button" lay-submit lay-filter="continuetopaytuition-form-submit"><i class="layui-icon layui-icon-ok"></i>立即提交</button>
+    </div>
+</form>

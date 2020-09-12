@@ -58,10 +58,11 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification'], f
         var checkStatus = table.checkStatus(obj.config.id);
         switch (obj.event) {
             case 'add':
-                admin.popup({
+                admin.popupRight({
                     title: '添加'
-                    , area: ['30%', '35%']
+                    , area: ['30%', '100%']
                     , resize: false
+                    , closeBtn: 1
                     , success: function (layero, index) {
                         view(this.id).render('foundational/industry/add').done(function () {
                             //监听提交
@@ -94,10 +95,11 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification'], f
                 });
             });
         } else if (obj.event === 'edit') {
-            admin.popup({
+            admin.popupRight({
                 title: '修改'
-                , area: ['30%', '35%']
+                , area: ['30%', '100%']
                 , resize: false
+                , closeBtn: 1
                 , success: function (layero, index) {
                     view(this.id).render('foundational/industry/edit', data).done(function () {
                         form.render();
