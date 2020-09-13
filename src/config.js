@@ -253,6 +253,7 @@ layui.define(['laytpl', 'layer', 'element', 'util'], function (exports) {
                 pagelist: 'http://localhost:8002/api/studentcourseitem/pagelist',
                 addstudentsintoclass: 'http://localhost:8002/api/studentcourseitem/addstudentsintoclass',
                 removestudentfromclass: 'http://localhost:8002/api/studentcourseitem/removestudentfromclass',
+                updatelearningprocess: 'http://localhost:8002/api/studentcourseitem/updatelearningprocess'
             },
             studentcourseorder: {
                 list: 'http://localhost:8002/api/studentcourseorder/list',

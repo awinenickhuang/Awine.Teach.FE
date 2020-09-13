@@ -26,7 +26,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'r
         , url: setter.apiAddress.consultrecord.pagelist
         , toolbar: '#consultrecord-table-toolbar'
         , cols: [[
-            { type: 'checkbox' },
+            { type: 'radio' },
             { field: 'name', title: '姓名', width: 100 },
             {
                 field: 'gender', title: '性别', align: 'center', width: 100,
@@ -241,10 +241,6 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'r
                     layer.msg('请选择咨询记录');
                     return;
                 }
-                if (selected.length > 1) {
-                    layer.msg('只能选择一条咨询记录');
-                    return;
-                }
                 var data = selected[0];
                 admin.popupRight({
                     title: '修改'
@@ -305,10 +301,6 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'r
             case 'communicationrecord'://跟进记录
                 if (selected.length <= 0) {
                     layer.msg('请选择咨询记录');
-                    return;
-                }
-                if (selected.length > 1) {
-                    layer.msg('只能选择一条咨询记录');
                     return;
                 }
                 var data = selected[0];
@@ -403,10 +395,6 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'r
                     layer.msg('请选择咨询记录');
                     return;
                 }
-                if (selected.length > 1) {
-                    layer.msg('只能选择一条咨询记录');
-                    return;
-                }
                 var data = selected[0];
                 admin.popupRight({
                     title: '跟进指派'
@@ -458,10 +446,6 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'r
                     layer.msg('请选择咨询记录');
                     return;
                 }
-                if (selected.length > 1) {
-                    layer.msg('只能选择一条咨询记录');
-                    return;
-                }
                 var data = selected[0];
                 if (data.trackingStafferId == "00000000-0000-0000-0000-000000000000") {
                     layer.msg('请先分配跟进人');
@@ -511,80 +495,63 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'r
                             });
                             form.render();
                             var studentregister = {
+                                assistData: {
+                                    chargemanner: 1,                                 //收费方式
+                                    unitPrice: 0,                                    //课程单价
+                                    totalPrice: 0,                                   //课程总价
+                                },
                                 registerData: {
-                                    studentId: data.id,
-                                    name: data.name,
-                                    gender: data.gender,
-                                    age: data.age,
-                                    idNumber: data.idNumber,
-                                    phoneNumber: data.phoneNumber,
-                                    address: data.address,
-                                    courseId: '',
-                                    receivableAmount: 0,//应收金额
-                                    discountAmount: 0,//优惠金额
-                                    realityAmount: 0,//实收金额
-                                    paymentMethodId: '',//支付方式标识
-                                    noteInformation: '',
-                                    salesStaffId: data.trackingStafferId,
-                                    salesStaffName: data.trackingStafferName,
-                                    marketingChannelId: data.marketingChannelId,
-                                    purchaseQuantity: 0,//购买数量
-                                    chargeMannerId: ''//收费方式标识
+                                    studentId: data.id,                              //学生标识
+                                    name: data.name,                                 //学生姓名
+                                    gender: data.gender,                             //学生性别
+                                    age: data.age,                                   //学生年龄
+                                    idNumber: data.idNumber,                         //身份证号
+                                    phoneNumber: data.phoneNumber,                   //电话号码
+                                    address: data.address,                           //联系地址
+                                    courseId: '',                                    //报读课程
+                                    receivableAmount: 0,                             //应收金额
+                                    discountAmount: 0,                               //优惠金额
+                                    realityAmount: 0,                                //实收金额
+                                    paymentMethodId: '',                             //支付方式标识
+                                    noteInformation: '',                             //缴费备注
+                                    salesStaffId: data.trackingStafferId,            //业绩归属
+                                    salesStaffName: data.trackingStafferName,        //业绩归属姓名
+                                    marketingChannelId: data.marketingChannelId,     //营销渠道
+                                    purchaseQuantity: 0,                             //购买数量
+                                    chargeMannerId: ''                               //收费方式标识
                                 },
                                 //费用计算
-                                getReceivableAmount: function () {
-                                    //课时数量或月数
-                                    var courseDuration = 1;
-                                    //单价
-                                    var chargeUnitPrice = 0;
-                                    //如果收费方式为：按课程收费
-                                    if ($("#hid-charges-hargemanner").val() == 1) {
-                                        courseDuration = $("#cours-eduration-classhour").val();
-                                        chargeUnitPrice = $("#charge-unitprice-classhour").val();
-                                    } else {
-                                        courseDuration = $("#cours-eduration-month").val();
-                                        chargeUnitPrice = $("#charge-unitprice-month").val();
-                                    }
-                                    //总价
-                                    var totalprice = $("#totalprice").val();
-                                    //优惠金额-可能带小数点
-                                    var discountAmount = $("#discountAmount").val();
+                                computationalCosts: function () {
                                     //验证优惠金额
-                                    if (!new RegExp("^[0-9]*$").test(discountAmount)) {
-                                        discountAmount = 0;
-                                        $("#receivableAmount").val(0);
-                                        $("#realityAmount").val(0);
+                                    if (!new RegExp("^-?[0-9]+([\.]{0,1}[0-9]{1,2})?$").test(studentregister.registerData.discountAmount)) {
+                                        studentregister.registerData.discountAmount = 0;
                                     }
-                                    //验证课时数量或月数
-                                    if (!new RegExp("^[0-9]*$").test(courseDuration)) {
-                                        courseDuration = 0;
-                                        $("#receivableAmount").val(0);
-                                        $("#realityAmount").val(0);
-                                    }
-                                    //应收
-                                    var receivableAmount = courseDuration * chargeUnitPrice;
-                                    //实收
-                                    var realityAmount = (courseDuration * chargeUnitPrice) - discountAmount;
+                                    //应收金额
+                                    var receivableAmount = studentregister.registerData.purchaseQuantity * studentregister.assistData.unitPrice;
+                                    //实收金额
+                                    var realityAmount = receivableAmount - studentregister.registerData.discountAmount;
                                     if (realityAmount <= 0) {
                                         realityAmount = 0;
                                     }
-                                    //应收
+                                    //应收金额
                                     $("#receivableAmount").val(common.fixedMoney(receivableAmount));
-                                    //总价
-                                    $("#totalprice").val(common.fixedMoney(receivableAmount));
-                                    //实收
+                                    //实收金额
                                     $("#realityAmount").val(common.fixedMoney(realityAmount));
+                                    //应收金额
+                                    studentregister.registerData.receivableAmount = receivableAmount;
+                                    //实收金额
+                                    studentregister.registerData.realityAmount = realityAmount;
                                 },
-                                clearinput: function () {
-                                    $("#cours-eduration-month").val(0);
-                                    $("#cours-eduration-classhour").val(0);
-                                    $("#charge-unitprice-classhour").val(common.fixedMoney(0));
-                                    $("#charge-unitprice-month").val(common.fixedMoney(0));
-                                    $("#totalprice").val(common.fixedMoney(0));
+                                clearInput: function () {
+                                    $("#purchaseQuantity").val(0);
+                                    $("#unitPrice").val(common.fixedMoney(0));
+                                    $("#totalPrice").val(common.fixedMoney(0));
+                                    $("#discountAmount").val(common.fixedMoney(0));
                                     $("#receivableAmount").val(common.fixedMoney(0));
                                     $("#realityAmount").val(common.fixedMoney(0));
                                 }
                             };
+
                             //初始化业绩归属人
                             $("#sel-salesstaff-list").empty();
                             common.ajax(setter.apiAddress.aspnetuser.list, "GET", "", "", function (res) {
@@ -599,7 +566,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'r
                                 form.render("select");
                             });
 
-                            //业绩归属人下拉事件
+                            //业绩归属人选择事件
                             form.on('select(sel-salesstaff-list-filter)', function (data) {
                                 studentregister.registerData.salesStaffId = data.value;
                                 studentregister.registerData.salesStaffName = data.elem[data.elem.selectedIndex].text;
@@ -613,10 +580,12 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'r
                                 });
                                 form.render("select");
                             });
-                            //支付方式下拉事件
+
+                            //支付方式选择事件
                             form.on('select(sel-paymentmethod-list-filter)', function (data) {
                                 studentregister.registerData.paymentMethodId = data.value;
                             });
+
                             //初始课程数据
                             common.ajax(setter.apiAddress.course.list, "GET", "", { enabledStatus: 1 }, function (res) {
                                 $("#sel-course-list").append("<option value=\"\">请选择课程</option>");
@@ -625,15 +594,21 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'r
                                 });
                                 form.render("select");
                             });
-                            //监听课程下拉事件
+
+                            //课程选择事件
                             form.on('select(sel-course-list-filter)', function (data) {
+
+                                //清空所有输入
+                                studentregister.clearInput();
+
+                                //记录报名课程ID
                                 studentregister.registerData.courseId = data.value;
-                                //初始化选中课程的收费方式
+
+                                //初始化报名课程的收费方式
                                 common.ajax(setter.apiAddress.coursechargemanner.list, "GET", "", { courseId: data.value }, function (res) {
-                                    studentregister.clearinput();
-                                    //收费方式下拉列表
+                                    //初始化课程的收费方式下拉列表
                                     $("#sel-course-charges-type-list").empty();
-                                    $("#sel-course-charges-type-list").append("<option value=\"\">请选择</option>");
+                                    $("#sel-course-charges-type-list").append("<option value=\"\">请选择收费方式</option>");
                                     var options_classhour = [];
                                     var options_classmonth = [];
                                     options_classhour.push("<optgroup label=\"按课时收费\">");
@@ -657,67 +632,55 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'r
                                     form.render("select");
                                 });
                             });
-                            //监听并处理收费方式选择事件
+
+                            //收费方式选择事件
                             form.on('select(sel-chargemanner-list-filter)', function (data) {
+
+                                //记录收费方式ID
                                 studentregister.registerData.chargeMannerId = data.value;
-                                let chargemanner = data.elem[data.elem.selectedIndex].dataset.chargemanner;
+
                                 //收费方式
-                                $("#hid-charges-hargemanner").val(chargemanner);
-                                if (chargemanner == 1) {
-                                    //按课时收费购买课时数
-                                    $("#course-duration-classhour-view").show();
-                                    //按课时收费单价
-                                    $("#charge-unitprice-classhour-view").show();
-                                    //按月收费购买月数
-                                    $("#course-duration-month-view").hide();
-                                    //按月收费单价
-                                    $("#chargeunitprice-month-view").hide();
-                                    //默认购买课时数量
-                                    $("#cours-eduration-classhour").val(data.elem[data.elem.selectedIndex].dataset.courseduration);
-                                    //课时单价
-                                    $("#charge-unitprice-classhour").val(data.elem[data.elem.selectedIndex].dataset.chargeunitprice);
-                                } else {
-                                    //按课时收费购买课时数
-                                    $("#course-duration-classhour-view").hide();
-                                    //按课时收费单价
-                                    $("#charge-unitprice-classhour-view").hide();
-                                    //按月收费购买月数
-                                    $("#course-duration-month-view").show();
-                                    //按月收费单价
-                                    $("#chargeunitprice-month-view").show();
-                                    //默认购买月数量
-                                    $("#cours-eduration-month").val(data.elem[data.elem.selectedIndex].dataset.courseduration);
-                                    //月单价
-                                    $("#charge-unitprice-month").val(data.elem[data.elem.selectedIndex].dataset.chargeunitprice);
-                                }
-                                $("#totalprice").val(common.fixedMoney(data.elem[data.elem.selectedIndex].dataset.totalprice));
+                                studentregister.assistData.chargemanner = data.elem[data.elem.selectedIndex].dataset.chargemanner;
+
+                                //购买数量
+                                $("#purchaseQuantity").val(data.elem[data.elem.selectedIndex].dataset.courseduration);
+                                studentregister.registerData.purchaseQuantity = data.elem[data.elem.selectedIndex].dataset.courseduration;
+
+                                //课程单价
+                                $("#unitPrice").val(common.fixedMoney(data.elem[data.elem.selectedIndex].dataset.chargeunitprice));
+                                studentregister.assistData.unitPrice = data.elem[data.elem.selectedIndex].dataset.chargeunitprice;
+
+                                //优惠金额
+                                $("#discountAmount").val(common.fixedMoney(0));
+                                studentregister.registerData.discountAmount = 0;
+
+                                //课程总价
+                                $("#totalPrice").val(common.fixedMoney(data.elem[data.elem.selectedIndex].dataset.totalprice));
+                                studentregister.assistData.totalPrice = data.elem[data.elem.selectedIndex].dataset.totalprice;
+
                                 //计算支付信息
-                                studentregister.getReceivableAmount();
+                                studentregister.computationalCosts();
                             });
 
-                            //课时数量变化重新计算金额 sel-paymentmethod-list-filter
-                            $('#cours-eduration-classhour').bind('input onkeyup', function () {
-                                studentregister.getReceivableAmount();
-                            });
-
-                            //折扣数量变化重新计算金额
+                            //折扣金额变化重新计算金额
                             $('#discountAmount').bind('input onkeyup', function () {
-                                studentregister.getReceivableAmount();
+                                var value = this.value;
+                                studentregister.registerData.discountAmount = value;
+                                studentregister.computationalCosts();
+                            });
+
+                            //折扣金额失去焦点时格式金额
+                            $("#discountAmount").blur(function () {
+                                var value = this.value;
+                                var node = this;
+                                node.value = common.fixedMoney(node.value);
+                                studentregister.registerData.discountAmount = value;
+                                studentregister.computationalCosts();
                             });
 
                             //监听提交
                             form.on('submit(register-form-submit)', function (datas) {
                                 studentregister.registerData.noteInformation = $("#noteInformation").val();
-                                //购买数量
-                                if ($("#hid-charges-hargemanner").val() == 1) {
-                                    studentregister.registerData.purchaseQuantity = $("#cours-eduration-classhour").val();
-                                } else {
-                                    studentregister.registerData.purchaseQuantity = $("#cours-eduration-month").val();
-                                }
-                                studentregister.registerData.receivableAmount = $("#receivableAmount").val();//应收金额
-                                studentregister.registerData.discountAmount = $("#discountAmount").val();//优惠金额
-                                studentregister.registerData.realityAmount = $("#realityAmount").val();//实收金额
-
                                 common.ajax(setter.apiAddress.student.registration, "POST", "", studentregister.registerData, function (res) {
                                     if (res.statusCode == 200) {
                                         layer.close(index);

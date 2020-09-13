@@ -12,59 +12,42 @@
         <label class="layui-form-label">收费方式</label>
         <div class="layui-input-block">
             <select id="sel-course-charges-type-list" name="ChargeMannerId" lay-verify="required|select" lay-filter="sel-chargemanner-list-filter"></select>
-            <input id="hid-charges-hargemanner" name="ChargeManner" type="hidden" />
         </div>
     </div>
-    <!--按课时收费购买课时数-->
-    <div class="layui-form-item" id="course-duration-classhour-view">
-        <label class="layui-form-label">购买课时</label>
+    <div class="layui-form-item">
+        <label class="layui-form-label">购买数量</label>
         <div class="layui-input-block">
-            <input type="text" id="cours-eduration-classhour" name="CourseHourDuration" value="0" lay-verify="required|number" maxlength="3" placeholder="课时数量" autocomplete="off" class="layui-input" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+            <input type="text" id="purchaseQuantity" name="PurchaseQuantity" value="0" disabled lay-verify="required|number" maxlength="3" placeholder="" autocomplete="off" class="layui-input">
         </div>
     </div>
-    <!--按课时收费单价-->
-    <div class="layui-form-item" id="charge-unitprice-classhour-view">
+    <div class="layui-form-item">
         <label class="layui-form-label">单价（元）</label>
         <div class="layui-input-block">
-            <input type="text" id="charge-unitprice-classhour" name="ChargeUnitPriceClassHour" value="0" lay-verify="required|decimalplaces" maxlength="3" placeholder="单价（元）" autocomplete="off" class="layui-input" readonly onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
-        </div>
-    </div>
-    <!--按月收费购买月数-->
-    <div class="layui-form-item" id="course-duration-month-view" style="display:none;">
-        <label class="layui-form-label">购买月数</label>
-        <div class="layui-input-block">
-            <input type="text" id="cours-eduration-month" name="CourseMonthDuration" value="0" disabled lay-verify="required|number" maxlength="3" placeholder="时长（月）" autocomplete="off" class="layui-input" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
-        </div>
-    </div>
-    <!--按月收费单价-->
-    <div class="layui-form-item" id="chargeunitprice-month-view" style="display:none;">
-        <label class="layui-form-label">单价（元）</label>
-        <div class="layui-input-block">
-            <input type="text" id="charge-unitprice-month" name="ChargeUnitPriceMonth" value="0" lay-verify="required|decimalplaces" maxlength="3" placeholder="单价（元）" autocomplete="off" class="layui-input" readonly onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+            <input type="text" id="unitPrice" name="UnitPrice" value="0" disabled lay-verify="required|decimalplaces" maxlength="3" placeholder="单价（元）" autocomplete="off" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">总价（元）</label>
         <div class="layui-input-block">
-            <input type="text" id="totalprice" name="TotalPrice" value="0" lay-verify="required|decimalplaces" maxlength="3" placeholder="总价（元）" autocomplete="off" class="layui-input" readonly onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+            <input type="text" id="totalPrice" name="TotalPrice" value="0" disabled lay-verify="required|decimalplaces" maxlength="3" placeholder="总价（元）" autocomplete="off" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">优惠（元）</label>
         <div class="layui-input-block">
-            <input type="text" id="discountAmount" value="0.00" name="DiscountAmount" lay-verify="required|decimalplaces" maxlength="18" placeholder="0" autocomplete="off" class="layui-input" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+            <input type="text" id="discountAmount" value="0.00" name="DiscountAmount" lay-verify="required|decimalplaces" maxlength="18" placeholder="0" autocomplete="off" class="layui-input" onkeyup="this.value=this.value.replace(/\D/g,'')" onfocus="this.value=''" onblur="if(this.value==''){this.value=this.defaultValue}" onafterpaste="this.value=this.value.replace(/\D/g,'')">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">应收（元）</label>
         <div class="layui-input-block">
-            <input style="color:red;font-weight:bold;" value="0.00" readonly type="text" id="receivableAmount" name="ReceivableAmount" lay-verify="required|decimalplaces" maxlength="18" placeholder="0" autocomplete="off" class="layui-input">
+            <input style="color:red;font-weight:bold;" value="0.00" disabled type="text" id="receivableAmount" name="ReceivableAmount" lay-verify="required|decimalplaces" maxlength="18" placeholder="0" autocomplete="off" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">实收（元）</label>
         <div class="layui-input-block">
-            <input style="color:red;font-weight:bold;" value="0.00" type="text" id="realityAmount" name="RealityAmount" lay-verify="required|decimalplaces" maxlength="18" placeholder="0" autocomplete="off" class="layui-input">
+            <input style="color:red;font-weight:bold;" value="0.00" disabled type="text" id="realityAmount" name="RealityAmount" lay-verify="required|decimalplaces" maxlength="18" placeholder="0" autocomplete="off" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">

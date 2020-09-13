@@ -31,6 +31,8 @@ layui.define(['jquery'], function (exports) {
                     layer.close(this.layerIndex);
                 },
                 error: function (XMLHttpRequest, httpStatus, errorThrown) {
+                    console.log(XMLHttpRequest);
+
                     layer.msg(XMLHttpRequest.responseJSON.message);
                 },
                 success: callback

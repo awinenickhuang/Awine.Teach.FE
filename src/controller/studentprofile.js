@@ -375,7 +375,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
 
                             var continuetopaytuition = {
                                 //计算函数
-                                calculate: function () {
+                                computationalCosts: function () {
                                     //购买数量
                                     var currentPurchaseQuantity = $("#purchaseQuantity").val();
                                     //优惠金额-可能带小数点
@@ -386,7 +386,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                                         $("#receivableAmount").val(0);
                                         $("#realityAmount").val(0);
                                     }
-                                    continuetopaytuition.submitdata.discountAmount = discountAmount;
+                                    continuetopaytuition.renewalData.discountAmount = discountAmount;
                                     //应收
                                     var receivableAmount = currentPurchaseQuantity * currentdata.unitPrice;
                                     //实收
@@ -396,13 +396,18 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                                     }
                                     //应收
                                     $("#receivableAmount").val(common.fixedMoney(receivableAmount));
-                                    continuetopaytuition.submitdata.receivableAmount = receivableAmount;
+                                    continuetopaytuition.renewalData.receivableAmount = receivableAmount;
                                     //实收
                                     $("#realityAmount").val(common.fixedMoney(realityAmount));
-                                    continuetopaytuition.submitdata.realityAmount = realityAmount;
+                                    continuetopaytuition.renewalData.realityAmount = realityAmount;
+                                },
+                                assistData: {
+                                    chargemanner: 1,                                           //收费方式
+                                    unitPrice: 0,                                              //课程单价
+                                    totalPrice: 0,                                             //课程总价
                                 },
                                 //初始化报名数据
-                                submitdata: {
+                                renewalData: {
                                     studentId: layui.router().search.uid,
                                     orderItemId: currentdata.id,                               //续费课程
                                     purchaseQuantity: 1,                                       //购买数量
@@ -444,27 +449,27 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
 
                             //购买数量变化重新计算金额
                             $('#purchaseQuantity').bind('input onkeyup', function () {
-                                continuetopaytuition.submitdata.purchaseQuantity = this.value;
-                                continuetopaytuition.calculate();
+                                continuetopaytuition.renewalData.purchaseQuantity = this.value;
+                                continuetopaytuition.computationalCosts();
                             });
 
                             //购买数量变化重新计算金额
                             $("#purchaseQuantity").blur(function () {
                                 var value = this.value;
                                 var node = this;
-                                continuetopaytuition.calculate();
+                                continuetopaytuition.computationalCosts();
                             });
 
                             //折扣数量变化重新计算金额
                             $('#discountAmount').bind('input onkeyup', function () {
-                                continuetopaytuition.calculate();
+                                continuetopaytuition.computationalCosts();
                             });
 
                             //折扣数量变化重新计算金额
                             $("#discountAmount").blur(function () {
                                 var value = this.value;
                                 var node = this;
-                                continuetopaytuition.calculate();
+                                continuetopaytuition.computationalCosts();
                             });
 
                             //初始化业绩归属人
@@ -479,8 +484,8 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
 
                             //业绩归属人下拉事件
                             form.on('select(sel-salesstaff-list-filter)', function (data) {
-                                continuetopaytuition.submitdata.salesStaffId = data.value;
-                                continuetopaytuition.submitdata.salesStaffName = data.elem[data.elem.selectedIndex].text;
+                                continuetopaytuition.renewalData.salesStaffId = data.value;
+                                continuetopaytuition.renewalData.salesStaffName = data.elem[data.elem.selectedIndex].text;
                             });
 
                             //初始渠道数据
@@ -494,7 +499,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
 
                             //销售渠道下拉事件
                             form.on('select(sel-marketingchannel-list-filter)', function (data) {
-                                continuetopaytuition.submitdata.marketingChannelId = data.value;
+                                continuetopaytuition.renewalData.marketingChannelId = data.value;
                             });
 
                             //初始化支付方式
@@ -507,12 +512,12 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                             });
                             //支付方式下拉事件
                             form.on('select(sel-paymentmethod-list-filter)', function (data) {
-                                continuetopaytuition.submitdata.paymentMethodId = data.value;
+                                continuetopaytuition.renewalData.paymentMethodId = data.value;
                             });
                             //监听提交
                             form.on('submit(continuetopaytuition-form-submit)', function (data) {
-                                continuetopaytuition.submitdata.noteInformation = $("#noteInformation").val();
-                                common.ajax(setter.apiAddress.student.continuetopaytuition, "POST", "", continuetopaytuition.submitdata, function (res) {
+                                continuetopaytuition.renewalData.noteInformation = $("#noteInformation").val();
+                                common.ajax(setter.apiAddress.student.continuetopaytuition, "POST", "", continuetopaytuition.renewalData, function (res) {
                                     if (res.statusCode == 200) {
                                         layer.close(index);
                                         studentProfiles.initStudentCourseItem();
@@ -524,23 +529,12 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                     }
                 });
                 break;
-            case 'closed'://停课
+            case 'shutoutofschool'://停课
                 var data = checkStatus.data;
                 if (data.length == 0) {
                     layer.msg('请选择报读课程', { icon: 5 });
                     return;
                 }
-                admin.popupRight({
-                    title: '停课'
-                    , area: ['30%', '100%']
-                    , resize: false
-                    , closeBtn: 1
-                    , success: function (layero, index) {
-                        view(this.id).render('teaching/student/paycost').done(function () {
-
-                        });
-                    }
-                });
                 break;
             case 'refund'://退费
                 var data = checkStatus.data;
@@ -554,7 +548,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                     , resize: false
                     , closeBtn: 1
                     , success: function (layero, index) {
-                        view(this.id).render('teaching/student/paycost').done(function () {
+                        view(this.id).render('teaching/student/refund').done(function () {
 
                         });
                     }
@@ -566,16 +560,15 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                     layer.msg('请选择报读课程', { icon: 5 });
                     return;
                 }
-                admin.popupRight({
-                    title: '毕业'
-                    , area: ['30%', '100%']
-                    , resize: false
-                    , closeBtn: 1
-                    , success: function (layero, index) {
-                        view(this.id).render('teaching/student/paycost').done(function () {
-
-                        });
-                    }
+                let currentdata = data[0];
+                layer.confirm('将对【' + currentdata.courseName + '】进行结课毕业操作，确定？', { icon: 3 }, function (index) {
+                    common.ajax(setter.apiAddress.studentcourseitem.updatelearningprocess, "POST", "", { Id: currentdata.id, learningProcess: 4 }, function (res) {
+                        if (res.statusCode == 200) {
+                            layer.close(index);
+                            studentProfiles.initStudentCourseItem();
+                        }
+                        layer.msg(res.message);
+                    });
                 });
                 break;
         };
@@ -592,75 +585,60 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                 view(this.id).render('teaching/student/register').done(function () {
                     form.render();
                     //初始化报名数据
-                    var studentSupplement = {
+                    var increaseLearningCourses = {
+                        assistData: {
+                            chargemanner: 1,                                 //收费方式
+                            unitPrice: 0,                                    //课程单价
+                            totalPrice: 0,                                   //课程总价
+                        },
                         increaseLearningCoursesData: {
                             studentId: layui.router().search.uid,
-                            courseId: '',            //课程
-                            receivableAmount: 0,     //应收金额
-                            discountAmount: 0,       //优惠金额
-                            realityAmount: 0,        //实收金额
-                            paymentMethodId: '',     //支付方式标识
-                            noteInformation: '',     //备注
-                            salesStaffId: '',        //业绩
-                            salesStaffName: '',      //业绩
-                            marketingChannelId: '',  //营销渠道
-                            purchaseQuantity: 0,     //购买数量
-                            chargeMannerId: '' //收费方式标识
+                            courseId: '',                                    //课程
+                            receivableAmount: 0,                             //应收金额
+                            discountAmount: 0,                               //优惠金额
+                            realityAmount: 0,                                //实收金额
+                            paymentMethodId: '',                             //支付方式标识
+                            noteInformation: '',                             //备注
+                            salesStaffId: '',                                //业绩
+                            salesStaffName: '',                              //业绩
+                            marketingChannelId: '',                          //营销渠道
+                            purchaseQuantity: 0,                             //购买数量
+                            chargeMannerId: ''                               //收费方式标识
                         },
                         //费用计算
-                        getReceivableAmount: function () {
-                            //课时数量或月数
-                            var courseDuration = 1;
-                            //单价
-                            var chargeUnitPrice = 0;
-                            //如果收费方式为：按课程收费
-                            if ($("#hid-charges-hargemanner").val() == 1) {
-                                courseDuration = $("#cours-eduration-classhour").val();
-                                chargeUnitPrice = $("#charge-unitprice-classhour").val();
-                            } else {
-                                courseDuration = $("#cours-eduration-month").val();
-                                chargeUnitPrice = $("#charge-unitprice-month").val();
-                            }
-                            //总价
-                            var totalprice = $("#totalprice").val();
-                            //优惠金额-可能带小数点
-                            var discountAmount = $("#discountAmount").val();
+                        computationalCosts: function () {
                             //验证优惠金额
-                            if (!new RegExp("^[0-9]*$").test(discountAmount)) {
-                                discountAmount = 0;
-                                $("#receivableAmount").val(0);
-                                $("#realityAmount").val(0);
+                            if (!new RegExp("^-?[0-9]+([\.]{0,1}[0-9]{1,2})?$").test(increaseLearningCourses.increaseLearningCoursesData.discountAmount)) {
+                                increaseLearningCourses.increaseLearningCoursesData.discountAmount = 0;
                             }
-                            //验证课时数量或月数
-                            if (!new RegExp("^[0-9]*$").test(courseDuration)) {
-                                courseDuration = 0;
-                                $("#receivableAmount").val(0);
-                                $("#realityAmount").val(0);
+                            //验证购买数量
+                            if (!new RegExp("^[0-9]*$").test(increaseLearningCourses.increaseLearningCoursesData.purchaseQuantity)) {
+                                increaseLearningCourses.increaseLearningCoursesData.purchaseQuantity = 0;
                             }
-                            //应收
-                            var receivableAmount = courseDuration * chargeUnitPrice;
-                            //实收
-                            var realityAmount = (courseDuration * chargeUnitPrice) - discountAmount;
+                            //应收金额
+                            var receivableAmount = increaseLearningCourses.increaseLearningCoursesData.purchaseQuantity * increaseLearningCourses.assistData.unitPrice;
+                            //实收金额
+                            var realityAmount = receivableAmount - increaseLearningCourses.increaseLearningCoursesData.discountAmount;
                             if (realityAmount <= 0) {
                                 realityAmount = 0;
                             }
-                            //应收
+                            //应收金额
                             $("#receivableAmount").val(common.fixedMoney(receivableAmount));
-                            //总价
-                            $("#totalprice").val(common.fixedMoney(receivableAmount));
-                            //实收
+                            increaseLearningCourses.increaseLearningCoursesData.receivableAmount = receivableAmount;
+                            //实收金额
                             $("#realityAmount").val(common.fixedMoney(realityAmount));
+                            increaseLearningCourses.increaseLearningCoursesData.realityAmount = realityAmount;
                         },
-                        clearinput: function () {
-                            $("#cours-eduration-month").val(0);
-                            $("#cours-eduration-classhour").val(0);
-                            $("#charge-unitprice-classhour").val(common.fixedMoney(0));
-                            $("#charge-unitprice-month").val(common.fixedMoney(0));
-                            $("#totalprice").val(common.fixedMoney(0));
+                        clearInput: function () {
+                            $("#purchaseQuantity").val(0);
+                            $("#unitPrice").val(common.fixedMoney(0));
+                            $("#totalPrice").val(common.fixedMoney(0));
+                            $("#discountAmount").val(common.fixedMoney(0));
                             $("#receivableAmount").val(common.fixedMoney(0));
                             $("#realityAmount").val(common.fixedMoney(0));
                         }
                     };
+
                     //初始化业绩归属人
                     $("#sel-salesstaff-list").empty();
                     common.ajax(setter.apiAddress.aspnetuser.list, "GET", "", "", function (res) {
@@ -673,8 +651,8 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
 
                     //业绩归属人下拉事件
                     form.on('select(sel-salesstaff-list-filter)', function (data) {
-                        studentSupplement.increaseLearningCoursesData.salesStaffId = data.value;
-                        studentSupplement.increaseLearningCoursesData.salesStaffName = data.elem[data.elem.selectedIndex].text;
+                        increaseLearningCourses.increaseLearningCoursesData.salesStaffId = data.value;
+                        increaseLearningCourses.increaseLearningCoursesData.salesStaffName = data.elem[data.elem.selectedIndex].text;
                     });
 
                     //初始渠道数据
@@ -688,7 +666,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
 
                     //销售渠道下拉事件
                     form.on('select(sel-marketingchannel-list-filter)', function (data) {
-                        studentSupplement.increaseLearningCoursesData.marketingChannelId = data.value;
+                        increaseLearningCourses.increaseLearningCoursesData.marketingChannelId = data.value;
                     });
 
                     //初始化支付方式
@@ -699,10 +677,12 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                         });
                         form.render("select");
                     });
+
                     //支付方式下拉事件
                     form.on('select(sel-paymentmethod-list-filter)', function (data) {
-                        studentSupplement.increaseLearningCoursesData.paymentMethodId = data.value;
+                        increaseLearningCourses.increaseLearningCoursesData.paymentMethodId = data.value;
                     });
+
                     //初始课程数据
                     common.ajax(setter.apiAddress.course.list, "GET", "", { enabledStatus: 1 }, function (res) {
                         $("#sel-course-list").append("<option value=\"\">请选择课程</option>");
@@ -711,12 +691,18 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                         });
                         form.render("select");
                     });
+
                     //监听课程下拉事件
                     form.on('select(sel-course-list-filter)', function (data) {
-                        studentSupplement.increaseLearningCoursesData.courseId = data.value;
+
+                        //清空输入
+                        increaseLearningCourses.clearInput();
+
+                        //记录课程ID
+                        increaseLearningCourses.increaseLearningCoursesData.courseId = data.value;
+
                         //初始化选中课程的收费方式
                         common.ajax(setter.apiAddress.coursechargemanner.list, "GET", "", { courseId: data.value }, function (res) {
-                            studentSupplement.clearinput();
                             //收费方式下拉列表
                             $("#sel-course-charges-type-list").empty();
                             $("#sel-course-charges-type-list").append("<option value=\"\">请选择</option>");
@@ -743,74 +729,57 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                             form.render("select");
                         });
                     });
+
                     //监听并处理收费方式选择事件
                     form.on('select(sel-chargemanner-list-filter)', function (data) {
-                        studentSupplement.increaseLearningCoursesData.chargeMannerId = data.value;
-                        let chargemanner = data.elem[data.elem.selectedIndex].dataset.chargemanner;
-                        //收费方式
-                        $("#hid-charges-hargemanner").val(chargemanner);
-                        if (chargemanner == 1) {
-                            //按课时收费购买课时数
-                            $("#course-duration-classhour-view").show();
-                            //按课时收费单价
-                            $("#charge-unitprice-classhour-view").show();
-                            //按月收费购买月数
-                            $("#course-duration-month-view").hide();
-                            //按月收费单价
-                            $("#chargeunitprice-month-view").hide();
-                            //默认购买课时数量
-                            $("#cours-eduration-classhour").val(data.elem[data.elem.selectedIndex].dataset.courseduration);
-                            //课时单价
-                            $("#charge-unitprice-classhour").val(common.fixedMoney(data.elem[data.elem.selectedIndex].dataset.chargeunitprice));
-                        } else {
-                            //按课时收费购买课时数
-                            $("#course-duration-classhour-view").hide();
-                            //按课时收费单价
-                            $("#charge-unitprice-classhour-view").hide();
-                            //按月收费购买月数
-                            $("#course-duration-month-view").show();
-                            //按月收费单价
-                            $("#chargeunitprice-month-view").show();
-                            //默认购买月数量
-                            $("#cours-eduration-month").val(data.elem[data.elem.selectedIndex].dataset.courseduration);
-                            //月单价
-                            $("#charge-unitprice-month").val(common.fixedMoney(data.elem[data.elem.selectedIndex].dataset.chargeunitprice));
-                        }
-                        $("#totalprice").val(common.fixedMoney(data.elem[data.elem.selectedIndex].dataset.totalprice));
-                        //计算支付信息
-                        studentSupplement.getReceivableAmount();
-                    });
 
-                    //课时数量变化重新计算金额
-                    $('#cours-eduration-classhour').bind('input onkeyup', function () {
-                        studentSupplement.getReceivableAmount();
+                        //记录支付方式ID
+                        increaseLearningCourses.increaseLearningCoursesData.chargeMannerId = data.value;
+
+                        //收费方式
+                        increaseLearningCourses.assistData.chargemanner = data.elem[data.elem.selectedIndex].dataset.chargemanner;
+
+                        //购买数量
+                        increaseLearningCourses.increaseLearningCoursesData.purchaseQuantity = data.elem[data.elem.selectedIndex].dataset.courseduration;
+                        $("#purchaseQuantity").val(data.elem[data.elem.selectedIndex].dataset.courseduration);
+
+                        //课程单价
+                        increaseLearningCourses.assistData.unitPrice = data.elem[data.elem.selectedIndex].dataset.chargeunitprice;
+                        $("#unitPrice").val(common.fixedMoney(data.elem[data.elem.selectedIndex].dataset.chargeunitprice));
+
+                        //优惠金额
+                        increaseLearningCourses.increaseLearningCoursesData.discountAmount = 0;
+                        $("#discountAmount").val(common.fixedMoney(0));
+
+                        //课程总价
+                        increaseLearningCourses.assistData.totalPrice = data.elem[data.elem.selectedIndex].dataset.totalprice;
+                        $("#totalPrice").val(common.fixedMoney(data.elem[data.elem.selectedIndex].dataset.totalprice));
+
+                        //计算支付信息
+                        increaseLearningCourses.computationalCosts();
                     });
 
                     //折扣数量变化重新计算金额
                     $('#discountAmount').bind('input onkeyup', function () {
-                        studentSupplement.getReceivableAmount();
+                        var value = this.value;
+                        increaseLearningCourses.increaseLearningCoursesData.discountAmount = value;
+                        increaseLearningCourses.computationalCosts();
                     });
+
                     //折扣金额失去焦点时格式金额
                     $("#discountAmount").blur(function () {
                         var value = this.value;
                         var node = this;
                         node.value = common.fixedMoney(node.value);
+                        increaseLearningCourses.increaseLearningCoursesData.discountAmount = value;
+                        increaseLearningCourses.computationalCosts();
                     })
 
                     //监听提交
                     form.on('submit(register-form-submit)', function (datas) {
-                        studentSupplement.increaseLearningCoursesData.noteInformation = $("#noteInformation").val();
-                        //购买数量
-                        if ($("#hid-charges-hargemanner").val() == 1) {
-                            studentSupplement.increaseLearningCoursesData.purchaseQuantity = $("#cours-eduration-classhour").val();
-                        } else {
-                            studentSupplement.increaseLearningCoursesData.purchaseQuantity = $("#cours-eduration-month").val();
-                        }
-                        studentSupplement.increaseLearningCoursesData.receivableAmount = $("#receivableAmount").val();//应收金额
-                        studentSupplement.increaseLearningCoursesData.discountAmount = $("#discountAmount").val();//优惠金额
-                        studentSupplement.increaseLearningCoursesData.realityAmount = $("#realityAmount").val();//实收金额
+                        increaseLearningCourses.increaseLearningCoursesData.noteInformation = $("#noteInformation").val();
                         //提交数据
-                        common.ajax(setter.apiAddress.student.increaselearningcourses, "POST", "", studentSupplement.increaseLearningCoursesData, function (res) {
+                        common.ajax(setter.apiAddress.student.increaselearningcourses, "POST", "", increaseLearningCourses.increaseLearningCoursesData, function (res) {
                             if (res.statusCode == 200) {
                                 layer.close(index);
                                 studentProfiles.initStudentCourseItem();
