@@ -376,27 +376,19 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                             var continuetopaytuition = {
                                 //计算函数
                                 computationalCosts: function () {
-                                    //购买数量
-                                    var currentPurchaseQuantity = $("#purchaseQuantity").val();
-                                    //优惠金额-可能带小数点
-                                    var discountAmount = $("#discountAmount").val();
                                     //验证优惠金额
-                                    if (!new RegExp("^[0-9]*$").test(discountAmount)) {
-                                        discountAmount = 0;
-                                        $("#receivableAmount").val(0);
-                                        $("#realityAmount").val(0);
+                                    if (!new RegExp("^-?[0-9]+([\.]{0,1}[0-9]{1,2})?$").test(continuetopaytuition.renewalData.discountAmount)) {
+                                        continuetopaytuition.renewalData.discountAmount = 0;
                                     }
-                                    continuetopaytuition.renewalData.discountAmount = discountAmount;
                                     //应收
-                                    var receivableAmount = currentPurchaseQuantity * currentdata.unitPrice;
+                                    var receivableAmount = continuetopaytuition.renewalData.purchaseQuantity * currentdata.unitPrice;
+                                    $("#receivableAmount").val(common.fixedMoney(receivableAmount));
+                                    continuetopaytuition.renewalData.receivableAmount = receivableAmount;
                                     //实收
-                                    var realityAmount = receivableAmount - discountAmount;
+                                    var realityAmount = receivableAmount - continuetopaytuition.renewalData.discountAmount;
                                     if (realityAmount <= 0) {
                                         realityAmount = 0;
                                     }
-                                    //应收
-                                    $("#receivableAmount").val(common.fixedMoney(receivableAmount));
-                                    continuetopaytuition.renewalData.receivableAmount = receivableAmount;
                                     //实收
                                     $("#realityAmount").val(common.fixedMoney(realityAmount));
                                     continuetopaytuition.renewalData.realityAmount = realityAmount;
@@ -423,45 +415,69 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                                 },
                             };
 
-                            //课程名称
+                            //初始化课程名称
                             $("#courseName").val(currentdata.courseName);
-                            //定价标准 - 总价
-                            $("#totlePrice").val(common.fixedMoney(currentdata.totalPrice));
-                            //定价标准 - 单价
-                            $("#unitPrice").val(common.fixedMoney(currentdata.unitPrice));
 
-                            if (currentdata.chargeManner == 1) {
-                                $("#chargeManner").val("按课时收费");
-                                $("#teachingTime").val(currentdata.courseDuration + ' 个课时');
-                            }
-
-                            if (currentdata.chargeManner == 2) {
-                                $("#chargeManner").val("按月收费");
-                                $("#teachingTime").val(currentdata.courseDuration + ' 个月');
-                            }
-
-                            //应收
-                            $("#receivableAmount").val(common.fixedMoney(currentdata.unitPrice));
-                            //总价
-                            $("#totalprice").val(common.fixedMoney(currentdata.unitPrice));
-                            //实收
-                            $("#realityAmount").val(common.fixedMoney(currentdata.unitPrice));
-
-                            //购买数量变化重新计算金额
-                            $('#purchaseQuantity').bind('input onkeyup', function () {
-                                continuetopaytuition.renewalData.purchaseQuantity = this.value;
-                                continuetopaytuition.computationalCosts();
+                            //初始化报名课程的收费方式
+                            common.ajax(setter.apiAddress.coursechargemanner.list, "GET", "", { courseId: currentdata.courseId }, function (res) {
+                                $("#sel-course-charges-type-list").empty();
+                                $("#sel-course-charges-type-list").append("<option value=\"\">请选择收费方式</option>");
+                                var options_classhour = [];
+                                var options_classmonth = [];
+                                options_classhour.push("<optgroup label=\"按课时收费\">");
+                                options_classmonth.push("<optgroup label=\"按月收费\">");
+                                $.each(res.data, function (index, item) {
+                                    if (item.chargeManner == 1) {
+                                        options_classhour.push("<option value=\"" + item.id + "\" data-chargemanner=\"" + item.chargeManner + "\" data-courseduration=\"" + item.courseDuration + "\" data-totalprice=\"" + item.totalPrice + "\" data-chargeunitprice=\"" + item.chargeUnitPriceClassHour + "\">" + item.courseDuration + "个课时 " + common.fixedMoney(item.totalPrice) + "（元） " + item.chargeUnitPriceClassHour + " 元/课时</option>");
+                                    }
+                                    if (item.chargeManner == 2) {
+                                        options_classmonth.push("<option value=\"" + item.id + "\" data-chargemanner=\"" + item.chargeManner + "\" data-courseduration=\"" + item.courseDuration + "\" data-totalprice=\"" + item.totalPrice + "\" data-chargeunitprice=\"" + item.chargeUnitPriceMonth + "\">" + item.courseDuration + "个月 " + common.fixedMoney(item.totalPrice) + "（元） " + item.chargeUnitPriceMonth + " /月</option>");
+                                    }
+                                });
+                                options_classhour.push("</optgroup>");
+                                options_classmonth.push("</optgroup>");
+                                if (options_classhour.length > 2) {
+                                    $("#sel-course-charges-type-list").append(options_classhour.join(''));
+                                }
+                                if (options_classmonth.length > 2) {
+                                    $("#sel-course-charges-type-list").append(options_classmonth.join(''));
+                                }
+                                form.render("select");
                             });
 
-                            //购买数量变化重新计算金额
-                            $("#purchaseQuantity").blur(function () {
-                                var value = this.value;
-                                var node = this;
+                            //收费方式选择事件
+                            form.on('select(sel-chargemanner-list-filter)', function (data) {
+
+                                //记录收费方式ID
+                                continuetopaytuition.renewalData.chargeMannerId = data.value;
+
+                                //记录收费方式
+                                continuetopaytuition.assistData.chargemanner = data.elem[data.elem.selectedIndex].dataset.chargemanner;
+
+                                //购买数量
+                                $("#purchaseQuantity").val(data.elem[data.elem.selectedIndex].dataset.courseduration);
+                                continuetopaytuition.renewalData.purchaseQuantity = data.elem[data.elem.selectedIndex].dataset.courseduration;
+
+                                //课程单价
+                                $("#unitPrice").val(common.fixedMoney(data.elem[data.elem.selectedIndex].dataset.chargeunitprice));
+                                continuetopaytuition.assistData.unitPrice = data.elem[data.elem.selectedIndex].dataset.chargeunitprice;
+
+                                //优惠金额
+                                $("#discountAmount").val(common.fixedMoney(0));
+                                continuetopaytuition.renewalData.discountAmount = 0;
+
+                                //课程总价
+                                $("#totalPrice").val(common.fixedMoney(data.elem[data.elem.selectedIndex].dataset.totalprice));
+                                continuetopaytuition.assistData.totalPrice = data.elem[data.elem.selectedIndex].dataset.totalprice;
+
+                                //计算支付信息
                                 continuetopaytuition.computationalCosts();
                             });
 
                             //折扣数量变化重新计算金额
                             $('#discountAmount').bind('input onkeyup', function () {
+                                var value = this.value;
+                                continuetopaytuition.renewalData.discountAmount = value;
                                 continuetopaytuition.computationalCosts();
                             });
 
@@ -469,6 +485,8 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                             $("#discountAmount").blur(function () {
                                 var value = this.value;
                                 var node = this;
+                                node.value = common.fixedMoney(node.value);
+                                continuetopaytuition.renewalData.discountAmount = value;
                                 continuetopaytuition.computationalCosts();
                             });
 

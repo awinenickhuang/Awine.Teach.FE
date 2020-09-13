@@ -11,21 +11,14 @@
     <div class="layui-form-item">
         <label class="layui-form-label">收费方式</label>
         <div class="layui-input-block">
-            <input type="text" id="chargeManner" name="chargeManner" value="" disabled lay-verify="required|normallength" maxlength="32" autocomplete="off" placeholder="" class="layui-input">
+            <select id="sel-course-charges-type-list" name="ChargeMannerId" lay-verify="required|select" lay-filter="sel-chargemanner-list-filter"></select>
         </div>
     </div>
-    <!--授课时长-->
+    <!--购买数量-->
     <div class="layui-form-item" id="course-duration-classhour-view">
-        <label class="layui-form-label">授课时长</label>
+        <label class="layui-form-label">购买数量</label>
         <div class="layui-input-block">
-            <input type="text" id="teachingTime" name="teachingTime" value="0" disabled lay-verify="required" maxlength="32" placeholder="授课时长" autocomplete="off" class="layui-input">
-        </div>
-    </div>
-    <!--总价-->
-    <div class="layui-form-item" id="charge-unitprice-classhour-view">
-        <label class="layui-form-label">总价（元）</label>
-        <div class="layui-input-block">
-            <input type="text" id="totlePrice" name="totlePrice" value="0" disabled lay-verify="required" maxlength="32" placeholder="总价（元）" autocomplete="off" class="layui-input">
+            <input type="text" id="purchaseQuantity" name="PurchaseQuantity" value="0" disabled lay-verify="required" maxlength="32" placeholder="" autocomplete="off" class="layui-input">
         </div>
     </div>
     <!--单价-->
@@ -35,11 +28,11 @@
             <input type="text" id="unitPrice" name="unitPrice" value="0" disabled lay-verify="required" maxlength="3" placeholder="单价（元）" autocomplete="off" class="layui-input">
         </div>
     </div>
-    <!--购买数量-->
-    <div class="layui-form-item" id="chargeunitprice-month-view">
-        <label class="layui-form-label">购买数量</label>
+    <!--总价-->
+    <div class="layui-form-item" id="charge-unitprice-classhour-view">
+        <label class="layui-form-label">总价（元）</label>
         <div class="layui-input-block">
-            <input type="text" id="purchaseQuantity" name="purchaseQuantity" value="1" lay-verify="required|number" maxlength="3" placeholder="" autocomplete="off" class="layui-input" onkeyup="this.value=this.value.replace(/\D/g,'')" onfocus="this.value=''" onblur="if(this.value==''){this.value=this.defaultValue}" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+            <input type="text" id="totalPrice" name="TotalPrice" value="0" disabled lay-verify="required" maxlength="32" placeholder="总价（元）" autocomplete="off" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
