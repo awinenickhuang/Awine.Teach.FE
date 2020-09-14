@@ -61,7 +61,7 @@
     <div class="layui-col-md4 layui-col-sm6">
         <div class="layadmin-contact-box">
             <div class="layui-col-md4 layui-col-sm6">
-                <a href="#/teaching/student/studentprofile/uid={{item.id}}">
+                <a href="#/teaching/student/studentprofile/uid={{window.btoa(item.id)}}">
                     <div class="layadmin-text-center">
                         <img src="{{ layui.setter.base }}style/res/template/studentimage.jpg">
                         <div class="layadmin-maillist-img layadmin-font-blod">学生</div>
@@ -69,7 +69,7 @@
                 </a>
             </div>
             <div class="layui-col-md8 layadmin-padding-left20 layui-col-sm6">
-                <a href="#/teaching/student/studentprofile/uid={{item.id}}">
+                <a href="#/teaching/student/studentprofile/uid={{window.btoa(item.id)}}">
                     <h3 class="layadmin-title">
                         <strong>{{item.name}}</strong>
                     </h3>
@@ -83,7 +83,7 @@
                     </p>
                 </a>
                 <div class="layadmin-address">
-                    <a href="#/teaching/student/studentprofile/uid={{item.id}}">
+                    <a href="#/teaching/student/studentprofile/uid={{window.btoa(item.id)}}">
                         <p class="layadmin-textimg">
                             <i class="layui-icon layui-icon-user"></i>
                             {{#  if(item.gender === 1){ }}

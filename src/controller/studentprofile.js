@@ -16,7 +16,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
     var studentProfiles = {
         //学生信息
         initStudentInformation: function () {
-            common.ajax(setter.apiAddress.student.single, "GET", "", { id: layui.router().search.uid }, function (res) {
+            common.ajax(setter.apiAddress.student.single, "GET", "", { id: window.atob(layui.router().search.uid) }, function (res) {
                 if (res.statusCode == 200) {
                     if (res.data) {
                         var gettpl = studentprofiletemplate.innerHTML
@@ -150,7 +150,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                 , text: {
                     none: '暂无相关数据'
                 }
-                , where: { studentId: layui.router().search.uid }
+                , where: { studentId: window.atob(layui.router().search.uid) }
                 , response: {
                     statusCode: 200
                 }
@@ -215,7 +215,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                 , text: {
                     none: '暂无相关数据'
                 }
-                , where: { studentId: layui.router().search.uid }
+                , where: { studentId: window.atob(layui.router().search.uid) }
                 , response: {
                     statusCode: 200
                 }
@@ -323,7 +323,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                 , text: {
                     none: '暂无相关数据'
                 }
-                , where: { studentId: layui.router().search.uid }
+                , where: { studentId: window.atob(layui.router().search.uid) }
                 , response: {
                     statusCode: 200
                 }
@@ -400,7 +400,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                                 },
                                 //初始化报名数据
                                 renewalData: {
-                                    studentId: layui.router().search.uid,
+                                    studentId: window.atob(layui.router().search.uid),
                                     orderItemId: currentdata.id,                               //续费课程
                                     purchaseQuantity: 1,                                       //购买数量
                                     receivableAmount: currentdata.unitPrice,                   //应收金额
@@ -610,7 +610,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                             totalPrice: 0,                                   //课程总价
                         },
                         increaseLearningCoursesData: {
-                            studentId: layui.router().search.uid,
+                            studentId: window.atob(layui.router().search.uid),
                             courseId: '',                                    //课程
                             receivableAmount: 0,                             //应收金额
                             discountAmount: 0,                               //优惠金额
