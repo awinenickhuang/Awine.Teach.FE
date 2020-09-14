@@ -698,6 +698,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                                 , toolbar: '#classes-studens-toolbar'
                                 , where: {
                                     classesId: data.id,
+                                    learningProcess: 2
                                 }
                                 , cols: [[
                                     { type: 'checkbox' },
@@ -775,7 +776,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                                             , toolbar: '#students-tobe-assigned-table-toolbar'
                                             , where: {
                                                 courseId: data.courseId,
-                                                classesId: '00000000-0000-0000-0000-000000000000',
+                                                learningProcess: 1
                                             }
                                             , cols: [[
                                                 { type: 'checkbox' },

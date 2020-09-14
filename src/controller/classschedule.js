@@ -597,7 +597,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                         , text: {
                             none: '本课节无正式学生信息'
                         }
-                        , where: { classesId: data.classId }
+                        , where: { classesId: data.classId, learningProcess: 2 }
                         , response: {
                             statusCode: 200
                         }
@@ -893,7 +893,6 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
 
                     form.on('submit(calendar-classtime-edit-form-submit)', function (data) {
 
-
                         scheduleEditData.classId = $("#sel-classes-list").val();
                         scheduleEditData.courseId = $("#sel-course-list").val();
                         scheduleEditData.teacherId = $("#sel-teacher-list").val();
@@ -1006,7 +1005,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                         , text: {
                             none: '本课节无试听正式学生信息'
                         }
-                        , where: { classesId: data.classId }
+                        , where: { classesId: data.classId, learningProcess: 2 }
                         , response: {
                             statusCode: 200
                         }

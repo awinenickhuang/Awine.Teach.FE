@@ -1,5 +1,5 @@
 ﻿/**
- @Name：上课记录
+ @Name：考勤记录
  */
 layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'laydate'], function (exports) {
     var $ = layui.$
