@@ -73,6 +73,22 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                     }
                 }
             },
+            {
+                field: 'classStatus', title: '课节状态', align: 'center', width: 100,
+                templet: function (d) {
+                    switch (d.classStatus) {
+                        case 1:
+                            return '<span style="color:#009688;">待上课</span>';
+                            break;
+                        case 2:
+                            return '<span style="color:#FF5722;">已结课</span>';
+                            break;
+                        default:
+                            return '-';
+                            break;
+                    }
+                }
+            },
             { field: 'createTime', width: 180, align: 'center', title: '创建时间' }
         ]]
         , page: true

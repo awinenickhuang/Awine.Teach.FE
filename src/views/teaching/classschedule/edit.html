@@ -38,6 +38,17 @@
             <select class="sel" id="sel-class-room-list" name="ClassRoomId" lay-verify="required|select" lay-filter=""></select>
         </div>
     </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">课节类型</label>
+        <div class="layui-input-block">
+            <select id="sel-schedule-identification-list" name="ScheduleIdentification" lay-verify="required|select" disabled>
+                <option value="">请选择</option>
+                <option value=1 selected="selected">正常课节</option>
+                <option value=2>试听课节</option>
+                <option value=3>补课课节</option>
+            </select>
+        </div>
+    </div>
     <div class="layui-form-item content-center">
         <button class="layui-btn layui-btn-sm" type="button" lay-submit lay-filter="calendar-classtime-edit-form-submit"><i class="layui-icon layui-icon-ok"></i>立即提交</button>
     </div>

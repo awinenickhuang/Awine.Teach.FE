@@ -313,7 +313,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                         });
                 },
                 eventMouseLeave: function (info) {
-                    //layer.closeAll('tips');
+                    layer.closeAll('tips');
                 }
             });
 
