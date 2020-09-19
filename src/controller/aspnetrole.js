@@ -1,17 +1,14 @@
 ﻿/**
  @Name：角色管理
  */
-layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'treeGrid'], function (exports) {
+layui.define(['table', 'form', 'setter', 'verification', 'treeGrid'], function (exports) {
     var $ = layui.$
         , admin = layui.admin
         , view = layui.view
         , table = layui.table
-        , common = layui.common
         , setter = layui.setter
         , form = layui.form
-        , treeGrid = layui.treeGrid
-        , element = layui.element;
-
+        , treeGrid = layui.treeGrid;
     //加载角色数据
     table.render({
         elem: '#awinerole-table'
@@ -67,13 +64,16 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 't
                     , closeBtn: 1
                     , success: function (layero, index) {
                         view(this.id).render('foundational/aspnetrole/search').done(function () {
-                            //初始机构数据
-                            common.ajax(setter.apiAddress.tenant.list, "Get", "", {}, function (res) {
-                                $("#sel-organization-search").append("<option value=\"\">请选择机构</option>");
-                                $.each(res.data, function (index, item) {
-                                    $("#sel-organization-search").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
-                                });
-                                form.render("select");
+                            admin.req({
+                                url: setter.apiAddress.tenant.list
+                                , data: {}
+                                , done: function (res) {
+                                    $("#sel-organization-search").append("<option value=\"\">请选择机构</option>");
+                                    $.each(res.data, function (index, item) {
+                                        $("#sel-organization-search").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
+                                    });
+                                    form.render("select");
+                                }
                             });
                             //监听提交//搜索
                             form.on('submit(aspnetrole-search-submit)', function (data) {
@@ -101,22 +101,27 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 't
                     , closeBtn: 1
                     , success: function (layero, index) {
                         view(this.id).render('foundational/aspnetrole/add').done(function () {
-                            //初始机构数据
-                            common.ajax(setter.apiAddress.tenant.list, "GET", "", "", function (res) {
-                                $("#sel-organization-list").append("<option value=\"\">请选择</option>");
-                                $.each(res.data, function (index, item) {
-                                    $("#sel-organization-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
-                                });
-                                form.render("select");
+                            admin.req({
+                                url: setter.apiAddress.tenant.list
+                                , data: {}
+                                , done: function (res) {
+                                    $("#sel-organization-list").append("<option value=\"\">请选择</option>");
+                                    $.each(res.data, function (index, item) {
+                                        $("#sel-organization-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
+                                    });
+                                    form.render("select");
+                                }
                             });
                             //监听提交
                             form.on('submit(awinerole-form-submit)', function (data) {
-                                common.ajax(setter.apiAddress.awinerole.add, "POST", "", $('#awinerole-add-form').serialize(), function (res) {
-                                    if (res.statusCode == 200) {
+                                admin.req({
+                                    url: setter.apiAddress.awinerole.add
+                                    , data: data.field
+                                    , type: 'POST'
+                                    , done: function (res) {
                                         layer.close(index);
                                         table.reload('awinerole-table');
                                     }
-                                    layer.msg(res.message);
                                 });
                             });
                         });
@@ -137,11 +142,14 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 't
         },
         initOperationPermissions: function (role) {
             //初始化表格前先加载所有按钮，避免表格完成渲染完成后没有按钮的问题
-            common.ajax(setter.apiAddress.awinebutton.btnlist, "Get", "", "", function (res) {
-                operationPermissions.buttons = res.data;
-                operationPermissions.initOperationPermissionsTable(role);
+            admin.req({
+                url: setter.apiAddress.awinebutton.btnlist
+                , data: {}
+                , done: function (res) {
+                    operationPermissions.buttons = res.data;
+                    operationPermissions.initOperationPermissionsTable(role);
+                }
             });
-
             form.on('checkbox(button-permission-filter)', function (data) {
                 var current = {
                     claimValue: data.value
@@ -203,15 +211,19 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 't
                 ]]
                 , done: function (res, page, count) {
                     operationPermissions.rolePermissionsArray.roleClaims.splice(0, operationPermissions.rolePermissionsArray.roleClaims.length);
-                    common.ajax(setter.apiAddress.aspnetroleclaims.list, "Get", "", { roleId: role }, function (res) {
-                        $.each(res.data, function (index, item) {
-                            var permission = {
-                                claimValue: item.claimValue
-                            };
-                            operationPermissions.rolePermissionsArray.roleClaims.push(permission);
-                            $("input[type='checkbox'][value='" + item.claimValue + "']").prop("checked", true);
-                            form.render('checkbox');
-                        });
+                    admin.req({
+                        url: setter.apiAddress.aspnetroleclaims.list
+                        , data: { roleId: role }
+                        , done: function (res) {
+                            $.each(res.data, function (index, item) {
+                                var permission = {
+                                    claimValue: item.claimValue
+                                };
+                                operationPermissions.rolePermissionsArray.roleClaims.push(permission);
+                                $("input[type='checkbox'][value='" + item.claimValue + "']").prop("checked", true);
+                                form.render('checkbox');
+                            });
+                        }
                     });
                 }
                 , where: {
@@ -234,12 +246,14 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 't
         var data = obj.data;
         if (obj.event === 'del') {
             layer.confirm('删除后不可恢复，确定？', { icon: 3 }, function (index) {
-                common.ajax(setter.apiAddress.awinerole.delete, "POST", "", { Id: data.id }, function (res) {
-                    if (res.statusCode == 200) {
+                admin.req({
+                    url: setter.apiAddress.awinerole.delete
+                    , data: { Id: data.id }
+                    , type: 'POST'
+                    , done: function (res) {
                         layer.close(index);
                         table.reload('awinerole-table');
                     }
-                    layer.msg(res.message);
                 });
             });
         } else if (obj.event === 'edit') {
@@ -250,25 +264,31 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 't
                 , closeBtn: 1
                 , success: function (layero, index) {
                     view(this.id).render('foundational/aspnetrole/edit', data).done(function () {
-                        common.ajax(setter.apiAddress.tenant.list, "GET", "", "", function (res) {
-                            $("#sel-organization-list").append("<option value=\"\">请选择</option>");
-                            $.each(res.data, function (index, item) {
-                                if (data.tenantId == item.id) {
-                                    $("#sel-organization-list").append("<option selected=\"selected\" value=\"" + item.id + "\">" + item.name + "</option>");
-                                } else {
-                                    $("#sel-organization-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
-                                }
-                            });
-                            form.render("select");
+                        admin.req({
+                            url: setter.apiAddress.tenant.list
+                            , data: {}
+                            , done: function (res) {
+                                $("#sel-organization-list").append("<option value=\"\">请选择</option>");
+                                $.each(res.data, function (index, item) {
+                                    if (data.tenantId == item.id) {
+                                        $("#sel-organization-list").append("<option selected=\"selected\" value=\"" + item.id + "\">" + item.name + "</option>");
+                                    } else {
+                                        $("#sel-organization-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
+                                    }
+                                });
+                                form.render("select");
+                            }
                         });
                         form.render();
                         form.on('submit(awinerole-edit-form-submit)', function (data) {
-                            common.ajax(setter.apiAddress.awinerole.update, "POST", "", data.field, function (res) {
-                                if (res.statusCode == 200) {
+                            admin.req({
+                                url: setter.apiAddress.awinerole.update
+                                , data: data.field
+                                , type: 'POST'
+                                , done: function (res) {
                                     layer.close(index);
                                     table.reload('awinerole-table');
                                 }
-                                layer.msg(res.message);
                             });
                         });
                     });
@@ -295,8 +315,13 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 't
 
                             operationPermissions.rolePermissionsArray.roleId = data.id;
 
-                            common.ajax(setter.apiAddress.awinerole.saveroleownedmodules, "POST", "", { model: operationPermissions.rolePermissionsArray }, function (res) {
-                                layer.msg(res.message);
+                            admin.req({
+                                url: setter.apiAddress.awinerole.saveroleownedmodules
+                                , data: { model: operationPermissions.rolePermissionsArray }
+                                , type: 'POST'
+                                , done: function (res) {
+                                    layer.msg(res.msg, { icon: 1 });
+                                }
                             });
                         });
                     });

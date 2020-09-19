@@ -1,16 +1,13 @@
 ﻿/**
  @Name：营销渠道
  */
-layui.define(['table', 'form', 'common', 'setter', 'element', 'verification'], function (exports) {
+layui.define(['table', 'form', 'setter', 'verification'], function (exports) {
     var $ = layui.$
         , admin = layui.admin
         , view = layui.view
         , table = layui.table
-        , common = layui.common
         , setter = layui.setter
-        , form = layui.form
-        , element = layui.element;
-
+        , form = layui.form;
     table.render({
         elem: '#marketingchannel-table'
         , url: setter.apiAddress.marketingchannel.pagelist

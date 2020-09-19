@@ -138,11 +138,13 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                     return;
                 }
                 layer.confirm('删除后不可恢复，确定？', { icon: 3 }, function (index) {
-                    common.ajax(setter.apiAddress.trialclass.delete, "POST", "", { id: data.id }, function (res) {
-                        if (res.statusCode == 200) {
+                    admin.req({
+                        url: setter.apiAddress.trialclass.delete
+                        , data: { id: data.id }
+                        , type: 'POST'
+                        , done: function (res) {
                             table.reload('trialclass-table');
                         }
-                        layer.msg(res.message);
                     });
                 });
                 break;
@@ -165,12 +167,14 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                         view(this.id).render('marketing/trialclass/signinstatus', data).done(function () {
                             form.render();
                             form.on('submit(signin-add-form-submit)', function (data) {
-                                common.ajax(setter.apiAddress.trialclass.updatelisteningstate, "POST", "", data.field, function (res) {
-                                    if (res.statusCode == 200) {
+                                admin.req({
+                                    url: setter.apiAddress.trialclass.updatelisteningstate
+                                    , data: data.field
+                                    , type: 'POST'
+                                    , done: function (res) {
                                         layer.close(index);
                                         table.reload('trialclass-table');
                                     }
-                                    layer.msg(res.message);
                                 });
                             });
                         });
@@ -191,12 +195,14 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                     view(this.id).render('marketing/trialclass/edit', data).done(function () {
                         form.render();
                         form.on('submit(trialclass-edit-form-submit)', function (data) {
-                            common.ajax(setter.apiAddress.marketingchannel.update, "POST", "", data.field, function (res) {
-                                if (res.statusCode == 200) {
+                            admin.req({
+                                url: setter.apiAddress.marketingchannel.update
+                                , data: data.field
+                                , type: 'POST'
+                                , done: function (res) {
                                     layer.close(index);
                                     table.reload('trialclass-table');
                                 }
-                                layer.msg(res.message);
                             });
                         });
                     });

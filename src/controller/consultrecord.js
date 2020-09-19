@@ -1,25 +1,17 @@
 ﻿/**
  @Name：咨询记录
  */
-layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'rate', 'laydate', 'fullCalendar'], function (exports) {
+layui.define(['table', 'form', 'setter', 'element', 'verification', 'rate', 'laydate', 'common'], function (exports) {
     var $ = layui.$
         , admin = layui.admin
         , view = layui.view
         , table = layui.table
-        , common = layui.common
         , setter = layui.setter
         , form = layui.form
         , element = layui.element
         , laydate = layui.laydate
         , rate = layui.rate
-        , fullCalendar = layui.fullCalendar;
-
-    // 设置最小可选的日期
-    function minDate() {
-        var now = new Date();
-        return now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDate();
-    }
-
+        , common = layui.common;
     //初始化跟进记录数据
     table.render({
         elem: '#consultrecord-table'
@@ -129,38 +121,54 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'r
                                 }
                             });
                             //初始化首页课程数据
-                            common.ajax(setter.apiAddress.course.list, "Get", "", {}, function (res) {
-                                $("#sel-counselingcourse-search-list").append("<option value=\"\">请选择课程</option>");
-                                $.each(res.data, function (index, item) {
-                                    $("#sel-counselingcourse-search-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
-                                });
-                                form.render("select");
+                            admin.req({
+                                url: setter.apiAddress.course.list
+                                , data: {}
+                                , done: function (res) {
+                                    $("#sel-counselingcourse-search-list").append("<option value=\"\">请选择课程</option>");
+                                    $.each(res.data, function (index, item) {
+                                        $("#sel-counselingcourse-search-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
+                                    });
+                                    form.render("select");
+                                }
                             });
                             //初始化首页渠道数据
-                            common.ajax(setter.apiAddress.marketingchannel.list, "Get", "", {}, function (res) {
-                                $("#sel-marketingchannel-search-list").append("<option value=\"\">请选择渠道</option>");
-                                $.each(res.data, function (index, item) {
-                                    $("#sel-marketingchannel-search-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
-                                });
-                                form.render("select");
+                            admin.req({
+                                url: setter.apiAddress.marketingchannel.list
+                                , data: {}
+                                , done: function (res) {
+                                    $("#sel-marketingchannel-search-list").append("<option value=\"\">请选择渠道</option>");
+                                    $.each(res.data, function (index, item) {
+                                        $("#sel-marketingchannel-search-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
+                                    });
+                                    form.render("select");
+                                }
                             });
                             //初始化首页部门数据
                             $("#sel-department-search-list").append("<option value=\"\">请选择部门</option>");
-                            common.ajax(setter.apiAddress.department.list, "GET", "", {}, function (res) {
-                                $.each(res.data, function (index, item) {
-                                    $("#sel-department-search-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
-                                });
-                                form.render("select");
+                            admin.req({
+                                url: setter.apiAddress.department.list
+                                , data: {}
+                                , done: function (res) {
+                                    $.each(res.data, function (index, item) {
+                                        $("#sel-department-search-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
+                                    });
+                                    form.render("select");
+                                }
                             });
                             //部门选择时加载部门员工
                             form.on('select(sel-department-search-list-filter)', function (data) {
                                 $("#sel-trackingstaffer-search-list").empty();
-                                common.ajax(setter.apiAddress.aspnetuser.allindepartment, "GET", "", { departmentId: data.value }, function (res) {
-                                    $("#sel-trackingstaffer-search-list").append("<option value=\"\">请选择员工</option>");
-                                    $.each(res.data, function (index, item) {
-                                        $("#sel-trackingstaffer-search-list").append("<option value=\"" + item.id + "\">" + item.userName + "</option>");
-                                    });
-                                    form.render("select");
+                                admin.req({
+                                    url: setter.apiAddress.aspnetuser.allindepartment
+                                    , data: { departmentId: data.value }
+                                    , done: function (res) {
+                                        $("#sel-trackingstaffer-search-list").append("<option value=\"\">请选择员工</option>");
+                                        $.each(res.data, function (index, item) {
+                                            $("#sel-trackingstaffer-search-list").append("<option value=\"" + item.id + "\">" + item.userName + "</option>");
+                                        });
+                                        form.render("select");
+                                    }
                                 });
                             });
                             //监听提交//搜索
@@ -207,29 +215,39 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'r
                                 }
                             });
                             //初始渠道数据
-                            common.ajax(setter.apiAddress.marketingchannel.list, "GET", "", "", function (res) {
-                                $("#sel-marketingchannel-list").append("<option value=\"\">请选择渠道</option>");
-                                $.each(res.data, function (index, item) {
-                                    $("#sel-marketingchannel-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
-                                });
-                                form.render("select");
+                            admin.req({
+                                url: setter.apiAddress.marketingchannel.list
+                                , data: {}
+                                , done: function (res) {
+                                    $("#sel-marketingchannel-list").append("<option value=\"\">请选择渠道</option>");
+                                    $.each(res.data, function (index, item) {
+                                        $("#sel-marketingchannel-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
+                                    });
+                                    form.render("select");
+                                }
                             });
                             //初始课程数据
-                            common.ajax(setter.apiAddress.course.list, "GET", "", { enabledStatus: 1 }, function (res) {
-                                $("#sel-counselingcourse-list").append("<option value=\"\">请选择课程</option>");
-                                $.each(res.data, function (index, item) {
-                                    $("#sel-counselingcourse-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
-                                });
-                                form.render("select");
+                            admin.req({
+                                url: setter.apiAddress.course.list
+                                , data: { enabledStatus: 1 }
+                                , done: function (res) {
+                                    $("#sel-counselingcourse-list").append("<option value=\"\">请选择课程</option>");
+                                    $.each(res.data, function (index, item) {
+                                        $("#sel-counselingcourse-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
+                                    });
+                                    form.render("select");
+                                }
                             });
                             //监听提交
                             form.on('submit(consultrecord-add-form-submit)', function (data) {
-                                common.ajax(setter.apiAddress.consultrecord.add, "POST", "", data.field, function (res) {
-                                    if (res.statusCode == 200) {
+                                admin.req({
+                                    url: setter.apiAddress.consultrecord.add
+                                    , data: data.field
+                                    , type: 'POST'
+                                    , done: function (res) {
                                         layer.close(index);
                                         table.reload('consultrecord-table');
                                     }
-                                    layer.msg(res.message);
                                 });
                             });
                         });
@@ -261,37 +279,47 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'r
                             });
                             form.render();
                             //初始渠道数据
-                            common.ajax(setter.apiAddress.marketingchannel.list, "GET", "", "", function (res) {
-                                $("#sel-marketingchannel-list").append("<option value=\"\">请选择渠道</option>");
-                                $.each(res.data, function (index, item) {
-                                    if (data.marketingChannelId == item.id) {
-                                        $("#sel-marketingchannel-list").append("<option selected=\"selected\" value=\"" + item.id + "\">" + item.name + "</option>");
-                                    } else {
-                                        $("#sel-marketingchannel-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
-                                    }
-                                });
-                                form.render("select");
+                            admin.req({
+                                url: setter.apiAddress.marketingchannel.list
+                                , data: {}
+                                , done: function (res) {
+                                    $("#sel-marketingchannel-list").append("<option value=\"\">请选择渠道</option>");
+                                    $.each(res.data, function (index, item) {
+                                        if (data.marketingChannelId == item.id) {
+                                            $("#sel-marketingchannel-list").append("<option selected=\"selected\" value=\"" + item.id + "\">" + item.name + "</option>");
+                                        } else {
+                                            $("#sel-marketingchannel-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
+                                        }
+                                    });
+                                    form.render("select");
+                                }
                             });
                             //初始课程数据
-                            common.ajax(setter.apiAddress.course.list, "GET", "", "", function (res) {
-                                $("#sel-counselingcourse-list").append("<option value=\"\">请选择课程</option>");
-                                $.each(res.data, function (index, item) {
-                                    if (data.counselingCourseId == item.id) {
-                                        $("#sel-counselingcourse-list").append("<option selected=\"selected\" value=\"" + item.id + "\">" + item.name + "</option>");
-                                    } else {
-                                        $("#sel-counselingcourse-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
-                                    }
-                                });
-                                form.render("select");
+                            admin.req({
+                                url: setter.apiAddress.course.list
+                                , data: {}
+                                , done: function (res) {
+                                    $("#sel-counselingcourse-list").append("<option value=\"\">请选择课程</option>");
+                                    $.each(res.data, function (index, item) {
+                                        if (data.counselingCourseId == item.id) {
+                                            $("#sel-counselingcourse-list").append("<option selected=\"selected\" value=\"" + item.id + "\">" + item.name + "</option>");
+                                        } else {
+                                            $("#sel-counselingcourse-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
+                                        }
+                                    });
+                                    form.render("select");
+                                }
                             });
                             $('#sel-gender-edit').val(data.gender);
                             form.on('submit(consultrecord-edit-form-submit)', function (data) {
-                                common.ajax(setter.apiAddress.consultrecord.update, "POST", "", data.field, function (res) {
-                                    if (res.statusCode == 200) {
+                                admin.req({
+                                    url: setter.apiAddress.consultrecord.update
+                                    , data: data.field
+                                    , type: 'POST'
+                                    , done: function (res) {
                                         layer.close(index);
                                         table.reload('consultrecord-table');
                                     }
-                                    layer.msg(res.message);
                                 });
                             });
                         });
@@ -376,16 +404,17 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'r
 
                             //监听提交
                             form.on('submit(communication-record-add-form-submit)', function (data) {
-                                common.ajax(setter.apiAddress.communicationrecord.add, "POST", "", data.field, function (res) {
-                                    if (res.statusCode == 200) {
+                                admin.req({
+                                    url: setter.apiAddress.communicationrecord.add
+                                    , data: data.field
+                                    , type: 'POST'
+                                    , done: function (res) {
                                         $("#communicationContent").val('');
                                         element.tabChange('communication-record-tab-filter', '0');
                                         table.reload('communication-record-table');
                                     }
-                                    layer.msg(res.message);
                                 });
                             });
-
                         });
                     }
                 });
@@ -404,24 +433,32 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'r
                     , success: function (layero, index) {
                         view(this.id).render('marketing/consultrecord/trackingassigned', data).done(function () {
                             //初始化部门
-                            common.ajax(setter.apiAddress.department.list, "GET", "", { tenantId: data.tenantId }, function (res) {
-                                $("#sel-department-list").append("<option value=\"\">请选择部门</option>");
-                                $.each(res.data, function (index, item) {
-                                    $("#sel-department-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
-                                });
-                                form.render("select");
+                            admin.req({
+                                url: setter.apiAddress.department.list
+                                , data: { tenantId: data.tenantId }
+                                , done: function (res) {
+                                    $("#sel-department-list").append("<option value=\"\">请选择部门</option>");
+                                    $.each(res.data, function (index, item) {
+                                        $("#sel-department-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
+                                    });
+                                    form.render("select");
+                                }
                             });
                             //监听部门下拉框事件
                             form.on('select(sel-department-list-filter)', function (data) {
                                 $("#sel-staffer-list").empty();
                                 $("#city-edit-name").val("");
                                 //加载部门下的员工
-                                common.ajax(setter.apiAddress.aspnetuser.allindepartment, "GET", "", { departmentId: data.value }, function (res) {
-                                    $("#sel-staffer-list").append("<option value=\"\">请选择</option>");
-                                    $.each(res.data, function (index, item) {
-                                        $("#sel-staffer-list").append("<option value=\"" + item.id + "\">" + item.userName + "</option>");
-                                    });
-                                    form.render("select");
+                                admin.req({
+                                    url: setter.apiAddress.aspnetuser.allindepartment
+                                    , data: { departmentId: data.value }
+                                    , done: function (res) {
+                                        $("#sel-staffer-list").append("<option value=\"\">请选择</option>");
+                                        $.each(res.data, function (index, item) {
+                                            $("#sel-staffer-list").append("<option value=\"" + item.id + "\">" + item.userName + "</option>");
+                                        });
+                                        form.render("select");
+                                    }
                                 });
                             });
                             form.on('select(sel-staffer-list-filter)', function (data) {
@@ -429,12 +466,14 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'r
                             });
                             //监听提交
                             form.on('submit(trackingassigned-form-submit)', function (data) {
-                                common.ajax(setter.apiAddress.consultrecord.trackingassigned, "POST", "", data.field, function (res) {
-                                    if (res.statusCode == 200) {
+                                admin.req({
+                                    url: setter.apiAddress.consultrecord.trackingassigned
+                                    , data: data.field
+                                    , type: 'POST'
+                                    , done: function (res) {
                                         layer.close(index);
                                         table.reload('consultrecord-table');
                                     }
-                                    layer.msg(res.message);
                                 });
                             });
                         });
@@ -554,16 +593,20 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'r
 
                             //初始化业绩归属人
                             $("#sel-salesstaff-list").empty();
-                            common.ajax(setter.apiAddress.aspnetuser.list, "GET", "", "", function (res) {
-                                $("#sel-salesstaff-list").append("<option value=\"\">请选择</option>");
-                                $.each(res.data, function (index, item) {
-                                    if (item.id == data.trackingStafferId) {
-                                        $("#sel-salesstaff-list").append("<option selected=\"selected\" value=\"" + item.id + "\">" + item.userName + "</option>");
-                                    } else {
-                                        $("#sel-salesstaff-list").append("<option value=\"" + item.id + "\">" + item.userName + "</option>");
-                                    }
-                                });
-                                form.render("select");
+                            admin.req({
+                                url: setter.apiAddress.aspnetuser.list
+                                , data: {}
+                                , done: function (res) {
+                                    $("#sel-salesstaff-list").append("<option value=\"\">请选择</option>");
+                                    $.each(res.data, function (index, item) {
+                                        if (item.id == data.trackingStafferId) {
+                                            $("#sel-salesstaff-list").append("<option selected=\"selected\" value=\"" + item.id + "\">" + item.userName + "</option>");
+                                        } else {
+                                            $("#sel-salesstaff-list").append("<option value=\"" + item.id + "\">" + item.userName + "</option>");
+                                        }
+                                    });
+                                    form.render("select");
+                                }
                             });
 
                             //业绩归属人选择事件
@@ -573,12 +616,16 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'r
                             });
 
                             //初始化支付方式
-                            common.ajax(setter.apiAddress.paymentmethod.list, "Get", "", {}, function (res) {
-                                $("#sel-paymentmethod-list").append("<option value=\"\">请选择收款方式</option>");
-                                $.each(res.data, function (index, item) {
-                                    $("#sel-paymentmethod-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
-                                });
-                                form.render("select");
+                            admin.req({
+                                url: setter.apiAddress.paymentmethod.list
+                                , data: {}
+                                , done: function (res) {
+                                    $("#sel-paymentmethod-list").append("<option value=\"\">请选择收款方式</option>");
+                                    $.each(res.data, function (index, item) {
+                                        $("#sel-paymentmethod-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
+                                    });
+                                    form.render("select");
+                                }
                             });
 
                             //支付方式选择事件
@@ -587,12 +634,16 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'r
                             });
 
                             //初始课程数据
-                            common.ajax(setter.apiAddress.course.list, "GET", "", { enabledStatus: 1 }, function (res) {
-                                $("#sel-course-list").append("<option value=\"\">请选择课程</option>");
-                                $.each(res.data, function (index, item) {
-                                    $("#sel-course-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
-                                });
-                                form.render("select");
+                            admin.req({
+                                url: setter.apiAddress.course.list
+                                , data: { enabledStatus: 1 }
+                                , done: function (res) {
+                                    $("#sel-course-list").append("<option value=\"\">请选择课程</option>");
+                                    $.each(res.data, function (index, item) {
+                                        $("#sel-course-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
+                                    });
+                                    form.render("select");
+                                }
                             });
 
                             //课程选择事件
@@ -605,31 +656,35 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'r
                                 studentregister.registerData.courseId = data.value;
 
                                 //初始化报名课程的收费方式
-                                common.ajax(setter.apiAddress.coursechargemanner.list, "GET", "", { courseId: data.value }, function (res) {
-                                    //初始化课程的收费方式下拉列表
-                                    $("#sel-course-charges-type-list").empty();
-                                    $("#sel-course-charges-type-list").append("<option value=\"\">请选择收费方式</option>");
-                                    var options_classhour = [];
-                                    var options_classmonth = [];
-                                    options_classhour.push("<optgroup label=\"按课时收费\">");
-                                    options_classmonth.push("<optgroup label=\"按月收费\">");
-                                    $.each(res.data, function (index, item) {
-                                        if (item.chargeManner == 1) {
-                                            options_classhour.push("<option value=\"" + item.id + "\" data-chargemanner=\"" + item.chargeManner + "\" data-courseduration=\"" + item.courseDuration + "\" data-totalprice=\"" + item.totalPrice + "\" data-chargeunitprice=\"" + item.chargeUnitPriceClassHour + "\">" + item.courseDuration + "个课时 " + common.fixedMoney(item.totalPrice) + "（元） " + item.chargeUnitPriceClassHour + " 元/课时</option>");
+                                admin.req({
+                                    url: setter.apiAddress.coursechargemanner.list
+                                    , data: { courseId: data.value }
+                                    , done: function (res) {
+                                        //初始化课程的收费方式下拉列表
+                                        $("#sel-course-charges-type-list").empty();
+                                        $("#sel-course-charges-type-list").append("<option value=\"\">请选择收费方式</option>");
+                                        var options_classhour = [];
+                                        var options_classmonth = [];
+                                        options_classhour.push("<optgroup label=\"按课时收费\">");
+                                        options_classmonth.push("<optgroup label=\"按月收费\">");
+                                        $.each(res.data, function (index, item) {
+                                            if (item.chargeManner == 1) {
+                                                options_classhour.push("<option value=\"" + item.id + "\" data-chargemanner=\"" + item.chargeManner + "\" data-courseduration=\"" + item.courseDuration + "\" data-totalprice=\"" + item.totalPrice + "\" data-chargeunitprice=\"" + item.chargeUnitPriceClassHour + "\">" + item.courseDuration + "个课时 " + common.fixedMoney(item.totalPrice) + "（元） " + item.chargeUnitPriceClassHour + " 元/课时</option>");
+                                            }
+                                            if (item.chargeManner == 2) {
+                                                options_classmonth.push("<option value=\"" + item.id + "\" data-chargemanner=\"" + item.chargeManner + "\" data-courseduration=\"" + item.courseDuration + "\" data-totalprice=\"" + item.totalPrice + "\" data-chargeunitprice=\"" + item.chargeUnitPriceMonth + "\">" + item.courseDuration + "个月 " + common.fixedMoney(item.totalPrice) + "（元） " + item.chargeUnitPriceMonth + " /月</option>");
+                                            }
+                                        });
+                                        options_classhour.push("</optgroup>");
+                                        options_classmonth.push("</optgroup>");
+                                        if (options_classhour.length > 2) {
+                                            $("#sel-course-charges-type-list").append(options_classhour.join(''));
                                         }
-                                        if (item.chargeManner == 2) {
-                                            options_classmonth.push("<option value=\"" + item.id + "\" data-chargemanner=\"" + item.chargeManner + "\" data-courseduration=\"" + item.courseDuration + "\" data-totalprice=\"" + item.totalPrice + "\" data-chargeunitprice=\"" + item.chargeUnitPriceMonth + "\">" + item.courseDuration + "个月 " + common.fixedMoney(item.totalPrice) + "（元） " + item.chargeUnitPriceMonth + " /月</option>");
+                                        if (options_classmonth.length > 2) {
+                                            $("#sel-course-charges-type-list").append(options_classmonth.join(''));
                                         }
-                                    });
-                                    options_classhour.push("</optgroup>");
-                                    options_classmonth.push("</optgroup>");
-                                    if (options_classhour.length > 2) {
-                                        $("#sel-course-charges-type-list").append(options_classhour.join(''));
+                                        form.render("select");
                                     }
-                                    if (options_classmonth.length > 2) {
-                                        $("#sel-course-charges-type-list").append(options_classmonth.join(''));
-                                    }
-                                    form.render("select");
                                 });
                             });
 
@@ -681,12 +736,14 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'r
                             //监听提交
                             form.on('submit(register-form-submit)', function (datas) {
                                 studentregister.registerData.noteInformation = $("#noteInformation").val();
-                                common.ajax(setter.apiAddress.student.registration, "POST", "", studentregister.registerData, function (res) {
-                                    if (res.statusCode == 200) {
+                                admin.req({
+                                    url: setter.apiAddress.student.registration
+                                    , data: studentregister.registerData
+                                    , type: 'POST'
+                                    , done: function (res) {
                                         layer.close(index);
                                         table.reload('consultrecord-table');
                                     }
-                                    layer.msg(res.message);
                                 });
                             });
                         });

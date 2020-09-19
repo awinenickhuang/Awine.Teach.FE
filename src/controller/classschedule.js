@@ -268,6 +268,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                     courseScheduleManagement.add(info);
                 },
                 eventMouseEnter: function (info) {
+                    layer.closeAll('tips');
                     let str = new Array();
                     str.push('<div><i class="layui-icon layui-icon-time"></i> 授课时间：');
                     str.push(common.formatDate(info.event.extendedProps.courseDates, "yyyy-MM-dd") + ' ');
@@ -313,7 +314,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                         });
                 },
                 eventMouseLeave: function (info) {
-                    layer.closeAll('tips');
+                    //layer.closeAll('tips');
                 }
             });
 

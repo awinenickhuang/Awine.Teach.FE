@@ -147,6 +147,11 @@ layui.define(['jquery'], function (exports) {
                 return 0;
             }
             return (Math.round(num / total * 10000) / 100);// 100.00 - 小数点后两位百分比
+        },
+        // 设置最小可选的日期
+        minDate: function () {
+            var now = new Date();
+            return now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDate();
         }
     }
     //对外暴露的接口

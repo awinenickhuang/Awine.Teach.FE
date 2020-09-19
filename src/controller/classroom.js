@@ -1,16 +1,13 @@
 ﻿/**
  @Name：教室管理
  */
-layui.define(['table', 'form', 'common', 'setter', 'element', 'verification'], function (exports) {
+layui.define(['table', 'form', 'setter', 'verification'], function (exports) {
     var $ = layui.$
         , admin = layui.admin
         , view = layui.view
         , table = layui.table
-        , common = layui.common
         , setter = layui.setter
-        , form = layui.form
-        , element = layui.element;
-
+        , form = layui.form;
     table.render({
         elem: '#classroom-table'
         , url: setter.apiAddress.classroom.pagelist
@@ -66,12 +63,14 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification'], f
                         view(this.id).render('teaching/classroom/add').done(function () {
                             //监听提交
                             form.on('submit(classroom-form-submit)', function (data) {
-                                common.ajax(setter.apiAddress.classroom.add, "POST", "", data.field, function (res) {
-                                    if (res.statusCode == 200) {
+                                admin.req({
+                                    url: setter.apiAddress.classroom.add
+                                    , data: data.field
+                                    , type: 'POST'
+                                    , done: function (res) {
                                         layer.close(index);
                                         table.reload('classroom-table');
                                     }
-                                    layer.msg(res.message);
                                 });
                             });
                         });
@@ -85,12 +84,14 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification'], f
         var data = obj.data;
         if (obj.event === 'del') {
             layer.confirm('删除后不可恢复，确定？', { icon: 3 }, function (index) {
-                common.ajax(setter.apiAddress.classroom.delete, "POST", "", { Id: data.id }, function (res) {
-                    if (res.statusCode == 200) {
+                admin.req({
+                    url: setter.apiAddress.classroom.delete
+                    , data: { Id: data.id }
+                    , type: 'POST'
+                    , done: function (res) {
                         layer.close(index);
                         table.reload('classroom-table');
                     }
-                    layer.msg(res.message);
                 });
             });
         } else if (obj.event === 'edit') {
@@ -102,12 +103,14 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification'], f
                     view(this.id).render('teaching/classroom/edit', data).done(function () {
                         form.render();
                         form.on('submit(classroom-edit-form-submit)', function (data) {
-                            common.ajax(setter.apiAddress.classroom.update, "POST", "", data.field, function (res) {
-                                if (res.statusCode == 200) {
+                            admin.req({
+                                url: setter.apiAddress.classroom.update
+                                , data: data.field
+                                , type: 'POST'
+                                , done: function (res) {
                                     layer.close(index);
                                     table.reload('classroom-table');
                                 }
-                                layer.msg(res.message);
                             });
                         });
                     });

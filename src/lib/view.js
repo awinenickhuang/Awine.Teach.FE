@@ -50,7 +50,7 @@ layui.define(['laytpl', 'layer'], function (exports) {
         layer.msg('提示：您已成功退出，请等待浏览器转跳！', {
             offset: '15px'
             , icon: 1
-            , time: 1000
+            , time: 3000
         });
     };
 

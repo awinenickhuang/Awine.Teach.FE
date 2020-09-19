@@ -15,31 +15,39 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
     //加载排课资源 - 老师 - 教室
     var initScheduleResources = {
         initClassRooms: function (classRoomId) {
-            common.ajax(setter.apiAddress.classroom.list, "GET", "", "", function (res) {
-                $("#sel-class-room-list").empty();
-                $("#sel-class-room-list").append("<option value=\"\">请选择上课教室</option>");
-                $.each(res.data, function (index, item) {
-                    if (item.id == classRoomId) {
-                        $("#sel-class-room-list").append("<option selected=\"selected\" value=\"" + item.id + "\">" + item.name + "</option>");
-                    } else {
-                        $("#sel-class-room-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
-                    }
-                });
-                form.render("select");
+            admin.req({
+                url: setter.apiAddress.classroom.list
+                , data: {}
+                , done: function (res) {
+                    $("#sel-class-room-list").empty();
+                    $("#sel-class-room-list").append("<option value=\"\">请选择上课教室</option>");
+                    $.each(res.data, function (index, item) {
+                        if (item.id == classRoomId) {
+                            $("#sel-class-room-list").append("<option selected=\"selected\" value=\"" + item.id + "\">" + item.name + "</option>");
+                        } else {
+                            $("#sel-class-room-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
+                        }
+                    });
+                    form.render("select");
+                }
             });
         },
         initTeachers: function (teacherId) {
-            common.ajax(setter.apiAddress.aspnetuser.list, "GET", "", { enableStatus: 1 }, function (res) {
-                $("#sel-teacher-list").empty();
-                $("#sel-teacher-list").append("<option value=\"\">请选择上课老师</option>");
-                $.each(res.data, function (index, item) {
-                    if (item.id == teacherId) {
-                        $("#sel-teacher-list").append("<option selected=\"selected\" value=\"" + item.id + "\">" + item.userName + "</option>");
-                    } else {
-                        $("#sel-teacher-list").append("<option value=\"" + item.id + "\">" + item.userName + "</option>");
-                    }
-                });
-                form.render("select");
+            admin.req({
+                url: setter.apiAddress.aspnetuser.list
+                , data: { enableStatus: 1 }
+                , done: function (res) {
+                    $("#sel-teacher-list").empty();
+                    $("#sel-teacher-list").append("<option value=\"\">请选择上课老师</option>");
+                    $.each(res.data, function (index, item) {
+                        if (item.id == teacherId) {
+                            $("#sel-teacher-list").append("<option selected=\"selected\" value=\"" + item.id + "\">" + item.userName + "</option>");
+                        } else {
+                            $("#sel-teacher-list").append("<option value=\"" + item.id + "\">" + item.userName + "</option>");
+                        }
+                    });
+                    form.render("select");
+                }
             });
         }
     };
@@ -148,12 +156,16 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                                 }
                             });
                             //初始化班级搜索条件 -> 课程数据
-                            common.ajax(setter.apiAddress.course.list, "GET", "", "", function (res) {
-                                $("#sel-course-search").append("<option value=\"\">请选择课程</option>");
-                                $.each(res.data, function (index, item) {
-                                    $("#sel-course-search").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
-                                });
-                                form.render("select");
+                            admin.req({
+                                url: setter.apiAddress.course.list
+                                , data: {}
+                                , done: function (res) {
+                                    $("#sel-course-search").append("<option value=\"\">请选择课程</option>");
+                                    $.each(res.data, function (index, item) {
+                                        $("#sel-course-search").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
+                                    });
+                                    form.render("select");
+                                }
                             });
                             //监听提交//搜索
                             form.on('submit(classes-search-submit)', function (data) {
@@ -192,12 +204,16 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                                 calendar: true,
                                 done: function (value, date, endDate) {
                                     //初始课程数据
-                                    common.ajax(setter.apiAddress.course.list, "GET", "", "", function (res) {
-                                        $("#sel-course-list").append("<option value=\"\">请选择</option>");
-                                        $.each(res.data, function (index, item) {
-                                            $("#sel-course-list").append("<option value=\"" + item.id + "\" data-teacher=\"" + item.teacherId + "\">" + item.name + "</option>");
-                                        });
-                                        form.render("select");
+                                    admin.req({
+                                        url: setter.apiAddress.course.list
+                                        , data: {}
+                                        , done: function (res) {
+                                            $("#sel-course-list").append("<option value=\"\">请选择</option>");
+                                            $.each(res.data, function (index, item) {
+                                                $("#sel-course-list").append("<option value=\"" + item.id + "\" data-teacher=\"" + item.teacherId + "\">" + item.name + "</option>");
+                                            });
+                                            form.render("select");
+                                        }
                                     });
                                 }
                             });
@@ -210,39 +226,49 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                                     return;
                                 }
                                 //初始化老师 -> 默认跟随课程名师
-                                common.ajax(setter.apiAddress.aspnetuser.list, "GET", "", {}, function (res) {
-                                    $("#sel-teacher-list").empty();
-                                    $("#sel-teacher-list").append("<option value=\"\">请选择</option>");
-                                    $.each(res.data, function (index, item) {
-                                        if (teacherId == item.id) {
-                                            $("#sel-teacher-list").append("<option selected=\"selected\" value=\"" + item.id + "\">" + item.userName + "</option>");
-                                        } else {
-                                            $("#sel-teacher-list").append("<option value=\"" + item.id + "\">" + item.userName + "</option>");
-                                        }
-                                    });
-                                    form.render("select");
+                                admin.req({
+                                    url: setter.apiAddress.aspnetuser.list
+                                    , data: {}
+                                    , done: function (res) {
+                                        $("#sel-teacher-list").empty();
+                                        $("#sel-teacher-list").append("<option value=\"\">请选择</option>");
+                                        $.each(res.data, function (index, item) {
+                                            if (teacherId == item.id) {
+                                                $("#sel-teacher-list").append("<option selected=\"selected\" value=\"" + item.id + "\">" + item.userName + "</option>");
+                                            } else {
+                                                $("#sel-teacher-list").append("<option value=\"" + item.id + "\">" + item.userName + "</option>");
+                                            }
+                                        });
+                                        form.render("select");
+                                    }
                                 });
                             });
                             //初始化教室
                             $("#sel-class-room-list").empty();
-                            common.ajax(setter.apiAddress.classroom.list, "GET", "", {}, function (res) {
-                                $("#sel-class-room-list").append("<option value=\"\">请选择</option>");
-                                $.each(res.data, function (index, item) {
-                                    $("#sel-class-room-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
-                                });
-                                form.render("select");
+                            admin.req({
+                                url: setter.apiAddress.classroom.list
+                                , data: {}
+                                , done: function (res) {
+                                    $("#sel-class-room-list").append("<option value=\"\">请选择</option>");
+                                    $.each(res.data, function (index, item) {
+                                        $("#sel-class-room-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
+                                    });
+                                    form.render("select");
+                                }
                             });
                             form.on('select(sel-teacher-list-filter)', function (data) {
                                 $("#hiddenTeacherName").val(data.elem[data.elem.selectedIndex].text);
                             });
                             //监听提交
                             form.on('submit(classes-add-form-submit)', function (data) {
-                                common.ajax(setter.apiAddress.classes.add, "POST", "", data.field, function (res) {
-                                    if (res.statusCode == 200) {
+                                admin.req({
+                                    url: setter.apiAddress.classes.add
+                                    , data: data.field
+                                    , type: 'POST'
+                                    , done: function (res) {
                                         layer.close(index);
                                         table.reload('classes-table');
                                     }
-                                    layer.msg(res.message);
                                 });
                             });
                         });
@@ -276,28 +302,36 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                                 elem: '#startDateEdit',
                             });
                             //初始课程数据
-                            common.ajax(setter.apiAddress.course.list, "GET", "", "", function (res) {
-                                $("#sel-course-edit").append("<option value=\"\">请选择</option>");
-                                $.each(res.data, function (index, item) {
-                                    if (data.courseId == item.id) {
-                                        $("#sel-course-edit").append("<option selected=\"selected\" data-teacher=\"" + item.teacherId + "\" value=\"" + item.id + "\">" + item.name + "</option>");
-                                    } else {
-                                        $("#sel-course-edit").append("<option data-teacher=\"" + item.teacherId + "\" value=\"" + item.id + "\">" + item.name + "</option>");
-                                    }
-                                });
-                                form.render("select");
+                            admin.req({
+                                url: setter.apiAddress.course.list
+                                , data: {}
+                                , done: function (res) {
+                                    $("#sel-course-edit").append("<option value=\"\">请选择</option>");
+                                    $.each(res.data, function (index, item) {
+                                        if (data.courseId == item.id) {
+                                            $("#sel-course-edit").append("<option selected=\"selected\" data-teacher=\"" + item.teacherId + "\" value=\"" + item.id + "\">" + item.name + "</option>");
+                                        } else {
+                                            $("#sel-course-edit").append("<option data-teacher=\"" + item.teacherId + "\" value=\"" + item.id + "\">" + item.name + "</option>");
+                                        }
+                                    });
+                                    form.render("select");
+                                }
                             });
                             //初始化老师 -> 当前班级的老师
-                            common.ajax(setter.apiAddress.aspnetuser.list, "GET", "", {}, function (res) {
-                                $("#sel-teacher-edit").append("<option value=\"\">请选择</option>");
-                                $.each(res.data, function (index, item) {
-                                    if (data.teacherId == item.id) {
-                                        $("#sel-teacher-edit").append("<option selected=\"selected\" value=\"" + item.id + "\">" + item.userName + "</option>");
-                                    } else {
-                                        $("#sel-teacher-edit").append("<option value=\"" + item.id + "\">" + item.userName + "</option>");
-                                    }
-                                });
-                                form.render("select");
+                            admin.req({
+                                url: setter.apiAddress.aspnetuser.list
+                                , data: {}
+                                , done: function (res) {
+                                    $("#sel-teacher-edit").append("<option value=\"\">请选择</option>");
+                                    $.each(res.data, function (index, item) {
+                                        if (data.teacherId == item.id) {
+                                            $("#sel-teacher-edit").append("<option selected=\"selected\" value=\"" + item.id + "\">" + item.userName + "</option>");
+                                        } else {
+                                            $("#sel-teacher-edit").append("<option value=\"" + item.id + "\">" + item.userName + "</option>");
+                                        }
+                                    });
+                                    form.render("select");
+                                }
                             });
                             //监听课程选择事件
                             form.on('select(sel-course-edit-filter)', function (data) {
@@ -308,30 +342,38 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                                     return;
                                 }
                                 //初始化老师 -> 课程选择时 - 默认跟随课程名师
-                                common.ajax(setter.apiAddress.aspnetuser.list, "GET", "", {}, function (res) {
-                                    $("#sel-teacher-edit").empty();
-                                    $("#sel-teacher-edit").append("<option value=\"\">请选择</option>");
-                                    $.each(res.data, function (index, item) {
-                                        if (teacherId == item.id) {
-                                            $("#sel-teacher-edit").append("<option selected=\"selected\" value=\"" + item.id + "\">" + item.userName + "</option>");
-                                        } else {
-                                            $("#sel-teacher-edit").append("<option value=\"" + item.id + "\">" + item.userName + "</option>");
-                                        }
-                                    });
-                                    form.render("select");
+                                admin.req({
+                                    url: setter.apiAddress.aspnetuser.list
+                                    , data: {}
+                                    , done: function (res) {
+                                        $("#sel-teacher-edit").empty();
+                                        $("#sel-teacher-edit").append("<option value=\"\">请选择</option>");
+                                        $.each(res.data, function (index, item) {
+                                            if (teacherId == item.id) {
+                                                $("#sel-teacher-edit").append("<option selected=\"selected\" value=\"" + item.id + "\">" + item.userName + "</option>");
+                                            } else {
+                                                $("#sel-teacher-edit").append("<option value=\"" + item.id + "\">" + item.userName + "</option>");
+                                            }
+                                        });
+                                        form.render("select");
+                                    }
                                 });
                             });
                             //初始化教室
-                            common.ajax(setter.apiAddress.classroom.list, "GET", "", {}, function (res) {
-                                $("#sel-class-room-edit").append("<option value=\"\">请选择</option>");
-                                $.each(res.data, function (index, item) {
-                                    if (data.classRoomId == item.id) {
-                                        $("#sel-class-room-edit").append("<option selected=\"selected\" value=\"" + item.id + "\">" + item.name + "</option>");
-                                    } else {
-                                        $("#sel-class-room-edit").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
-                                    }
-                                });
-                                form.render("select");
+                            admin.req({
+                                url: setter.apiAddress.classroom.list
+                                , data: {}
+                                , done: function (res) {
+                                    $("#sel-class-room-edit").append("<option value=\"\">请选择</option>");
+                                    $.each(res.data, function (index, item) {
+                                        if (data.classRoomId == item.id) {
+                                            $("#sel-class-room-edit").append("<option selected=\"selected\" value=\"" + item.id + "\">" + item.name + "</option>");
+                                        } else {
+                                            $("#sel-class-room-edit").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
+                                        }
+                                    });
+                                    form.render("select");
+                                }
                             });
                             form.on('select(sel-teacher-edit-filter)', function (data) {
                                 $("#hiddenEditTeacherName").val(data.elem[data.elem.selectedIndex].text);
@@ -339,12 +381,14 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                             $("#sel-recruitstatus-edit").val(data.recruitStatus);
                             $("#sel-typeofclass-edit").val(data.typeOfClass);
                             form.on('submit(classes-edit-form-submit)', function (data) {
-                                common.ajax(setter.apiAddress.classes.update, "POST", "", data.field, function (res) {
-                                    if (res.statusCode == 200) {
+                                admin.req({
+                                    url: setter.apiAddress.classes.update
+                                    , data: data.field
+                                    , type: 'POST'
+                                    , done: function (res) {
                                         layer.close(index);
                                         table.reload('classes-table');
                                     }
-                                    layer.msg(res.message);
                                 });
                             });
                         });
@@ -483,11 +527,13 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                                         }
                                         var data = selected[0];
                                         layer.confirm('删除后不可恢复，确定？', { icon: 3 }, function (index) {
-                                            common.ajax(setter.apiAddress.courseschedule.delete, "POST", "", { Id: data.id }, function (res) {
-                                                if (res.statusCode == 200) {
+                                            admin.req({
+                                                url: setter.apiAddress.courseschedule.delete
+                                                , data: { Id: data.id }
+                                                , type: 'POST'
+                                                , done: function (res) {
                                                     table.reload('courseschedule-table');
                                                 }
-                                                layer.msg(res.message);
                                             });
                                         });
                                         break;
@@ -503,11 +549,13 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                                         }
                                         var data = selected[0];
                                         layer.confirm('结课前需要先完成该课节学生点名，确定？', { icon: 3 }, function (index) {
-                                            common.ajax(setter.apiAddress.courseschedule.updateschedulestatus, "POST", "", { Id: data.id, ClassStatus: 2 }, function (res) {
-                                                if (res.statusCode == 200) {
+                                            admin.req({
+                                                url: setter.apiAddress.courseschedule.updateschedulestatus
+                                                , data: { Id: data.id, ClassStatus: 2 }
+                                                , type: 'POST'
+                                                , done: function (res) {
                                                     table.reload('courseschedule-table');
                                                 }
-                                                layer.msg(res.message);
                                             });
                                         });
                                         break;
@@ -662,11 +710,13 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                                     }
                                 }
                                 //向后台提交排课数据
-                                common.ajax(setter.apiAddress.courseschedule.addclassschedulingplan, "POST", "JSON", scheduleData, function (res) {
-                                    if (res.statusCode == 200) {
+                                admin.req({
+                                    url: setter.apiAddress.courseschedule.addclassschedulingplan
+                                    , data: scheduleData
+                                    , type: 'POST'
+                                    , done: function (res) {
                                         layer.close(index);
                                     }
-                                    layer.msg(res.message);
                                 });
                             });
                         });
@@ -826,12 +876,14 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                                                         layer.msg("请选择数据");
                                                         return;
                                                     }
-                                                    common.ajax(setter.apiAddress.studentcourseitem.addstudentsintoclass, "POST", "", submitData, function (res) {
-                                                        if (res.statusCode == 200) {
+                                                    admin.req({
+                                                        url: setter.apiAddress.studentcourseitem.addstudentsintoclass
+                                                        , data: submitData
+                                                        , type: 'POST'
+                                                        , done: function (res) {
                                                             table.reload('students-tobe-assigned-table');
                                                             table.reload('class-students-table');
                                                         }
-                                                        layer.msg(res.message);
                                                     });
                                                     break;
                                             }
@@ -866,18 +918,19 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                                         });
 
                                         layer.confirm('移除操作不会改变学生的考勤&账户&课时等信息，确定移除？', { icon: 3 }, function (index) {
-                                            common.ajax(setter.apiAddress.studentcourseitem.removestudentfromclass, "POST", "", submitData, function (res) {
-                                                if (res.statusCode == 200) {
+                                            admin.req({
+                                                url: setter.apiAddress.studentcourseitem.removestudentfromclass
+                                                , data: submitData
+                                                , type: 'POST'
+                                                , done: function (res) {
                                                     table.reload('class-students-table');
                                                     table.reload('students-tobe-assigned-table');
                                                 }
-                                                layer.msg(res.message);
                                             });
                                         });
                                         break;
                                 }
                             });
-
                         });
                     }
                 });
@@ -893,12 +946,14 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                 }
                 var data = selected[0];
                 layer.confirm('删除后不可恢复，确定？', { icon: 3 }, function (index) {
-                    common.ajax(setter.apiAddress.classes.delete, "POST", "", { Id: data.id }, function (res) {
-                        if (res.statusCode == 200) {
+                    admin.req({
+                        url: setter.apiAddress.classes.delete
+                        , data: { Id: data.id }
+                        , type: 'POST'
+                        , done: function (res) {
                             layer.close(index);
                             table.reload('classes-table');
                         }
-                        layer.msg(res.message);
                     });
                 });
                 break;
@@ -914,12 +969,14 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                 }
                 var data = selected[0];
                 layer.confirm('该班级的所有课节都进行了结课操作，确定？', { icon: 3 }, function (index) {
-                    common.ajax(setter.apiAddress.classes.updaterecruitstatus, "POST", "", { Id: data.id, RecruitStatus: 3 }, function (res) {
-                        if (res.statusCode == 200) {
+                    admin.req({
+                        url: setter.apiAddress.classes.updaterecruitstatus
+                        , data: { Id: data.id, RecruitStatus: 3 }
+                        , type: 'POST'
+                        , done: function (res) {
                             layer.close(index);
                             table.reload('classes-table');
                         }
-                        layer.msg(res.message);
                     });
                 });
                 break;
