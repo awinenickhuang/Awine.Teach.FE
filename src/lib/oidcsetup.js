@@ -2,6 +2,7 @@
     var $ = layui.$
         , admin = layui.admin
         , view = layui.view
+        , setter = layui.setter
         , table = layui.table;
 
     //使用oidc-client库中的UserManager类来管理OpenID连接协议,添加此代码以配置和实例化UserManager.
@@ -53,14 +54,23 @@
      */
     mgr.getUser().then(function (user) {
         if (user) {
+            layui.data(setter.tableName, {
+                key: 'tenantname'
+                , value: user.profile.tenantname
+            });
             table.set({ headers: { Authorization: "Bearer " + user.access_token } });
-            sessionStorage.setItem("tenantname", user.profile.tenantname);
-            sessionStorage.setItem("username", user.profile.username);
-            sessionStorage.setItem("access_token", user.access_token);
+            layui.data(setter.tableName, {
+                key: 'username'
+                , value: user.profile.username
+            });
+            layui.data(setter.tableName, {
+                key: setter.request.tokenName
+                , value: user.access_token
+            });
             console.log("log -> user logged in");
         }
         else {
-            console.log("User not logged in");
+            console.log("log -> user not logged in");
             mgr.signinRedirect();
         }
     });

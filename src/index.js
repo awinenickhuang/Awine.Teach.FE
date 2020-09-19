@@ -2,13 +2,12 @@
  @Name：layuiAdmin 主入口
  */
 layui.extend({
-    setter: 'config' //配置文件
+    setter: 'config'     //配置文件
     , admin: 'lib/admin' //核心模块
-    , view: 'lib/view' //核心模块
+    , view: 'lib/view'   //核心模块
     , oidcsetup: 'lib/oidcsetup'
     , common: 'lib/common'
-}).define(['setter', 'admin', 'oidcsetup', 'table', 'common', 'treeGrid'], function (exports) {
-
+}).define(['setter', 'admin', 'oidcsetup', 'table', 'common'], function (exports) {
     var setter = layui.setter
         , element = layui.element
         , admin = layui.admin
@@ -17,8 +16,6 @@ layui.extend({
         , oidcsetup = layui.oidcsetup
         , table = layui.table
         , common = common
-        , treeGrid = layui.treeGrid
-
         //根据路由渲染页面
         , renderPage = function () {
             var router = layui.router()
@@ -72,7 +69,6 @@ layui.extend({
                 var matchTo
                     , tabs = $('#LAY_app_tabsheader>li');
 
-                //
                 tabs.each(function (index) {
                     var li = $(this)
                         , layid = li.attr('lay-id');
@@ -159,40 +155,40 @@ layui.extend({
             } else {
                 //后台框架页面---强制拦截未登入
                 if (setter.interceptor) {
-
+                    var local = layui.data(setter.tableName);
+                    if (!local[setter.request.tokenName]) {
+                        //原本的写法，再接入OICD时不需要这样操作了，走AUTH的简化模式流程，这里给出提示即可
+                        //return location.hash = '/user/login/redirect=' + encodeURIComponent(pathURL); //跳转到登入页
+                        layer.msg('提示：您还未进行登录，系统将自动跳转到登录页面！', {
+                            offset: '15px'
+                            , icon: 1
+                            , time: 1000
+                        });
+                    }
                 }
                 //渲染后台结构
                 if (admin.pageType === 'console') {
-                    //后台主体页 进入每个具体页面时会执行
+                    //后台主体页 -> 进入每个具体页面时会执行
                     renderPage();
                 } else {
                     //初始左则操作菜单
-                    $.ajax({
-                        type: "GET",
-                        dataType: "json",
-                        headers: { Authorization: "Bearer " + sessionStorage.getItem("access_token") },
-                        url: setter.apiAddress.awinemodule.getroleownedmodules,
-                        success: function (res) {
-                            var data = res.data;
-                            if (res.statusCode == 200) {
-                                container.render('layout', data).done(function () {
-                                    renderPage();
-                                    layui.element.render();
+                    admin.req({
+                        url: setter.apiAddress.awinemodule.getroleownedmodules
+                        , data: {}
+                        , done: function (res) {
+                            container.render('layout', res.data).done(function () {
+                                renderPage();
+                                layui.element.render();
 
-                                    if (admin.screen() < 2) {
-                                        admin.sideFlexible();
-                                    }
-                                    admin.pageType = 'console';
-                                });
-                            }
-                        },
-                        error: function (e) {
-                            console.log(e.status);
-                            console.log(e.responseText);
+                                if (admin.screen() < 2) {
+                                    admin.sideFlexible();
+                                }
+                                admin.pageType = 'console';
+                            });
                         }
                     });
 
-                    //初始控制台结构
+                    //原有写法 - 初始控制台结构
                     //container.render('layout').done(function () {
                     //    renderPage();
                     //    layui.element.render();
@@ -230,6 +226,14 @@ layui.extend({
         mods[item] = '{/}' + setter.base + 'lib/extend/' + item;
         layui.extend(mods);
     });
+
+    layui.tenantname = function () {
+        return layui.data(setter.tableName)['tenantname'] != null ? layui.data(setter.tableName)['tenantname'] : '请登录'
+    };
+
+    layui.username = function () {
+        return layui.data(setter.tableName)['username'] != null ? layui.data(setter.tableName)['username'] : '请登录'
+    };
 
     //对外输出
     exports('index', {

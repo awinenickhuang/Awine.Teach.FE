@@ -22,7 +22,9 @@ layui.define(['jquery'], function (exports) {
                 type: httpRequestType,
                 //请求数据
                 dataType: dataType,
-                headers: { Authorization: "Bearer " + sessionStorage.getItem("access_token") },
+                headers: {
+                    Authorization: "Bearer " + layui.data(setter.tableName)[setter.request.tokenName]
+                },
                 data: data,
                 beforeSend: function () {
                     this.layerIndex = layer.load(2, { shade: [0.2, '#F0F0F0'] });
@@ -38,7 +40,7 @@ layui.define(['jquery'], function (exports) {
                 success: callback
             });
         },
-        // 日期格式化   
+        // 日期格式化
         formatDate: function (datetime, fmt) {
             if (parseInt(datetime) == datetime) {
                 if (datetime.length == 10) {
@@ -50,12 +52,12 @@ layui.define(['jquery'], function (exports) {
             datetime = new Date(datetime);
             var o = {
                 "M+": datetime.getMonth() + 1,                        //月份   
-                "d+": datetime.getDate(),                            //日   
-                "h+": datetime.getHours(),                          //小时   
-                "m+": datetime.getMinutes(),                       //分   
-                "s+": datetime.getSeconds(),                      //秒   
-                "q+": Math.floor((datetime.getMonth() + 3) / 3), //季度
-                "S": datetime.getMilliseconds()                 //毫秒   
+                "d+": datetime.getDate(),                             //日   
+                "h+": datetime.getHours(),                            //小时   
+                "m+": datetime.getMinutes(),                          //分   
+                "s+": datetime.getSeconds(),                          //秒   
+                "q+": Math.floor((datetime.getMonth() + 3) / 3),      //季度
+                "S": datetime.getMilliseconds()                       //毫秒   
             };
             if (/(y+)/.test(fmt)) {
                 fmt = fmt.replace(RegExp.$1, (datetime.getFullYear() + "").substr(4 - RegExp.$1.length));
@@ -75,7 +77,7 @@ layui.define(['jquery'], function (exports) {
             var year = myDate.getFullYear();
             var month = myDate.getMonth() + 1;
             var dates = myDate.getDate();
-            var h = myDate.getHours(); //获取当前小时数(0-23)
+            var h = myDate.getHours();   //获取当前小时数(0-23)
             var m = myDate.getMinutes(); //获取当前分钟数(0-59)
             var s = myDate.getSeconds();
             return year + '-' + p(month) + "-" + p(dates) + " " + p(h) + ':' + p(m) + ":" + p(s);

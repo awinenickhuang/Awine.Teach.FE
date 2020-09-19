@@ -12,13 +12,13 @@ layui.define(['form', 'common', 'setter', 'treeGrid', 'xmSelect', 'verification'
         , table = layui.table
         , element = layui.element
         , form = layui.form;
-
-    treeGrid.set({ headers: { Authorization: "Bearer " + sessionStorage.access_token } });
-
     treeGrid.render({
         id: "module-tree-table"
         , elem: '#module-tree-table'
         , url: setter.apiAddress.awinemodule.list
+        , headers: {
+            Authorization: "Bearer " + layui.data(setter.tableName)[setter.request.tokenName]
+        }
         , toolbar: '#module-table-toolbar'
         , idField: 'id'
         , treeId: 'id'

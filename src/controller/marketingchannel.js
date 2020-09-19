@@ -63,12 +63,14 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification'], f
                             form.render();
                             //监听提交
                             form.on('submit(marketingchannel-add-form-submit)', function (data) {
-                                common.ajax(setter.apiAddress.marketingchannel.add, "POST", "", data.field, function (res) {
-                                    if (res.statusCode == 200) {
+                                admin.req({
+                                    url: setter.apiAddress.marketingchannel.add
+                                    , data: data.field
+                                    , type: 'POST'
+                                    , done: function (res) {
                                         layer.close(index);
                                         table.reload('marketingchannel-table');
                                     }
-                                    layer.msg(res.message);
                                 });
                             });
                         });
@@ -89,12 +91,14 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification'], f
                     view(this.id).render('marketing/marketingchannel/edit', data).done(function () {
                         form.render();
                         form.on('submit(marketingchannel-edit-form-submit)', function (data) {
-                            common.ajax(setter.apiAddress.marketingchannel.update, "POST", "", data.field, function (res) {
-                                if (res.statusCode == 200) {
+                            admin.req({
+                                url: setter.apiAddress.marketingchannel.update
+                                , data: data.field
+                                , type: 'POST'
+                                , done: function (res) {
                                     layer.close(index);
                                     table.reload('marketingchannel-table');
                                 }
-                                layer.msg(res.message);
                             });
                         });
                     });

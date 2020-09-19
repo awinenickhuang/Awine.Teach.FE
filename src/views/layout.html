@@ -10,7 +10,7 @@
             <li class="layui-nav-item layui-hide-xs layui-hide-sm layui-show-md-inline-block">
                 <a lay-href="" title="">
                     <script type="text/html" template>
-                        <strong><cite><i class="layui-icon layui-icon-location"></i>   {{sessionStorage.getItem("tenantname")!=null ?sessionStorage.getItem("tenantname"):'请登录'}}</cite></strong>
+                        <strong><cite><i class="layui-icon layui-icon-location"></i>   {{layui.tenantname()}}</cite></strong>
                     </script>
                 </a>
             </li>
@@ -26,21 +26,17 @@
             </li>
         </ul>
         <ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right">
-
             <li class="layui-nav-item" lay-unselect>
                 <a lay-href="message/" layadmin-event="message">
                     <i class="layui-icon layui-icon-notice"></i>
-
                     <!-- 如果有新消息，则显示小圆点 -->
                     <!--<script type="text/html" template lay-url="./json/message/new.js">
                         {{# if(d.data.newmsg){ }}
                         <span class="layui-badge-dot"></span>
                         {{# } }}
                     </script>-->
-
                 </a>
             </li>
-
             <li class="layui-nav-item layui-hide-xs" lay-unselect>
                 <a href="javascript:;" layadmin-event="theme">
                     <i class="layui-icon layui-icon-theme"></i>
@@ -59,7 +55,7 @@
             <li class="layui-nav-item" lay-unselect>
                 <a href="javascript:;">
                     <script type="text/html" template>
-                        <cite>{{sessionStorage.getItem("username")!=null ?sessionStorage.getItem("username"):'请登录'}}</cite>
+                        <cite>{{layui.username()}}</cite>
                     </script>
                 </a>
                 <dl class="layui-nav-child">
@@ -68,7 +64,6 @@
                     <dd><a href="#" class="logout">退出登录</a></dd>
                 </dl>
             </li>
-
             <li class="layui-nav-item layui-hide-xs" lay-unselect>
                 <a href="javascript:;" layadmin-event="about"><i class="layui-icon layui-icon-more-vertical"></i></a>
             </li>

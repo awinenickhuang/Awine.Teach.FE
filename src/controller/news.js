@@ -11,7 +11,6 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
         , form = layui.form
         , layedit = layui.layedit
         , element = layui.element;
-
     table.render({
         elem: '#news-table'
         , url: setter.apiAddress.news.pagelist
@@ -65,13 +64,13 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                             var lay_edit_index = layedit.build('layedit_content', {
                                 //暴露layupload参数设置接口 --详细查看layupload参数说明
                                 uploadImage: {
-                                    url: ''    //上传接口url
+                                    url: ''        //上传接口url
                                     , type: 'post' //默认post
                                 }
                                 , devmode: true
                                 //插入代码设置
                                 , codeConfig: {
-                                    hide: true,  //是否显示编码语言选择框
+                                    hide: true,           //是否显示编码语言选择框
                                     default: 'javascript' //hide为true时的默认语言格式
                                 }
                                 , tool: [

@@ -63,72 +63,6 @@ layui.define('view', function (exports) {
                 }, options));
             }
 
-            //发送验证码
-            , sendAuthCode: function (options) {
-                options = $.extend({
-                    seconds: 60
-                    , elemPhone: '#LAY_phone'
-                    , elemVercode: '#LAY_vercode'
-                }, options);
-
-                var seconds = options.seconds
-                    , token = null
-                    , timer, countDown = function (loop) {
-                        var btn = $(options.elem)
-                        seconds--;
-                        if (seconds < 0) {
-                            btn.removeClass(DISABLED).html('获取验证码');
-                            seconds = options.seconds;
-                            clearInterval(timer);
-                        } else {
-                            btn.addClass(DISABLED).html(seconds + '秒后重获');
-                        }
-
-                        if (!loop) {
-                            timer = setInterval(function () {
-                                countDown(true);
-                            }, 1000);
-                        }
-                    };
-
-                $body.off('click', options.elem).on('click', options.elem, function () {
-                    options.elemPhone = $(options.elemPhone);
-                    options.elemVercode = $(options.elemVercode);
-
-                    var elemPhone = options.elemPhone
-                        , value = elemPhone.val();
-
-                    if (seconds !== options.seconds || $(this).hasClass(DISABLED)) return;
-
-                    if (!/^1\d{10}$/.test(value)) {
-                        elemPhone.focus();
-                        return layer.msg('请输入正确的手机号')
-                    };
-
-                    if (typeof options.ajax === 'object') {
-                        var success = options.ajax.success;
-                        delete options.ajax.success;
-                    }
-
-                    admin.req($.extend(true, {
-                        url: '/auth/code'
-                        , type: 'get'
-                        , data: {
-                            phone: value
-                        }
-                        , success: function (res) {
-                            layer.msg('验证码已发送至你的手机，请注意查收', {
-                                icon: 1
-                                , shade: 0
-                            });
-                            options.elemVercode.focus();
-                            countDown();
-                            success && success(res);
-                        }
-                    }, options.ajax));
-                });
-            }
-
             //屏幕类型
             , screen: function () {
                 var width = $win.width();
@@ -153,29 +87,24 @@ layui.define('view', function (exports) {
                 if (status === 'spread') {
                     //切换到展开状态的 icon，箭头：←
                     iconElem.removeClass(ICON_SPREAD).addClass(ICON_SHRINK);
-
                     //移动：从左到右位移；PC：清除多余选择器恢复默认
                     if (screen < 2) {
                         app.addClass(APP_SPREAD_SM);
                     } else {
                         app.removeClass(APP_SPREAD_SM);
                     }
-
                     app.removeClass(SIDE_SHRINK)
                 } else {
                     //切换到搜索状态的 icon，箭头：→
                     iconElem.removeClass(ICON_SHRINK).addClass(ICON_SPREAD);
-
                     //移动：清除多余选择器恢复默认；PC：从右往左收缩
                     if (screen < 2) {
                         app.removeClass(SIDE_SHRINK);
                     } else {
                         app.addClass(SIDE_SHRINK);
                     }
-
                     app.removeClass(APP_SPREAD_SM)
                 }
-
                 layui.event.call(this, setter.MOD_NAME, 'side({*})', {
                     status: status
                 });
@@ -189,7 +118,9 @@ layui.define('view', function (exports) {
                         layui.table.resize(tableID);
                     });
                 };
-                if (!layui.table) return;
+                if (!layui.table) {
+                    return;
+                }
                 delay ? setTimeout(runResizeTable, delay) : runResizeTable();
             }
 
@@ -200,6 +131,7 @@ layui.define('view', function (exports) {
                     , id = 'LAY_layadmin_theme'
                     , style = document.createElement('style')
                     , styleText = laytpl([
+
                         //主题色
                         '.layui-side-menu,'
                         , '.layadmin-pagetabs .layui-tab-title li:after,'
@@ -215,7 +147,7 @@ layui.define('view', function (exports) {
                         , '.layui-nav-tree .layui-nav-child dd.layui-this a'
                         , '{background-color:{{d.color.selected}} !important;}'
 
-                        //logo
+                        //LOGO
                         , '.layui-layout-admin .layui-logo{background-color:{{d.color.logo || d.color.main}} !important;}'
 
                         //头部色
@@ -509,7 +441,6 @@ layui.define('view', function (exports) {
                         liItem.each(function (i, item) {
                             var li = $(item)
                                 , left = li.position().left;
-
                             //从当前可视区域的最左第二个节点遍历，如果减去最左节点的差 > 目标在右侧不可见的宽度，则将该节点放置可视区域最左
                             if (left + tabsLeft > 0) {
                                 if (left - tabsLeft > subLeft) {

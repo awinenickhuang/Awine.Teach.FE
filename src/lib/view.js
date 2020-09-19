@@ -45,8 +45,13 @@ layui.define(['laytpl', 'layer'], function (exports) {
             , remove: true
         });
 
-        //跳转到登入页
-        location.hash = '/user/login';
+        //跳转到登入页 -> 这里不用再显示转跳到登录页，等待AUTH简化流程执行
+        //location.hash = '/user/login';
+        layer.msg('提示：您已成功退出，请等待浏览器转跳！', {
+            offset: '15px'
+            , icon: 1
+            , time: 1000
+        });
     };
 
     //Ajax请求
@@ -58,7 +63,7 @@ layui.define(['laytpl', 'layer'], function (exports) {
             , response = setter.response
             , debug = function () {
                 return setter.debug
-                    ? '<br><cite>URL：</cite>' + options.url
+                    ? '<br><cite>请求信息：</cite>' + options.url
                     : '';
             };
 
@@ -70,15 +75,15 @@ layui.define(['laytpl', 'layer'], function (exports) {
                 ? JSON.parse(options.data)
                 : options.data;
 
-            //自动给参数传入默认 token
-            options.data[request.tokenName] = request.tokenName in sendData
+            //自动给 参数 传入默认 token
+            options.data[request.Authorization] = request.jwtBearerDefaults + request.tokenName in sendData
                 ? options.data[request.tokenName]
-                : (layui.data(setter.tableName)[request.tokenName] || '');
+                : (request.jwtBearerDefaults + layui.data(setter.tableName)[request.tokenName] || '');
 
-            //自动给 Request Headers 传入 token
-            options.headers[request.tokenName] = request.tokenName in options.headers
-                ? options.headers[request.tokenName]
-                : (layui.data(setter.tableName)[request.tokenName] || '');
+            //自动给 Request Headers 传入默认 token
+            options.headers[request.Authorization] = request.jwtBearerDefaults + request.tokenName in options.headers
+                ? options.headers[request.Authorization]
+                : (request.jwtBearerDefaults + layui.data(setter.tableName)[request.tokenName] || '');
         }
 
         delete options.success;
@@ -88,36 +93,70 @@ layui.define(['laytpl', 'layer'], function (exports) {
             type: 'get'
             , dataType: 'json'
             , success: function (res) {
+
+                let requestresults = {
+                    code: res.statusCode,
+                    msg: res.message,
+                    data: res.data,
+                }
+
+                if (res.statusCode == 200) {
+                    requestresults.code = 0;
+                }
+
                 var statusCode = response.statusCode;
 
                 //只有 response 的 code 一切正常才执行 done
-                if (res[response.statusName] == statusCode.ok) {
-                    typeof options.done === 'function' && options.done(res);
+                if (requestresults[response.statusName] == statusCode.ok) {
+                    typeof options.done === 'function' && options.done(requestresults);
                 }
 
                 //登录状态失效，清除本地 access_token，并强制跳转到登入页
-                else if (res[response.statusName] == statusCode.logout) {
+                else if (requestresults[response.statusName] == statusCode.logout) {
                     view.exit();
                 }
 
                 //其它异常
                 else {
-                    var errorText = [
-                        '<cite>Error：</cite> ' + (res[response.msgName] || '返回状态码异常')
-                        , debug()
-                    ].join('');
-                    view.error(errorText);
+
+                    //var errorText = [
+                    //    '<cite>提示信息：</cite> ' + (requestresults[response.msgName] || '状态码异常')
+                    //    , debug()
+                    //].join('');
+                    //view.error(errorText);
+                    //不使用弹窗的方式来提示系统异常信息
+                    layer.msg('<cite>提示信息：</cite>' + (requestresults[response.msgName] || '状态码异常'), {
+                        icon: 5
+                        , time: 3000
+                    });
                 }
 
                 //只要 http 状态码正常，无论 response 的 code 是否正常都执行 success
-                typeof success === 'function' && success(res);
+                typeof success === 'function' && success(requestresults);
             }
             , error: function (e, code) {
-                var errorText = [
-                    '请求异常，请重试<br><cite>错误信息：</cite>' + code
-                    , debug()
-                ].join('');
-                view.error(errorText);
+                //如果登录失效 -> 则重新进行登录操作
+                if (e.status == setter.response.statusCode.logout) {
+                    layer.msg('登录超时，请重新登录，等待浏览器转跳......', {
+                        icon: 5
+                        , time: 3000
+                    }, function () {
+                        layer.closeAll();
+                        view.exit();
+                    });
+                    return;
+                }
+
+                //var errorText = [
+                //    '请求异常，请重试<br><cite>错误信息：</cite>' + code
+                //    , debug()
+                //].join('');
+                //view.error(errorText);
+
+                layer.msg('<cite>请求异常，请重试！错误信息：</cite>' + code, {
+                    icon: 5
+                    , time: 3000
+                });
 
                 typeof error === 'function' && error(res);
             }
@@ -152,12 +191,12 @@ layui.define(['laytpl', 'layer'], function (exports) {
         }, options))
     };
 
-    //异常提示
+    //异常提示 -> 请求状态出现异常时的弹出提示框
     view.error = function (content, options) {
         return view.popup($.extend({
             content: content
-            , maxWidth: 300
-            //,shade: 0.01
+            , maxWidth: 500
+            , shade: 0.01
             , offset: 't'
             , anim: 6
             , id: 'LAY_adminError'

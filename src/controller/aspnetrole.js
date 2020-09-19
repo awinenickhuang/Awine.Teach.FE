@@ -176,13 +176,16 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 't
                 id: "operationpermissions-table"
                 , elem: '#operationpermissions-table'
                 , url: setter.apiAddress.awinemodule.listwithchedkedstatus
+                , headers: {
+                    Authorization: "Bearer " + layui.data(setter.tableName)[setter.request.tokenName]
+                }
                 , idField: 'id'
                 , treeId: 'id'
                 , treeUpId: 'parentId'
                 , treeShowName: 'name'
                 , isFilter: false
                 , iconOpen: false
-                , isOpenDefault: true
+                , isOpenDefault: false
                 , loading: true
                 , method: 'get'
                 , isPage: false
@@ -280,7 +283,6 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 't
                 , closeBtn: 1
                 , success: function (layero, index) {
                     view(this.id).render('foundational/aspnetrole/operationpermissions').done(function () {
-                        treeGrid.set({ headers: { Authorization: "Bearer " + sessionStorage.access_token } });
                         operationPermissions.initOperationPermissions(data.id);
                         //监听保存操作权限事件
                         $('.layui-btn.btn-save-operationpermissions').on('click', function () {
