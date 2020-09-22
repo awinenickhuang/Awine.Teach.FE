@@ -1,15 +1,13 @@
 ﻿/**
  @Name：部门管理
  */
-layui.define(['table', 'form', 'common', 'setter', 'element', 'verification'], function (exports) {
+layui.define(['table', 'form', 'setter', 'verification'], function (exports) {
     var $ = layui.$
         , admin = layui.admin
         , view = layui.view
         , table = layui.table
-        , common = layui.common
         , setter = layui.setter
-        , form = layui.form
-        , element = layui.element;
+        , form = layui.form;
     //加载机构 -> 部门数据
     table.render({
         elem: '#department-table'
@@ -67,12 +65,16 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification'], f
                     , success: function (layero, index) {
                         view(this.id).render('foundational/department/search').done(function () {
                             //初始机构数据
-                            common.ajax(setter.apiAddress.tenant.list, "Get", "", {}, function (res) {
-                                $("#sel-organization-search").append("<option value=\"\">请选择机构</option>");
-                                $.each(res.data, function (index, item) {
-                                    $("#sel-organization-search").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
-                                });
-                                form.render("select");
+                            admin.req({
+                                url: setter.apiAddress.tenant.list
+                                , data: {}
+                                , done: function (res) {
+                                    $("#sel-organization-search").append("<option value=\"\">请选择机构</option>");
+                                    $.each(res.data, function (index, item) {
+                                        $("#sel-organization-search").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
+                                    });
+                                    form.render("select");
+                                }
                             });
                             //监听提交//搜索
                             form.on('submit(department-search-submit)', function (data) {
@@ -101,21 +103,27 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification'], f
                     , success: function (layero, index) {
                         view(this.id).render('foundational/department/add').done(function () {
                             //初始机构数据
-                            common.ajax(setter.apiAddress.tenant.list, "GET", "", "", function (res) {
-                                $("#sel-organization-list").append("<option value=\"\">请选择</option>");
-                                $.each(res.data, function (index, item) {
-                                    $("#sel-organization-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
-                                });
-                                form.render("select");
+                            admin.req({
+                                url: setter.apiAddress.tenant.list
+                                , data: {}
+                                , done: function (res) {
+                                    $("#sel-organization-list").append("<option value=\"\">请选择</option>");
+                                    $.each(res.data, function (index, item) {
+                                        $("#sel-organization-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
+                                    });
+                                    form.render("select");
+                                }
                             });
                             //监听提交
                             form.on('submit(department-form-submit)', function (data) {
-                                common.ajax(setter.apiAddress.department.add, "POST", "JSON", data.field, function (res) {
-                                    if (res.statusCode == 200) {
+                                admin.req({
+                                    url: setter.apiAddress.department.add
+                                    , data: data.field
+                                    , type: 'POST'
+                                    , done: function (res) {
                                         layer.close(index);
                                         table.reload('department-table');
                                     }
-                                    layer.msg(res.message);
                                 });
                             });
                         });
@@ -129,12 +137,14 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification'], f
         var data = obj.data;
         if (obj.event === 'del') {
             layer.confirm('删除后不可恢复，确定？', { icon: 3 }, function (index) {
-                common.ajax(setter.apiAddress.department.delete, "POST", "", { Id: data.id }, function (res) {
-                    if (res.statusCode == 200) {
+                admin.req({
+                    url: setter.apiAddress.department.delete
+                    , data: { Id: data.id }
+                    , type: 'POST'
+                    , done: function (res) {
                         layer.close(index);
                         table.reload('department-table');
                     }
-                    layer.msg(res.message);
                 });
             });
         } else if (obj.event === 'edit') {
@@ -147,24 +157,30 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification'], f
                     view(this.id).render('foundational/department/edit', data).done(function () {
                         form.render();
                         //初始机构数据
-                        common.ajax(setter.apiAddress.tenant.list, "GET", "", "", function (res) {
-                            $("#sel-organization-list").append("<option value=\"\">请选择</option>");
-                            $.each(res.data, function (index, item) {
-                                if (data.tenantId == item.id) {
-                                    $("#sel-organization-list").append("<option selected=\"selected\" value=\"" + item.id + "\">" + item.name + "</option>");
-                                } else {
-                                    $("#sel-organization-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
-                                }
-                            });
-                            form.render("select");
+                        admin.req({
+                            url: setter.apiAddress.tenant.list
+                            , data: {}
+                            , done: function (res) {
+                                $("#sel-organization-list").append("<option value=\"\">请选择</option>");
+                                $.each(res.data, function (index, item) {
+                                    if (data.tenantId == item.id) {
+                                        $("#sel-organization-list").append("<option selected=\"selected\" value=\"" + item.id + "\">" + item.name + "</option>");
+                                    } else {
+                                        $("#sel-organization-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
+                                    }
+                                });
+                                form.render("select");
+                            }
                         });
                         form.on('submit(department-edit-form-submit)', function (data) {
-                            common.ajax(setter.apiAddress.department.update, "POST", "", data.field, function (res) {
-                                if (res.statusCode == 200) {
+                            admin.req({
+                                url: setter.apiAddress.department.update
+                                , data: data.field
+                                , type: 'POST'
+                                , done: function (res) {
                                     layer.close(index);
                                     table.reload('department-table');
                                 }
-                                layer.msg(res.message);
                             });
                         });
                     });

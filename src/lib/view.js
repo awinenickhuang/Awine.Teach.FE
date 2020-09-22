@@ -93,7 +93,6 @@ layui.define(['laytpl', 'layer'], function (exports) {
             type: 'get'
             , dataType: 'json'
             , success: function (res) {
-
                 let requestresults = {
                     code: res.statusCode,
                     msg: res.message,
@@ -135,7 +134,7 @@ layui.define(['laytpl', 'layer'], function (exports) {
                 typeof success === 'function' && success(requestresults);
             }
             , error: function (e, code) {
-                //如果登录失效 -> 则重新进行登录操作
+                //如果登录失效或未授权状态为401 -> 则重新进行登录操作
                 if (e.status == setter.response.statusCode.logout) {
                     layer.msg('登录超时，请重新登录，等待浏览器转跳......', {
                         icon: 5
@@ -153,7 +152,7 @@ layui.define(['laytpl', 'layer'], function (exports) {
                 //].join('');
                 //view.error(errorText);
 
-                layer.msg('<cite>请求异常，请重试！错误信息：</cite>' + code, {
+                layer.msg('<cite>请求异常，请重试！错误信息：</cite>' + e.responseJSON.message, {
                     icon: 5
                     , time: 3000
                 });

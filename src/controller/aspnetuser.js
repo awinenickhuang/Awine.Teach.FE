@@ -8,7 +8,6 @@ layui.define(['table', 'form', 'setter', 'verification'], function (exports) {
         , table = layui.table
         , setter = layui.setter
         , form = layui.form;
-
     //加载用户数据
     table.render({
         elem: '#userprofile-table'

@@ -1,16 +1,14 @@
 ﻿/**
  @Name：行业资讯
  */
-layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'layedit'], function (exports) {
+layui.define(['table', 'form', 'setter', 'verification', 'layedit'], function (exports) {
     var $ = layui.$
         , admin = layui.admin
         , view = layui.view
         , table = layui.table
-        , common = layui.common
         , setter = layui.setter
         , form = layui.form
-        , layedit = layui.layedit
-        , element = layui.element;
+        , layedit = layui.layedit;
     table.render({
         elem: '#news-table'
         , url: setter.apiAddress.news.pagelist
@@ -92,12 +90,14 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                             });
                             //监听提交
                             form.on('submit(news-form-submit)', function (data) {
-                                common.ajax(setter.apiAddress.news.add, "POST", "", data.field, function (res) {
-                                    if (res.statusCode == 200) {
+                                admin.req({
+                                    url: setter.apiAddress.news.add
+                                    , data: data.field
+                                    , type: 'POST'
+                                    , done: function (res) {
                                         layer.close(index);
                                         table.reload('news-table');
                                     }
-                                    layer.msg(res.message);
                                 });
                             });
                         });
@@ -111,12 +111,14 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
         var data = obj.data;
         if (obj.event === 'del') {
             layer.confirm('删除后不可恢复，确定？', { icon: 3 }, function (index) {
-                common.ajax(setter.apiAddress.news.delete, "POST", "", { Id: data.id }, function (res) {
-                    if (res.statusCode == 200) {
+                admin.req({
+                    url: setter.apiAddress.news.delete
+                    , data: { Id: data.id }
+                    , type: 'POST'
+                    , done: function (res) {
                         layer.close(index);
                         table.reload('news-table');
                     }
-                    layer.msg(res.message);
                 });
             });
         }

@@ -1,7 +1,7 @@
 ﻿/**
  @Name：日常支出
  */
-layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'laydate'], function (exports) {
+layui.define(['table', 'form', 'common', 'setter', 'verification', 'laydate'], function (exports) {
     var $ = layui.$
         , admin = layui.admin
         , view = layui.view
@@ -9,9 +9,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
         , common = layui.common
         , setter = layui.setter
         , form = layui.form
-        , element = layui.element
         , laydate = layui.laydate;
-
     //加载日常支出
     table.render({
         elem: '#dailyspending-table'
@@ -88,12 +86,16 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                                 }
                             });
                             //初始支出项目
-                            common.ajax(setter.apiAddress.financialitems.list, "Get", "", {}, function (res) {
-                                $("#sel-financialitems-search-list").append("<option value=\"\">请选择支出项目</option>");
-                                $.each(res.data, function (index, item) {
-                                    $("#sel-financialitems-search-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
-                                });
-                                form.render("select");
+                            admin.req({
+                                url: setter.apiAddress.financialitems.list
+                                , data: {}
+                                , done: function (res) {
+                                    $("#sel-financialitems-search-list").append("<option value=\"\">请选择支出项目</option>");
+                                    $.each(res.data, function (index, item) {
+                                        $("#sel-financialitems-search-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
+                                    });
+                                    form.render("select");
+                                }
                             });
                             //监听提交//搜索
                             form.on('submit(dailyspending-search-submit)', function (data) {
@@ -124,22 +126,28 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                     , success: function (layero, index) {
                         view(this.id).render('financial/dailyspending/add').done(function () {
                             $("#sel-financialitem-list").empty();
-                            common.ajax(setter.apiAddress.financialitems.list, "GET", "", { status: 1 }, function (res) {
-                                $("#sel-financialitem-list").append("<option value=\"\">请选择项目</option>");
-                                $.each(res.data, function (index, item) {
-                                    $("#sel-financialitem-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
-                                });
-                                form.render("select");
+                            admin.req({
+                                url: setter.apiAddress.financialitems.list
+                                , data: { status: 1 }
+                                , done: function (res) {
+                                    $("#sel-financialitem-list").append("<option value=\"\">请选择项目</option>");
+                                    $.each(res.data, function (index, item) {
+                                        $("#sel-financialitem-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
+                                    });
+                                    form.render("select");
+                                }
                             });
                             form.render();
                             //监听提交
                             form.on('submit(dailyspending-form-submit)', function (data) {
-                                common.ajax(setter.apiAddress.dailyspending.add, "POST", "", data.field, function (res) {
-                                    if (res.statusCode == 200) {
+                                admin.req({
+                                    url: setter.apiAddress.dailyspending.add
+                                    , data: data.field
+                                    , type: 'POST'
+                                    , done: function (res) {
                                         layer.close(index);
                                         table.reload('dailyspending-table');
                                     }
-                                    layer.msg(res.message);
                                 });
                             });
                         });
@@ -153,12 +161,14 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
         var data = obj.data;
         if (obj.event === 'del') {
             layer.confirm('删除后不可恢复，确定？', { icon: 3 }, function (index) {
-                common.ajax(setter.apiAddress.dailyspending.delete, "POST", "", { Id: data.id }, function (res) {
-                    if (res.statusCode == 200) {
+                admin.req({
+                    url: setter.apiAddress.dailyspending.delete
+                    , data: { Id: data.id }
+                    , type: 'POST'
+                    , done: function (res) {
                         layer.close(index);
                         table.reload('dailyspending-table');
                     }
-                    layer.msg(res.message);
                 });
             });
         }

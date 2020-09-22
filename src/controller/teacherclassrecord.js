@@ -1,7 +1,7 @@
 ﻿/**
  @Name：教师上课记录
  */
-layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'laydate'], function (exports) {
+layui.define(['table', 'form', 'common', 'setter', 'verification', 'laydate'], function (exports) {
     var $ = layui.$
         , admin = layui.admin
         , view = layui.view
@@ -9,9 +9,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
         , common = layui.common
         , setter = layui.setter
         , form = layui.form
-        , laydate = layui.laydate
-        , element = layui.element;
-
+        , laydate = layui.laydate;
     table.render({
         elem: '#teacherclassrecord-table'
         , url: setter.apiAddress.courseschedule.pagelist
@@ -138,12 +136,16 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                                 }
                             });
                             //初始化搜索条件 -> 课程数据
-                            common.ajax(setter.apiAddress.course.list, "GET", "", "", function (res) {
-                                $("#sel-course-search").append("<option value=\"\">请选择课程</option>");
-                                $.each(res.data, function (index, item) {
-                                    $("#sel-course-search").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
-                                });
-                                form.render("select");
+                            admin.req({
+                                url: setter.apiAddress.course.list
+                                , data: {}
+                                , done: function (res) {
+                                    $("#sel-course-search").append("<option value=\"\">请选择课程</option>");
+                                    $.each(res.data, function (index, item) {
+                                        $("#sel-course-search").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
+                                    });
+                                    form.render("select");
+                                }
                             });
                             form.on('select(course-search-filter)', function (data) {
                                 //搜索 -> 班级数据
@@ -152,22 +154,30 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                                     form.render("select");
                                     return;
                                 }
-                                common.ajax(setter.apiAddress.classes.list, "GET", "", { courseId: data.value }, function (res) {
-                                    $("#sel-class-search").append("<option value=\"\">请选择班级</option>");
-                                    $.each(res.data, function (index, item) {
-                                        $("#sel-class-search").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
-                                    });
-                                    form.render("select");
+                                admin.req({
+                                    url: setter.apiAddress.classes.list
+                                    , data: { courseId: data.value }
+                                    , done: function (res) {
+                                        $("#sel-class-search").append("<option value=\"\">请选择班级</option>");
+                                        $.each(res.data, function (index, item) {
+                                            $("#sel-class-search").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
+                                        });
+                                        form.render("select");
+                                    }
                                 });
                             });
                             //初始化搜索条件 -> 教师数据
-                            common.ajax(setter.apiAddress.aspnetuser.list, "GET", "", {}, function (res) {
-                                $("#sel-teacher-search").empty();
-                                $("#sel-teacher-search").append("<option value=\"\">请选择教师</option>");
-                                $.each(res.data, function (index, item) {
-                                    $("#sel-teacher-search").append("<option value=\"" + item.id + "\">" + item.userName + "</option>");
-                                });
-                                form.render("select");
+                            admin.req({
+                                url: setter.apiAddress.aspnetuser.list
+                                , data: { enableStatus: 1 }
+                                , done: function (res) {
+                                    $("#sel-teacher-search").empty();
+                                    $("#sel-teacher-search").append("<option value=\"\">请选择教师</option>");
+                                    $.each(res.data, function (index, item) {
+                                        $("#sel-teacher-search").append("<option value=\"" + item.id + "\">" + item.userName + "</option>");
+                                    });
+                                    form.render("select");
+                                }
                             });
                             //搜索
                             form.on('submit(teacherclassrecord-search-submit)', function (data) {

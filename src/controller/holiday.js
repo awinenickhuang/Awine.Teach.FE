@@ -9,9 +9,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
         , common = layui.common
         , setter = layui.setter
         , form = layui.form
-        , laydate = layui.laydate
-        , element = layui.element;
-
+        , laydate = layui.laydate;
     table.render({
         elem: '#holiday-table'
         , url: setter.apiAddress.holiday.pagelist
@@ -79,12 +77,14 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                             });
                             //监听提交
                             form.on('submit(holiday-form-submit)', function (data) {
-                                common.ajax(setter.apiAddress.holiday.add, "POST", "", data.field, function (res) {
-                                    if (res.statusCode == 200) {
+                                admin.req({
+                                    url: setter.apiAddress.holiday.add
+                                    , data: data.field
+                                    , type: 'POST'
+                                    , done: function (res) {
                                         layer.close(index);
                                         table.reload('holiday-table');
                                     }
-                                    layer.msg(res.message);
                                 });
                             });
                         });
@@ -98,12 +98,14 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
         var data = obj.data;
         if (obj.event === 'del') {
             layer.confirm('删除后不可恢复，确定？', { icon: 3 }, function (index) {
-                common.ajax(setter.apiAddress.holiday.delete, "POST", "", { Id: data.id }, function (res) {
-                    if (res.statusCode == 200) {
+                admin.req({
+                    url: setter.apiAddress.holiday.delete
+                    , data: { Id: data.id }
+                    , type: 'POST'
+                    , done: function (res) {
                         layer.close(index);
                         table.reload('holiday-table');
                     }
-                    layer.msg(res.message);
                 });
             });
         } else if (obj.event === 'edit') {
@@ -124,12 +126,14 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                             }
                         });
                         form.on('submit(holiday-edit-form-submit)', function (data) {
-                            common.ajax(setter.apiAddress.holiday.update, "POST", "", data.field, function (res) {
-                                if (res.statusCode == 200) {
+                            admin.req({
+                                url: setter.apiAddress.holiday.update
+                                , data: data.field
+                                , type: 'POST'
+                                , done: function (res) {
                                     layer.close(index);
                                     table.reload('holiday-table');
                                 }
-                                layer.msg(res.message);
                             });
                         });
                     });

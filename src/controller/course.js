@@ -1,18 +1,14 @@
 ﻿/**
  @Name：课程管理
  */
-layui.define(['table', 'form', 'layedit', 'common', 'setter', 'element', 'verification', 'upload'], function (exports) {
+layui.define(['table', 'form', 'layedit', 'setter', 'verification'], function (exports) {
     var $ = layui.$
         , admin = layui.admin
         , view = layui.view
         , table = layui.table
-        , common = layui.common
         , setter = layui.setter
         , form = layui.form
-        , layedit = layui.layedit
-        , upload = layui.upload
-        , element = layui.element;
-
+        , layedit = layui.layedit;
     //定义富文本上传文件的接口地址
     layedit.set({
         uploadImage: {
@@ -20,7 +16,6 @@ layui.define(['table', 'form', 'layedit', 'common', 'setter', 'element', 'verifi
             , type: 'post'
         }
     });
-
     table.render({
         elem: '#course-table'
         , url: setter.apiAddress.course.pagelist
@@ -86,11 +81,13 @@ layui.define(['table', 'form', 'layedit', 'common', 'setter', 'element', 'verifi
         if (enabledStatus == 2) {
             layer.tips('提示：学生不可以报读此课程', data.othis, { tips: [2, '#FFB800'] })
         }
-        common.ajax(setter.apiAddress.course.updateenablestatus, "POST", "", { Id: data.value, enabledStatus: enabledStatus }, function (res) {
-            if (res.statusCode == 200) {
+        admin.req({
+            url: setter.apiAddress.course.updateenablestatus
+            , data: { Id: data.value, enabledStatus: enabledStatus }
+            , type: 'POST'
+            , done: function (res) {
                 table.reload('course-table');
             }
-            layer.msg(res.message);
         });
     });
 
@@ -108,14 +105,17 @@ layui.define(['table', 'form', 'layedit', 'common', 'setter', 'element', 'verifi
                     , success: function (layero, index) {
                         view(this.id).render('teaching/course/add').done(function () {
                             form.render();
-
                             //初始化老师
-                            common.ajax(setter.apiAddress.aspnetuser.list, "GET", "", {}, function (res) {
-                                $("#sel-teacher-list").append("<option value=\"\">请选择</option>");
-                                $.each(res.data, function (index, item) {
-                                    $("#sel-teacher-list").append("<option value=\"" + item.id + "\">" + item.userName + "</option>");
-                                });
-                                form.render("select");
+                            admin.req({
+                                url: setter.apiAddress.aspnetuser.list
+                                , data: { enableStatus: 1 }
+                                , done: function (res) {
+                                    $("#sel-teacher-list").append("<option value=\"\">请选择</option>");
+                                    $.each(res.data, function (index, item) {
+                                        $("#sel-teacher-list").append("<option value=\"" + item.id + "\">" + item.userName + "</option>");
+                                    });
+                                    form.render("select");
+                                }
                             });
                             form.on('select(sel-teacher-list-filter)', function (data) {
                                 $("#hiddenTeacherName").val(data.elem[data.elem.selectedIndex].text);
@@ -137,7 +137,6 @@ layui.define(['table', 'form', 'layedit', 'common', 'setter', 'element', 'verifi
                                 ],
                                 height: 300
                             });
-
                             //1-进行重新渲染表单
                             form.render(null, 'component-form-element');  //component-form-element 是form表单和提交按钮中 lay-filter中的值
                             //2-进行验证 同步一下
@@ -146,15 +145,16 @@ layui.define(['table', 'form', 'layedit', 'common', 'setter', 'element', 'verifi
                                     layedit.sync(LAY_IntroductionIndex);
                                 }
                             });
-
                             //监听提交
                             form.on('submit(course-add-form-submit)', function (data) {
-                                common.ajax(setter.apiAddress.course.add, "POST", "", data.field, function (res) {
-                                    if (res.statusCode == 200) {
+                                admin.req({
+                                    url: setter.apiAddress.course.add
+                                    , data: data.field
+                                    , type: 'POST'
+                                    , done: function (res) {
                                         layer.close(index);
                                         table.reload('course-table');
                                     }
-                                    layer.msg(res.message);
                                 });
                             });
                         });
@@ -168,12 +168,14 @@ layui.define(['table', 'form', 'layedit', 'common', 'setter', 'element', 'verifi
         var data = obj.data;
         if (obj.event === 'del') {
             layer.confirm('删除后不可恢复，确定？', { icon: 3 }, function (index) {
-                common.ajax(setter.apiAddress.course.delete, "POST", "", { Id: data.id }, function (res) {
-                    if (res.statusCode == 200) {
+                admin.req({
+                    url: setter.apiAddress.course.delete
+                    , data: { Id: data.id }
+                    , type: 'POST'
+                    , done: function (res) {
                         layer.close(index);
                         table.reload('course-table');
                     }
-                    layer.msg(res.message);
                 });
             });
         } else if (obj.event === 'edit') {
@@ -186,16 +188,20 @@ layui.define(['table', 'form', 'layedit', 'common', 'setter', 'element', 'verifi
                     view(this.id).render('teaching/course/edit', data).done(function () {
                         form.render();
                         //初始化老师
-                        common.ajax(setter.apiAddress.aspnetuser.list, "GET", "", {}, function (res) {
-                            $("#sel-teacher-list").append("<option value=\"\">请选择</option>");
-                            $.each(res.data, function (index, item) {
-                                if (data.teacherId == item.id) {
-                                    $("#sel-teacher-edit").append("<option selected=\"selected\" value=\"" + item.id + "\">" + item.userName + "</option>");
-                                } else {
-                                    $("#sel-teacher-edit").append("<option value=\"" + item.id + "\">" + item.userName + "</option>");
-                                }
-                            });
-                            form.render("select");
+                        admin.req({
+                            url: setter.apiAddress.aspnetuser.list
+                            , data: { enableStatus: 1 }
+                            , done: function (res) {
+                                $("#sel-teacher-list").append("<option value=\"\">请选择</option>");
+                                $.each(res.data, function (index, item) {
+                                    if (data.teacherId == item.id) {
+                                        $("#sel-teacher-edit").append("<option selected=\"selected\" value=\"" + item.id + "\">" + item.userName + "</option>");
+                                    } else {
+                                        $("#sel-teacher-edit").append("<option value=\"" + item.id + "\">" + item.userName + "</option>");
+                                    }
+                                });
+                                form.render("select");
+                            }
                         });
                         form.on('select(sel-teacher-edit-filter)', function (data) {
                             $("#hiddenEditTeacherName").val(data.elem[data.elem.selectedIndex].text);
@@ -217,7 +223,6 @@ layui.define(['table', 'form', 'layedit', 'common', 'setter', 'element', 'verifi
                             ],
                             height: 300
                         });
-
                         //1-进行重新渲染表单
                         form.render(null, 'component-form-element');  //component-form-element 是form表单和提交按钮中 lay-filter中的值
                         //2-进行验证 同步一下
@@ -226,17 +231,17 @@ layui.define(['table', 'form', 'layedit', 'common', 'setter', 'element', 'verifi
                                 layedit.sync(LAY_IntroductionIndex);
                             }
                         });
-
                         //初始化课程状态
                         $('#sel-enabled-status-edit').val(data.enabledStatus);
-
                         form.on('submit(course-edit-form-submit)', function (data) {
-                            common.ajax(setter.apiAddress.course.update, "POST", "", data.field, function (res) {
-                                if (res.statusCode == 200) {
+                            admin.req({
+                                url: setter.apiAddress.course.update
+                                , data: data.field
+                                , type: 'POST'
+                                , done: function (res) {
                                     layer.close(index);
                                     table.reload('course-table');
                                 }
-                                layer.msg(res.message);
                             });
                         });
                     });
@@ -336,24 +341,24 @@ layui.define(['table', 'form', 'layedit', 'common', 'setter', 'element', 'verifi
                                 };
                             }
                         });
-
                         table.on('tool(course-chargemanner-table)', function (obj) {
                             var data = obj.data;
                             if (obj.event === 'del') {
                                 layer.confirm('删除后不可恢复，确定？', { icon: 3 }, function (index) {
-                                    common.ajax(setter.apiAddress.coursechargemanner.delete, "POST", "", { Id: data.id }, function (res) {
-                                        if (res.statusCode == 200) {
+                                    admin.req({
+                                        url: setter.apiAddress.coursechargemanner.delete
+                                        , data: { Id: data.id }
+                                        , type: 'POST'
+                                        , done: function (res) {
+                                            layer.close(index);
                                             table.reload('course-chargemanner-table');
                                         }
-                                        layer.msg(res.message);
                                     });
                                 });
                             }
                         });
-
                         //监听收费方式下拉选择事件
                         form.on('select(sel-charge-manner-list-filter)', function (seldata) {
-
                             if (seldata.value == 1) {
                                 $("#charge-unitprice-classhour").show();
                                 $("#charge-unitprice-month").hide();
@@ -368,9 +373,7 @@ layui.define(['table', 'form', 'layedit', 'common', 'setter', 'element', 'verifi
                                 $('#chargeUnitPriceClassHour').val('');
                                 $('#totalPrice').val('');
                             }
-
                         });
-
                         //数量输入限制
                         $('#courseDuration').bind('input onkeyup', function () {
                             var courseDuration = $('#courseDuration').val();
@@ -385,11 +388,9 @@ layui.define(['table', 'form', 'layedit', 'common', 'setter', 'element', 'verifi
                             } else {
                                 $('#chargeUnitPriceMonth').val(unitPrice);
                             }
-
                         }).bind("paste", function () {
                             $(this).val(0);
                         }).css("ime-mode", "disabled");
-
                         //课程总价输入限制
                         $('#totalPrice').bind('input onkeyup', function () {
                             var totalPrice = $('#totalPrice').val();
@@ -413,15 +414,16 @@ layui.define(['table', 'form', 'layedit', 'common', 'setter', 'element', 'verifi
                         } else {
                             $('#chargeUnitPriceClassHour').val(0);
                         }
-
                         //监听提交
                         form.on('submit(chargemanner-add-form-submit)', function (data) {
-                            common.ajax(setter.apiAddress.coursechargemanner.add, "POST", "", data.field, function (res) {
-                                if (res.statusCode == 200) {
+                            admin.req({
+                                url: setter.apiAddress.coursechargemanner.add
+                                , data: data.field
+                                , type: 'POST'
+                                , done: function (res) {
                                     layer.close(index);
-                                    table.reload('course-table');
+                                    table.reload('course-chargemanner-table');
                                 }
-                                layer.msg(res.message);
                             });
                         });
                     });

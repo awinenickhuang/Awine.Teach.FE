@@ -1,16 +1,13 @@
 ﻿/**
  @Name：收支项目
  */
-layui.define(['table', 'form', 'common', 'setter', 'element', 'verification'], function (exports) {
+layui.define(['table', 'form', 'setter', 'verification'], function (exports) {
     var $ = layui.$
         , admin = layui.admin
         , view = layui.view
         , table = layui.table
-        , common = layui.common
         , setter = layui.setter
-        , form = layui.form
-        , element = layui.element;
-
+        , form = layui.form;
     table.render({
         elem: '#financialitems-table'
         , url: setter.apiAddress.financialitems.pagelist
@@ -76,11 +73,16 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification'], f
         if (enabledStatus == 2) {
             layer.tips('提示：停用', data.othis, { tips: [2, '#FFB800'] })
         }
-        common.ajax(setter.apiAddress.financialitems.updatestatus, "POST", "", { Id: data.value, status: enabledStatus }, function (res) {
-            if (res.statusCode == 200) {
+        admin.req({
+            url: setter.apiAddress.financialitems.updatestatus
+            , data: {
+                Id: data.value,
+                status: enabledStatus
+            }
+            , type: 'POST'
+            , done: function (res) {
                 layui.table.reload('financialitems-table');
             }
-            layer.msg(res.message);
         });
     });
 
@@ -97,14 +99,14 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification'], f
                         view(this.id).render('financial/financialitems/add').done(function () {
                             form.render();
                             //监听提交
-                            form.on('submit(financialitems-form-submit)', function (data) {
-                                common.ajax(setter.apiAddress.financialitems.add, "POST", "", data.field, function (res) {
-                                    if (res.statusCode == 200) {
-                                        layer.close(index);
-                                        table.reload('financialitems-table');
-                                    }
-                                    layer.msg(res.message);
-                                });
+                            admin.req({
+                                url: setter.apiAddress.financialitems.add
+                                , data: data.field
+                                , type: 'POST'
+                                , done: function (res) {
+                                    layer.close(index);
+                                    table.reload('financialitems-table');
+                                }
                             });
                         });
                     }
@@ -117,12 +119,14 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification'], f
         var data = obj.data;
         if (obj.event === 'del') {
             layer.confirm('删除后不可恢复，确定？', { icon: 3 }, function (index) {
-                common.ajax(setter.apiAddress.financialitems.delete, "POST", "", { Id: data.id }, function (res) {
-                    if (res.statusCode == 200) {
+                admin.req({
+                    url: setter.apiAddress.financialitems.delete
+                    , data: { Id: data.id }
+                    , type: 'POST'
+                    , done: function (res) {
                         layer.close(index);
                         table.reload('financialitems-table');
                     }
-                    layer.msg(res.message);
                 });
             });
         }

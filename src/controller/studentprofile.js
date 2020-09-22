@@ -16,8 +16,10 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
     var studentProfiles = {
         //学生信息
         initStudentInformation: function () {
-            common.ajax(setter.apiAddress.student.single, "GET", "", { id: window.atob(layui.router().search.uid) }, function (res) {
-                if (res.statusCode == 200) {
+            admin.req({
+                url: setter.apiAddress.student.single
+                , data: { id: window.atob(layui.router().search.uid) }
+                , done: function (res) {
                     if (res.data) {
                         var gettpl = studentprofiletemplate.innerHTML
                             , view = document.getElementById('studentprofileview');
@@ -27,8 +29,6 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                     } else {
                         layer.msg("找不到你要查看的学生信息");
                     }
-                } else {
-                    layer.msg(res.message);
                 }
             });
         },
@@ -797,12 +797,14 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                     form.on('submit(register-form-submit)', function (datas) {
                         increaseLearningCourses.increaseLearningCoursesData.noteInformation = $("#noteInformation").val();
                         //提交数据
-                        common.ajax(setter.apiAddress.student.increaselearningcourses, "POST", "", increaseLearningCourses.increaseLearningCoursesData, function (res) {
-                            if (res.statusCode == 200) {
+                        admin.req({
+                            url: setter.apiAddress.student.increaselearningcourses
+                            , data: increaseLearningCourses.increaseLearningCoursesData
+                            , type: 'POST'
+                            , done: function (res) {
                                 layer.close(index);
                                 studentProfiles.initStudentCourseItem();
                             }
-                            layer.msg(res.message);
                         });
                     });
                 });
