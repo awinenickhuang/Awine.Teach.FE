@@ -1,16 +1,11 @@
 ﻿/**
  @Name：反馈信息
  */
-layui.define(['table', 'form', 'common', 'setter', 'element', 'verification'], function (exports) {
+layui.define(['table', 'setter', 'verification'], function (exports) {
     var $ = layui.$
         , admin = layui.admin
-        , view = layui.view
         , table = layui.table
-        , common = layui.common
-        , setter = layui.setter
-        , form = layui.form
-        , element = layui.element;
-
+        , setter = layui.setter;
     table.render({
         elem: '#feedback-table'
         , url: setter.apiAddress.feedback.pagelist

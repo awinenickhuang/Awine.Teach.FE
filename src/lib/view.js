@@ -4,13 +4,14 @@
     
  */
 
-layui.define(['laytpl', 'layer'], function (exports) {
+layui.define(['laytpl', 'layer', 'oidcsetup'], function (exports) {
     var $ = layui.jquery
         , laytpl = layui.laytpl
         , layer = layui.layer
         , setter = layui.setter
         , device = layui.device()
         , hint = layui.hint()
+        , oidcsetup = layui.oidcsetup
 
         //对外接口
         , view = function (id) {
@@ -47,10 +48,14 @@ layui.define(['laytpl', 'layer'], function (exports) {
 
         //跳转到登入页 -> 这里不用再显示转跳到登录页，等待AUTH简化流程执行
         //location.hash = '/user/login';
-        layer.msg('提示：您已成功退出，请等待浏览器转跳！', {
+        layer.msg('提示：您已成功退出，正在转跳到身份认证中心！', {
             offset: '15px'
             , icon: 1
             , time: 3000
+        }, function () {
+            oidcsetup.signoutRedirect().catch(function (error) {
+                console.error('退出时发生错误', error);
+            });
         });
     };
 
@@ -136,7 +141,7 @@ layui.define(['laytpl', 'layer'], function (exports) {
             , error: function (e, code) {
                 //如果登录失效或未授权状态为401 -> 则重新进行登录操作
                 if (e.status == setter.response.statusCode.logout) {
-                    layer.msg('登录超时，请重新登录，等待浏览器转跳......', {
+                    layer.msg('未登录或登录超时，正在转跳到身份认证中心！', {
                         icon: 5
                         , time: 3000
                     }, function () {

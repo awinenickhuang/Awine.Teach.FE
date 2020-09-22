@@ -187,7 +187,6 @@ layui.extend({
                             });
                         }
                     });
-
                     //原有写法 - 初始控制台结构
                     //container.render('layout').done(function () {
                     //    renderPage();
@@ -233,6 +232,12 @@ layui.extend({
 
     layui.username = function () {
         return layui.data(setter.tableName)['username'] != null ? layui.data(setter.tableName)['username'] : '请登录'
+    };
+
+    //退出
+    admin.events.logout = function () {
+        //执行退出接口
+        view.exit();
     };
 
     //对外输出

@@ -1,7 +1,7 @@
 ﻿/**
  @Name：学生信息
  */
-layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'laytpl', 'laypage'], function (exports) {
+layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'laytpl'], function (exports) {
     var $ = layui.$
         , admin = layui.admin
         , view = layui.view
@@ -10,9 +10,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
         , setter = layui.setter
         , form = layui.form
         , laytpl = layui.laytpl
-        , laypage = layui.laypage
         , element = layui.element;
-
     var studentProfiles = {
         //学生信息
         initStudentInformation: function () {
@@ -419,30 +417,35 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                             $("#courseName").val(currentdata.courseName);
 
                             //初始化报名课程的收费方式
-                            common.ajax(setter.apiAddress.coursechargemanner.list, "GET", "", { courseId: currentdata.courseId }, function (res) {
-                                $("#sel-course-charges-type-list").empty();
-                                $("#sel-course-charges-type-list").append("<option value=\"\">请选择收费方式</option>");
-                                var options_classhour = [];
-                                var options_classmonth = [];
-                                options_classhour.push("<optgroup label=\"按课时收费\">");
-                                options_classmonth.push("<optgroup label=\"按月收费\">");
-                                $.each(res.data, function (index, item) {
-                                    if (item.chargeManner == 1) {
-                                        options_classhour.push("<option value=\"" + item.id + "\" data-chargemanner=\"" + item.chargeManner + "\" data-courseduration=\"" + item.courseDuration + "\" data-totalprice=\"" + item.totalPrice + "\" data-chargeunitprice=\"" + item.chargeUnitPriceClassHour + "\">" + item.courseDuration + "个课时 " + common.fixedMoney(item.totalPrice) + "（元） " + item.chargeUnitPriceClassHour + " 元/课时</option>");
+                            admin.req({
+                                url: setter.apiAddress.coursechargemanner.list
+                                , data: { courseId: currentdata.courseId }
+                                , type: 'GET'
+                                , done: function (res) {
+                                    $("#sel-course-charges-type-list").empty();
+                                    $("#sel-course-charges-type-list").append("<option value=\"\">请选择收费方式</option>");
+                                    var options_classhour = [];
+                                    var options_classmonth = [];
+                                    options_classhour.push("<optgroup label=\"按课时收费\">");
+                                    options_classmonth.push("<optgroup label=\"按月收费\">");
+                                    $.each(res.data, function (index, item) {
+                                        if (item.chargeManner == 1) {
+                                            options_classhour.push("<option value=\"" + item.id + "\" data-chargemanner=\"" + item.chargeManner + "\" data-courseduration=\"" + item.courseDuration + "\" data-totalprice=\"" + item.totalPrice + "\" data-chargeunitprice=\"" + item.chargeUnitPriceClassHour + "\">" + item.courseDuration + "个课时 " + common.fixedMoney(item.totalPrice) + "（元） " + item.chargeUnitPriceClassHour + " 元/课时</option>");
+                                        }
+                                        if (item.chargeManner == 2) {
+                                            options_classmonth.push("<option value=\"" + item.id + "\" data-chargemanner=\"" + item.chargeManner + "\" data-courseduration=\"" + item.courseDuration + "\" data-totalprice=\"" + item.totalPrice + "\" data-chargeunitprice=\"" + item.chargeUnitPriceMonth + "\">" + item.courseDuration + "个月 " + common.fixedMoney(item.totalPrice) + "（元） " + item.chargeUnitPriceMonth + " /月</option>");
+                                        }
+                                    });
+                                    options_classhour.push("</optgroup>");
+                                    options_classmonth.push("</optgroup>");
+                                    if (options_classhour.length > 2) {
+                                        $("#sel-course-charges-type-list").append(options_classhour.join(''));
                                     }
-                                    if (item.chargeManner == 2) {
-                                        options_classmonth.push("<option value=\"" + item.id + "\" data-chargemanner=\"" + item.chargeManner + "\" data-courseduration=\"" + item.courseDuration + "\" data-totalprice=\"" + item.totalPrice + "\" data-chargeunitprice=\"" + item.chargeUnitPriceMonth + "\">" + item.courseDuration + "个月 " + common.fixedMoney(item.totalPrice) + "（元） " + item.chargeUnitPriceMonth + " /月</option>");
+                                    if (options_classmonth.length > 2) {
+                                        $("#sel-course-charges-type-list").append(options_classmonth.join(''));
                                     }
-                                });
-                                options_classhour.push("</optgroup>");
-                                options_classmonth.push("</optgroup>");
-                                if (options_classhour.length > 2) {
-                                    $("#sel-course-charges-type-list").append(options_classhour.join(''));
+                                    form.render("select");
                                 }
-                                if (options_classmonth.length > 2) {
-                                    $("#sel-course-charges-type-list").append(options_classmonth.join(''));
-                                }
-                                form.render("select");
                             });
 
                             //收费方式选择事件
@@ -492,12 +495,17 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
 
                             //初始化业绩归属人
                             $("#sel-salesstaff-list").empty();
-                            common.ajax(setter.apiAddress.aspnetuser.list, "GET", "", "", function (res) {
-                                $("#sel-salesstaff-list").append("<option value=\"\">请选择</option>");
-                                $.each(res.data, function (index, item) {
-                                    $("#sel-salesstaff-list").append("<option value=\"" + item.id + "\">" + item.userName + "</option>");
-                                });
-                                form.render("select");
+                            admin.req({
+                                url: setter.apiAddress.aspnetuser.list
+                                , data: { enableStatus: 1 }
+                                , type: 'GET'
+                                , done: function (res) {
+                                    $("#sel-salesstaff-list").append("<option value=\"\">请选择业绩归属人</option>");
+                                    $.each(res.data, function (index, item) {
+                                        $("#sel-salesstaff-list").append("<option value=\"" + item.id + "\">" + item.userName + "</option>");
+                                    });
+                                    form.render("select");
+                                }
                             });
 
                             //业绩归属人下拉事件
@@ -507,12 +515,17 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                             });
 
                             //初始渠道数据
-                            common.ajax(setter.apiAddress.marketingchannel.list, "GET", "", "", function (res) {
-                                $("#sel-marketingchannel-list").append("<option value=\"\">请选择渠道</option>");
-                                $.each(res.data, function (index, item) {
-                                    $("#sel-marketingchannel-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
-                                });
-                                form.render("select");
+                            admin.req({
+                                url: setter.apiAddress.marketingchannel.list
+                                , data: {}
+                                , type: 'GET'
+                                , done: function (res) {
+                                    $("#sel-marketingchannel-list").append("<option value=\"\">请选择营销渠道</option>");
+                                    $.each(res.data, function (index, item) {
+                                        $("#sel-marketingchannel-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
+                                    });
+                                    form.render("select");
+                                }
                             });
 
                             //销售渠道下拉事件
@@ -521,26 +534,35 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                             });
 
                             //初始化支付方式
-                            common.ajax(setter.apiAddress.paymentmethod.list, "Get", "", {}, function (res) {
-                                $("#sel-paymentmethod-list").append("<option value=\"\">请选择收款方式</option>");
-                                $.each(res.data, function (index, item) {
-                                    $("#sel-paymentmethod-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
-                                });
-                                form.render("select");
+                            admin.req({
+                                url: setter.apiAddress.paymentmethod.list
+                                , data: {}
+                                , type: 'Get'
+                                , done: function (res) {
+                                    $("#sel-paymentmethod-list").append("<option value=\"\">请选择收款方式</option>");
+                                    $.each(res.data, function (index, item) {
+                                        $("#sel-paymentmethod-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
+                                    });
+                                    form.render("select");
+                                }
                             });
+
                             //支付方式下拉事件
                             form.on('select(sel-paymentmethod-list-filter)', function (data) {
                                 continuetopaytuition.renewalData.paymentMethodId = data.value;
                             });
+
                             //监听提交
                             form.on('submit(continuetopaytuition-form-submit)', function (data) {
                                 continuetopaytuition.renewalData.noteInformation = $("#noteInformation").val();
-                                common.ajax(setter.apiAddress.student.continuetopaytuition, "POST", "", continuetopaytuition.renewalData, function (res) {
-                                    if (res.statusCode == 200) {
+                                admin.req({
+                                    url: setter.apiAddress.student.continuetopaytuition
+                                    , data: continuetopaytuition.renewalData
+                                    , type: 'POST'
+                                    , done: function (res) {
                                         layer.close(index);
                                         studentProfiles.initStudentCourseItem();
                                     }
-                                    layer.msg(res.message);
                                 });
                             });
                         });
@@ -580,12 +602,14 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                 }
                 let currentdata = data[0];
                 layer.confirm('将对【' + currentdata.courseName + '】进行结课毕业操作，确定？', { icon: 3 }, function (index) {
-                    common.ajax(setter.apiAddress.studentcourseitem.updatelearningprocess, "POST", "", { Id: currentdata.id, learningProcess: 4 }, function (res) {
-                        if (res.statusCode == 200) {
+                    admin.req({
+                        url: setter.apiAddress.studentcourseitem.updatelearningprocess
+                        , data: { Id: currentdata.id, learningProcess: 4 }
+                        , type: 'POST'
+                        , done: function (res) {
                             layer.close(index);
                             studentProfiles.initStudentCourseItem();
                         }
-                        layer.msg(res.message);
                     });
                 });
                 break;
@@ -659,12 +683,17 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
 
                     //初始化业绩归属人
                     $("#sel-salesstaff-list").empty();
-                    common.ajax(setter.apiAddress.aspnetuser.list, "GET", "", "", function (res) {
-                        $("#sel-salesstaff-list").append("<option value=\"\">请选择</option>");
-                        $.each(res.data, function (index, item) {
-                            $("#sel-salesstaff-list").append("<option value=\"" + item.id + "\">" + item.userName + "</option>");
-                        });
-                        form.render("select");
+                    admin.req({
+                        url: setter.apiAddress.aspnetuser.list
+                        , data: { enableStatus: 1 }
+                        , type: 'GET'
+                        , done: function (res) {
+                            $("#sel-salesstaff-list").append("<option value=\"\">请选择业绩归属人</option>");
+                            $.each(res.data, function (index, item) {
+                                $("#sel-salesstaff-list").append("<option value=\"" + item.id + "\">" + item.userName + "</option>");
+                            });
+                            form.render("select");
+                        }
                     });
 
                     //业绩归属人下拉事件
@@ -674,12 +703,17 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                     });
 
                     //初始渠道数据
-                    common.ajax(setter.apiAddress.marketingchannel.list, "GET", "", "", function (res) {
-                        $("#sel-marketingchannel-list").append("<option value=\"\">请选择渠道</option>");
-                        $.each(res.data, function (index, item) {
-                            $("#sel-marketingchannel-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
-                        });
-                        form.render("select");
+                    admin.req({
+                        url: setter.apiAddress.marketingchannel.list
+                        , data: {}
+                        , type: 'GET'
+                        , done: function (res) {
+                            $("#sel-marketingchannel-list").append("<option value=\"\">请选择营销渠道</option>");
+                            $.each(res.data, function (index, item) {
+                                $("#sel-marketingchannel-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
+                            });
+                            form.render("select");
+                        }
                     });
 
                     //销售渠道下拉事件
@@ -688,12 +722,17 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                     });
 
                     //初始化支付方式
-                    common.ajax(setter.apiAddress.paymentmethod.list, "Get", "", {}, function (res) {
-                        $("#sel-paymentmethod-list").append("<option value=\"\">请选择收款方式</option>");
-                        $.each(res.data, function (index, item) {
-                            $("#sel-paymentmethod-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
-                        });
-                        form.render("select");
+                    admin.req({
+                        url: setter.apiAddress.paymentmethod.list
+                        , data: {}
+                        , type: 'Get'
+                        , done: function (res) {
+                            $("#sel-paymentmethod-list").append("<option value=\"\">请选择收款方式</option>");
+                            $.each(res.data, function (index, item) {
+                                $("#sel-paymentmethod-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
+                            });
+                            form.render("select");
+                        }
                     });
 
                     //支付方式下拉事件
@@ -702,12 +741,17 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                     });
 
                     //初始课程数据
-                    common.ajax(setter.apiAddress.course.list, "GET", "", { enabledStatus: 1 }, function (res) {
-                        $("#sel-course-list").append("<option value=\"\">请选择课程</option>");
-                        $.each(res.data, function (index, item) {
-                            $("#sel-course-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
-                        });
-                        form.render("select");
+                    admin.req({
+                        url: setter.apiAddress.course.list
+                        , data: { enabledStatus: 1 }
+                        , type: 'GET'
+                        , done: function (res) {
+                            $("#sel-course-list").append("<option value=\"\">请选择课程</option>");
+                            $.each(res.data, function (index, item) {
+                                $("#sel-course-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
+                            });
+                            form.render("select");
+                        }
                     });
 
                     //监听课程下拉事件
@@ -720,31 +764,36 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                         increaseLearningCourses.increaseLearningCoursesData.courseId = data.value;
 
                         //初始化选中课程的收费方式
-                        common.ajax(setter.apiAddress.coursechargemanner.list, "GET", "", { courseId: data.value }, function (res) {
-                            //收费方式下拉列表
-                            $("#sel-course-charges-type-list").empty();
-                            $("#sel-course-charges-type-list").append("<option value=\"\">请选择</option>");
-                            var options_classhour = [];
-                            var options_classmonth = [];
-                            options_classhour.push("<optgroup label=\"按课时收费\">");
-                            options_classmonth.push("<optgroup label=\"按月收费\">");
-                            $.each(res.data, function (index, item) {
-                                if (item.chargeManner == 1) {
-                                    options_classhour.push("<option value=\"" + item.id + "\" data-chargemanner=\"" + item.chargeManner + "\" data-courseduration=\"" + item.courseDuration + "\" data-totalprice=\"" + item.totalPrice + "\" data-chargeunitprice=\"" + item.chargeUnitPriceClassHour + "\">" + item.courseDuration + "个课时 " + common.fixedMoney(item.totalPrice) + "（元） " + item.chargeUnitPriceClassHour + " 元/课时</option>");
+                        admin.req({
+                            url: setter.apiAddress.coursechargemanner.list
+                            , data: { courseId: data.value }
+                            , type: 'GET'
+                            , done: function (res) {
+                                //收费方式下拉列表
+                                $("#sel-course-charges-type-list").empty();
+                                $("#sel-course-charges-type-list").append("<option value=\"\">请选择</option>");
+                                var options_classhour = [];
+                                var options_classmonth = [];
+                                options_classhour.push("<optgroup label=\"按课时收费\">");
+                                options_classmonth.push("<optgroup label=\"按月收费\">");
+                                $.each(res.data, function (index, item) {
+                                    if (item.chargeManner == 1) {
+                                        options_classhour.push("<option value=\"" + item.id + "\" data-chargemanner=\"" + item.chargeManner + "\" data-courseduration=\"" + item.courseDuration + "\" data-totalprice=\"" + item.totalPrice + "\" data-chargeunitprice=\"" + item.chargeUnitPriceClassHour + "\">" + item.courseDuration + "个课时 " + common.fixedMoney(item.totalPrice) + "（元） " + item.chargeUnitPriceClassHour + " 元/课时</option>");
+                                    }
+                                    if (item.chargeManner == 2) {
+                                        options_classmonth.push("<option value=\"" + item.id + "\" data-chargemanner=\"" + item.chargeManner + "\" data-courseduration=\"" + item.courseDuration + "\" data-totalprice=\"" + item.totalPrice + "\" data-chargeunitprice=\"" + item.chargeUnitPriceMonth + "\">" + item.courseDuration + "个月 " + common.fixedMoney(item.totalPrice) + "（元） " + item.chargeUnitPriceMonth + " /月</option>");
+                                    }
+                                });
+                                options_classhour.push("</optgroup>");
+                                options_classmonth.push("</optgroup>");
+                                if (options_classhour.length > 2) {
+                                    $("#sel-course-charges-type-list").append(options_classhour.join(''));
                                 }
-                                if (item.chargeManner == 2) {
-                                    options_classmonth.push("<option value=\"" + item.id + "\" data-chargemanner=\"" + item.chargeManner + "\" data-courseduration=\"" + item.courseDuration + "\" data-totalprice=\"" + item.totalPrice + "\" data-chargeunitprice=\"" + item.chargeUnitPriceMonth + "\">" + item.courseDuration + "个月 " + common.fixedMoney(item.totalPrice) + "（元） " + item.chargeUnitPriceMonth + " /月</option>");
+                                if (options_classmonth.length > 2) {
+                                    $("#sel-course-charges-type-list").append(options_classmonth.join(''));
                                 }
-                            });
-                            options_classhour.push("</optgroup>");
-                            options_classmonth.push("</optgroup>");
-                            if (options_classhour.length > 2) {
-                                $("#sel-course-charges-type-list").append(options_classhour.join(''));
+                                form.render("select");
                             }
-                            if (options_classmonth.length > 2) {
-                                $("#sel-course-charges-type-list").append(options_classmonth.join(''));
-                            }
-                            form.render("select");
                         });
                     });
 

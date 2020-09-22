@@ -1,37 +1,42 @@
 ﻿/**
  @Name：学生管理
  */
-layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'laytpl', 'laypage'], function (exports) {
+layui.define(['table', 'form', 'setter', 'verification', 'laytpl', 'laypage'], function (exports) {
     var $ = layui.$
         , admin = layui.admin
-        , view = layui.view
         , table = layui.table
-        , common = layui.common
         , setter = layui.setter
         , form = layui.form
         , laytpl = layui.laytpl
-        , laypage = layui.laypage
-        , element = layui.element;
-
+        , laypage = layui.laypage;
     form.render(null, 'student-search-form');
-
     //搜索 -> 初始课程数据
-    common.ajax(setter.apiAddress.course.list, "GET", "", "", function (res) {
-        $("#sel-course-search").append("<option value=\"\">请选择课程</option>");
-        $.each(res.data, function (index, item) {
-            $("#sel-course-search").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
-        });
-        form.render("select");
+    admin.req({
+        url: setter.apiAddress.course.list
+        , data: {}
+        , done: function (res) {
+            $("#sel-course-search").append("<option value=\"\">请选择课程</option>");
+            $.each(res.data, function (index, item) {
+                $("#sel-course-search").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
+            });
+            form.render("select");
+        }
     });
+
     form.on('select(course-search-filter)', function (data) {
         //搜索 -> 初始班级数据
         $("#sel-class-search").empty();
-        common.ajax(setter.apiAddress.classes.list, "GET", "", { courseId: data.value }, function (res) {
-            $("#sel-class-search").append("<option value=\"\">请选择班级</option>");
-            $.each(res.data, function (index, item) {
-                $("#sel-class-search").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
-            });
-            form.render("select");
+        admin.req({
+            url: setter.apiAddress.classes.list
+            , data: { courseId: data.value }
+            , type: 'POST'
+            , done: function (res) {
+                $("#sel-class-search").append("<option value=\"\">请选择班级</option>");
+                $.each(res.data, function (index, item) {
+                    $("#sel-class-search").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
+                });
+                form.render("select");
+            }
         });
     });
 
@@ -70,21 +75,20 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
         count: 0,//总条数
         initStudents: function () {
             //初始化学生列表
-            common.ajax(setter.apiAddress.student.pagelist, "GET", "", {
-                page: students.page,
-                limit: students.limit
-            }, function (res) {
-                if (res.statusCode == 200) {
+            admin.req({
+                url: setter.apiAddress.student.pagelist
+                , data: {
+                    page: students.page,
+                    limit: students.limit
+                }
+                , done: function (res) {
                     students.count = res.data.totalCount;
                     var gettpl = studenttemplate.innerHTML
                         , view = document.getElementById('students');
                     laytpl(gettpl).render(res.data, function (html) {
                         view.innerHTML = html;
                     });
-
                     students.initLaypage();
-                } else {
-                    layer.msg(res.message);
                 }
             });
         },

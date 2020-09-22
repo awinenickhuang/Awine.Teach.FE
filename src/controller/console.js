@@ -48,21 +48,12 @@ layui.define(function (exports) {
     });
 
     //区块轮播切换
-    layui.use(['admin', 'carousel', 'oidcsetup'], function () {
+    layui.use(['admin', 'carousel'], function () {
         var $ = layui.$
             , admin = layui.admin
             , carousel = layui.carousel
             , element = layui.element
             , device = layui.device()
-            , oidcsetup = layui.oidcsetup
-
-        //退出登录
-        $('.logout').on('click', function (event) {
-            event.preventDefault();
-            oidcsetup.signoutRedirect().catch(function (error) {
-                console.error('退出时发生错误', error);
-            });
-        });
 
         //轮播切换 -> 初始化首页所有的轮播效果 -> 不可删除
         $('.layadmin-carousel').each(function () {

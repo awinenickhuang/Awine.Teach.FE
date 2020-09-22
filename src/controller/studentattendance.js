@@ -1,17 +1,14 @@
 ﻿/**
  @Name：考勤记录
  */
-layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'laydate'], function (exports) {
+layui.define(['table', 'form', 'setter', 'verification', 'laydate'], function (exports) {
     var $ = layui.$
         , admin = layui.admin
         , view = layui.view
         , table = layui.table
-        , common = layui.common
         , setter = layui.setter
         , form = layui.form
-        , laydate = layui.laydate
-        , element = layui.element;
-
+        , laydate = layui.laydate;
     table.render({
         elem: '#studentattendance-table'
         , url: setter.apiAddress.studentattendance.pagelist
@@ -106,12 +103,16 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                                 }
                             });
                             //初始化搜索条件 -> 初始课程数据
-                            common.ajax(setter.apiAddress.course.list, "GET", "", "", function (res) {
-                                $("#sel-course-search").append("<option value=\"\">请选择课程</option>");
-                                $.each(res.data, function (index, item) {
-                                    $("#sel-course-search").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
-                                });
-                                form.render("select");
+                            admin.req({
+                                url: setter.apiAddress.course.list
+                                , data: {}
+                                , done: function (res) {
+                                    $("#sel-course-search").append("<option value=\"\">请选择课程</option>");
+                                    $.each(res.data, function (index, item) {
+                                        $("#sel-course-search").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
+                                    });
+                                    form.render("select");
+                                }
                             });
                             form.on('select(course-search-filter)', function (data) {
                                 //搜索 -> 初始班级数据
@@ -120,12 +121,16 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                                     form.render("select");
                                     return;
                                 }
-                                common.ajax(setter.apiAddress.classes.list, "GET", "", { courseId: data.value }, function (res) {
-                                    $("#sel-class-search").append("<option value=\"\">请选择班级</option>");
-                                    $.each(res.data, function (index, item) {
-                                        $("#sel-class-search").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
-                                    });
-                                    form.render("select");
+                                admin.req({
+                                    url: setter.apiAddress.classes.list
+                                    , data: { courseId: data.value }
+                                    , done: function (res) {
+                                        $("#sel-class-search").append("<option value=\"\">请选择班级</option>");
+                                        $.each(res.data, function (index, item) {
+                                            $("#sel-class-search").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
+                                        });
+                                        form.render("select");
+                                    }
                                 });
                             });
                             //搜索
@@ -163,12 +168,14 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                 }
                 var data = selected[0];
                 layer.confirm('取消本次考勤，确定？', { icon: 3 }, function (index) {
-                    common.ajax(setter.apiAddress.studentattendance.cancel, "POST", "", { studentAttendanceId: data.id }, function (res) {
-                        if (res.statusCode == 200) {
+                    admin.req({
+                        url: setter.apiAddress.studentattendance.cancel
+                        , data: { studentAttendanceId: data.id }
+                        , type: 'POST'
+                        , done: function (res) {
                             layer.close(index);
                             table.reload('studentattendance-table');
                         }
-                        layer.msg(res.message);
                     });
                 });
                 break;

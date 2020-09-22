@@ -9,9 +9,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
         , common = layui.common
         , setter = layui.setter
         , form = layui.form
-        , element = layui.element
         , laydate = layui.laydate;
-
     table.render({
         elem: '#orders-table'
         , url: setter.apiAddress.studentcourseorder.pagelist
@@ -128,11 +126,13 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
         if (enabledStatus == 2) {
             layer.tips('提示：停用', data.othis, { tips: [2, '#FFB800'] })
         }
-        common.ajax(setter.apiAddress.studentcourseorder.updatestatus, "POST", "", { Id: data.value, status: enabledStatus }, function (res) {
-            if (res.statusCode == 200) {
+        admin.req({
+            url: setter.apiAddress.studentcourseorder.updatestatus
+            , data: { Id: data.value, status: enabledStatus }
+            , type: 'POST'
+            , done: function (res) {
                 layui.table.reload('orders-table');
             }
-            layer.msg(res.message);
         });
     });
 
@@ -165,30 +165,43 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                             });
 
                             //初始化课程数据
-                            common.ajax(setter.apiAddress.course.list, "Get", "", {}, function (res) {
-                                $("#sel-course-search-list").append("<option value=\"\">请选择课程</option>");
-                                $.each(res.data, function (index, item) {
-                                    $("#sel-course-search-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
-                                });
-                                form.render("select");
+                            admin.req({
+                                url: setter.apiAddress.course.list
+                                , data: {}
+                                , done: function (res) {
+                                    $("#sel-course-search-list").append("<option value=\"\">请选择课程</option>");
+                                    $.each(res.data, function (index, item) {
+                                        $("#sel-course-search-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
+                                    });
+                                    form.render("select");
+                                }
                             });
 
                             //初始化渠道数据
-                            common.ajax(setter.apiAddress.marketingchannel.list, "Get", "", {}, function (res) {
-                                $("#sel-marketingchannel-search-list").append("<option value=\"\">请选择渠道</option>");
-                                $.each(res.data, function (index, item) {
-                                    $("#sel-marketingchannel-search-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
-                                });
-                                form.render("select");
+                            admin.req({
+                                url: setter.apiAddress.marketingchannel.list
+                                , data: {}
+                                , done: function (res) {
+                                    $("#sel-marketingchannel-search-list").append("<option value=\"\">请选择渠道</option>");
+                                    $.each(res.data, function (index, item) {
+                                        $("#sel-marketingchannel-search-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
+                                    });
+                                    form.render("select");
+                                }
                             });
 
                             //初始化员工数据
-                            common.ajax(setter.apiAddress.aspnetuser.list, "GET", "", { enableStatus: 1 }, function (res) {
-                                $("#sel-trackingstaffer-search-list").append("<option value=\"\">请选择员工</option>");
-                                $.each(res.data, function (index, item) {
-                                    $("#sel-trackingstaffer-search-list").append("<option value=\"" + item.id + "\">" + item.userName + "</option>");
-                                });
-                                form.render("select");
+                            admin.req({
+                                url: setter.apiAddress.aspnetuser.list
+                                , data: { enableStatus: 1 }
+                                , type: 'POST'
+                                , done: function (res) {
+                                    $("#sel-trackingstaffer-search-list").append("<option value=\"\">请选择员工</option>");
+                                    $.each(res.data, function (index, item) {
+                                        $("#sel-trackingstaffer-search-list").append("<option value=\"" + item.id + "\">" + item.userName + "</option>");
+                                    });
+                                    form.render("select");
+                                }
                             });
 
                             //监听提交//搜索
@@ -223,12 +236,14 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                             form.render();
                             //监听提交
                             form.on('submit(orders-form-submit)', function (data) {
-                                common.ajax(setter.apiAddress.studentcourseorder.add, "POST", "", data.field, function (res) {
-                                    if (res.statusCode == 200) {
+                                admin.req({
+                                    url: setter.apiAddress.studentcourseorder.add
+                                    , data: data.field
+                                    , type: 'POST'
+                                    , done: function (res) {
                                         layer.close(index);
                                         table.reload('orders-table');
                                     }
-                                    layer.msg(res.message);
                                 });
                             });
                         });
@@ -242,12 +257,14 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
         var data = obj.data;
         if (obj.event === 'del') {
             layer.confirm('删除后不可恢复，确定？', { icon: 3 }, function (index) {
-                common.ajax(setter.apiAddress.studentcourseorder.delete, "POST", "", { Id: data.id }, function (res) {
-                    if (res.statusCode == 200) {
+                admin.req({
+                    url: setter.apiAddress.studentcourseorder.delete
+                    , data: { Id: data.id }
+                    , type: 'POST'
+                    , done: function (res) {
                         layer.close(index);
                         table.reload('orders-table');
                     }
-                    layer.msg(res.message);
                 });
             });
         }

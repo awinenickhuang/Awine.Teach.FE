@@ -1,16 +1,14 @@
 ﻿/**
  @Name：平台 -> 机构管理
  */
-layui.define(['table', 'form', 'common', 'setter', 'verification', 'laydate'], function (exports) {
+layui.define(['table', 'form', 'setter', 'verification', 'laydate'], function (exports) {
     var $ = layui.$
         , admin = layui.admin
         , view = layui.view
         , table = layui.table
-        , common = layui.common
         , setter = layui.setter
         , laydate = layui.laydate
         , form = layui.form;
-
     table.render({
         elem: '#tenant-table'
         , url: setter.apiAddress.tenant.pagelist
@@ -125,13 +123,18 @@ layui.define(['table', 'form', 'common', 'setter', 'verification', 'laydate'], f
                             $("#sel-district-code").append("<option value=\"\">请选择</option>");
 
                             //省份
-                            common.ajax(setter.apiAddress.area.getbyparentcode, "GET", "", { parentCode: 0 }, function (res) {
-                                $("#sel-province-code").append("<option value=\"\">请选择</option>");
-                                $.each(res.data, function (index, item) {
-                                    $("#sel-province-code").append("<option value=\"" + item.code + "\">" + item.name + "</option>");
-                                });
-                                form.render("select");
+                            admin.req({
+                                url: setter.apiAddress.area.getbyparentcode
+                                , data: { parentCode: 0 }
+                                , done: function (res) {
+                                    $("#sel-province-code").append("<option value=\"\">请选择</option>");
+                                    $.each(res.data, function (index, item) {
+                                        $("#sel-province-code").append("<option value=\"" + item.code + "\">" + item.name + "</option>");
+                                    });
+                                    form.render("select");
+                                }
                             });
+
                             //城市
                             form.on('select(provincefilter)', function (data) {
                                 //获取选中的省名称
@@ -144,14 +147,18 @@ layui.define(['table', 'form', 'common', 'setter', 'verification', 'laydate'], f
                                 $("#sel-district-code").empty();
                                 $("#districtName").val("");
 
-                                common.ajax(setter.apiAddress.area.getbyparentcode, "GET", "", { parentCode: data.value }, function (res) {
-                                    $("#sel-city-code").append("<option value=\"\">请选择</option>");
-                                    $("#sel-district-code").append("<option value=\"\">请选择</option>");
-                                    $.each(res.data, function (index, item) {
-                                        $("#sel-city-code").append("<option value=\"" + item.code + "\">" + item.name + "</option>");
-                                    });
-                                    form.render("select");
-                                })
+                                admin.req({
+                                    url: setter.apiAddress.area.getbyparentcode
+                                    , data: { parentCode: data.value }
+                                    , done: function (res) {
+                                        $("#sel-city-code").append("<option value=\"\">请选择</option>");
+                                        $("#sel-district-code").append("<option value=\"\">请选择</option>");
+                                        $.each(res.data, function (index, item) {
+                                            $("#sel-city-code").append("<option value=\"" + item.code + "\">" + item.name + "</option>");
+                                        });
+                                        form.render("select");
+                                    }
+                                });
                             });
                             //地区
                             form.on('select(cityfilter)', function (data) {
@@ -160,13 +167,17 @@ layui.define(['table', 'form', 'common', 'setter', 'verification', 'laydate'], f
                                 //清空区数据
                                 $("#sel-district-code").empty();
                                 $("#districtName").val("");
-                                common.ajax(setter.apiAddress.area.getbyparentcode, "GET", "", { parentCode: data.value }, function (res) {
-                                    $("#sel-district-code").append("<option value=\"\">请选择</option>");
-                                    $.each(res.data, function (index, item) {
-                                        $("#sel-district-code").append("<option value=\"" + item.code + "\">" + item.name + "</option>");
-                                    });
-                                    form.render("select");
-                                })
+                                admin.req({
+                                    url: setter.apiAddress.area.getbyparentcode
+                                    , data: { parentCode: data.value }
+                                    , done: function (res) {
+                                        $("#sel-district-code").append("<option value=\"\">请选择</option>");
+                                        $.each(res.data, function (index, item) {
+                                            $("#sel-district-code").append("<option value=\"" + item.code + "\">" + item.name + "</option>");
+                                        });
+                                        form.render("select");
+                                    }
+                                });
                             });
                             //获取地区文本
                             form.on('select(districtfilter)', function (data) {
@@ -174,22 +185,28 @@ layui.define(['table', 'form', 'common', 'setter', 'verification', 'laydate'], f
                             });
 
                             //所处行业
-                            common.ajax(setter.apiAddress.industry.list, "GET", "", "", function (res) {
-                                $("#sel-industry-list").append("<option value=\"\">请选择</option>");
-                                $.each(res.data, function (index, item) {
-                                    $("#sel-industry-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
-                                });
-                                form.render("select");
-                            })
+                            admin.req({
+                                url: setter.apiAddress.industry.list
+                                , data: {}
+                                , done: function (res) {
+                                    $("#sel-industry-list").append("<option value=\"\">请选择</option>");
+                                    $.each(res.data, function (index, item) {
+                                        $("#sel-industry-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
+                                    });
+                                    form.render("select");
+                                }
+                            });
 
                             //监听提交
                             form.on('submit(tenant-form-submit)', function (data) {
-                                common.ajax(setter.apiAddress.tenant.add, "POST", "", data.field, function (res) {
-                                    if (res.statusCode == 200) {
+                                admin.req({
+                                    url: setter.apiAddress.tenant.add
+                                    , data: data.field
+                                    , type: 'POST'
+                                    , done: function (res) {
                                         layer.close(index);
                                         layui.table.reload('tenant-table');
                                     }
-                                    layer.msg(res.message);
                                 });
                             });
                         });
@@ -214,41 +231,53 @@ layui.define(['table', 'form', 'common', 'setter', 'verification', 'laydate'], f
                         form.render();
 
                         //加载地区信息并设置默认值
-                        common.ajax(setter.apiAddress.area.getbyparentcode, "GET", "", { parentCode: 0 }, function (res) {
-                            $.each(res.data, function (index, item) {
-                                if (data.provinceId == item.code) {
-                                    $("#sel-province-edit-code").append("<option selected=\"selected\" value=\"" + item.code + "\">" + item.name + "</option>");
-                                } else {
-                                    $("#sel-province-edit-code").append("<option value=\"" + item.code + "\">" + item.name + "</option>");
-                                }
-                            });
-                            form.render("select");
-                            $("#province-edit-name").val($("#sel-province-edit-code").find("option:selected").text());
-
-                            common.ajax(setter.apiAddress.area.getbyparentcode, "GET", "", { parentCode: data.provinceId }, function (res) {
+                        admin.req({
+                            url: setter.apiAddress.area.getbyparentcode
+                            , data: { parentCode: 0 }
+                            , done: function (res) {
                                 $.each(res.data, function (index, item) {
-                                    if (data.cityId == item.code) {
-                                        $("#sel-city-edit-code").append("<option selected=\"selected\" value=\"" + item.code + "\">" + item.name + "</option>");
+                                    if (data.provinceId == item.code) {
+                                        $("#sel-province-edit-code").append("<option selected=\"selected\" value=\"" + item.code + "\">" + item.name + "</option>");
                                     } else {
-                                        $("#sel-city-edit-code").append("<option value=\"" + item.code + "\">" + item.name + "</option>");
+                                        $("#sel-province-edit-code").append("<option value=\"" + item.code + "\">" + item.name + "</option>");
                                     }
                                 });
                                 form.render("select");
-                                $("#city-edit-name").val($("#sel-city-edit-code").find("option:selected").text());
-                            });
+                                $("#province-edit-name").val($("#sel-province-edit-code").find("option:selected").text());
 
-                            common.ajax(setter.apiAddress.area.getbyparentcode, "GET", "", { parentCode: data.cityId }, function (res) {
-                                $.each(res.data, function (index, item) {
-                                    if (data.districtId == item.code) {
-                                        $("#sel-district-edit-code").append("<option selected=\"selected\" value=\"" + item.code + "\">" + item.name + "</option>");
-                                    } else {
-                                        $("#sel-district-edit-code").append("<option value=\"" + item.code + "\">" + item.name + "</option>");
+                                admin.req({
+                                    url: setter.apiAddress.area.getbyparentcode
+                                    , data: { parentCode: data.provinceId }
+                                    , done: function (res) {
+                                        $.each(res.data, function (index, item) {
+                                            if (data.cityId == item.code) {
+                                                $("#sel-city-edit-code").append("<option selected=\"selected\" value=\"" + item.code + "\">" + item.name + "</option>");
+                                            } else {
+                                                $("#sel-city-edit-code").append("<option value=\"" + item.code + "\">" + item.name + "</option>");
+                                            }
+                                        });
+                                        form.render("select");
+                                        $("#city-edit-name").val($("#sel-city-edit-code").find("option:selected").text());
+                                    }
+                                });
+
+                                admin.req({
+                                    url: setter.apiAddress.area.getbyparentcode
+                                    , data: { parentCode: data.cityId }
+                                    , done: function (res) {
+                                        $.each(res.data, function (index, item) {
+                                            if (data.districtId == item.code) {
+                                                $("#sel-district-edit-code").append("<option selected=\"selected\" value=\"" + item.code + "\">" + item.name + "</option>");
+                                            } else {
+                                                $("#sel-district-edit-code").append("<option value=\"" + item.code + "\">" + item.name + "</option>");
+                                            }
+                                        });
+                                        form.render("select");
+                                        $("#district-edit-name").val($("#sel-district-edit-code").find("option:selected").text());
                                     }
                                 });
                                 form.render("select");
-                                $("#district-edit-name").val($("#sel-district-edit-code").find("option:selected").text());
-                            });
-                            form.render("select");
+                            }
                         });
 
                         //监听省份下拉框事件
@@ -258,12 +287,16 @@ layui.define(['table', 'form', 'common', 'setter', 'verification', 'laydate'], f
                             $("#city-edit-name").val("");
                             $("#sel-district-edit-code").empty();
                             $("#district-edit-name").val("");
-                            common.ajax(setter.apiAddress.area.getbyparentcode, "GET", "", { parentCode: data.value }, function (res) {
-                                $("#sel-city-edit-code").append("<option value=\"\">请选择</option>");
-                                $.each(res.data, function (index, item) {
-                                    $("#sel-city-edit-code").append("<option value=\"" + item.code + "\">" + item.name + "</option>");
-                                });
-                                form.render("select");
+                            admin.req({
+                                url: setter.apiAddress.area.getbyparentcode
+                                , data: { parentCode: data.value }
+                                , done: function (res) {
+                                    $("#sel-city-edit-code").append("<option value=\"\">请选择</option>");
+                                    $.each(res.data, function (index, item) {
+                                        $("#sel-city-edit-code").append("<option value=\"" + item.code + "\">" + item.name + "</option>");
+                                    });
+                                    form.render("select");
+                                }
                             });
                         });
 
@@ -272,12 +305,16 @@ layui.define(['table', 'form', 'common', 'setter', 'verification', 'laydate'], f
                             $("#city-edit-name").val($("#sel-city-edit-code").find("option:selected").text());
                             $("#sel-district-edit-code").empty();
                             $("#district-edit-name").val("");
-                            common.ajax(setter.apiAddress.area.getbyparentcode, "GET", "", { parentCode: data.value }, function (res) {
-                                $("#sel-district-edit-code").append("<option value=\"\">请选择</option>");
-                                $.each(res.data, function (index, item) {
-                                    $("#sel-district-edit-code").append("<option value=\"" + item.code + "\">" + item.name + "</option>");
-                                });
-                                form.render("select");
+                            admin.req({
+                                url: setter.apiAddress.area.getbyparentcode
+                                , data: { parentCode: data.value }
+                                , done: function (res) {
+                                    $("#sel-district-edit-code").append("<option value=\"\">请选择</option>");
+                                    $.each(res.data, function (index, item) {
+                                        $("#sel-district-edit-code").append("<option value=\"" + item.code + "\">" + item.name + "</option>");
+                                    });
+                                    form.render("select");
+                                }
                             });
                         });
 
@@ -287,27 +324,33 @@ layui.define(['table', 'form', 'common', 'setter', 'verification', 'laydate'], f
                         });
 
                         //初始化行业数据
-                        common.ajax(setter.apiAddress.industry.list, "GET", "", "", function (res) {
-                            $.each(res.data, function (index, item) {
-                                if (data.industryId == item.id) {
-                                    $("#sel-industry-list").append("<option selected=\"selected\" value=\"" + item.id + "\">" + item.name + "</option>");
-                                } else {
-                                    $("#sel-industry-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
-                                }
-                            });
-                            form.render("select");
-                        })
+                        admin.req({
+                            url: setter.apiAddress.industry.list
+                            , data: {}
+                            , done: function (res) {
+                                $.each(res.data, function (index, item) {
+                                    if (data.industryId == item.id) {
+                                        $("#sel-industry-list").append("<option selected=\"selected\" value=\"" + item.id + "\">" + item.name + "</option>");
+                                    } else {
+                                        $("#sel-industry-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
+                                    }
+                                });
+                                form.render("select");
+                            }
+                        });
                         $('#sel-industry-list').val(data.industryId);
                         $('#sel-classification').val(data.classiFication);
                         $('#sel-status').val(data.status);
                         //监听提交
                         form.on('submit(organization-edit-form-submit)', function (data) {
-                            common.ajax(setter.apiAddress.tenant.update, "POST", "", $("#organization-edit-form").serialize(), function (res) {
-                                if (res.statusCode == 200) {
+                            admin.req({
+                                url: setter.apiAddress.tenant.update
+                                , data: data.field
+                                , type: 'POST'
+                                , done: function (res) {
                                     layer.close(index);
                                     table.reload('tenant-table');
                                 }
-                                layer.msg(res.message);
                             });
                         });
                     });
@@ -325,12 +368,14 @@ layui.define(['table', 'form', 'common', 'setter', 'verification', 'laydate'], f
                         form.render();
                         //监听提交
                         form.on('submit(editclassfication-edit-form-submit)', function (data) {
-                            common.ajax(setter.apiAddress.tenant.updateclassfication, "POST", "", $("#editclassfication-edit-form").serialize(), function (res) {
-                                if (res.statusCode == 200) {
+                            admin.req({
+                                url: setter.apiAddress.tenant.updateclassfication
+                                , data: data.field
+                                , type: 'POST'
+                                , done: function (res) {
                                     layer.close(index);
                                     table.reload('tenant-table');
                                 }
-                                layer.msg(res.message);
                             });
                         });
                     });
@@ -348,12 +393,14 @@ layui.define(['table', 'form', 'common', 'setter', 'verification', 'laydate'], f
                         form.render();
                         //监听提交
                         form.on('submit(editstatus-edit-form-submit)', function (data) {
-                            common.ajax(setter.apiAddress.tenant.updatestatus, "POST", "", $("#editstatus-edit-form").serialize(), function (res) {
-                                if (res.statusCode == 200) {
+                            admin.req({
+                                url: setter.apiAddress.tenant.updatestatus
+                                , data: data.field
+                                , type: 'POST'
+                                , done: function (res) {
                                     layer.close(index);
                                     table.reload('tenant-table');
                                 }
-                                layer.msg(res.message);
                             });
                         });
                     });
@@ -371,12 +418,14 @@ layui.define(['table', 'form', 'common', 'setter', 'verification', 'laydate'], f
                         form.render();
                         //监听提交
                         form.on('submit(branches-edit-form-submit)', function (data) {
-                            common.ajax(setter.apiAddress.tenant.updatenumberofbranches, "POST", "", $("#branches-edit-form").serialize(), function (res) {
-                                if (res.statusCode == 200) {
+                            admin.req({
+                                url: setter.apiAddress.tenant.updatenumberofbranches
+                                , data: data.field
+                                , type: 'POST'
+                                , done: function (res) {
                                     layer.close(index);
                                     table.reload('tenant-table');
                                 }
-                                layer.msg(res.message);
                             });
                         });
                     });

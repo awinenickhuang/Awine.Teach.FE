@@ -1,16 +1,13 @@
 ﻿/**
  @Name：收款方式
  */
-layui.define(['table', 'form', 'common', 'setter', 'element', 'verification'], function (exports) {
+layui.define(['table', 'form', 'setter', 'verification'], function (exports) {
     var $ = layui.$
         , admin = layui.admin
         , view = layui.view
         , table = layui.table
-        , common = layui.common
         , setter = layui.setter
-        , form = layui.form
-        , element = layui.element;
-
+        , form = layui.form;
     table.render({
         elem: '#paymentmethod-table'
         , url: setter.apiAddress.paymentmethod.pagelist
@@ -64,12 +61,14 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification'], f
                             form.render();
                             //监听提交
                             form.on('submit(paymentmethod-add-form-submit)', function (data) {
-                                common.ajax(setter.apiAddress.paymentmethod.add, "POST", "", data.field, function (res) {
-                                    if (res.statusCode == 200) {
+                                admin.req({
+                                    url: setter.apiAddress.paymentmethod.add
+                                    , data: data.field
+                                    , type: 'POST'
+                                    , done: function (res) {
                                         layer.close(index);
                                         table.reload('paymentmethod-table');
                                     }
-                                    layer.msg(res.message);
                                 });
                             });
                         });
@@ -83,12 +82,14 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification'], f
         var data = obj.data;
         if (obj.event === 'del') {
             layer.confirm('删除后不可恢复，确定？', { icon: 3 }, function (index) {
-                common.ajax(setter.apiAddress.paymentmethod.delete, "POST", "", { Id: data.id }, function (res) {
-                    if (res.statusCode == 200) {
+                admin.req({
+                    url: setter.apiAddress.paymentmethod.delete
+                    , data: { Id: data.id }
+                    , type: 'POST'
+                    , done: function (res) {
                         layer.close(index);
                         table.reload('paymentmethod-table');
                     }
-                    layer.msg(res.message);
                 });
             });
         } else if (obj.event === 'edit') {
@@ -100,12 +101,14 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification'], f
                     view(this.id).render('teaching/paymentmethod/edit', data).done(function () {
                         form.render();
                         form.on('submit(paymentmethod-edit-form-submit)', function (data) {
-                            common.ajax(setter.apiAddress.paymentmethod.update, "POST", "", data.field, function (res) {
-                                if (res.statusCode == 200) {
+                            admin.req({
+                                url: setter.apiAddress.paymentmethod.update
+                                , data: data.field
+                                , type: 'POST'
+                                , done: function (res) {
                                     layer.close(index);
                                     table.reload('paymentmethod-table');
                                 }
-                                layer.msg(res.message);
                             });
                         });
                     });

@@ -1,11 +1,10 @@
 ﻿/**
  @Name：模块管理
  */
-layui.define(['form', 'common', 'setter', 'treeGrid', 'xmSelect', 'verification', 'table', 'element'], function (exports) {
+layui.define(['form', 'setter', 'treeGrid', 'xmSelect', 'verification', 'table', 'element'], function (exports) {
     var $ = layui.$
         , admin = layui.admin
         , view = layui.view
-        , common = layui.common
         , setter = layui.setter
         , treeGrid = layui.treeGrid
         , xmSelect = layui.xmSelect
@@ -73,11 +72,13 @@ layui.define(['form', 'common', 'setter', 'treeGrid', 'xmSelect', 'verification'
         var data = obj.data;
         if (obj.event === 'del') {
             layer.confirm('删除后不可恢复，确定？', { icon: 3 }, function (index) {
-                common.ajax(setter.apiAddress.awinemodule.delete, "POST", "", { id: data.id }, function (res) {
-                    if (res.statusCode == 200) {
+                admin.req({
+                    url: setter.apiAddress.awinemodule.delete
+                    , data: { id: data.id }
+                    , type: 'POST'
+                    , done: function (res) {
                         treeGrid.reload('module-tree-table');
                     }
-                    layer.msg(res.message);
                 });
             });
         } else if (obj.event === "edit") {
@@ -89,7 +90,6 @@ layui.define(['form', 'common', 'setter', 'treeGrid', 'xmSelect', 'verification'
                 , success: function (layero, index) {
                     view(this.id).render('foundational/module/edit', data).done(function () {
                         form.render();
-
                         var parentModuleTree = xmSelect.render({
                             el: '#xmselect-parent-module',
                             tips: '顶级系统模块',
@@ -118,24 +118,26 @@ layui.define(['form', 'common', 'setter', 'treeGrid', 'xmSelect', 'verification'
                             }
                         });
                         //加载模块树型数据
-                        common.ajax(setter.apiAddress.awinemodule.treelist, "GET", "", { moduleParentId: data.parentId }, function (res) {
-                            if (res.statusCode == 200) {
+                        admin.req({
+                            url: setter.apiAddress.awinemodule.treelist
+                            , data: { moduleParentId: data.parentId }
+                            , done: function (res) {
                                 parentModuleTree.update({
                                     data: res.data,
                                     autoRow: true,
-                                })
-                            } else {
-                                layer.msg("加载模块数据出错");
+                                });
                             }
                         });
-
+                        //提交
                         form.on('submit(modules-edit-form-submit)', function (data) {
-                            common.ajax(setter.apiAddress.awinemodule.update, "POST", "", $('#modules-edit-form').serialize(), function (res) {
-                                if (res.statusCode == 200) {
+                            admin.req({
+                                url: setter.apiAddress.awinemodule.update
+                                , data: data.field
+                                , type: 'POST'
+                                , done: function (res) {
                                     layer.close(index);
                                     treeGrid.reload('module-tree-table');
                                 }
-                                layer.msg(res.message);
                             });
                         });
                     });
@@ -192,11 +194,13 @@ layui.define(['form', 'common', 'setter', 'treeGrid', 'xmSelect', 'verification'
                             var data = obj.data;
                             if (obj.event === 'del') {
                                 layer.confirm('删除后不可恢复，确定？', { icon: 3 }, function (index) {
-                                    common.ajax(setter.apiAddress.awinebutton.delete, "POST", "", { id: data.id }, function (res) {
-                                        if (res.statusCode == 200) {
+                                    admin.req({
+                                        url: setter.apiAddress.awinebutton.delete
+                                        , data: { id: data.id }
+                                        , type: 'POST'
+                                        , done: function (res) {
                                             table.reload('buttons-table');
                                         }
-                                        layer.msg(res.message);
                                     });
                                 });
                             }
@@ -204,15 +208,16 @@ layui.define(['form', 'common', 'setter', 'treeGrid', 'xmSelect', 'verification'
 
                         //监听提交
                         form.on('submit(buttons-add-form-submit)', function (data) {
-                            common.ajax(setter.apiAddress.awinebutton.add, "POST", "", data.field, function (res) {
-                                if (res.statusCode == 200) {
+                            admin.req({
+                                url: setter.apiAddress.awinebutton.add
+                                , data: data.field
+                                , type: 'POST'
+                                , done: function (res) {
                                     element.tabChange('button-manage-tab', '0');
                                     table.reload('buttons-table');
                                 }
-                                layer.msg(res.message);
                             });
                         });
-
                     });
                 }
             });
@@ -257,23 +262,25 @@ layui.define(['form', 'common', 'setter', 'treeGrid', 'xmSelect', 'verification'
                             }
                         });
                         //加载模块树型数据
-                        common.ajax(setter.apiAddress.awinemodule.treelist, "GET", "", {}, function (res) {
-                            if (res.statusCode == 200) {
+                        admin.req({
+                            url: setter.apiAddress.awinemodule.treelist
+                            , data: {}
+                            , done: function (res) {
                                 parentModuleTree.update({
                                     data: res.data,
                                     autoRow: true,
-                                })
-                            } else {
-                                layer.msg("加载模块数据出错");
+                                });
                             }
                         });
                         form.on('submit(modules-add-form-submit)', function (data) {
-                            common.ajax(setter.apiAddress.awinemodule.add, "POST", "", $("#modules-add-form").serialize(), function (res) {
-                                if (res.statusCode == 200) {
+                            admin.req({
+                                url: setter.apiAddress.awinemodule.add
+                                , data: data.field
+                                , type: 'POST'
+                                , done: function (res) {
                                     layer.close(index);
                                     treeGrid.reload('module-tree-table');
                                 }
-                                layer.msg(res.message);
                             });
                         });
                     });

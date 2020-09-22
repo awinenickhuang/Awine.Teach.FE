@@ -1,17 +1,13 @@
 ﻿/**
  @Name：试听管理
  */
-layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'laydate'], function (exports) {
+layui.define(['table', 'form', 'setter', 'verification'], function (exports) {
     var $ = layui.$
         , admin = layui.admin
         , view = layui.view
         , table = layui.table
-        , common = layui.common
         , setter = layui.setter
-        , form = layui.form
-        , laydate = layui.laydate
-        , element = layui.element;
-
+        , form = layui.form;
     table.render({
         elem: '#trialclass-table'
         , url: setter.apiAddress.trialclass.pagelist
