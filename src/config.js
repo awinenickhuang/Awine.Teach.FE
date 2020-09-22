@@ -5,7 +5,6 @@
  */
 
 layui.define(['laytpl', 'layer', 'element', 'util'], function (exports) {
-    var apiGatewayAddress = 'http://localhost:8000'
     exports('setter', {
         container: 'LAY_app'                            //容器ID
         , base: layui.cache.base                        //记录layuiAdmin文件夹所在路径
@@ -133,6 +132,7 @@ layui.define(['laytpl', 'layer', 'element', 'util'], function (exports) {
             //如果本地已经有主题色记录，则以本地记录为优先，除非请求本地数据（localStorage）
             , initColorIndex: 0
         }
+        , apiGatewayAddress: 'http://localhost:8000'
         , apiAddress: {
             filemanagement: {
                 singlefileupload: 'http://localhost:9000/api/filemanagement/singlefileupload'

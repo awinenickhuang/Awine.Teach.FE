@@ -48,7 +48,7 @@ layui.define(['laytpl', 'layer', 'oidcsetup'], function (exports) {
 
         //跳转到登入页 -> 这里不用再显示转跳到登录页，等待AUTH简化流程执行
         //location.hash = '/user/login';
-        layer.msg('提示：您已成功退出，正在转跳到身份认证中心！', {
+        layer.msg('您已成功退出，正在转跳到身份认证中心！', {
             offset: '15px'
             , icon: 1
             , time: 3000

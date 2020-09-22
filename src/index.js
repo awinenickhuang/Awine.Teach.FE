@@ -6,16 +6,13 @@ layui.extend({
     , admin: 'lib/admin' //核心模块
     , view: 'lib/view'   //核心模块
     , oidcsetup: 'lib/oidcsetup'
-    , common: 'lib/common'
-}).define(['setter', 'admin', 'oidcsetup', 'table', 'common'], function (exports) {
+}).define(['setter', 'admin', 'oidcsetup'], function (exports) {
     var setter = layui.setter
         , element = layui.element
         , admin = layui.admin
         , tabsPage = admin.tabsPage
         , view = layui.view
         , oidcsetup = layui.oidcsetup
-        , table = layui.table
-        , common = common
         //根据路由渲染页面
         , renderPage = function () {
             var router = layui.router()
@@ -232,12 +229,6 @@ layui.extend({
 
     layui.username = function () {
         return layui.data(setter.tableName)['username'] != null ? layui.data(setter.tableName)['username'] : '请登录'
-    };
-
-    //退出
-    admin.events.logout = function () {
-        //执行退出接口
-        view.exit();
     };
 
     //对外输出

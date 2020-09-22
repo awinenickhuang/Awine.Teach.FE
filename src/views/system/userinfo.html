@@ -13,7 +13,6 @@
             <div class="layui-card">
                 <div class="layui-card-header">我的资料</div>
                 <div class="layui-card-body" pad15>
-
                     <div class="layui-form" lay-filter="">
                         <div class="layui-form-item">
                             <label class="layui-form-label">姓名</label>
@@ -76,7 +75,6 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -92,8 +90,10 @@
             , form = layui.form;
 
         //初始化当前登录用户信息
-        common.ajax(setter.apiAddress.aspnetuser.details, "GET", "", "", function (res) {
-            if (res.statusCode == 200) {
+        admin.req({
+            url: setter.apiAddress.aspnetuser.details
+            , data: {}
+            , done: function (res) {
                 $('#username').val(res.data.userName);
                 $('#account').val(res.data.account);
                 if (res.data.gender == 1) {
@@ -116,8 +116,6 @@
                 }
                 $('#vipExpirationTime').val(res.data.vipExpirationTime);
                 $('#industryName').val(res.data.industryName);
-            } else {
-                layer.msg(res.message);
             }
         });
 

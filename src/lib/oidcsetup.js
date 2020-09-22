@@ -58,7 +58,6 @@
                 key: 'tenantname'
                 , value: user.profile.tenantname
             });
-            table.set({ headers: { Authorization: "Bearer " + user.access_token } });
             layui.data(setter.tableName, {
                 key: 'username'
                 , value: user.profile.username
@@ -67,6 +66,7 @@
                 key: setter.request.tokenName
                 , value: user.access_token
             });
+            table.set({ headers: { Authorization: "Bearer " + user.access_token } });
             console.log("log -> user logged in");
         }
         else {
