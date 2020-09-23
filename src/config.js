@@ -30,6 +30,7 @@ layui.define(['laytpl', 'layer', 'element', 'util'], function (exports) {
             statusName: 'code'                          //数据状态的字段名称
             , statusCode: {
                 ok: 0                                   //数据状态一切正常的状态码
+                , badRequest: 400                       //数据状态一切正常的状态码
                 , logout: 401                           //登录状态失效的状态码
             }
             , msgName: 'msg'                            //状态信息的字段名称
@@ -38,10 +39,10 @@ layui.define(['laytpl', 'layer', 'element', 'util'], function (exports) {
 
         //独立页面路由，可随意添加（无需写参数）
         , indPage: [
-            '/user/login' //登入页
-            , '/user/reg' //注册页
-            , '/user/forget' //找回密码
-            , '/template/tips/test' //独立页的一个测试 demo
+            '/user/login'                               //登入页
+            , '/user/reg'                               //注册页
+            , '/user/forget'                            //找回密码
+            , '/template/tips/test'                     //独立页的一个测试 demo
         ]
 
         //扩展的第三方模块
@@ -264,8 +265,8 @@ layui.define(['laytpl', 'layer', 'element', 'util'], function (exports) {
             studentattendance: {
                 pagelist: 'http://localhost:8002/api/studentattendance/pagelist',
                 add: 'http://localhost:8002/api/studentattendance/add',
+                attendance: 'http://localhost:8002/api/studentattendance/attendance',
                 cancel: 'http://localhost:8002/api/studentattendance/cancel',
-                attendance: 'http://localhost:8002/api/studentattendance/attendance'
             },
             course: {
                 pagelist: 'http://localhost:8002/api/course/pagelist',

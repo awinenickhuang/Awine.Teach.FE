@@ -25,18 +25,16 @@
     </div>
 </script>
 <script>
-    layui.use(['admin', 'setter', 'common', 'laytpl'], function () {
+    layui.use(['admin', 'setter', 'laytpl'], function () {
         var $ = layui.$
             , admin = layui.admin
-            , table = layui.table
             , setter = layui.setter
-            , common = layui.common
-            , laytpl = layui.laytpl
-            , element = layui.element;
+            , laytpl = layui.laytpl;
 
-        //初始化学生基本信息
-        common.ajax(setter.apiAddress.news.single, "GET", "", { id: layui.router().search.id }, function (res) {
-            if (res.statusCode == 200) {
+        admin.req({
+            url: setter.apiAddress.news.single
+            , data: { id: layui.router().search.id }
+            , done: function (res) {
                 if (res.data) {
                     var gettpl = newstemplate.innerHTML
                         , view = document.getElementById('newsview');
@@ -46,9 +44,8 @@
                 } else {
                     layer.msg("内容未找到");
                 }
-            } else {
-                layer.msg(res.message);
             }
         });
+
     });
 </script>

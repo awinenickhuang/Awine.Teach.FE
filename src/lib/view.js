@@ -98,6 +98,7 @@ layui.define(['laytpl', 'layer', 'oidcsetup'], function (exports) {
             type: 'get'
             , dataType: 'json'
             , success: function (res) {
+
                 let requestresults = {
                     code: res.statusCode,
                     msg: res.message,
@@ -139,9 +140,21 @@ layui.define(['laytpl', 'layer', 'oidcsetup'], function (exports) {
                 typeof success === 'function' && success(requestresults);
             }
             , error: function (e, code) {
+
                 //如果登录失效或未授权状态为401 -> 则重新进行登录操作
                 if (e.status == setter.response.statusCode.logout) {
                     layer.msg('未登录或登录超时，正在转跳到身份认证中心！', {
+                        icon: 5
+                        , time: 3000
+                    }, function () {
+                        layer.closeAll();
+                        view.exit();
+                    });
+                    return;
+                }
+
+                if (e.status == setter.response.statusCode.badRequest) {
+                    layer.msg(e.responseJSON.message, {
                         icon: 5
                         , time: 3000
                     }, function () {
@@ -157,7 +170,7 @@ layui.define(['laytpl', 'layer', 'oidcsetup'], function (exports) {
                 //].join('');
                 //view.error(errorText);
 
-                layer.msg('<cite>请求异常，请重试！错误信息：</cite>' + e.responseJSON.message, {
+                layer.msg('<cite>请求异常，请重试！</cite>' + code, {
                     icon: 5
                     , time: 3000
                 });
