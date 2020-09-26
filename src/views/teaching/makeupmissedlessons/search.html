@@ -1,0 +1,40 @@
+﻿<script type="text/html" template>
+    <link rel="stylesheet" href="{{ layui.setter.base }}style/template.css?v={{ layui.admin.v }}-1" media="all">
+</script>
+
+<form class="layui-form" id="makeupmissedlessons-search-form" lay-filter="makeupmissedlessons-search-form" style="padding:15px;">
+    <div class="layui-form-item">
+        <label class="layui-form-label">班级状态</label>
+        <div class="layui-input-block">
+            <select id="sel-status-list" name="Status">
+                <option value="0">请选择</option>
+                <option value=1>已创建 </option>
+                <option value=2>已结课 </option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">补课时间</label>
+        <div class="layui-input-block">
+            <input type="text" id="input-laydate-select" name="CourseDates" placeholder="请选择补课时间" autocomplete="off" class="layui-input" readonly maxlength="32">
+            <input type="hidden" id="beginDate" name="BeginDate" />
+            <input type="hidden" id="endDate" name="EndDate" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">补课课程</label>
+        <div class="layui-input-block">
+            <select class="sel" id="sel-course-list" name="CourseId"></select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">授课老师</label>
+        <div class="layui-input-block">
+            <select class="sel" id="sel-teacher-list" name="TeacherId"></select>
+            <input type="hidden" id="hiddenTeacherName" name="TeacherName" />
+        </div>
+    </div>
+    <div class="layui-form-item content-center">
+        <button class="layui-btn layui-btn-sm" type="button" lay-submit lay-filter="makeupmissedlessons-search-submit"><i class="layui-icon layui-icon-ok"></i>立即搜索</button>
+    </div>
+</form>

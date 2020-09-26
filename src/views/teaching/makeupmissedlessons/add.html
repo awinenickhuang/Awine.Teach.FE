@@ -1,0 +1,50 @@
+﻿<script type="text/html" template>
+    <link rel="stylesheet" href="{{ layui.setter.base }}style/template.css?v={{ layui.admin.v }}-1" media="all">
+</script>
+
+<form class="layui-form" id="makeupmissedlessons-add-form" lay-filter="makeupmissedlessons-add-form-filter" style="padding:15px;">
+    <div class="layui-form-item">
+        <label class="layui-form-label">班级名称</label>
+        <div class="layui-input-block ">
+            <input type="text" id="name" name="Name" lay-verify="required|normallength" maxlength="32" autocomplete="off" placeholder="班级名称" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">补课日期</label>
+        <div class="layui-input-block">
+            <input type="text" id="courseDates" name="ClassOpeningDate" readonly lay-verify="required" placeholder="" maxlength="32" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">上课时段</label>
+        <div class="layui-input-block">
+            <input type="text" id="classTimeRange" name="ClassTimeRange" readonly lay-verify="required" placeholder="" maxlength="32" autocomplete="off" class="layui-input">
+            <input type="hidden" id="startHours" name="StartHours" />
+            <input type="hidden" id="startMinutes" name="StartMinutes" />
+            <input type="hidden" id="endHours" name="EndHours" />
+            <input type="hidden" id="endMinutes" name="EndMinutes" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">补课课程</label>
+        <div class="layui-input-block">
+            <select class="sel" id="sel-course-list" name="CourseId" lay-verify="required|select" lay-filter="sel-course-list-filter"></select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">授课老师</label>
+        <div class="layui-input-block">
+            <select class="sel" id="sel-teacher-list" name="TeacherId" lay-verify="required|select" lay-filter="sel-teacher-list-filter"></select>
+            <input type="hidden" id="hiddenTeacherName" name="TeacherName" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">上课教室</label>
+        <div class="layui-input-block">
+            <select class="sel" id="sel-class-room-list" name="ClassRoomId" lay-verify="required|select" lay-filter=""></select>
+        </div>
+    </div>
+    <div class="layui-form-item content-center">
+        <button class="layui-btn layui-btn-sm" type="button" lay-submit lay-filter="makeupmissedlessons-add-form-submit"><i class="layui-icon layui-icon-ok"></i>立即提交</button>
+    </div>
+</form>

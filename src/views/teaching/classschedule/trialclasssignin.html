@@ -1,0 +1,92 @@
+﻿<script type="text/html" template>
+    <link rel="stylesheet" href="{{ layui.setter.base }}style/template.css?v={{ layui.admin.v }}-1" media="all">
+</script>
+<style>
+    .singinsummary {
+        color: #d01212;
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    .layui-card-body {
+        padding: 15px;
+    }
+
+        .layui-card-body .layui-table {
+            margin: 0;
+        }
+
+    .layui-layer-page .layui-layer-content {
+        background-color: #F2F2F2;
+    }
+</style>
+<div style="padding: 15px;">
+    <div class="layui-row layui-col-space15" style="margin-bottom:45px;">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">课节信息</div>
+                <div class="layui-card-body">
+                    <div class="layui-row">
+                        <form class="" id="complete-all-students-signin-form" lay-filter="complete-all-students-signin-form-filter">
+                            <script type="text/html" template>
+                                <div class="layui-col-xs6">
+                                    <p class="layadmin-textimg">
+                                        <i class="layui-icon layui-icon-at"></i>
+                                        课程：{{ d.params.courseName || '' }}
+                                    </p>
+                                    <p class="layadmin-textimg">
+                                        <i class="layui-icon layui-icon-at"></i>
+                                        班级：{{ d.params.classesName || '' }}
+                                    </p>
+                                    <p class="layadmin-textimg">
+                                        <i class="layui-icon layui-icon-at"></i>
+                                        老师：{{ d.params.teacherName || '' }}
+                                    </p>
+                                    <p class="layadmin-textimg">
+                                        <i class="layui-icon layui-icon-at"></i>
+                                        教室：{{ d.params.classRoom || '' }}
+                                    </p>
+                                </div>
+                                <div class="layui-col-xs6">
+                                    <p class="layadmin-textimg">
+                                        <i class="layui-icon layui-icon-at"></i>
+                                        课节状态：{{#  if(d.params.classStatus === 1){ }}
+                                        <span style="color:#FFB800;">待上课</span>
+                                        {{#  }else{ }}
+                                        <span style="color:#FF5722;">已结课</span>
+                                        {{#  } }}
+                                    </p>
+                                    <p class="layadmin-textimg">
+                                        <i class="layui-icon layui-icon-at"></i>
+                                        课节类型：试听课节
+                                    </p>
+                                    <p class="layadmin-textimg">
+                                        <i class="layui-icon layui-icon-at"></i>
+                                        出勤：<span class="singinsummary" id="actualAttendanceStudents"></span> 人
+                                    </p>
+                                    <p class="layadmin-textimg">
+                                        <i class="layui-icon layui-icon-at"></i>
+                                        缺勤：<span class="singinsummary" id="actualAbsenceStudents"></span> 人
+                                    </p>
+                                </div>
+                            </script>
+                            <div class="layui-col-xs12" style="text-align:right; border-top:1px solid #f6f6f6;margin-top:15px;padding-top:15px;">
+                                <button class="layui-btn layui-btn-danger layui-btn-xs" type="button" lay-submit lay-filter="complete-all-students-signin-form-submit">
+                                    <i class="layui-icon layui-icon-find-fill"></i>上课点名
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">试听学生</div>
+                <div class="layui-card-body">
+                    <table class="layui-table" id="listen-student-table" lay-filter="listen-student-table"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
