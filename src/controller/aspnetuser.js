@@ -105,7 +105,7 @@ layui.define(['table', 'form', 'setter', 'verification'], function (exports) {
             case 'search':
                 admin.popupRight({
                     title: '搜索'
-                    , area: ['30%', '100%']
+                    , area: admin.screen() < 2 ? ['100%', '100%'] : ['30%', '100%']
                     , resize: false
                     , closeBtn: 1
                     , success: function (layero, index) {
@@ -175,7 +175,7 @@ layui.define(['table', 'form', 'setter', 'verification'], function (exports) {
             case 'add':
                 admin.popupRight({
                     title: '添加'
-                    , area: ['30%', '100%']
+                    , area: admin.screen() < 2 ? ['100%', '100%'] : ['30%', '100%']
                     , resize: false
                     , closeBtn: 1
                     , success: function (layero, index) {
@@ -246,7 +246,7 @@ layui.define(['table', 'form', 'setter', 'verification'], function (exports) {
         if (obj.event === 'edit') {
             admin.popupRight({
                 title: '编辑'
-                , area: ['30%', '100%']
+                , area: admin.screen() < 2 ? ['100%', '100%'] : ['30%', '100%']
                 , resize: false
                 , closeBtn: 1
                 , success: function (layero, index) {
@@ -337,7 +337,7 @@ layui.define(['table', 'form', 'setter', 'verification'], function (exports) {
         } else if (obj.event === 'resetpassword') {
             admin.popupRight({
                 title: '重置密码'
-                , area: ['30%', '100%']
+                , area: admin.screen() < 2 ? ['100%', '100%'] : ['30%', '100%']
                 , resize: false
                 , closeBtn: 1
                 , success: function (layero, index) {

@@ -31,6 +31,7 @@
 
         // silent renew will get a new access_token via an iframe 
         // just prior to the old access_token expiring (60 seconds prior)
+        //启用静默刷新token
         silent_redirect_uri: "http://localhost:8888/start/silent.html",
         automaticSilentRenew: true,
 

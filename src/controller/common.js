@@ -12,7 +12,13 @@ layui.define(['jquery'], function (exports) {
 
     //退出
     admin.events.logout = function () {
-        admin.exit();
+        layer.confirm('退出当前登录，确定？', { icon: 3 }, function (index) {
+            layer.closeAll();
+            admin.exit();
+        });
+    };
+    admin.events.closetips = function () {
+        layer.closeAll('tips');
     };
 
     //AJAX请求

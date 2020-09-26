@@ -84,7 +84,7 @@ layui.define(['form', 'setter', 'treeGrid', 'xmSelect', 'verification', 'table',
         } else if (obj.event === "edit") {
             admin.popupRight({
                 title: '编辑'
-                , area: ['30%', '100%']
+                , area: admin.screen() < 2 ? ['100%', '100%'] : ['30%', '100%']
                 , resize: false
                 , closeBtn: 1
                 , success: function (layero, index) {
@@ -146,7 +146,7 @@ layui.define(['form', 'setter', 'treeGrid', 'xmSelect', 'verification', 'table',
         } else if (obj.event === "buttons") {
             admin.popupRight({
                 title: data.name + ' - 按钮配置'
-                , area: ['30%', '100%']
+                , area: admin.screen() < 2 ? ['100%', '100%'] : ['30%', '100%']
                 , resize: false
                 , closeBtn: 1
                 , success: function (layero, index) {
@@ -229,7 +229,7 @@ layui.define(['form', 'setter', 'treeGrid', 'xmSelect', 'verification', 'table',
         add: function () {
             admin.popupRight({
                 title: '添加'
-                , area: ['30%', '100%']
+                , area: admin.screen() < 2 ? ['100%', '100%'] : ['30%', '100%']
                 , resize: false
                 , closeBtn: 1
                 , success: function (layero, index) {

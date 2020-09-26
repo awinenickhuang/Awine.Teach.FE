@@ -55,7 +55,7 @@ layui.define(['table', 'form', 'setter', 'verification', 'layedit'], function (e
             case 'add':
                 admin.popup({
                     title: '添加'
-                    , area: ['50%', '70%']
+                    , area: admin.screen() < 2 ? ['100%', '100%'] : ['50%', '70%']
                     , resize: false
                     , success: function (layero, index) {
                         view(this.id).render('operation/announcements/add').done(function () {

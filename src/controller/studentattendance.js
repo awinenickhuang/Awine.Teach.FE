@@ -19,7 +19,26 @@ layui.define(['table', 'form', 'setter', 'verification', 'laydate'], function (e
             { field: 'courseName', title: '课程名称' },
             { field: 'className', title: '班级名称' },
             {
-                field: 'attendanceStatus', title: '出勤状态', align: 'center', width: 100,
+                field: 'scheduleIdentification', title: '课节类型', align: 'center', width: 100,
+                templet: function (d) {
+                    switch (d.scheduleIdentification) {
+                        case 1:
+                            return '<span style="color:#009688;">正常课节</span>';
+                            break;
+                        case 2:
+                            return '<span style="color:#FF5722;">试听课节</span>';
+                            break;
+                        case 3:
+                            return '<span style="color:#FF5722;">补课课节</span>';
+                            break;
+                        default:
+                            return '-';
+                            break;
+                    }
+                }
+            },
+            {
+                field: 'attendanceStatus', title: '考勤状态', align: 'center', width: 100,
                 templet: function (d) {
                     switch (d.attendanceStatus) {
                         case 1:
@@ -38,14 +57,36 @@ layui.define(['table', 'form', 'setter', 'verification', 'laydate'], function (e
                 }
             },
             {
-                field: 'recordStatus', title: '数据状态', align: 'center', width: 100,
+                field: 'recordStatus', title: '数据标识', align: 'center', width: 100,
                 templet: function (d) {
                     switch (d.recordStatus) {
                         case 1:
-                            return '<span style="color:#009688;">考勤正常</span>';
+                            return '<span style="color:#009688;">正常</span>';
                             break;
                         case 2:
-                            return '<span style="color:#FF5722;">考勤取消</span>';
+                            return '<span style="color:#FF5722;">取消</span>';
+                            break;
+                        default:
+                            return '-';
+                            break;
+                    }
+                }
+            },
+            {
+                field: 'processingStatus', title: '补课状态', align: 'center', width: 100,
+                templet: function (d) {
+                    switch (d.processingStatus) {
+                        case 1:
+                            return '<span style="color:#666666;">无需补课</span>';
+                            break;
+                        case 2:
+                            return '<span style="color:#FF9933;">需要补课</span>';
+                            break;
+                        case 3:
+                            return '<span style="color:#CC0066;">已安排补课</span>';
+                            break;
+                        case 4:
+                            return '<span style="color:#336699;">已完成补课</span>';
                             break;
                         default:
                             return '-';
@@ -83,7 +124,7 @@ layui.define(['table', 'form', 'setter', 'verification', 'laydate'], function (e
             case 'search':
                 admin.popupRight({
                     title: '搜索'
-                    , area: ['35%', '100%']
+                    , area: admin.screen() < 2 ? ['100%', '100%'] : ['35%', '100%']
                     , resize: false
                     , closeBtn: 1
                     , success: function (layero, index) {
@@ -141,6 +182,8 @@ layui.define(['table', 'form', 'setter', 'verification', 'laydate'], function (e
                                     courseId: field.CourseId,
                                     classId: field.ClassId,
                                     attendanceStatus: field.AttendanceStatus,
+                                    scheduleIdentification: field.ScheduleIdentification,
+                                    processingStatus: field.ProcessingStatus,
                                     beginDate: field.StartTime,
                                     endDate: field.EndTime
                                 };

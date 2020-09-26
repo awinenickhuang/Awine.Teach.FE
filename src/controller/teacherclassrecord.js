@@ -116,7 +116,7 @@ layui.define(['table', 'form', 'common', 'setter', 'verification', 'laydate'], f
             case 'search':
                 admin.popupRight({
                     title: '搜索'
-                    , area: ['35%', '100%']
+                    , area: admin.screen() < 2 ? ['100%', '100%'] : ['35%', '100%']
                     , resize: false
                     , closeBtn: 1
                     , success: function (layero, index) {

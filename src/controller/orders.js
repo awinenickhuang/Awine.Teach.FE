@@ -143,7 +143,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
             case 'search':
                 admin.popupRight({
                     title: '搜索'
-                    , area: ['35%', '100%']
+                    , area: admin.screen() < 2 ? ['100%', '100%'] : ['35%', '100%']
                     , resize: false
                     , closeBtn: 1
                     , success: function (layero, index) {
@@ -229,7 +229,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
             case 'add':
                 admin.popup({
                     title: '添加'
-                    , area: ['30%', '35%']
+                    , area: admin.screen() < 2 ? ['100%', '100%'] : ['30%', '350%']
                     , resize: false
                     , success: function (layero, index) {
                         view(this.id).render('financial/orders/add').done(function () {

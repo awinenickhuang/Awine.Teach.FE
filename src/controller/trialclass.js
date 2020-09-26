@@ -156,7 +156,7 @@ layui.define(['table', 'form', 'setter', 'verification'], function (exports) {
                 var data = selected[0];
                 admin.popup({
                     title: '签到'
-                    , area: ['30%', '25%']
+                    , area: admin.screen() < 2 ? ['100%', '100%'] : ['30%', '25%']
                     , resize: false
                     , closeBtn: 1
                     , success: function (layero, index) {
@@ -185,7 +185,7 @@ layui.define(['table', 'form', 'setter', 'verification'], function (exports) {
         if (obj.event === 'edit') {
             admin.popup({
                 title: '修改'
-                , area: ['50%', '35%']
+                , area: admin.screen() < 2 ? ['100%', '100%'] : ['50%', '35%']
                 , resize: false
                 , success: function (layero, index) {
                     view(this.id).render('marketing/trialclass/edit', data).done(function () {

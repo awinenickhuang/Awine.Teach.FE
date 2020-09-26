@@ -156,7 +156,7 @@ layui.extend({
                     if (!local[setter.request.tokenName]) {
                         //原本的写法，再接入OICD时不需要这样操作了，走AUTH的简化模式流程，这里给出提示即可
                         //return location.hash = '/user/login/redirect=' + encodeURIComponent(pathURL); //跳转到登入页
-                        layer.msg('未登录或登录超时，正在转跳到身份认证中心！', {
+                        layer.msg('未登录或登录超时，请先登录！', {
                             icon: 5
                             , time: 3000
                         }, function () {

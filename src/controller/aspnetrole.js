@@ -59,7 +59,7 @@ layui.define(['table', 'form', 'setter', 'verification', 'treeGrid'], function (
             case 'search':
                 admin.popupRight({
                     title: '搜索'
-                    , area: ['30%', '100%']
+                    , area: admin.screen() < 2 ? ['100%', '100%'] : ['30%', '100%']
                     , resize: false
                     , closeBtn: 1
                     , success: function (layero, index) {
@@ -96,7 +96,7 @@ layui.define(['table', 'form', 'setter', 'verification', 'treeGrid'], function (
             case 'add':
                 admin.popupRight({
                     title: '添加'
-                    , area: ['30%', '100%']
+                    , area: admin.screen() < 2 ? ['100%', '100%'] : ['30%', '100%']
                     , resize: false
                     , closeBtn: 1
                     , success: function (layero, index) {
@@ -259,7 +259,7 @@ layui.define(['table', 'form', 'setter', 'verification', 'treeGrid'], function (
         } else if (obj.event === 'edit') {
             admin.popupRight({
                 title: '修改'
-                , area: ['30%', '100%']
+                , area: admin.screen() < 2 ? ['100%', '100%'] : ['30%', '100%']
                 , resize: false
                 , closeBtn: 1
                 , success: function (layero, index) {
@@ -298,7 +298,7 @@ layui.define(['table', 'form', 'setter', 'verification', 'treeGrid'], function (
             admin.popupRight({
                 id: 'LAY_operationPermissions'
                 , title: '操作权限设置'
-                , area: ['60%', '100%']
+                , area: admin.screen() < 2 ? ['100%', '100%'] : ['60%', '100%']
                 , resize: true
                 , closeBtn: 1
                 , success: function (layero, index) {

@@ -107,7 +107,7 @@ layui.define(['table', 'form', 'setter', 'verification', 'laydate'], function (e
             case 'add':
                 admin.popupRight({
                     title: '添加'
-                    , area: ['30%', '100%']
+                    , area: admin.screen() < 2 ? ['100%', '100%'] : ['30%', '100%']
                     , resize: false
                     , closeBtn: 1
                     , success: function (layero, index) {
@@ -222,7 +222,7 @@ layui.define(['table', 'form', 'setter', 'verification', 'laydate'], function (e
         if (obj.event === 'edit') {
             admin.popupRight({
                 title: '编辑'
-                , area: ['30%', '100%']
+                , area: admin.screen() < 2 ? ['100%', '100%'] : ['30%', '100%']
                 , resize: false
                 , closeBtn: 1
                 , success: function (layero, index) {
@@ -359,7 +359,7 @@ layui.define(['table', 'form', 'setter', 'verification', 'laydate'], function (e
         } else if (obj.event === 'updateclassfication') {
             admin.popupRight({
                 title: '类型管理'
-                , area: ['30%', '100%']
+                , area: admin.screen() < 2 ? ['100%', '100%'] : ['30%', '100%']
                 , resize: false
                 , closeBtn: 1
                 , success: function (layero, index) {
@@ -384,7 +384,7 @@ layui.define(['table', 'form', 'setter', 'verification', 'laydate'], function (e
         } else if (obj.event === 'updatestatus') {
             admin.popupRight({
                 title: '状态管理'
-                , area: ['30%', '100%']
+                , area: admin.screen() < 2 ? ['100%', '100%'] : ['30%', '100%']
                 , resize: false
                 , closeBtn: 1
                 , success: function (layero, index) {
@@ -409,7 +409,7 @@ layui.define(['table', 'form', 'setter', 'verification', 'laydate'], function (e
         } else if (obj.event === 'branches') {
             admin.popupRight({
                 title: '分支机构个数设置'
-                , area: ['30%', '100%']
+                , area: admin.screen() < 2 ? ['100%', '100%'] : ['30%', '100%']
                 , resize: false
                 , closeBtn: 1
                 , success: function (layero, index) {

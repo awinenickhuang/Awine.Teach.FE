@@ -86,16 +86,25 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                         }
                     }
                     , {
-                        field: 'learningProcess', title: '学习进度', align: 'center', rowspan: 2, templet: function (d) {
+                        field: 'learningProcess', title: '学习进度', align: 'center', rowspan: 2, width: 150, templet: function (d) {
                             switch (d.learningProcess) {
                                 case 1:
-                                    return '<span style="color:#009688;">学习中</span>';
+                                    return '<span style="color:#FF6600;">已报名（未分班）</span>';
                                     break;
                                 case 2:
-                                    return '<span style="color:#FF5722;">已毕业</span>';
+                                    return '<span style="color:#009933;">已报名（已分班）</span>';
+                                    break;
+                                case 3:
+                                    return '<span style="color:#CC3399;">停课</span>';
+                                    break;
+                                case 4:
+                                    return '<span style="color:#CC6600;">退费</span>';
+                                    break;
+                                case 5:
+                                    return '<span style="color:#666699;">毕业</span>';
                                     break;
                                 default:
-                                    return '<span style="color:#FFB800;">/</span>';
+                                    return '<span style="color:#FF6666;">/</span>';
                                     break;
                             }
                         }
@@ -363,7 +372,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                 }
                 admin.popupRight({
                     title: '续费'
-                    , area: ['30%', '100%']
+                    , area: admin.screen() < 2 ? ['100%', '100%'] : ['30%', '100%']
                     , resize: false
                     , closeBtn: 1
                     , success: function (layero, index) {
@@ -620,7 +629,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
     $(document).on('click', '#btn-student-register', function () {
         admin.popupRight({
             title: '扩科'
-            , area: ['30%', '100%']
+            , area: admin.screen() < 2 ? ['100%', '100%'] : ['30%', '100%']
             , resize: false
             , closeBtn: 1
             , success: function (layero, index) {

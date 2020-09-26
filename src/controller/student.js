@@ -24,12 +24,16 @@ layui.define(['table', 'form', 'setter', 'verification', 'laytpl', 'laypage'], f
     });
 
     form.on('select(course-search-filter)', function (data) {
+        if (!data.value) {
+            $("#sel-class-search").empty();
+            form.render("select");
+            return;
+        }
         //搜索 -> 初始班级数据
         $("#sel-class-search").empty();
         admin.req({
             url: setter.apiAddress.classes.list
             , data: { courseId: data.value }
-            , type: 'POST'
             , done: function (res) {
                 $("#sel-class-search").append("<option value=\"\">请选择班级</option>");
                 $.each(res.data, function (index, item) {

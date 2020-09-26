@@ -57,7 +57,7 @@ layui.define(['table', 'form', 'setter', 'verification'], function (exports) {
             case 'add':
                 admin.popup({
                     title: '添加'
-                    , area: ['30%', '35%']
+                    , area: admin.screen() < 2 ? ['100%', '100%'] : ['30%', '35%']
                     , resize: false
                     , success: function (layero, index) {
                         view(this.id).render('teaching/classroom/add').done(function () {
@@ -97,7 +97,7 @@ layui.define(['table', 'form', 'setter', 'verification'], function (exports) {
         } else if (obj.event === 'edit') {
             admin.popup({
                 title: '修改'
-                , area: ['30%', '35%']
+                , area: admin.screen() < 2 ? ['100%', '100%'] : ['30%', '35%']
                 , resize: false
                 , success: function (layero, index) {
                     view(this.id).render('teaching/classroom/edit', data).done(function () {

@@ -66,7 +66,7 @@ layui.define(['table', 'form', 'common', 'setter', 'verification', 'laydate'], f
             case 'search':
                 admin.popupRight({
                     title: '日常支出搜索'
-                    , area: ['30%', '100%']
+                    , area: admin.screen() < 2 ? ['100%', '100%'] : ['30%', '100%']
                     , resize: false
                     , closeBtn: 1
                     , success: function (layero, index) {
@@ -120,7 +120,7 @@ layui.define(['table', 'form', 'common', 'setter', 'verification', 'laydate'], f
             case 'add':
                 admin.popupRight({
                     title: '添加'
-                    , area: ['35%', '100%']
+                    , area: admin.screen() < 2 ? ['100%', '100%'] : ['30%', '100%']
                     , resize: false
                     , closeBtn: 1
                     , success: function (layero, index) {

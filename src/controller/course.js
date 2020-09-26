@@ -99,7 +99,7 @@ layui.define(['table', 'form', 'layedit', 'setter', 'verification'], function (e
             case 'add':
                 admin.popupRight({
                     title: '添加'
-                    , area: ['30%', '100%']
+                    , area: admin.screen() < 2 ? ['100%', '100%'] : ['30%', '100%']
                     , resize: false
                     , closeBtn: 1
                     , success: function (layero, index) {
@@ -181,7 +181,7 @@ layui.define(['table', 'form', 'layedit', 'setter', 'verification'], function (e
         } else if (obj.event === 'edit') {
             admin.popupRight({
                 title: '修改'
-                , area: ['30%', '100%']
+                , area: admin.screen() < 2 ? ['100%', '100%'] : ['30%', '100%']
                 , resize: false
                 , closeBtn: 1
                 , success: function (layero, index) {
@@ -250,7 +250,7 @@ layui.define(['table', 'form', 'layedit', 'setter', 'verification'], function (e
         } else if (obj.event === 'chargemanner') {
             admin.popupRight({
                 title: '定价标准'
-                , area: ['35%', '100%']
+                , area: admin.screen() < 2 ? ['100%', '100%'] : ['35%', '100%']
                 , resize: false
                 , closeBtn: 1
                 , success: function (layero, index) {

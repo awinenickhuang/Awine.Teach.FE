@@ -49,8 +49,7 @@ layui.define(['laytpl', 'layer', 'oidcsetup'], function (exports) {
         //跳转到登入页 -> 这里不用再显示转跳到登录页，等待AUTH简化流程执行
         //location.hash = '/user/login';
         layer.msg('您已成功退出，正在转跳到身份认证中心！', {
-            offset: '15px'
-            , icon: 1
+            icon: 1
             , time: 3000
         }, function () {
             oidcsetup.signoutRedirect().catch(function (error) {
@@ -80,10 +79,12 @@ layui.define(['laytpl', 'layer', 'oidcsetup'], function (exports) {
                 ? JSON.parse(options.data)
                 : options.data;
 
-            //自动给 参数 传入默认 token
+            /*自动给 参数 传入默认 token
+             * 
             options.data[request.Authorization] = request.jwtBearerDefaults + request.tokenName in sendData
                 ? options.data[request.tokenName]
                 : (request.jwtBearerDefaults + layui.data(setter.tableName)[request.tokenName] || '');
+            */
 
             //自动给 Request Headers 传入默认 token
             options.headers[request.Authorization] = request.jwtBearerDefaults + request.tokenName in options.headers
@@ -150,18 +151,16 @@ layui.define(['laytpl', 'layer', 'oidcsetup'], function (exports) {
                         layer.closeAll();
                         view.exit();
                     });
-                    return;
-                }
-
-                if (e.status == setter.response.statusCode.badRequest) {
+                } else if (e.status == setter.response.statusCode.badRequest) {
                     layer.msg(e.responseJSON.message, {
                         icon: 5
                         , time: 3000
-                    }, function () {
-                        layer.closeAll();
-                        view.exit();
                     });
-                    return;
+                } else {
+                    layer.msg('<cite>请求异常，请重试！</cite>' + code, {
+                        icon: 5
+                        , time: 3000
+                    });
                 }
 
                 //var errorText = [
@@ -169,11 +168,6 @@ layui.define(['laytpl', 'layer', 'oidcsetup'], function (exports) {
                 //    , debug()
                 //].join('');
                 //view.error(errorText);
-
-                layer.msg('<cite>请求异常，请重试！</cite>' + code, {
-                    icon: 5
-                    , time: 3000
-                });
 
                 typeof error === 'function' && error(res);
             }

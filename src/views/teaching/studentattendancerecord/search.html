@@ -22,7 +22,7 @@
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">出勤时间</label>
+        <label class="layui-form-label">考勤时间</label>
         <div class="layui-input-block">
             <input type="text" id="input-laydate-select" placeholder="请选出勤时间" autocomplete="off" class="layui-input" readonly maxlength="32">
             <input type="hidden" id="statr-time" name="StartTime" />
@@ -30,15 +30,41 @@
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">班级类型</label>
+        <label class="layui-form-label">考勤状态</label>
         <div class="layui-input-block">
             <select id="sel-attendancestatus-search" name="AttendanceStatus" lay-verify="required|select">
-                <option value="0">请选择出勤状态</option>
+                <option value="0">请选择考勤状态</option>
                 <option value=1>出勤</option>
                 <option value=2>缺勤</option>
                 <option value=3>请假</option>
             </select>
         </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">课节类型</label>
+        <div class="layui-input-block">
+            <select id="sel-scheduleIdentification-search" name="ScheduleIdentification" lay-verify="required|select">
+                <option value="0">请选择出勤状态</option>
+                <option value=1>正常课节</option>
+                <option value=2>试听课节</option>
+                <option value=3>补课课节</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">补课状态</label>
+        <div class="layui-input-block">
+            <select id="sel-processingStatus-search" name="ProcessingStatus" lay-verify="required|select">
+                <option value="0">请选择出勤状态</option>
+                <option value=1>无需补课</option>
+                <option value=2>需要补课</option>
+                <option value=3>已安排补课</option>
+                <option value=4>已完成补课</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        不选取任何条件即查询所有数据
     </div>
     <div class="layui-form-item content-center">
         <button class="layui-btn layui-btn-sm" type="button" lay-submit lay-filter="studentattendance-search-submit"><i class="layui-icon layui-icon-ok"></i>立即搜索</button>

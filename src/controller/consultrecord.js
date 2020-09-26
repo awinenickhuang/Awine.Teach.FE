@@ -100,7 +100,7 @@ layui.define(['table', 'form', 'setter', 'element', 'verification', 'rate', 'lay
             case 'search':
                 admin.popupRight({
                     title: '搜索'
-                    , area: ['35%', '100%']
+                    , area: admin.screen() < 2 ? ['100%', '100%'] : ['35%', '100%']
                     , resize: false
                     , closeBtn: 1
                     , success: function (layero, index) {
@@ -199,7 +199,7 @@ layui.define(['table', 'form', 'setter', 'element', 'verification', 'rate', 'lay
             case 'add':
                 admin.popupRight({
                     title: '添加'
-                    , area: ['30%', '100%']
+                    , area: admin.screen() < 2 ? ['100%', '100%'] : ['35%', '100%']
                     , resize: false
                     , closeBtn: 1
                     , success: function (layero, index) {
@@ -262,7 +262,7 @@ layui.define(['table', 'form', 'setter', 'element', 'verification', 'rate', 'lay
                 var data = selected[0];
                 admin.popupRight({
                     title: '修改'
-                    , area: ['30%', '100%']
+                    , area: admin.screen() < 2 ? ['100%', '100%'] : ['30%', '100%']
                     , resize: false
                     , closeBtn: 1
                     , success: function (layero, index) {
@@ -338,7 +338,7 @@ layui.define(['table', 'form', 'setter', 'element', 'verification', 'rate', 'lay
                 }
                 admin.popupRight({
                     title: '跟进记录'
-                    , area: ['60%', '100%']
+                    , area: admin.screen() < 2 ? ['100%', '100%'] : ['60%', '100%']
                     , resize: false
                     , closeBtn: 1
                     , success: function (layero, index) {
@@ -427,7 +427,7 @@ layui.define(['table', 'form', 'setter', 'element', 'verification', 'rate', 'lay
                 var data = selected[0];
                 admin.popupRight({
                     title: '跟进指派'
-                    , area: ['30%', '100%']
+                    , area: admin.screen() < 2 ? ['100%', '100%'] : ['30%', '100%']
                     , resize: false
                     , closeBtn: 1
                     , success: function (layero, index) {
@@ -522,7 +522,7 @@ layui.define(['table', 'form', 'setter', 'element', 'verification', 'rate', 'lay
                 }
                 admin.popupRight({
                     title: '报名办理'
-                    , area: ['40%', '100%']
+                    , area: admin.screen() < 2 ? ['100%', '100%'] : ['40%', '100%']
                     , resize: false
                     , closeBtn: 1
                     , success: function (layero, index) {

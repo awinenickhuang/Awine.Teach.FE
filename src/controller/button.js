@@ -66,7 +66,7 @@ layui.define(['table', 'form', 'setter', 'verification'], function (exports) {
         } else if (obj.event === 'edit') {
             admin.popup({
                 title: '修改'
-                , area: ['50%', '45%']
+                , area: admin.screen() < 2 ? ['100%', '100%'] : ['50%', '45%']
                 , resize: false
                 , success: function (layero, index) {
                     view(this.id).render('foundational/department/edit', data).done(function () {
@@ -109,7 +109,7 @@ layui.define(['table', 'form', 'setter', 'verification'], function (exports) {
         add: function () {
             admin.popup({
                 title: '添加'
-                , area: ['50%', '45%']
+                , area: admin.screen() < 2 ? ['100%', '100%'] : ['50%', '45%']
                 , resize: false
                 , success: function (layero, index) {
                     view(this.id).render('foundational/department/add').done(function () {

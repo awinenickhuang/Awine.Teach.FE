@@ -21,28 +21,26 @@ layui.define(function (exports) {
             url: setter.apiAddress.classes.list
             , data: { recruitStatus: 1 }
             , done: function (res) {
-                if (res.statusCode == 200) {
-                    var firstGroup = [];
-                    var secondGroup = [];
-                    $.each(res.data, function (index, item) {
-                        if (index < 2) {
-                            firstGroup.push('<div class="layui-progress" lay-showPercent="yes">');
-                            firstGroup.push('<h3>' + item.name + '</h3>');
-                            firstGroup.push('<div class="layui-progress-bar" lay-percent="' + common.Percentage(item.ownedStudents, item.classSize) + '%"></div>');
-                            firstGroup.push('</div>');
-                        }
-                        if (index > 1 & index < 4) {
-                            secondGroup.push('<div class="layui-progress" lay-showPercent="yes">');
-                            secondGroup.push('<h3>' + item.name + '</h3>');
-                            secondGroup.push('<div class="layui-progress-bar layui-bg-red" lay-percent="' + common.Percentage(item.ownedStudents, item.classSize) + '%"></div>');
-                            secondGroup.push('</div>');
-                        }
-                    });
+                var firstGroup = [];
+                var secondGroup = [];
+                $.each(res.data, function (index, item) {
+                    if (index < 2) {
+                        firstGroup.push('<div class="layui-progress" lay-showPercent="yes">');
+                        firstGroup.push('<h3>' + item.name + '</h3>');
+                        firstGroup.push('<div class="layui-progress-bar" lay-percent="' + common.Percentage(item.ownedStudents, item.classSize) + '%"></div>');
+                        firstGroup.push('</div>');
+                    }
+                    if (index > 1 & index < 4) {
+                        secondGroup.push('<div class="layui-progress" lay-showPercent="yes">');
+                        secondGroup.push('<h3>' + item.name + '</h3>');
+                        secondGroup.push('<div class="layui-progress-bar layui-bg-red" lay-percent="' + common.Percentage(item.ownedStudents, item.classSize) + '%"></div>');
+                        secondGroup.push('</div>');
+                    }
+                });
 
-                    $("#class-group-first").html(firstGroup.join(''));
-                    $("#class-group-second").html(secondGroup.join(''));
-                    element.render('progress');
-                }
+                $("#class-group-first").html(firstGroup.join(''));
+                $("#class-group-second").html(secondGroup.join(''));
+                element.render('progress');
             }
         });
     });

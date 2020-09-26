@@ -136,7 +136,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
             case 'search':
                 admin.popupRight({
                     title: '搜索'
-                    , area: ['35%', '100%']
+                    , area: admin.screen() < 2 ? ['100%', '100%'] : ['35%', '100%']
                     , resize: false
                     , closeBtn: 1
                     , success: function (layero, index) {
@@ -193,7 +193,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
             case 'add':
                 admin.popupRight({
                     title: '添加'
-                    , area: ['30%', '100%']
+                    , area: admin.screen() < 2 ? ['100%', '100%'] : ['30%', '100%']
                     , resize: false
                     , closeBtn: 1
                     , success: function (layero, index) {
@@ -208,9 +208,9 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                                         url: setter.apiAddress.course.list
                                         , data: {}
                                         , done: function (res) {
-                                            $("#sel-course-list").append("<option value=\"\">请选择</option>");
+                                            $("#sel-course-list").append("<option value=\"\">请选择课程</option>");
                                             $.each(res.data, function (index, item) {
-                                                $("#sel-course-list").append("<option value=\"" + item.id + "\" data-teacher=\"" + item.teacherId + "\">" + item.name + "</option>");
+                                                $("#sel-course-list").append("<option value=\"" + item.id + "\" data-teacher=\"" + item.teacherId + "\" data-teachername=\"" + item.teacherName + "\">" + item.name + "</option>");
                                             });
                                             form.render("select");
                                         }
@@ -220,6 +220,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                             //监听课程选择事件
                             form.on('select(sel-course-list-filter)', function (data) {
                                 let teacherId = data.elem[data.elem.selectedIndex].dataset.teacher;
+                                $("#hiddenTeacherName").val(data.elem[data.elem.selectedIndex].dataset.teachername);
                                 if (data.value === "") {
                                     $("#sel-teacher-list").empty();
                                     form.render("select");
@@ -292,7 +293,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                 data.startDate = common.formatDate(data.startDate, "yyyy-MM-dd");
                 admin.popupRight({
                     title: '修改'
-                    , area: ['30%', '100%']
+                    , area: admin.screen() < 2 ? ['100%', '100%'] : ['30%', '100%']
                     , resize: false
                     , closeBtn: 1
                     , success: function (layero, index) {
@@ -413,7 +414,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                 data.startDate = common.formatDate(data.startDate, "yyyy-MM-dd");
                 admin.popupRight({
                     title: '排课'
-                    , area: ['55%', '100%']
+                    , area: admin.screen() < 2 ? ['100%', '100%'] : ['55%', '100%']
                     , resize: false
                     , closeBtn: 1
                     , success: function (layero, index) {
@@ -736,7 +737,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                 var classesId = data.id;
                 admin.popupRight({
                     title: data.name + ' - 学生信息'
-                    , area: ['50%', '100%']
+                    , area: admin.screen() < 2 ? ['100%', '100%'] : ['50%', '100%']
                     , resize: false
                     , closeBtn: 1
                     , success: function (layero, index) {
@@ -881,8 +882,9 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                                                         , data: submitData
                                                         , type: 'POST'
                                                         , done: function (res) {
-                                                            table.reload('students-tobe-assigned-table');
+                                                            element.tabChange('class-table-filter', '0');
                                                             table.reload('class-students-table');
+                                                            table.reload('classes-table');
                                                         }
                                                     });
                                                     break;
@@ -923,8 +925,9 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                                                 , data: submitData
                                                 , type: 'POST'
                                                 , done: function (res) {
+                                                    layer.close(index);
                                                     table.reload('class-students-table');
-                                                    table.reload('students-tobe-assigned-table');
+                                                    table.reload('classes-table');
                                                 }
                                             });
                                         });

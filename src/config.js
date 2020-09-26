@@ -266,6 +266,8 @@ layui.define(['laytpl', 'layer', 'element', 'util'], function (exports) {
                 pagelist: 'http://localhost:8002/api/studentattendance/pagelist',
                 add: 'http://localhost:8002/api/studentattendance/add',
                 attendance: 'http://localhost:8002/api/studentattendance/attendance',
+                trialclassattendance: 'http://localhost:8002/api/studentattendance/trialclassattendance',
+                makeupmissedlessonattendance: 'http://localhost:8002/api/studentattendance/makeupmissedlessonattendance',
                 cancel: 'http://localhost:8002/api/studentattendance/cancel',
             },
             course: {
@@ -313,6 +315,16 @@ layui.define(['laytpl', 'layer', 'element', 'util'], function (exports) {
                 add: 'http://localhost:8002/api/paymentmethod/add',
                 update: 'http://localhost:8002/api/paymentmethod/update',
                 delete: 'http://localhost:8002/api/paymentmethod/delete',
+            },
+            makeupmissedlesson: {
+                pagelist: 'http://localhost:8002/api/makeupmissedlesson/pagelist',
+                list: 'http://localhost:8002/api/makeupmissedlesson/list',
+                add: 'http://localhost:8002/api/makeupmissedlesson/add',
+                update: 'http://localhost:8002/api/makeupmissedlesson/update',
+                delete: 'http://localhost:8002/api/makeupmissedlesson/delete',
+                mkspagelist: 'http://localhost:8002/api/makeupmissedlesson/mkspagelist',
+                addstudenttoclass: 'http://localhost:8002/api/makeupmissedlesson/addstudenttoclass',
+                removestudentfromclass: 'http://localhost:8002/api/makeupmissedlesson/removestudentfromclass'
             },
             financialitems: {
                 pagelist: 'http://localhost:8003/api/financialitem/pagelist',

@@ -3,6 +3,28 @@
     <link rel="stylesheet" href="{{ layui.setter.base }}style/template.css?v={{ layui.admin.v }}-1" media="all">
 </script>
 
+<style>
+    .layadmin-caller {
+        padding: 15px !important;
+    }
+
+    .layui-tab {
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    .layadmin-caller .caller-contar {
+        padding-bottom: 0 !important;
+    }
+
+    .layui-tab-content {
+        padding: 0 !important;
+    }
+
+    .layadmin-caller .caller-contar .caller-item {
+        padding: 0 !important;
+    }
+</style>
 <div class="layui-card layadmin-header">
     <div class="layui-breadcrumb" lay-filter="breadcrumb">
         <a lay-href="">主页</a>
@@ -32,8 +54,8 @@
                         <div class="layui-btn-container">
                             <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="renewal"><i class="layui-icon layui-icon-rmb"></i>续费</a>
                             <!--<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="shutoutofschool"><i class="layui-icon layui-icon-time"></i>停课</a>-->
-                            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="refund"><i class="layui-icon layui-icon-dialogue"></i>退费</a>
-                            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="graduation"><i class="layui-icon layui-icon-heart"></i>毕业</a>
+                            <!--<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="refund"><i class="layui-icon layui-icon-dialogue"></i>退费</a>-->
+                            <!--<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="graduation"><i class="layui-icon layui-icon-heart"></i>毕业</a>-->
                         </div>
                     </script>
                     <table class="layui-table" id="studentcourseorderitem-table" lay-filter="studentcourseorderitem-table"></table>
@@ -48,7 +70,7 @@
                 </div>
                 <div class="layui-tab-item">
                     <!--优惠券-->
-                    <p style="width:100%; text-align:center;">优惠券功能开发中</p>
+                    <p style="width: 100%; text-align: center; ">优惠券功能开发中</p>
                 </div>
                 <div class="layui-tab-item">
                     <!--订单信息-->
@@ -80,12 +102,10 @@
                 <i class="layui-icon layui-icon-snowflake"></i>{{d.phoneNumber}}
                 <i class="layui-icon layui-icon-auz"></i>{{d.idNumber||'暂无证件号码'}}
                 <i class="layui-icon layui-icon-time"></i>{{d.createTime}}
+                <i class="layui-icon layui-icon-about"></i>{{d.noteInformation||'...'}}
             </div>
             <p class="caller-adds" style="margin-top:5px;">
                 <i class="layui-icon layui-icon-location"></i>{{ d.address || '暂未录入联系地址' }}
-            </p>
-            <p class="caller-adds">
-                <i class="layui-icon layui-icon-about"></i>{{d.noteInformation||'...'}}
             </p>
         </div>
         <!--
