@@ -14,66 +14,81 @@
                 <div class="layui-card-header">我的资料</div>
                 <div class="layui-card-body" pad15>
                     <div class="layui-form" lay-filter="">
-                        <div class="layui-form-item">
-                            <label class="layui-form-label">姓名</label>
-                            <div class="layui-input-block">
-                                <input type="text" id="username" value="" readonly class="layui-input">
+                        <fieldset class="layui-elem-field">
+                            <legend>机构信息</legend>
+                            <div class="layui-field-box">
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">机构</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" id="tenantname" value="" readonly class="layui-input">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">VIP有效期</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" id="vipExpirationTime" value="" readonly class="layui-input">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">机构类型</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" id="classiFication" value="" readonly class="layui-input">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">行业</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" id="industryName" value="" readonly class="layui-input">
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="layui-form-item">
-                            <label class="layui-form-label">账号</label>
-                            <div class="layui-input-block">
-                                <input type="text" id="account" value="" readonly class="layui-input">
+                        </fieldset>
+                        <fieldset class="layui-elem-field">
+                            <legend>个人信息</legend>
+                            <div class="layui-field-box">
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">姓名</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" id="username" value="" readonly class="layui-input">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">账号</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" id="account" value="" readonly class="layui-input">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">性别</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" id="gender" value="" readonly class="layui-input">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">手机</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" id="phonenumber" value="" readonly class="layui-input">
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="layui-form-item">
-                            <label class="layui-form-label">性别</label>
-                            <div class="layui-input-block">
-                                <input type="text" id="gender" value="" readonly class="layui-input">
+                        </fieldset>
+                        <fieldset class="layui-elem-field">
+                            <legend>角色信息</legend>
+                            <div class="layui-field-box">
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">部门</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" id="departmentname" value="" readonly class="layui-input">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">角色</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" id="rolename" value="" readonly class="layui-input">
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="layui-form-item">
-                            <label class="layui-form-label">手机</label>
-                            <div class="layui-input-block">
-                                <input type="text" id="phonenumber" value="" readonly class="layui-input">
-                            </div>
-                        </div>
-                        <div class="layui-form-item">
-                            <label class="layui-form-label">机构</label>
-                            <div class="layui-input-block">
-                                <input type="text" id="tenantname" value="" readonly class="layui-input">
-                            </div>
-                        </div>
-                        <div class="layui-form-item">
-                            <label class="layui-form-label">VIP有效期</label>
-                            <div class="layui-input-block">
-                                <input type="text" id="vipExpirationTime" value="" readonly class="layui-input">
-                            </div>
-                        </div>
-                        <div class="layui-form-item">
-                            <label class="layui-form-label">机构类型</label>
-                            <div class="layui-input-block">
-                                <input type="text" id="classiFication" value="" readonly class="layui-input">
-                            </div>
-                        </div>
-                        <div class="layui-form-item">
-                            <label class="layui-form-label">行业</label>
-                            <div class="layui-input-block">
-                                <input type="text" id="industryName" value="" readonly class="layui-input">
-                            </div>
-                        </div>
-                        <div class="layui-form-item">
-                            <label class="layui-form-label">部门</label>
-                            <div class="layui-input-block">
-                                <input type="text" id="departmentname" value="" readonly class="layui-input">
-                            </div>
-                        </div>
-                        <div class="layui-form-item">
-                            <label class="layui-form-label">角色</label>
-                            <div class="layui-input-block">
-                                <input type="text" id="rolename" value="" readonly class="layui-input">
-                            </div>
-                        </div>
+                        </fieldset>
                     </div>
                 </div>
             </div>

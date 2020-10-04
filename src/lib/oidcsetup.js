@@ -7,7 +7,7 @@
 
     //使用oidc-client库中的UserManager类来管理OpenID连接协议,添加此代码以配置和实例化UserManager.
     var config = {
-        authority: "http://localhost:5000/",
+        authority: "https://localhost:5000/",
         client_id: "9eda1e5372cf4b19a889140d3b960d88",
         redirect_uri: "http://localhost:8888/start/callback.html",
         post_logout_redirect_uri: "http://localhost:8888/start/index.html",

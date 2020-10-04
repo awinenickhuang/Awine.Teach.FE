@@ -13,7 +13,7 @@ layui.define(['laytpl', 'layer', 'element', 'util'], function (exports) {
         , engine: '.html'                               //视图文件后缀名
         , pageTabs: false                               //是否开启页面选项卡功能。单页版不推荐开启
         , name: '微恩云校 Awine campus'
-        , tableName: 'layuiAdmin'                       //本地存储表名
+        , tableName: 'AwineCloudCampus'                 //本地存储表名
         , MOD_NAME: 'admin'                             //模块事件名
         , debug: true                                   //是否开启调试模式。如开启，接口异常时会抛出异常 URL 等信息
         , interceptor: true                             //是否开启未登入拦截

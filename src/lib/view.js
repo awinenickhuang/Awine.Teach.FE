@@ -53,6 +53,7 @@ layui.define(['laytpl', 'layer', 'oidcsetup'], function (exports) {
             , time: 3000
         }, function () {
             oidcsetup.signoutRedirect().catch(function (error) {
+                alert(error);
                 console.error('退出时发生错误', error);
             });
         });
