@@ -1,0 +1,50 @@
+﻿<div class="layui-fluid">
+    <div class="layui-card layuiAdmin-msg-detail">
+        <div class="layui-card-header">
+            <h1>
+                <script type="text/html" template>
+                    {{ d.params.topics }}
+                </script>
+            </h1>
+            <p>
+                <span>
+                    <script type="text/html" template>
+                        {{ d.params.creatorName }} &nbsp;&nbsp; {{ layui.util.timeAgo(d.params.createTime) }} &nbsp;&nbsp; {{ d.params.viewCount }}次浏览
+                    </script>
+                </span>
+            </p>
+        </div>
+        <div class="layui-card-body layui-text">
+            <div class="layadmin-text">
+                <script type="text/html" template>
+                    {{ d.params.contents }}
+                </script>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['admin', 'setter', 'laytpl'], function () {
+        var $ = layui.$
+            , admin = layui.admin
+            , setter = layui.setter
+            , laytpl = layui.laytpl;
+
+        //admin.req({
+        //    url: setter.apiAddress.studentgrowthrecord.single
+        //    , data: { id: layui.router().search.id }
+        //    , done: function (res) {
+        //        if (res.data) {
+        //            var gettpl = newstemplate.innerHTML
+        //                , view = document.getElementById('growthrecord-view');
+        //            laytpl(gettpl).render(res.data, function (html) {
+        //                view.innerHTML = html;
+        //            });
+        //        } else {
+        //            layer.msg("未找到成长档案");
+        //        }
+        //    }
+        //});
+
+    });
+</script>

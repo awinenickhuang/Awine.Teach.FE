@@ -1,27 +1,27 @@
-﻿<title>课后点评</title>
+﻿<title>成长档案</title>
 <script type="text/html" template>
     <link rel="stylesheet" href="{{ layui.setter.base }}style/template.css?v={{ layui.admin.v }}-1" media="all">
 </script>
 <div class="layui-card layadmin-header">
     <div class="layui-breadcrumb" lay-filter="breadcrumb">
         <a lay-href="">主页</a>
-        <a><cite>课后点评</cite></a>
+        <a><cite>成长档案</cite></a>
     </div>
 </div>
 <div class="layui-fluid">
     <div class="layui-card">
         <div class="layui-card-body">
-            <script type="text/html" id="estimate-toolbar">
+            <script type="text/html" id="growthrecord-toolbar">
                 <div class="layui-btn-container">
                     <a class="layui-btn layui-btn-sm" lay-event="add"><i class="layui-icon layui-icon-addition"></i>添加</a>
                 </div>
             </script>
-            <table class="layui-table" id="estimate-table" lay-filter="estimate-table"></table>
+            <table class="layui-table" id="growthrecord-table" lay-filter="growthrecord-table"></table>
         </div>
     </div>
 </div>
 <script>
-    layui.use('estimate', layui.factory('estimate')).use(['estimate'], function () {
+    layui.use('studentgrowthrecord', layui.factory('studentgrowthrecord')).use(['studentgrowthrecord'], function () {
 
     });
 </script>

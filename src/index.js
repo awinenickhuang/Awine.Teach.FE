@@ -6,7 +6,8 @@ layui.extend({
     , admin: 'lib/admin' //核心模块
     , view: 'lib/view'   //核心模块
     , oidcsetup: 'lib/oidcsetup'
-}).define(['setter', 'admin', 'oidcsetup'], function (exports) {
+    , tinymce: 'lib/tinymce'
+}).define(['setter', 'admin', 'oidcsetup', 'tinymce'], function (exports) {
     var setter = layui.setter
         , element = layui.element
         , admin = layui.admin

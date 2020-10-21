@@ -270,6 +270,13 @@ layui.define(['laytpl', 'layer', 'element', 'util'], function (exports) {
                 makeupmissedlessonattendance: 'http://localhost:8002/api/studentattendance/makeupmissedlessonattendance',
                 cancel: 'http://localhost:8002/api/studentattendance/cancel',
             },
+            studentgrowthrecord: {
+                pagelist: 'http://localhost:8002/api/studentgrowthrecord/pagelist',
+                add: 'http://localhost:8002/api/studentgrowthrecord/add',
+                update: 'http://localhost:8002/api/studentgrowthrecord/update',
+                delete: 'http://localhost:8002/api/studentgrowthrecord/delete',
+                single: 'http://localhost:8002/api/studentgrowthrecord/single'
+            },
             course: {
                 pagelist: 'http://localhost:8002/api/course/pagelist',
                 list: 'http://localhost:8002/api/course/list',

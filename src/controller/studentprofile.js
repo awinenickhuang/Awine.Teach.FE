@@ -1,7 +1,7 @@
 ﻿/**
  @Name：学生信息
  */
-layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'laytpl'], function (exports) {
+layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'laytpl', 'tinymce'], function (exports) {
     var $ = layui.$
         , admin = layui.admin
         , view = layui.view
@@ -10,7 +10,12 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
         , setter = layui.setter
         , form = layui.form
         , laytpl = layui.laytpl
-        , element = layui.element;
+        , element = layui.element
+        , tinymce = layui.tinymce;
+
+    //定义一个在线编辑器
+    var onlineEditor;
+
     var studentProfiles = {
         //学生信息
         initStudentInformation: function () {
@@ -236,6 +241,39 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                 }
             });
         },
+        //成长档案
+        initGrowthRecord: function () {
+            table.render({
+                elem: '#growthrecord-table'
+                , url: setter.apiAddress.studentgrowthrecord.pagelist
+                , toolbar: '#growthrecord-toolbar'
+                , cols: [[
+                    { type: 'radio' },
+                    { field: 'studentName', width: 150, title: '学生' },
+                    { field: 'topics', title: '主题' },
+                    { field: 'viewCount', width: 100, align: 'center', title: '浏览次数' },
+                    { field: 'creatorName', width: 100, align: 'center', title: '创建人' },
+                    { field: 'createTime', width: 200, align: 'center', title: '创建时间' }
+                ]]
+                , page: true
+                , cellMinWidth: 80
+                , where: { studentId: window.atob(layui.router().search.uid) }
+                , text: {
+                    none: '暂无相关数据'
+                }
+                , response: {
+                    statusCode: 200
+                }
+                , parseData: function (res) {
+                    return {
+                        "code": res.statusCode,
+                        "msg": res.message,
+                        "count": res.data.totalCount,
+                        "data": res.data.items
+                    };
+                }
+            });
+        },
         //订单信息
         initStudentCourseOrder: function () {
             table.render({
@@ -353,6 +391,9 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
         switch (data.index) {
             case 1://出勤记录
                 studentProfiles.initStudentAttendance();
+                break;
+            case 2://成长档案
+                studentProfiles.initGrowthRecord();
                 break;
             case 4://订单记录
                 studentProfiles.initStudentCourseOrder();
@@ -621,6 +662,204 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                         }
                     });
                 });
+                break;
+        };
+    });
+
+    //成长档案
+    table.on('toolbar(growthrecord-table)', function (obj) {
+        var checkStatus = table.checkStatus(obj.config.id);
+        switch (obj.event) {
+            case 'add'://添加
+                admin.popup({
+                    title: '成长档案'
+                    , area: ['100%', '100%']
+                    , resize: false
+                    , closeBtn: 1
+                    , success: function (layero, index) {
+                        view(this.id).render('teaching/student/addgrowthrecord').done(function () {
+                            $("#studentId").val(window.atob(layui.router().search.uid));
+                            form.render();
+                            onlineEditor = tinymce.render({
+                                elem: "#onlineEditor"
+                                , height: 550
+                                , width: '100%'
+                                , content_style: "img {max-width:100%;}"
+                                , skin: 'oxide'//或oxide-dark
+                                , cache_suffix: new Date().getTime().toString()
+                                , images_upload_handler: function (blobInfo, succFun, failFun) {
+                                    var xhr, formData;
+                                    var file = blobInfo.blob();
+                                    xhr = new XMLHttpRequest();
+                                    xhr.withCredentials = false;
+                                    xhr.open('POST', setter.apiAddress.file.layeditupload);//上传文件地址
+                                    xhr.onload = function () {
+                                        var json;
+                                        if (xhr.status != 200) {
+                                            failFun('上传出错: ' + xhr.status);
+                                            return;
+                                        }
+                                        json = JSON.parse(xhr.responseText);
+                                        if (!json || json.code != 0) {
+                                            failFun('上传出错: ' + xhr.responseText);
+                                            return;
+                                        }
+                                        var fullImgUrl = json.data.src;
+                                        succFun(fullImgUrl);
+                                    };
+                                    formData = new FormData();
+                                    formData.append('file', file, file.name);
+                                    xhr.send(formData);
+                                }
+                                , init_instance_callback: function (editor) {
+                                    console.log("ID为: " + editor.id + " 的编辑器已初始化完成.");
+                                }
+                            });
+
+                            //监听提交
+                            form.on('submit(growthrecord-add-form-submit)', function (data) {
+                                data.field.Contents = onlineEditor.getContent();
+                                if (!data.field.Contents) {
+                                    layer.msg("学生成长档案的内容是空的哦 ^_^", { icon: 5 });
+                                    return;
+                                }
+                                admin.req({
+                                    url: setter.apiAddress.studentgrowthrecord.add
+                                    , data: data.field
+                                    , type: 'POST'
+                                    , done: function (res) {
+                                        layer.close(index);
+                                        table.reload('growthrecord-table');
+                                    }
+                                });
+                            });
+
+                        });
+                    }
+                }, function () {
+                    // 只要弹窗关闭了就销毁编辑器，避免第二次无法加载的问题
+                    onlineEditor.destroy();
+                });
+                break;
+            case 'edit'://修改
+                var data = checkStatus.data;
+                if (data.length == 0) {
+                    layer.msg('请选择学生成长档案 ^_^', { icon: 5 });
+                    return;
+                }
+                let currentrecord = data[0];
+                admin.popup({
+                    title: '成长档案'
+                    , area: ['100%', '100%']
+                    , resize: false
+                    , closeBtn: 1
+                    , success: function (layero, index) {
+                        view(this.id).render('teaching/student/editgrowthrecord', currentrecord).done(function () {
+                            onlineEditor = tinymce.render({
+                                elem: "#onlineEditor"
+                                , height: 550
+                                , width: '100%'
+                                , content_style: "img {max-width:100%;}"
+                                , skin: 'oxide'//或oxide-dark
+                                , cache_suffix: new Date().getTime().toString()
+                                , images_upload_handler: function (blobInfo, succFun, failFun) {
+                                    var xhr, formData;
+                                    var file = blobInfo.blob();
+                                    xhr = new XMLHttpRequest();
+                                    xhr.withCredentials = false;
+                                    xhr.open('POST', setter.apiAddress.file.layeditupload);//上传文件地址
+                                    xhr.onload = function () {
+                                        var json;
+                                        if (xhr.status != 200) {
+                                            failFun('上传出错: ' + xhr.status);
+                                            return;
+                                        }
+                                        json = JSON.parse(xhr.responseText);
+                                        if (!json || json.code != 0) {
+                                            failFun('上传出错: ' + xhr.responseText);
+                                            return;
+                                        }
+                                        var fullImgUrl = json.data.src;
+                                        succFun(fullImgUrl);
+                                    };
+                                    formData = new FormData();
+                                    formData.append('file', file, file.name);
+                                    xhr.send(formData);
+                                }
+                                , init_instance_callback: function (editor) {
+                                    console.log("ID为: " + editor.id + " 的编辑器已初始化完成.");
+                                    onlineEditor.setContent(currentrecord.contents);
+                                }
+                            });
+
+                            //监听提交
+                            form.on('submit(growthrecord-edit-form-submit)', function (data) {
+                                data.field.Contents = onlineEditor.getContent();
+                                if (!data.field.Contents) {
+                                    layer.msg("学生成长档案的内容是空的哦 ^_^", { icon: 5 });
+                                    return;
+                                }
+                                admin.req({
+                                    url: setter.apiAddress.studentgrowthrecord.update
+                                    , data: data.field
+                                    , type: 'POST'
+                                    , done: function (res) {
+                                        layer.close(index);
+                                        table.reload('growthrecord-table');
+                                    }
+                                });
+                            });
+
+                        });
+                    }
+                }, function () {
+                    // 只要弹窗关闭了就销毁编辑器，避免第二次无法加载的问题
+                    onlineEditor.destroy();
+                });
+                break;
+            case 'view'://预览
+                var data = checkStatus.data;
+                if (data.length == 0) {
+                    layer.msg('请选择学生成长档案 ^_^', { icon: 5 });
+                    return;
+                }
+                admin.popup({
+                    title: '成长档案'
+                    , area: ['100%', '100%']
+                    , closeBtn: 1
+                    , success: function (layero, index) {
+                        view(this.id).render('mschool/growthrecord/details', data[0]).done(function () {
+
+                        });
+                    }
+                });
+                break;
+            case 'del'://删除
+                var data = checkStatus.data;
+                if (data.length == 0) {
+                    layer.msg('请选择学生成长档案 ^_^', { icon: 5 });
+                    return;
+                }
+                let currentdata = data[0];
+                layer.confirm('删除后不可恢复，确定？', { icon: 3 }, function (index) {
+                    admin.req({
+                        url: setter.apiAddress.studentgrowthrecord.delete
+                        , data: { Id: currentdata.id }
+                        , type: 'POST'
+                        , done: function (res) {
+                            if (res.code == 0) {
+                                layer.msg(res.msg, { icon: 6 });
+                                layer.close(index);
+                                table.reload('growthrecord-table');
+                            } else {
+                                layer.msg(res.msg, { icon: 5 });
+                            }
+                        }
+                    });
+                });
+                break;
+            default:
+                layer.msg('操作有误', { icon: 5 });
                 break;
         };
     });

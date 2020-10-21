@@ -38,7 +38,7 @@ layui.define(['form', 'setter', 'element', 'verification', 'laytpl'], function (
                 var data = res.data;
                 admin.popup({
                     title: '更新机构信息'
-                    , area: admin.screen() < 2 ? ['100%', '100%'] : ['50%', '65%']
+                    , area: admin.screen() < 2 ? ['100%', '100%'] : ['50%', '70%']
                     , resize: false
                     , closeBtn: 1
                     , success: function (layero, index) {

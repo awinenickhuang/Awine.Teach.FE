@@ -176,7 +176,7 @@ layui.define(['laytpl', 'layer', 'oidcsetup'], function (exports) {
     };
 
     //弹窗
-    view.popup = function (options) {
+    view.popup = function (options, endcallback) {
         var success = options.success
             , skin = options.skin;
 
@@ -200,6 +200,7 @@ layui.define(['laytpl', 'layer', 'oidcsetup'], function (exports) {
                 });
                 typeof success === 'function' && success.apply(this, arguments);
             }
+            , end: endcallback//弹窗各种关闭时的事件
         }, options))
     };
 

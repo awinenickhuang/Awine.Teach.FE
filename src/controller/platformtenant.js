@@ -16,7 +16,7 @@ layui.define(['table', 'form', 'setter', 'verification', 'laydate'], function (e
         , cols: [[
             { field: 'name', title: '机构' },
             { field: 'industryName', width: 100, align: 'center', title: '分类' },
-            { field: 'contacts', width: 100, title: '负责人' },
+            { field: 'contacts', width: 100, align: 'center', title: '负责人' },
             { field: 'contactsPhone', width: 150, align: 'center', title: '联系方式' },
             {
                 title: '地址', templet: function (d) {
