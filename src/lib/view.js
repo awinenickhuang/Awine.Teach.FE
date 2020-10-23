@@ -48,7 +48,7 @@ layui.define(['laytpl', 'layer', 'oidcsetup'], function (exports) {
 
         //跳转到登入页 -> 这里不用再显示转跳到登录页，等待AUTH简化流程执行
         //location.hash = '/user/login';
-        layer.msg('您已成功退出，正在转跳到身份认证中心！', {
+        layer.msg('成功退出，正在转跳到身份认证中心！', {
             icon: 1
             , time: 3000
         }, function () {
@@ -145,7 +145,7 @@ layui.define(['laytpl', 'layer', 'oidcsetup'], function (exports) {
 
                 //如果登录失效或未授权状态为401 -> 则重新进行登录操作
                 if (e.status == setter.response.statusCode.logout) {
-                    layer.msg('未登录或登录超时，正在转跳到身份认证中心！', {
+                    layer.msg('登录超时，正在转跳到身份认证中心！', {
                         icon: 5
                         , time: 3000
                     }, function () {

@@ -298,7 +298,7 @@ layui.define(['table', 'form', 'setter', 'verification', 'treeGrid'], function (
             admin.popupRight({
                 id: 'LAY_operationPermissions'
                 , title: '操作权限设置'
-                , area: admin.screen() < 2 ? ['100%', '100%'] : ['60%', '100%']
+                , area: admin.screen() < 2 ? ['100%', '100%'] : ['65%', '100%']
                 , resize: true
                 , closeBtn: 1
                 , success: function (layero, index) {

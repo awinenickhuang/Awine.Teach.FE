@@ -414,7 +414,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                 data.startDate = common.formatDate(data.startDate, "yyyy-MM-dd");
                 admin.popupRight({
                     title: '排课'
-                    , area: admin.screen() < 2 ? ['100%', '100%'] : ['55%', '100%']
+                    , area: admin.screen() < 2 ? ['100%', '100%'] : ['60%', '100%']
                     , resize: false
                     , closeBtn: 1
                     , success: function (layero, index) {

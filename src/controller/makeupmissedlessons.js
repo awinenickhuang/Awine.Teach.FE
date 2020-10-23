@@ -289,6 +289,12 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                 });
             });
         } else if (obj.event === 'edit') {
+            if (data.status == 2) {
+                layer.msg('补课已结课，不允许再修改了 ^_^', {
+                    icon: 5
+                });
+                return;
+            }
             admin.popupRight({
                 title: '修改'
                 , area: admin.screen() < 2 ? ['100%', '100%'] : ['30%', '100%']
