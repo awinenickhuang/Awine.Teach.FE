@@ -82,6 +82,19 @@
      * 这个对象有: id_token,access_token,scope和profile等属性,这些属性包含各种用户具体的数据
      */
     mgr.events.addUserLoaded(function (user) {
+        layui.data(setter.tableName, {
+            key: 'tenantname'
+            , value: user.profile.tenantname
+        });
+        layui.data(setter.tableName, {
+            key: 'username'
+            , value: user.profile.username
+        });
+        layui.data(setter.tableName, {
+            key: setter.request.tokenName
+            , value: user.access_token
+        });
+        table.set({ headers: { Authorization: "Bearer " + user.access_token } });
         console.log("User loaded");
     });
     mgr.events.addUserUnloaded(function () {
