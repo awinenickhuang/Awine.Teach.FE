@@ -101,6 +101,7 @@ layui.define(['table', 'form', 'setter', 'verification'], function (exports) {
     //头工具栏事件
     table.on('toolbar(userprofile-table)', function (obj) {
         var checkStatus = table.checkStatus(obj.config.id);
+        console.log(checkStatus);
         switch (obj.event) {
             case 'search':
                 admin.popupRight({
@@ -113,7 +114,7 @@ layui.define(['table', 'form', 'setter', 'verification'], function (exports) {
                             //机构
                             admin.req({
                                 url: setter.apiAddress.tenant.list
-                                , data: { Id: data.value, enableStatus: enabledStatus }
+                                , data: {}
                                 , done: function (res) {
                                     $("#sel-organization-list").empty();
                                     $("#sel-organization-list").append("<option value=\"\">请选择机构</option>");
