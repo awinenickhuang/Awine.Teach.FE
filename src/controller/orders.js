@@ -193,7 +193,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                             //初始化员工数据
                             admin.req({
                                 url: setter.apiAddress.aspnetuser.list
-                                , data: { enableStatus: 1 }
+                                , data: { isActive: 1 }
                                 , type: 'POST'
                                 , done: function (res) {
                                     $("#sel-trackingstaffer-search-list").append("<option value=\"\">请选择员工</option>");

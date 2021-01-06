@@ -169,7 +169,7 @@ layui.define(['table', 'form', 'common', 'setter', 'verification', 'laydate'], f
                             //初始化搜索条件 -> 教师数据
                             admin.req({
                                 url: setter.apiAddress.aspnetuser.list
-                                , data: { enableStatus: 1 }
+                                , data: { isActive: 1 }
                                 , done: function (res) {
                                     $("#sel-teacher-search").empty();
                                     $("#sel-teacher-search").append("<option value=\"\">请选择教师</option>");

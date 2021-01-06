@@ -547,7 +547,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                             $("#sel-salesstaff-list").empty();
                             admin.req({
                                 url: setter.apiAddress.aspnetuser.list
-                                , data: { enableStatus: 1 }
+                                , data: { isActive: 1 }
                                 , type: 'GET'
                                 , done: function (res) {
                                     $("#sel-salesstaff-list").append("<option value=\"\">请选择业绩归属人</option>");
@@ -933,7 +933,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                     $("#sel-salesstaff-list").empty();
                     admin.req({
                         url: setter.apiAddress.aspnetuser.list
-                        , data: { enableStatus: 1 }
+                        , data: { isActive: 1 }
                         , type: 'GET'
                         , done: function (res) {
                             $("#sel-salesstaff-list").append("<option value=\"\">请选择业绩归属人</option>");

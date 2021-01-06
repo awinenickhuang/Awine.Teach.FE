@@ -21,7 +21,7 @@ layui.define(['table', 'form', 'setter', 'verification'], function (exports) {
             { field: 'aspnetRoleName', title: '角色', align: 'left' },
             { field: 'phoneNumber', title: '电话', align: 'left' },
             {
-                field: 'lockoutEnabled', title: '可否锁定', width: 100, align: 'center',
+                field: 'lockoutEnabled', title: '可否锁定', align: 'center',
                 templet: function (d) {
                     if (d.lockoutEnabled) {
                         return '<span style="color:#009688;">是</span>';
@@ -32,18 +32,12 @@ layui.define(['table', 'form', 'setter', 'verification'], function (exports) {
                 }
             },
             {
-                field: 'enableStatus', title: '用户状态', align: 'center', width: 100,
+                field: 'isActive', title: '用户状态', align: 'center',
                 templet: function (d) {
-                    switch (d.enableStatus) {
-                        case 1:
-                            return '<input type="checkbox" name="enableStatus" lay-skin="switch" checked="" lay-text="启用|停用" value= ' + d.id + ' lay-filter="user-enabled-status" >';
-                            break;
-                        case 2:
-                            return '<input type="checkbox" name="enableStatus" lay-skin="switch" lay-text="启用|停用" value= ' + d.id + ' lay-filter="user-enabled-status" >';
-                            break;
-                        default:
-                            return '-';
-                            break;
+                    if (d.isActive) {
+                        return '<input type="checkbox" name="isActive" lay-skin="switch" checked="" lay-text="启用|停用" value= ' + d.id + ' lay-filter="user-active-switch" >';
+                    } else {
+                        return '<input type="checkbox" name="isActive" lay-skin="switch" lay-text="启用|停用" value= ' + d.id + ' lay-filter="user-active-switch" >';
                     }
                 }
             },
@@ -80,17 +74,16 @@ layui.define(['table', 'form', 'setter', 'verification'], function (exports) {
     });
 
     //监听启用状态开关
-    form.on('switch(user-enabled-status)', function (data) {
-        var enabledStatus = this.checked ? 1 : 2;
-        if (enabledStatus == 1) {
-            layer.tips('提示：用户可以正常登录', data.othis, { tips: [2, '#FFB800'] })
-        }
-        if (enabledStatus == 2) {
-            layer.tips('提示：用户不可正常登录', data.othis, { tips: [2, '#FFB800'] })
+    form.on('switch(user-active-switch)', function (data) {
+        var isActive = this.checked ? true : false;
+        if (isActive) {
+            layer.tips('提示：启用成功', data.othis, { tips: [2, '#FFB800'] })
+        } else {
+            layer.tips('提示：禁用成功', data.othis, { tips: [2, '#FFB800'] })
         }
         admin.req({
             url: setter.apiAddress.aspnetuser.enableordisable
-            , data: { Id: data.value, enableStatus: enabledStatus }
+            , data: { Id: data.value, isActive: isActive }
             , type: 'POST'
             , done: function (res) {
                 layui.table.reload('userprofile-table');

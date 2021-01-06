@@ -108,7 +108,7 @@ layui.define(['table', 'form', 'layedit', 'setter', 'verification'], function (e
                             //初始化老师
                             admin.req({
                                 url: setter.apiAddress.aspnetuser.list
-                                , data: { enableStatus: 1 }
+                                , data: { isActive: 1 }
                                 , done: function (res) {
                                     $("#sel-teacher-list").append("<option value=\"\">请选择</option>");
                                     $.each(res.data, function (index, item) {
@@ -190,7 +190,7 @@ layui.define(['table', 'form', 'layedit', 'setter', 'verification'], function (e
                         //初始化老师
                         admin.req({
                             url: setter.apiAddress.aspnetuser.list
-                            , data: { enableStatus: 1 }
+                            , data: { isActive: 1 }
                             , done: function (res) {
                                 $("#sel-teacher-list").append("<option value=\"\">请选择</option>");
                                 $.each(res.data, function (index, item) {
@@ -250,7 +250,7 @@ layui.define(['table', 'form', 'layedit', 'setter', 'verification'], function (e
         } else if (obj.event === 'chargemanner') {
             admin.popupRight({
                 title: '定价标准'
-                , area: admin.screen() < 2 ? ['100%', '100%'] : ['35%', '100%']
+                , area: admin.screen() < 2 ? ['100%', '100%'] : ['50%', '100%']
                 , resize: false
                 , closeBtn: 1
                 , success: function (layero, index) {
