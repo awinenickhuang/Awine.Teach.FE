@@ -62,7 +62,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
             case 'add':
                 admin.popup({
                     title: '添加'
-                    , area: admin.screen() < 2 ? ['100%', '100%'] : ['30%', '35%']
+                    , area: admin.screen() < 2 ? ['100%', '100%'] : ['40%', '40%']
                     , resize: false
                     , success: function (layero, index) {
                         view(this.id).render('operation/holiday/add').done(function () {
@@ -112,7 +112,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
             data.holidayDate = common.formatDate(data.holidayDate, "yyyy-MM-dd");
             admin.popup({
                 title: '修改'
-                , area: admin.screen() < 2 ? ['100%', '100%'] : ['30%', '35%']
+                , area: admin.screen() < 2 ? ['100%', '100%'] : ['40%', '40%']
                 , resize: false
                 , success: function (layero, index) {
                     view(this.id).render('operation/holiday/edit', data).done(function () {

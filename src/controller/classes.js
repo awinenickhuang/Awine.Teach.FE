@@ -35,7 +35,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
         initTeachers: function (teacherId) {
             admin.req({
                 url: setter.apiAddress.aspnetuser.list
-                , data: { isActive: 1 }
+                , data: { isActive: true }
                 , done: function (res) {
                     $("#sel-teacher-list").empty();
                     $("#sel-teacher-list").append("<option value=\"\">请选择上课老师</option>");
@@ -229,7 +229,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                                 //初始化老师 -> 默认跟随课程名师
                                 admin.req({
                                     url: setter.apiAddress.aspnetuser.list
-                                    , data: {}
+                                    , data: { isActive: true }
                                     , done: function (res) {
                                         $("#sel-teacher-list").empty();
                                         $("#sel-teacher-list").append("<option value=\"\">请选择</option>");
@@ -321,7 +321,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                             //初始化老师 -> 当前班级的老师
                             admin.req({
                                 url: setter.apiAddress.aspnetuser.list
-                                , data: {}
+                                , data: { isActive: true }
                                 , done: function (res) {
                                     $("#sel-teacher-edit").append("<option value=\"\">请选择</option>");
                                     $.each(res.data, function (index, item) {
@@ -345,7 +345,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                                 //初始化老师 -> 课程选择时 - 默认跟随课程名师
                                 admin.req({
                                     url: setter.apiAddress.aspnetuser.list
-                                    , data: {}
+                                    , data: { isActive: true }
                                     , done: function (res) {
                                         $("#sel-teacher-edit").empty();
                                         $("#sel-teacher-edit").append("<option value=\"\">请选择</option>");

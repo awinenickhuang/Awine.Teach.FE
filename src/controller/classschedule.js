@@ -186,7 +186,7 @@ layui.define(['table', 'form', 'common', 'setter', 'verification', 'fullCalendar
         initTeachers: function (teacherId) {
             admin.req({
                 url: setter.apiAddress.aspnetuser.list
-                , data: { isActive: 1 }
+                , data: { isActive: true }
                 , done: function (res) {
                     $("#sel-teacher-list").empty();
                     $("#sel-teacher-list").append("<option value=\"\">请选择上课老师</option>");
@@ -1310,7 +1310,7 @@ layui.define(['table', 'form', 'common', 'setter', 'verification', 'fullCalendar
                         initTeachers: function (teacherId) {
                             admin.req({
                                 url: setter.apiAddress.aspnetuser.list
-                                , data: { isActive: 1 }
+                                , data: { isActive: true }
                                 , done: function (res) {
                                     $("#sel-teacher-list").empty();
                                     $("#sel-teacher-list").append("<option value=\"\">请选择上课老师</option>");

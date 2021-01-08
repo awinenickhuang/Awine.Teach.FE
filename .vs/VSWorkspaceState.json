@@ -2,10 +2,8 @@
   "ExpandedNodes": [
     "",
     "\\src",
-    "\\src\\controller",
-    "\\src\\views",
     "\\start"
   ],
-  "SelectedNode": "\\src\\controller\\course.js",
+  "SelectedNode": "\\src",
   "PreviewInSolutionExplorer": false
 }

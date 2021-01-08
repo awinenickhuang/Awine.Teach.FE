@@ -34,10 +34,19 @@ layui.define(['table', 'form', 'setter', 'verification'], function (exports) {
             {
                 field: 'isActive', title: '用户状态', align: 'center',
                 templet: function (d) {
-                    if (d.isActive) {
-                        return '<input type="checkbox" name="isActive" lay-skin="switch" checked="" lay-text="启用|停用" value= ' + d.id + ' lay-filter="user-active-switch" >';
-                    } else {
-                        return '<input type="checkbox" name="isActive" lay-skin="switch" lay-text="启用|停用" value= ' + d.id + ' lay-filter="user-active-switch" >';
+                    if (d.lockoutEnabled) {
+                        if (d.isActive) {
+                            return '<input type="checkbox" name="isActive" lay-skin="switch" checked="" lay-text="启用|停用" value= ' + d.id + ' lay-filter="user-active-switch" >';
+                        } else {
+                            return '<input type="checkbox" name="isActive" lay-skin="switch" lay-text="启用|停用" value= ' + d.id + ' lay-filter="user-active-switch" >';
+                        }
+                    }
+                    else {
+                        if (d.isActive) {
+                            return '<input type="checkbox" disabled="disabled" name="isActive" lay-skin="switch" checked="" lay-text="启用|停用" value= ' + d.id + ' lay-filter="" >';
+                        } else {
+                            return '<input type="checkbox" disabled="disabled" name="isActive" lay-skin="switch" lay-text="启用|停用" value= ' + d.id + ' lay-filter="" >';
+                        }
                     }
                 }
             },

@@ -595,7 +595,7 @@ layui.define(['table', 'form', 'setter', 'element', 'verification', 'rate', 'lay
                             $("#sel-salesstaff-list").empty();
                             admin.req({
                                 url: setter.apiAddress.aspnetuser.list
-                                , data: {}
+                                , data: { isActive: true }
                                 , done: function (res) {
                                     $("#sel-salesstaff-list").append("<option value=\"\">请选择</option>");
                                     $.each(res.data, function (index, item) {

@@ -146,11 +146,21 @@ layui.define(['form', 'setter', 'treeGrid', 'xmSelect', 'verification', 'table',
         } else if (obj.event === "buttons") {
             admin.popupRight({
                 title: data.name + ' - 按钮配置'
-                , area: admin.screen() < 2 ? ['100%', '100%'] : ['30%', '100%']
+                , area: admin.screen() < 2 ? ['100%', '100%'] : ['40%', '100%']
                 , resize: false
                 , closeBtn: 1
                 , success: function (layero, index) {
                     view(this.id).render('/foundational/module/buttons', data).done(function () {
+
+                        element.on('tab(button-manage-tab)', function (data) {
+                            if (data.index == 1) {
+                                $('#name').val('');
+                                $('#buttonIcon').val('');
+                                $('#accessCode').val('');
+                                $('#displayOrder').val(1);
+                            }
+                        });
+
                         //按钮分页列表
                         table.render({
                             elem: '#buttons-table'
@@ -199,6 +209,7 @@ layui.define(['form', 'setter', 'treeGrid', 'xmSelect', 'verification', 'table',
                                         , data: { id: data.id }
                                         , type: 'POST'
                                         , done: function (res) {
+                                            layer.close(index);
                                             table.reload('buttons-table');
                                         }
                                     });

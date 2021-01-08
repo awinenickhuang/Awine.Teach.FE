@@ -1,13 +1,14 @@
 ﻿/**
  @Name：课程管理
  */
-layui.define(['table', 'form', 'layedit', 'setter', 'verification'], function (exports) {
+layui.define(['table', 'form', 'layedit', 'setter', 'verification', 'element'], function (exports) {
     var $ = layui.$
         , admin = layui.admin
         , view = layui.view
         , table = layui.table
         , setter = layui.setter
         , form = layui.form
+        , element = layui.element
         , layedit = layui.layedit;
     //定义富文本上传文件的接口地址
     layedit.set({
@@ -76,10 +77,10 @@ layui.define(['table', 'form', 'layedit', 'setter', 'verification'], function (e
     form.on('switch(course-enabled-status)', function (data) {
         var enabledStatus = this.checked ? 1 : 2;
         if (enabledStatus == 1) {
-            layer.tips('提示：学生可以报读此课程', data.othis, { tips: [2, '#FFB800'] })
+            layer.tips('提示：启用成功', data.othis, { tips: [2, '#FFB800'] })
         }
         if (enabledStatus == 2) {
-            layer.tips('提示：学生不可以报读此课程', data.othis, { tips: [2, '#FFB800'] })
+            layer.tips('提示：禁用成功', data.othis, { tips: [2, '#FFB800'] })
         }
         admin.req({
             url: setter.apiAddress.course.updateenablestatus
@@ -99,7 +100,7 @@ layui.define(['table', 'form', 'layedit', 'setter', 'verification'], function (e
             case 'add':
                 admin.popupRight({
                     title: '添加'
-                    , area: admin.screen() < 2 ? ['100%', '100%'] : ['30%', '100%']
+                    , area: admin.screen() < 2 ? ['100%', '100%'] : ['40%', '100%']
                     , resize: false
                     , closeBtn: 1
                     , success: function (layero, index) {
@@ -108,7 +109,7 @@ layui.define(['table', 'form', 'layedit', 'setter', 'verification'], function (e
                             //初始化老师
                             admin.req({
                                 url: setter.apiAddress.aspnetuser.list
-                                , data: { isActive: 1 }
+                                , data: { isActive: true }
                                 , done: function (res) {
                                     $("#sel-teacher-list").append("<option value=\"\">请选择</option>");
                                     $.each(res.data, function (index, item) {
@@ -190,7 +191,7 @@ layui.define(['table', 'form', 'layedit', 'setter', 'verification'], function (e
                         //初始化老师
                         admin.req({
                             url: setter.apiAddress.aspnetuser.list
-                            , data: { isActive: 1 }
+                            , data: { isActive: true }
                             , done: function (res) {
                                 $("#sel-teacher-list").append("<option value=\"\">请选择</option>");
                                 $.each(res.data, function (index, item) {
@@ -256,6 +257,22 @@ layui.define(['table', 'form', 'layedit', 'setter', 'verification'], function (e
                 , success: function (layero, index) {
                     view(this.id).render('teaching/course/chargemanner', data).done(function () {
                         form.render();
+
+                        element.on('tab(course-chargemanner-tab-filter)', function (data) {
+                            if (data.index == 1) {
+                                //时长置为默认值
+                                $('#courseDuration').val(1);
+                                //单价置为默认值
+                                $('#chargeUnitPriceMonth').val(0);
+                                $('#chargeUnitPriceClassHour').val(0);
+                                //总价置为默认值
+                                $('#totalPrice').val('');
+                                $("#sel-charge-manner-list").val(1);
+                                $("#city-edit-name").find("option[value=" + 1 + "]").attr("selected", true);
+                                form.render();
+                            }
+                        });
+
                         //初始化课程收费方式列表
                         table.render({
                             elem: '#course-chargemanner-table'
@@ -363,14 +380,14 @@ layui.define(['table', 'form', 'layedit', 'setter', 'verification'], function (e
                                 $("#charge-unitprice-classhour").show();
                                 $("#charge-unitprice-month").hide();
                                 $('#courseDuration').val(1);
-                                $('#chargeUnitPriceMonth').val('');
+                                $('#chargeUnitPriceMonth').val(0);
                                 $('#totalPrice').val('');
                             }
                             if (seldata.value == 2) {
                                 $("#charge-unitprice-month").show();
                                 $("#charge-unitprice-classhour").hide();
                                 $('#courseDuration').val(1);
-                                $('#chargeUnitPriceClassHour').val('');
+                                $('#chargeUnitPriceClassHour').val(0);
                                 $('#totalPrice').val('');
                             }
                         });
@@ -421,7 +438,8 @@ layui.define(['table', 'form', 'layedit', 'setter', 'verification'], function (e
                                 , data: data.field
                                 , type: 'POST'
                                 , done: function (res) {
-                                    layer.close(index);
+                                    //layer.close(index);
+                                    element.tabChange('course-chargemanner-tab-filter', '0');
                                     table.reload('course-chargemanner-table');
                                 }
                             });

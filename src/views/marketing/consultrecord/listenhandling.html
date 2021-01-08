@@ -273,7 +273,7 @@
                 //加载所有老师
                 admin.req({
                     url: setter.apiAddress.aspnetuser.list
-                    , data: { isActive: 1 }
+                    , data: { isActive: true }
                     , done: function (res) {
                         $("#sel-teacher-list").empty();
                         $("#sel-teacher-list").append("<option value=\"\">请选择老师</option>");

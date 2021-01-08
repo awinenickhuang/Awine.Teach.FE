@@ -156,7 +156,7 @@ layui.define(['table', 'form', 'setter', 'verification'], function (exports) {
                 var data = selected[0];
                 admin.popup({
                     title: '签到'
-                    , area: admin.screen() < 2 ? ['100%', '100%'] : ['30%', '25%']
+                    , area: admin.screen() < 2 ? ['100%', '100%'] : ['30%', '30%']
                     , resize: false
                     , closeBtn: 1
                     , success: function (layero, index) {

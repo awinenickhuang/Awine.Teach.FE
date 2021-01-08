@@ -10,7 +10,7 @@ layui.define(['table', 'form', 'setter', 'verification'], function (exports) {
         , form = layui.form;
     table.render({
         elem: '#industry-table'
-        , url: setter.apiAddress.industry.pagelist
+        , url: setter.apiAddress.industrycategory.pagelist
         , toolbar: '#industry-toolbar'
         , cols: [[
             { field: 'name', title: '名称' },
@@ -65,7 +65,7 @@ layui.define(['table', 'form', 'setter', 'verification'], function (exports) {
                             //监听提交
                             form.on('submit(industry-form-submit)', function (data) {
                                 admin.req({
-                                    url: setter.apiAddress.industry.add
+                                    url: setter.apiAddress.industrycategory.add
                                     , data: data.field
                                     , type: 'POST'
                                     , done: function (res) {
@@ -86,7 +86,7 @@ layui.define(['table', 'form', 'setter', 'verification'], function (exports) {
         if (obj.event === 'del') {
             layer.confirm('删除后不可恢复，确定？', { icon: 3 }, function (index) {
                 admin.req({
-                    url: setter.apiAddress.industry.delete
+                    url: setter.apiAddress.industrycategory.delete
                     , data: { Id: data.id }
                     , type: 'POST'
                     , done: function (res) {
@@ -106,7 +106,7 @@ layui.define(['table', 'form', 'setter', 'verification'], function (exports) {
                         form.render();
                         form.on('submit(industry-edit-form-submit)', function (data) {
                             admin.req({
-                                url: setter.apiAddress.industry.update
+                                url: setter.apiAddress.industrycategory.update
                                 , data: data.field
                                 , type: 'POST'
                                 , done: function (res) {

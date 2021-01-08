@@ -105,7 +105,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
         initTeacher: function (teacherId) {
             admin.req({
                 url: setter.apiAddress.aspnetuser.list
-                , data: {}
+                , data: { isActive: true }
                 , done: function (res) {
                     $("#sel-teacher-list").append("<option value=\"\">请选择教师</option>");
                     $.each(res.data, function (index, item) {
@@ -173,7 +173,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                             });
                             admin.req({
                                 url: setter.apiAddress.aspnetuser.list
-                                , data: {}
+                                , data: { isActive: true }
                                 , done: function (res) {
                                     $("#sel-teacher-list").append("<option value=\"\">请选择教师</option>");
                                     $.each(res.data, function (index, item) {
@@ -355,7 +355,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                         $("#hiddenTeacherName").val(data.teacherName);
                         admin.req({
                             url: setter.apiAddress.aspnetuser.list
-                            , data: {}
+                            , data: { isActive: true }
                             , done: function (res) {
                                 $("#sel-teacher-list").append("<option value=\"\">请选择教师</option>");
                                 $.each(res.data, function (index, item) {
