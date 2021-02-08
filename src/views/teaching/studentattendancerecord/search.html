@@ -2,6 +2,8 @@
     <link rel="stylesheet" href="{{ layui.setter.base }}style/template.css?v={{ layui.admin.v }}-1" media="all">
 </script>
 
+<blockquote class="layui-elem-quote"><span class="layui-badge-dot layui-bg-orange"></span> 操作提示：不选取任何条件即查询所有数据。</blockquote>
+
 <form class="layui-form" id="studentattendance-search-form" lay-filter="studentattendance-search-form" style="padding:15px;">
     <div class="layui-form-item">
         <label class="layui-form-label">学生姓名</label>
@@ -62,9 +64,6 @@
                 <option value=4>已完成补课</option>
             </select>
         </div>
-    </div>
-    <div class="layui-form-item">
-        不选取任何条件即查询所有数据
     </div>
     <div class="layui-form-item content-center">
         <button class="layui-btn layui-btn-sm" type="button" lay-submit lay-filter="studentattendance-search-submit"><i class="layui-icon layui-icon-ok"></i>立即搜索</button>

@@ -2,8 +2,11 @@
   "ExpandedNodes": [
     "",
     "\\src",
-    "\\start"
+    "\\src\\controller",
+    "\\src\\views",
+    "\\src\\views\\mschool",
+    "\\src\\views\\mschool\\classphotoalbum"
   ],
-  "SelectedNode": "\\src",
+  "SelectedNode": "\\src\\controller\\aspnetrole.js",
   "PreviewInSolutionExplorer": false
 }

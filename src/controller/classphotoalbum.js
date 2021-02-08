@@ -11,5 +11,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification'], f
         , form = layui.form
         , element = layui.element;
 
+    form.render("select");
+
     exports('classphotoalbum', {})
 });

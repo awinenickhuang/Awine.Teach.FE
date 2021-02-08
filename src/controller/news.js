@@ -54,7 +54,7 @@ layui.define(['table', 'form', 'setter', 'verification', 'layedit'], function (e
             case 'add':
                 admin.popup({
                     title: '添加'
-                    , area: admin.screen() < 2 ? ['100%', '100%'] : ['50%', '80%']
+                    , area: admin.screen() < 2 ? ['100%', '100%'] : ['60%', '85%']
                     , resize: false
                     , success: function (layero, index) {
                         view(this.id).render('operation/news/add').done(function () {
@@ -78,7 +78,7 @@ layui.define(['table', 'form', 'setter', 'verification', 'layedit'], function (e
                                     , '|', 'link', 'unlink'
                                     , '|', 'image'
                                 ]
-                                , height: 310, //设置编辑器高度
+                                , height: 300, //设置编辑器高度
                             });
                             //1-进行重新渲染表单
                             form.render(null, 'component-form-element');  //component-form-element 是form表单和提交按钮中 lay-filter中的值
