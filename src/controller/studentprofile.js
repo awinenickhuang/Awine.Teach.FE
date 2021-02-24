@@ -692,7 +692,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                                     var file = blobInfo.blob();
                                     xhr = new XMLHttpRequest();
                                     xhr.withCredentials = false;
-                                    xhr.open('POST', setter.apiAddress.file.layeditupload);//上传文件地址
+                                    xhr.open('POST', setter.apiAddress.filemanagement.tencentcosupload);//上传文件地址
                                     xhr.onload = function () {
                                         var json;
                                         if (xhr.status != 200) {
@@ -700,11 +700,11 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                                             return;
                                         }
                                         json = JSON.parse(xhr.responseText);
-                                        if (!json || json.code != 0) {
+                                        if (!json || json.statusCode != 200) {
                                             failFun('上传出错: ' + xhr.responseText);
                                             return;
                                         }
-                                        var fullImgUrl = json.data.src;
+                                        var fullImgUrl = json.data.uploadedUri;
                                         succFun(fullImgUrl);
                                     };
                                     formData = new FormData();
@@ -767,7 +767,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                                     var file = blobInfo.blob();
                                     xhr = new XMLHttpRequest();
                                     xhr.withCredentials = false;
-                                    xhr.open('POST', setter.apiAddress.file.layeditupload);//上传文件地址
+                                    xhr.open('POST', setter.apiAddress.filemanagement.tencentcosupload);//上传文件地址
                                     xhr.onload = function () {
                                         var json;
                                         if (xhr.status != 200) {
@@ -775,11 +775,11 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                                             return;
                                         }
                                         json = JSON.parse(xhr.responseText);
-                                        if (!json || json.code != 0) {
+                                        if (!json || json.statusCode != 200) {
                                             failFun('上传出错: ' + xhr.responseText);
                                             return;
                                         }
-                                        var fullImgUrl = json.data.src;
+                                        var fullImgUrl = json.data.uploadedUri;
                                         succFun(fullImgUrl);
                                     };
                                     formData = new FormData();

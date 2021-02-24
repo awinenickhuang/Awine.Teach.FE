@@ -194,7 +194,6 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'verification', 'l
                             admin.req({
                                 url: setter.apiAddress.aspnetuser.list
                                 , data: { isActive: true }
-                                , type: 'POST'
                                 , done: function (res) {
                                     $("#sel-trackingstaffer-search-list").append("<option value=\"\">请选择员工</option>");
                                     $.each(res.data, function (index, item) {

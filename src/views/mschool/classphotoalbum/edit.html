@@ -1,0 +1,56 @@
+﻿<script type="text/html" template>
+    <link rel="stylesheet" href="{{ layui.setter.base }}style/template.css?v={{ layui.admin.v }}-1" media="all">
+</script>
+
+<form class="layui-form layui-card-header layuiadmin-card-header-auto layui-row" id="classphotoalbum-edit-form" lay-filter="classphotoalbum-edit-form-filter">
+    <div class="layui-form-item">
+        <label class="layui-form-label">班级</label>
+        <div class="layui-input-block">
+            <script type="text/html" template>
+                <input type="hidden" name="Id" value="{{ d.params.id || '' }}" lay-verify="required" class="layui-input">
+            </script>
+            <select class="sel" id="sel-classes-list" name="ClassId" lay-verify="required|select" lay-filter="sel-classes-list-filter"></select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">名称</label>
+        <div class="layui-input-block ">
+            <script type="text/html" template>
+                <input type="text" id="name" name="Name" value="{{ d.params.name || '' }}" lay-verify="required" maxlength="32" autocomplete="off" placeholder="名称" class="layui-input">
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">封面</label>
+        <div class="layui-input-block">
+            <select id="sel-coverPhoto-list" name="CoverPhoto" lay-verify="required|select">
+                <option value="style/res/classphotoalbum/default.png">默认</option>
+                <option value="">成长</option>
+                <option value="">青春</option>
+                <option value="">时间</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">权限</label>
+        <div class="layui-input-block">
+            <select id="sel-visibleRange-list" name="VisibleRange" lay-verify="required|select">
+                <option value="">请选择</option>
+                <option value=1>仅机构可见</option>
+                <option value=2>机构及学生可见</option>
+                <option value=3>完全公开</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">描述</label>
+        <div class="layui-input-block ">
+            <script type="text/html" template>
+                <input type="text" id="describe" name="Describe" value="{{ d.params.describe || '' }}" lay-verify="required" maxlength="200" autocomplete="off" placeholder="描述" class="layui-input">
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item content-center">
+        <button class="layui-btn layui-btn-sm" type="button" lay-submit lay-filter="classphotoalbum-edit-form-submit"><i class="layui-icon layui-icon-ok"></i>立即提交</button>
+    </div>
+</form>

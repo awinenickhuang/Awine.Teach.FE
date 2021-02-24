@@ -136,7 +136,8 @@ layui.define(['laytpl', 'layer', 'element', 'util'], function (exports) {
         , apiGatewayAddress: 'http://localhost:8000'
         , apiAddress: {
             filemanagement: {
-                singlefileupload: 'http://localhost:9000/api/filemanagement/singlefileupload'
+                localfileupload: 'http://localhost:3000/api/localfilemanagement/localfileupload',
+                tencentcosupload: 'http://localhost:3000/api/tencentcos/tencentcosupload'
             },
             area: {
                 getbyparentcode: 'http://localhost:8001/api/administrativedivisions/subordinate',
@@ -277,6 +278,11 @@ layui.define(['laytpl', 'layer', 'element', 'util'], function (exports) {
                 delete: 'http://localhost:8002/api/studentgrowthrecord/delete',
                 single: 'http://localhost:8002/api/studentgrowthrecord/single'
             },
+            studentgrowthrecordcomment: {
+                pagelist: 'http://localhost:8002/api/studentgrowthrecordcomment/pagelist',
+                single: 'http://localhost:8002/api/studentgrowthrecordcomment/single',
+                add: 'http://localhost:8002/api/studentgrowthrecordcomment/add'
+            },
             course: {
                 pagelist: 'http://localhost:8002/api/course/pagelist',
                 list: 'http://localhost:8002/api/course/list',
@@ -307,6 +313,18 @@ layui.define(['laytpl', 'layer', 'element', 'util'], function (exports) {
                 update: 'http://localhost:8002/api/classes/update',
                 delete: 'http://localhost:8002/api/classes/delete',
                 updaterecruitstatus: 'http://localhost:8002/api/classes/updaterecruitstatus'
+            },
+            classphotoalbum: {
+                pagelist: 'http://localhost:8002/api/classphotoalbum/pagelist',
+                list: 'http://localhost:8002/api/classphotoalbum/list',
+                add: 'http://localhost:8002/api/classphotoalbum/add',
+                update: 'http://localhost:8002/api/classphotoalbum/update',
+                delete: 'http://localhost:8002/api/classphotoalbum/delete'
+            },
+            classphotoalbumattachment: {
+                pagelist: 'http://localhost:8002/api/classphotoalbumattachment/pagelist',
+                add: 'http://localhost:8002/api/classphotoalbumattachment/add',
+                delete: 'http://localhost:8002/api/classphotoalbumattachment/delete'
             },
             courseschedule: {
                 list: 'http://localhost:8002/api/courseschedule/list',

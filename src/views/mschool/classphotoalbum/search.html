@@ -1,0 +1,34 @@
+﻿<script type="text/html" template>
+    <link rel="stylesheet" href="{{ layui.setter.base }}style/template.css?v={{ layui.admin.v }}-1" media="all">
+</script>
+
+<form class="layui-form layui-card-header layuiadmin-card-header-auto layui-row" id="classphotoalbum-search-form" lay-filter="classphotoalbum-search-form-filter">
+    <div class="layui-form-item">
+        <label class="layui-form-label">选择班级</label>
+        <div class="layui-input-block">
+            <select class="sel" id="sel-classes-list" name="ClassId" lay-verify="" lay-filter="sel-classes-list-filter"></select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">可见权限</label>
+        <div class="layui-input-block">
+            <select id="sel-visibleRange-list" name="VisibleRange" lay-verify="">
+                <option value=0>请选择</option>
+                <option value=1>仅机构可见</option>
+                <option value=2>机构及学生可见</option>
+                <option value=3>完全公开</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">日期范围</label>
+        <div class="layui-input-block">
+            <input type="text" class="layui-input" id="daterange" placeholder=" 日期范围 ">
+            <input type="hidden" id="statr-time" name="StartTime" />
+            <input type="hidden" id="end-time" name="EndTime" />
+        </div>
+    </div>
+    <div class="layui-form-item content-center">
+        <button class="layui-btn layui-btn-sm" type="button" lay-submit lay-filter="classphotoalbum-search-form-submit"><i class="layui-icon layui-icon-ok"></i>立即提交</button>
+    </div>
+</form>

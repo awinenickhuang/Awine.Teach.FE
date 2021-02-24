@@ -1,0 +1,112 @@
+﻿<title>班级学生列表</title>
+<script type="text/html" template>
+    <link rel="stylesheet" href="{{ layui.setter.base }}style/template.css?v={{ layui.admin.v }}-1" media="all">
+</script>
+<style>
+    .imgcss {
+        max-width: 196px;
+        _width: expression(this.width > 196 ? "196px" : this.width);
+    }
+
+    .imgcssshow {
+        width: 100%;
+        height: 8vw;
+    }
+
+    .layui-card-header .layui-icon {
+        line-height: initial;
+        position: absolute;
+        right: 95px;
+        top: 60%;
+        margin-top: -7px;
+    }
+</style>
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a lay-href="">主页</a>
+        <a><cite>相册管理</cite></a>
+    </div>
+</div>
+<div class="layui-fluid" style="padding-top:5px;">
+    <div class="layui-card">
+        <div class="layui-card-body" style="padding:0;border:none; margin-top:15px;">
+            <div class="layui-tab layui-tab-brief" lay-filter="classphotoalbum-table-filter">
+                <ul class="layui-tab-title">
+                    <li class="layui-this" lay-id="0"><i class="layui-icon layui-icon-picture"></i> 相片列表</li>
+                    <li lay-id="1"><i class="layui-icon layui-icon-upload-drag"></i> 上传相片</li>
+                </ul>
+                <div class="layui-tab-content">
+                    <!--相片展示-->
+                    <div class="layui-tab-item layui-show">
+                        <div class="layui-fluid layadmin-cmdlist-fluid">
+                            <div class="layui-row layui-col-space30" id="photos">
+                                <!--动态生成相片列表-->
+                            </div>
+                            <div class="layui-col-md12 layui-col-sm12">
+                                <div id="photos-paging-controls"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--相片展示-->
+                    <!--相片上传-->
+                    <div class="layui-tab-item">
+                        <form class="layui-form" id="classphotoalbum-upload-form" lay-filter="classphotoalbum-upload-form-filter">
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">图片</label>
+                                <div class="layui-input-block">
+                                    <div class="layui-upload-drag" id="uploadimagecontrols">
+                                        <i class="layui-icon"></i>
+                                        <p>点击上传，或将文件拖拽到此处</p>
+                                        <div class="layui-hide" id="uploaddoneview">
+                                            <hr>
+                                            <img src="" alt="上传成功后渲染" class="imgcss">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">描述</label>
+                                <div class="layui-input-block ">
+                                    <input type="text" id="describe" name="Describe" lay-verify="required" maxlength="200" autocomplete="off" placeholder="描述" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-form-item content-center">
+                                <button class="layui-btn layui-btn-sm" type="button" lay-submit lay-filter="classphotoalbum-upload-form-submit"><i class="layui-icon layui-icon-ok"></i>立即提交</button>
+                            </div>
+                        </form>
+                    </div>
+                    <!--相片上传-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/html" id="photostemplate">
+    {{#  layui.each(d.items, function(index, item){ }}
+    <div class="layui-col-md4 layui-col-sm4">
+        <div class="cmdlist-container">
+            <a href="javascript:;">
+                <img src="{{ item.attachmentFullUri }}" class="imgcssshow">
+            </a>
+            <div class="cmdlist-text">
+                <p class="info">{{item.describe}}</p>
+                <div class="price">
+                    <a href="javascript:"><b><i class="layui-icon layui-icon-delete" data-photo="{{item.id}}" data-photoname="{{item.attachmentFileName}}"></i></b></a>
+                    <p class="flow">
+                        <i class="layui-icon layui-icon-star">0</i>
+                        <i class="layui-icon layui-icon-share">0</i>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{#  }); }}
+    {{#  if(d.items.length > 0){ }}
+    <div class="layui-col-md12 layui-col-sm12">
+        <div id="photos-paging-controls"></div>
+    </div>
+    {{#  } }}
+    {{#  if(d.items.length === 0){ }}
+    <div class="layui-col-md12 layui-col-sm12"><i class="layui-icon ayui-icon-face-cry"></i>   暂无相片</div>
+    {{#  } }}
+</script>

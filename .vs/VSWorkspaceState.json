@@ -5,8 +5,8 @@
     "\\src\\controller",
     "\\src\\views",
     "\\src\\views\\mschool",
-    "\\src\\views\\mschool\\classphotoalbum"
+    "\\src\\views\\mschool\\schoolmessage"
   ],
-  "SelectedNode": "\\src\\controller\\aspnetrole.js",
+  "SelectedNode": "\\src\\controller\\schoolmessage.js",
   "PreviewInSolutionExplorer": false
 }

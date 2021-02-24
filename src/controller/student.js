@@ -9,7 +9,9 @@ layui.define(['table', 'form', 'setter', 'verification', 'laytpl', 'laypage'], f
         , form = layui.form
         , laytpl = layui.laytpl
         , laypage = layui.laypage;
+
     form.render(null, 'student-search-form');
+
     //搜索 -> 初始课程数据
     admin.req({
         url: setter.apiAddress.course.list
