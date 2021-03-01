@@ -10,9 +10,9 @@
 
 <div class="layui-fluid">
     <div class="layui-row layui-col-space15">
-        <div class="layui-col-md6">
+        <div class="layui-col-md12">
             <div class="layui-card">
-                <div class="layui-card-header">生源情况分析</div>
+                <div class="layui-card-header">课消情况分析</div>
                 <div class="layui-card-body">
 
                     <div class="layui-card-header" style="padding:0 0 5px 0;">
@@ -27,7 +27,7 @@
                 </div>
             </div>
             <div class="layui-card">
-                <div class="layui-card-header">来源渠道分析</div>
+                <div class="layui-card-header">订单（预收）情况分析</div>
                 <div class="layui-card-body">
 
                     <div class="layui-card-header" style="padding:0 0 5px 0;">
@@ -42,7 +42,7 @@
                 </div>
             </div>
             <div class="layui-card">
-                <div class="layui-card-header">咨询跟进分析</div>
+                <div class="layui-card-header">课程订单贡献情况分析 - 雷达图</div>
                 <div class="layui-card-body">
 
                     <div class="layui-card-header" style="padding:0 0 5px 0;">
@@ -57,39 +57,9 @@
                 </div>
             </div>
         </div>
-        <div class="layui-col-md6">
+        <div class="layui-col-md12">
             <div class="layui-card">
-                <div class="layui-card-header">试听课程分析</div>
-                <div class="layui-card-body">
-
-                    <div class="layui-card-header" style="padding:0 0 5px 0;">
-                        <input type="text" class="layui-input" id="TrialClass-TimeSelect" placeholder="请选择时间段">
-                    </div>
-                    <div class="layui-carousel layadmin-carousel layadmin-dataview" data-anim="fade" lay-filter="LAY-index-heaparea">
-                        <div carousel-item id="LAY-index-heaparea">
-                            <div><i class="layui-icon layui-icon-loading1 layadmin-loading"></i></div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-            <div class="layui-card">
-                <div class="layui-card-header">营销转化分析</div>
-                <div class="layui-card-body">
-
-                    <div class="layui-card-header" style="padding:0 0 5px 0;">
-                        <input type="text" class="layui-input" id="MarketingTransformationAnalysis-TimeSelect" placeholder="请选择时间段">
-                    </div>
-                    <div class="layui-carousel layadmin-carousel layadmin-dataview" data-anim="fade" lay-filter="MarketingTransformationAnalysis">
-                        <div carousel-item id="MarketingTransformationAnalysis">
-                            <div><i class="layui-icon layui-icon-loading1 layadmin-loading"></i></div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-            <div class="layui-card">
-                <div class="layui-card-header">课程咨询情况分析</div>
+                <div class="layui-card-header">费用支出情况分析 - 各支出项支出占比</div>
                 <div class="layui-card-body">
 
                     <div class="layui-card-header" style="padding:0 0 5px 0;">
@@ -108,5 +78,5 @@
 </div>
 
 <script>
-    layui.use('marketanalysis', layui.factory('marketanalysis'));
+    layui.use('financialanalysis', layui.factory('financialanalysis'));
 </script>

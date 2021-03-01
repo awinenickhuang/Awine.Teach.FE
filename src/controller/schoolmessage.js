@@ -1,5 +1,5 @@
 ﻿/**
- @Name：
+ @Name：通知消息
  */
 layui.define(['table', 'form', 'common', 'setter', 'element', 'verification'], function (exports) {
     var $ = layui.$

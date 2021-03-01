@@ -221,6 +221,10 @@ layui.define(['laytpl', 'layer', 'element', 'util'], function (exports) {
                 trackingassigned: 'http://localhost:8002/api/consultrecord/trackingassigned',
                 statistical: 'http://localhost:8002/api/consultrecord/statistical',
                 chartreport: 'http://localhost:8002/api/consultrecord/chartreport',
+                monthchartreport: 'http://localhost:8002/api/consultrecord/monthchartreport',
+                coursemonthchartreport: 'http://localhost:8002/api/consultrecord/coursemonthchartreport',
+                studenttransformationtreport: 'http://localhost:8002/api/consultrecord/studenttransformationtreport',
+                studentsourcechannelreport: 'http://localhost:8002/api/consultrecord/studentsourcechannelreport'
             },
             communicationrecord: {
                 pagelist: 'http://localhost:8002/api/communicationrecord/pagelist',
@@ -234,7 +238,8 @@ layui.define(['laytpl', 'layer', 'element', 'util'], function (exports) {
                 listenfollowclass: 'http://localhost:8002/api/trialclass/listenfollowclass',
                 onetoonelisten: 'http://localhost:8002/api/trialclass/onetoonelisten',
                 updatelisteningstate: 'http://localhost:8002/api/trialclass/updatelisteningstate',
-                delete: 'http://localhost:8002/api/trialclass/delete'
+                delete: 'http://localhost:8002/api/trialclass/delete',
+                trialclassreportchart: 'http://localhost:8002/api/trialclass/trialclassreportchart'
             },
             holiday: {
                 pagelist: 'http://localhost:8002/api/legalholiday/pagelist',

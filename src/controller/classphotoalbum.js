@@ -303,26 +303,22 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'laydate', 'laypag
                             , accept: 'file'
                             , size: 2048 //限制文件大小，单位 KB
                             , exts: 'jpg|png'
+                            , headers: { Authorization: "Bearer " + layui.data(setter.tableName)[setter.request.tokenName] }
                             , before: function (obj) {
                                 //预读本地文件示例，不支持ie8
                                 obj.preview(function (index, file, result) {
                                     //$('#preview').attr('src', result); //图片链接（base64）
-                                    //layer.msg(result);
                                 });
                             }
                             , done: function (res) {
+                                //$('#preview').hide();
                                 layer.msg('上传成功', { icon: 6 });
                                 layui.$('#uploaddoneview').removeClass('layui-hide').find('img').attr('src', res.data.uploadedUri);
                                 uploadresult.attachmentFileName = res.data.fileName;
                                 uploadresult.attachmentFullUri = res.data.uploadedUri;
                             }
-                            , error: function () {
-                                layer.msg("error");
-                                //var demoText = $('#demoText');
-                                //demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
-                                //demoText.find('.demo-reload').on('click', function () {
-                                //    uploadInst.upload();
-                                //});
+                            , error: function (res) {
+                                layer.msg("上传失败");
                             }
                         });
                         form.on('submit(classphotoalbum-upload-form-submit)', function (data) {

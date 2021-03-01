@@ -2,11 +2,10 @@
   "ExpandedNodes": [
     "",
     "\\src",
-    "\\src\\controller",
     "\\src\\views",
-    "\\src\\views\\mschool",
-    "\\src\\views\\mschool\\schoolmessage"
+    "\\src\\views\\reportanalysis",
+    "\\src\\views\\reportanalysis\\educationalanalysis"
   ],
-  "SelectedNode": "\\src\\controller\\schoolmessage.js",
+  "SelectedNode": "\\src\\views\\reportanalysis\\educationalanalysis\\index.html",
   "PreviewInSolutionExplorer": false
 }

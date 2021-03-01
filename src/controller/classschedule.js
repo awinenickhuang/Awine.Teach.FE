@@ -341,7 +341,7 @@ layui.define(['table', 'form', 'common', 'setter', 'verification', 'fullCalendar
                     layer.tips(str.join(''),
                         $(info.el),
                         {
-                            tips: [2, '#009999'],
+                            tips: [3, '#009999'],
                             time: false,
                             tipsMore: false,
                             area: admin.screen() < 2 ? ['100%', 'auto'] : ['300px', 'auto'],

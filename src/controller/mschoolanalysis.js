@@ -1,6 +1,6 @@
-/**
+﻿/**
 
- @Name：Marketanalysis Echarts 市场数据统计分析图表
+ @Name：layuiAdmin Echarts
     
  */
 
@@ -91,76 +91,53 @@ layui.define(function (exports) {
                     }
                 });
             },
-            //生源来源渠道情况（当月每天的试所有渠道试听情况）
-            studentSourceChannel: function (designatedMonth) {
+            //生源来源渠道
+            studentSourcWay: function () {
                 admin.req({
-                    url: setter.apiAddress.consultrecord.studentsourcechannelreport
+                    url: setter.apiAddress.consultrecord.monthchartreport
                     , data: { designatedMonth: designatedMonth }
                     , done: function (res) {
-                        //来源渠道分析
-                        var echheapline = [], heapline = [
-                            {
-                                tooltip: {
-                                    trigger: 'axis'
-                                },
-                                legend: res.data.legend,
-                                calculable: true,
-                                xAxis: res.data.xAxis,
-                                yAxis: [
-                                    {
-                                        type: 'value'
-                                    }
-                                ],
-                                series: res.data.series
-                            }
-                        ]
-                            , elemheapline = $('#MarketingChannel-heapline').children('div')
-                            , renderheapline = function (index) {
-                                echheapline[index] = echarts.init(elemheapline[index], layui.echartsTheme);
-                                echheapline[index].setOption(heapline[index]);
-                                window.onresize = echheapline[index].resize;
-                            };
-                        if (!elemheapline[0]) return;
-                        renderheapline(0);
+                        var xAxisData = [];
+                        var seriesData = [];
+                        $.each(res.data, function (index, item) {
+                            xAxisData.push(common.formatDate(item.createTime, "MM-dd"));
+                            seriesData.push(item.quantity);
+                        });
+                        //--
                     }
                 });
             },
-            //试听课程情况（当月每天的试所有课程试听情况）
-            trialClassReportChart: function (designatedMonth) {
+            //生源来跟进情况
+            studentFollowUp: function () {
                 admin.req({
-                    url: setter.apiAddress.trialclass.trialclassreportchart
+                    url: setter.apiAddress.consultrecord.monthchartreport
                     , data: { designatedMonth: designatedMonth }
                     , done: function (res) {
-                        //试听课程分析
-                        var echheaparea = [], heaparea = [
-                            {
-                                tooltip: {
-                                    trigger: 'axis'
-                                },
-                                legend: {
-                                    data: res.data.legend
-                                },
-                                calculable: true,
-                                xAxis: res.data.xAxis,
-                                yAxis: [
-                                    {
-                                        type: 'value'
-                                    }
-                                ],
-                                series: res.data.series
-                            }
-                        ]
-                            , elemheaparea = $('#LAY-index-heaparea').children('div')
-                            , renderheaparea = function (index) {
-                                echheaparea[index] = echarts.init(elemheaparea[index], layui.echartsTheme);
-                                echheaparea[index].setOption(heaparea[index]);
-                                window.onresize = echheaparea[index].resize;
-                            };
-                        if (!elemheaparea[0]) return;
-                        renderheaparea(0);
-
+                        var xAxisData = [];
+                        var seriesData = [];
+                        $.each(res.data, function (index, item) {
+                            xAxisData.push(common.formatDate(item.createTime, "MM-dd"));
+                            seriesData.push(item.quantity);
+                        });
+                        //--
                     }
-                })
+                });
+            },
+            //试听课情况
+            studentAudition: function () {
+                admin.req({
+                    url: setter.apiAddress.consultrecord.monthchartreport
+                    , data: { designatedMonth: designatedMonth }
+                    , done: function (res) {
+                        var xAxisData = [];
+                        var seriesData = [];
+                        $.each(res.data, function (index, item) {
+                            xAxisData.push(common.formatDate(item.createTime, "MM-dd"));
+                            seriesData.push(item.quantity);
+                        });
+                        //--
+                    }
+                });
             },
             //营销转化情况
             studentTransformation: function (designatedMonth) {
@@ -279,7 +256,6 @@ layui.define(function (exports) {
                 });
             }
         }
-
         laydate.render({
             elem: '#StudentSource-TimeSelect'
             , type: 'month'
@@ -291,17 +267,15 @@ layui.define(function (exports) {
         laydate.render({
             elem: '#MarketingChannel-TimeSelect'
             , type: 'month'
-            , done: function (value, date) {
-                charts.studentSourceChannel(value);
-            }
         });
-
         laydate.render({
             elem: '#TrialClass-TimeSelect'
             , type: 'month'
-            , done: function (value, date) {
-                charts.trialClassReportChart(value);
-            }
+        });
+
+        laydate.render({
+            elem: '#ConsultRecord-TimeSelect'
+            , type: 'month'
         });
 
         laydate.render({
@@ -323,13 +297,246 @@ layui.define(function (exports) {
         //加载统计图 - 默认展示当月数据
         charts.studentSource(common.nowdate());
 
-        charts.studentSourceChannel(common.nowdate());
-
-        charts.trialClassReportChart(common.nowdate());
-
         charts.studentTransformation(common.nowdate());
 
         charts.studentCourse(common.nowdate());
+
+        //来源渠道分析
+        var echheapline = [], heapline = [
+            {
+                tooltip: {
+                    trigger: 'axis'
+                },
+                legend: { data: ['邮件营销', '联盟广告', '视频广告', '直接访问', '搜索引擎'] },
+                calculable: true,
+                xAxis: [
+                    {
+                        type: 'category',
+                        boundaryGap: false,
+                        data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+                    }
+                ],
+                yAxis: [
+                    {
+                        type: 'value'
+                    }
+                ],
+                series: [
+                    {
+                        name: '邮件营销',
+                        type: 'line',
+                        stack: '总量',
+                        data: [120, 132, 101, 134, 90, 230, 210]
+                    },
+                    {
+                        name: '联盟广告',
+                        type: 'line',
+                        stack: '总量',
+                        data: [220, 182, 191, 234, 290, 330, 310]
+                    },
+                    {
+                        name: '视频广告',
+                        type: 'line',
+                        stack: '总量',
+                        data: [150, 232, 201, 154, 190, 330, 410]
+                    },
+                    {
+                        name: '直接访问',
+                        type: 'line',
+                        stack: '总量',
+                        data: [320, 332, 301, 334, 390, 330, 320]
+                    },
+                    {
+                        name: '搜索引擎',
+                        type: 'line',
+                        stack: '总量',
+                        data: [820, 932, 901, 934, 1290, 1330, 1320]
+                    }
+                ]
+            }
+        ]
+            , elemheapline = $('#MarketingChannel-heapline').children('div')
+            , renderheapline = function (index) {
+                echheapline[index] = echarts.init(elemheapline[index], layui.echartsTheme);
+                echheapline[index].setOption(heapline[index]);
+                window.onresize = echheapline[index].resize;
+            };
+        if (!elemheapline[0]) return;
+        renderheapline(0);
+
+        //试听课程分析
+        var echheaparea = [], heaparea = [
+            {
+                tooltip: {
+                    trigger: 'axis'
+                },
+                legend: {
+                    data: ['邮件营销', '联盟广告', '视频广告', '直接访问', '搜索引擎']
+                },
+                calculable: true,
+                xAxis: [
+                    {
+                        type: 'category',
+                        boundaryGap: false,
+                        data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+                    }
+                ],
+                yAxis: [
+                    {
+                        type: 'value'
+                    }
+                ],
+                series: [
+                    {
+                        name: '邮件营销',
+                        type: 'line',
+                        stack: '总量',
+                        itemStyle: { normal: { areaStyle: { type: 'default' } } },
+                        data: [120, 132, 101, 134, 90, 230, 210]
+                    },
+                    {
+                        name: '联盟广告',
+                        type: 'line',
+                        stack: '总量',
+                        itemStyle: { normal: { areaStyle: { type: 'default' } } },
+                        data: [220, 182, 191, 234, 290, 330, 310]
+                    },
+                    {
+                        name: '视频广告',
+                        type: 'line',
+                        stack: '总量',
+                        itemStyle: { normal: { areaStyle: { type: 'default' } } },
+                        data: [150, 232, 201, 154, 190, 330, 410]
+                    },
+                    {
+                        name: '直接访问',
+                        type: 'line',
+                        stack: '总量',
+                        itemStyle: { normal: { areaStyle: { type: 'default' } } },
+                        data: [320, 332, 301, 334, 390, 330, 320]
+                    },
+                    {
+                        name: '搜索引擎',
+                        type: 'line',
+                        stack: '总量',
+                        itemStyle: { normal: { areaStyle: { type: 'default' } } },
+                        data: [820, 932, 901, 934, 1290, 1330, 1320]
+                    }
+                ]
+            }
+        ]
+            , elemheaparea = $('#LAY-index-heaparea').children('div')
+            , renderheaparea = function (index) {
+                echheaparea[index] = echarts.init(elemheaparea[index], layui.echartsTheme);
+                echheaparea[index].setOption(heaparea[index]);
+                window.onresize = echheaparea[index].resize;
+            };
+        if (!elemheaparea[0]) return;
+        renderheaparea(0);
+
+        //咨询跟进分析
+        var echnormline = []
+            , normline = [
+                {
+                    tooltip: {
+                        trigger: 'axis',
+                        axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+                            type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                        }
+                    },
+                    legend: {
+                        data: ['直接访问', '邮件营销', '联盟广告', '视频广告', '搜索引擎', '百度', '谷歌', '必应', '其他']
+                    },
+                    grid: {
+                        left: '3%',
+                        right: '4%',
+                        bottom: '3%',
+                        containLabel: true
+                    },
+                    xAxis: [
+                        {
+                            type: 'category',
+                            data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+                        }
+                    ],
+                    yAxis: [
+                        {
+                            type: 'value'
+                        }
+                    ],
+                    series: [
+                        {
+                            name: '直接访问',
+                            type: 'bar',
+                            data: [320, 332, 301, 334, 390, 330, 320]
+                        },
+                        {
+                            name: '邮件营销',
+                            type: 'bar',
+                            stack: '广告',
+                            data: [120, 132, 101, 134, 90, 230, 210]
+                        },
+                        {
+                            name: '联盟广告',
+                            type: 'bar',
+                            stack: '广告',
+                            data: [220, 182, 191, 234, 290, 330, 310]
+                        },
+                        {
+                            name: '视频广告',
+                            type: 'bar',
+                            stack: '广告',
+                            data: [150, 232, 201, 154, 190, 330, 410]
+                        },
+                        {
+                            name: '搜索引擎',
+                            type: 'bar',
+                            data: [862, 1018, 964, 1026, 1679, 1600, 1570],
+                            markLine: {
+                                lineStyle: {
+                                    type: 'dashed'
+                                },
+                                data: [
+                                    [{ type: 'min' }, { type: 'max' }]
+                                ]
+                            }
+                        },
+                        {
+                            name: '百度',
+                            type: 'bar',
+                            barWidth: 5,
+                            stack: '搜索引擎',
+                            data: [620, 732, 701, 734, 1090, 1130, 1120]
+                        },
+                        {
+                            name: '谷歌',
+                            type: 'bar',
+                            stack: '搜索引擎',
+                            data: [120, 132, 101, 134, 290, 230, 220]
+                        },
+                        {
+                            name: '必应',
+                            type: 'bar',
+                            stack: '搜索引擎',
+                            data: [60, 72, 71, 74, 190, 130, 110]
+                        },
+                        {
+                            name: '其他',
+                            type: 'bar',
+                            stack: '搜索引擎',
+                            data: [62, 82, 91, 84, 109, 110, 120]
+                        }
+                    ]
+                }
+            ]
+            , elemnormline = $('#ConsultRecord-Chart').children('div')
+            , rendernormline = function (index) {
+                echnormline[index] = echarts.init(elemnormline[index], layui.echartsTheme);
+                echnormline[index].setOption(normline[index]);
+                window.onresize = echnormline[index].resize;
+            };
+        if (!elemnormline[0]) return;
+        rendernormline(0);
     });
 
     //地图 - > 平台机构分布图
@@ -417,6 +624,6 @@ layui.define(function (exports) {
         renderplat(0);
     });
 
-    exports('marketanalysis', {})
+    exports('mschoolanalysis', {})
 
 });
