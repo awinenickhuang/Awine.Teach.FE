@@ -220,7 +220,6 @@ layui.define(['laytpl', 'layer', 'element', 'util'], function (exports) {
                 update: 'http://localhost:8002/api/consultrecord/update',
                 trackingassigned: 'http://localhost:8002/api/consultrecord/trackingassigned',
                 statistical: 'http://localhost:8002/api/consultrecord/statistical',
-                chartreport: 'http://localhost:8002/api/consultrecord/chartreport',
                 monthchartreport: 'http://localhost:8002/api/consultrecord/monthchartreport',
                 coursemonthchartreport: 'http://localhost:8002/api/consultrecord/coursemonthchartreport',
                 studenttransformationtreport: 'http://localhost:8002/api/consultrecord/studenttransformationtreport',
@@ -267,6 +266,8 @@ layui.define(['laytpl', 'layer', 'element', 'util'], function (exports) {
             studentcourseorder: {
                 list: 'http://localhost:8002/api/studentcourseorder/list',
                 pagelist: 'http://localhost:8002/api/studentcourseorder/pagelist',
+                ordermonthcahrtreport: 'http://localhost:8002/api/studentcourseorder/ordermonthcahrtreport',
+                courseordermonthcahrtreport: 'http://localhost:8002/api/studentcourseorder/courseordermonthcahrtreport'
             },
             studentattendance: {
                 pagelist: 'http://localhost:8002/api/studentattendance/pagelist',
@@ -281,7 +282,8 @@ layui.define(['laytpl', 'layer', 'element', 'util'], function (exports) {
                 add: 'http://localhost:8002/api/studentgrowthrecord/add',
                 update: 'http://localhost:8002/api/studentgrowthrecord/update',
                 delete: 'http://localhost:8002/api/studentgrowthrecord/delete',
-                single: 'http://localhost:8002/api/studentgrowthrecord/single'
+                single: 'http://localhost:8002/api/studentgrowthrecord/single',
+                studentgrowrecordnumberchartreport: 'http://localhost:8002/api/studentgrowthrecord/studentgrowrecordnumberchartreport'
             },
             studentgrowthrecordcomment: {
                 pagelist: 'http://localhost:8002/api/studentgrowthrecordcomment/pagelist',
@@ -317,7 +319,8 @@ layui.define(['laytpl', 'layer', 'element', 'util'], function (exports) {
                 add: 'http://localhost:8002/api/classes/add',
                 update: 'http://localhost:8002/api/classes/update',
                 delete: 'http://localhost:8002/api/classes/delete',
-                updaterecruitstatus: 'http://localhost:8002/api/classes/updaterecruitstatus'
+                updaterecruitstatus: 'http://localhost:8002/api/classes/updaterecruitstatus',
+                classnumberchartreport: 'http://localhost:8002/api/classes/classnumberchartreport'
             },
             classphotoalbum: {
                 pagelist: 'http://localhost:8002/api/classphotoalbum/pagelist',
@@ -369,6 +372,7 @@ layui.define(['laytpl', 'layer', 'element', 'util'], function (exports) {
                 add: 'http://localhost:8003/api/dailyspending/add',
                 update: 'http://localhost:8003/api/dailyspending/update',
                 delete: 'http://localhost:8003/api/dailyspending/delete',
+                spendingreport: 'http://localhost:8003/api/dailyspending/spendingreport',
             },
             announcements: {
                 pagelist: 'http://localhost:8004/api/announcement/pagelist',

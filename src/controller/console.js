@@ -79,15 +79,9 @@ layui.define(function (exports) {
 
         //数据请求成功之后刷新图表数据
         admin.req({
-            url: setter.apiAddress.consultrecord.chartreport
-            , data: { statisticalMmethod: 3 }
+            url: setter.apiAddress.consultrecord.monthchartreport
+            , data: { designatedMonth: common.nowdate() }
             , done: function (res) {
-                var xAxisData = [];
-                var seriesData = [];
-                $.each(res.data, function (index, item) {
-                    xAxisData.push(common.formatDate(item.createTime, "MM-dd"));
-                    seriesData.push(item.quantity);
-                });
                 var echartsApp = [], options = [
                     //今日流量趋势
                     //{
@@ -175,7 +169,7 @@ layui.define(function (exports) {
                         },
                         xAxis: [{ //X轴
                             type: 'category',
-                            data: xAxisData
+                            data: res.data.xAxisData
                         }],
                         yAxis: [{  //Y轴
                             type: 'value',
@@ -183,7 +177,7 @@ layui.define(function (exports) {
                         }],
                         series: [{ //内容
                             type: 'line',
-                            data: seriesData
+                            data: res.data.seriesData
                         }]
                     }
                 ]

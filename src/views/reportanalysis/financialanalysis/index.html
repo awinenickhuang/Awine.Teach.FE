@@ -12,14 +12,14 @@
     <div class="layui-row layui-col-space15">
         <div class="layui-col-md12">
             <div class="layui-card">
-                <div class="layui-card-header">课消情况分析</div>
+                <div class="layui-card-header">订单数量分析</div>
                 <div class="layui-card-body">
 
                     <div class="layui-card-header" style="padding:0 0 5px 0;">
-                        <input type="text" class="layui-input" id="StudentSource-TimeSelect" placeholder="请选择时间段">
+                        <input type="text" class="layui-input" id="OrderCount-BasicLineChart-TimeSelect" placeholder="请选择时间段">
                     </div>
-                    <div class="layui-carousel layadmin-carousel layadmin-dataview" data-anim="fade" lay-filter="StudentSource-Line">
-                        <div carousel-item id="StudentSource-Line">
+                    <div class="layui-carousel layadmin-carousel layadmin-dataview" data-anim="fade" lay-filter="OrderCount-BasicLineChart-Container">
+                        <div carousel-item id="OrderCount-BasicLineChart-Container">
                             <div><i class="layui-icon layui-icon-loading1 layadmin-loading"></i></div>
                         </div>
                     </div>
@@ -27,14 +27,14 @@
                 </div>
             </div>
             <div class="layui-card">
-                <div class="layui-card-header">订单（预收）情况分析</div>
+                <div class="layui-card-header">课程订单分析</div>
                 <div class="layui-card-body">
 
                     <div class="layui-card-header" style="padding:0 0 5px 0;">
-                        <input type="text" class="layui-input" id="MarketingChannel-TimeSelect" placeholder="请选择时间段">
+                        <input type="text" class="layui-input" id="CourseOrderCount-StackedLineChart-TimeSelect" placeholder="请选择时间段">
                     </div>
-                    <div class="layui-carousel layadmin-carousel layadmin-dataview" data-anim="fade" lay-filter="MarketingChannel-heapline">
-                        <div carousel-item id="MarketingChannel-heapline">
+                    <div class="layui-carousel layadmin-carousel layadmin-dataview" data-anim="fade" lay-filter="CourseOrderCount-StackedLineChart-Container">
+                        <div carousel-item id="CourseOrderCount-StackedLineChart-Container">
                             <div><i class="layui-icon layui-icon-loading1 layadmin-loading"></i></div>
                         </div>
                     </div>
@@ -42,14 +42,14 @@
                 </div>
             </div>
             <div class="layui-card">
-                <div class="layui-card-header">课程订单贡献情况分析 - 雷达图</div>
+                <div class="layui-card-header">费用支出情况分析</div>
                 <div class="layui-card-body">
 
                     <div class="layui-card-header" style="padding:0 0 5px 0;">
-                        <input type="text" class="layui-input" id="ConsultRecord-TimeSelect" placeholder="请选择时间段">
+                        <input type="text" class="layui-input" id="Spending-TimeSelect" placeholder="请选择时间段">
                     </div>
-                    <div class="layui-carousel layadmin-carousel layadmin-dataview" data-anim="fade" lay-filter="ConsultRecord-Chart">
-                        <div carousel-item id="ConsultRecord-Chart">
+                    <div class="layui-carousel layadmin-carousel layadmin-dataview" data-anim="fade" lay-filter="Spending-Container">
+                        <div carousel-item id="Spending-Container">
                             <div><i class="layui-icon layui-icon-loading1 layadmin-loading"></i></div>
                         </div>
                     </div>
@@ -57,23 +57,42 @@
                 </div>
             </div>
         </div>
-        <div class="layui-col-md12">
+        <!--<div class="layui-col-md12">
             <div class="layui-card">
-                <div class="layui-card-header">费用支出情况分析 - 各支出项支出占比</div>
+                <div class="layui-card-header">课消数量分析</div>
                 <div class="layui-card-body">
 
                     <div class="layui-card-header" style="padding:0 0 5px 0;">
-                        <input type="text" class="layui-input" id="CourseConsultationVolumeAnalysis-TimeSelect" placeholder="请选择时间段">
+                        <input type="text" class="layui-input" id="Income-TimeSelect" placeholder="请选择时间段">
                     </div>
-                    <div class="layui-carousel layadmin-carousel layadmin-dataview" data-anim="fade" lay-filter="CourseConsultationVolumeAnalysis">
-                        <div carousel-item id="CourseConsultationVolumeAnalysis">
+                    <div class="layui-carousel layadmin-carousel layadmin-dataview" data-anim="fade" lay-filter="Income-Container">
+                        <div carousel-item id="Income-Container">
                             <div><i class="layui-icon layui-icon-loading1 layadmin-loading"></i></div>
                         </div>
                     </div>
 
                 </div>
             </div>
-        </div>
+        </div>-->
+        <!--<div class="layui-col-md12">
+
+            <div class="layui-card">
+                <div class="layui-card-header">订单金额（预收款）分析</div>
+                <div class="layui-card-body">
+
+                    <div class="layui-card-header" style="padding:0 0 5px 0;">
+                        <input type="text" class="layui-input" id="OrderAmountStackedAreaChart-TimeSelect" placeholder="请选择时间段">
+                    </div>
+                    <div class="layui-carousel layadmin-carousel layadmin-dataview" data-anim="fade" lay-filter="OrderAmountStackedAreaChart-Container">
+                        <div carousel-item id="OrderAmountStackedAreaChart-Container">
+                            <div><i class="layui-icon layui-icon-loading1 layadmin-loading"></i></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>-->
     </div>
 </div>
 

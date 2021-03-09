@@ -146,7 +146,7 @@ layui.extend({
             });
 
             //独立页面
-            if (isIndPage || pathURL === '/user/login') { //此处单独判断登入页，是为了兼容旧版（即未在 config.js 配置 indPage 的情况）
+            if (isIndPage || pathURL === '/system/login') { //此处单独判断登入页，是为了兼容旧版（即未在 config.js 配置 indPage 的情况）
                 container.render(router.path.join('/')).done(function () {
                     admin.pageType = 'alone';
                 });
@@ -171,6 +171,11 @@ layui.extend({
                     //后台主体页 -> 进入每个具体页面时会执行
                     renderPage();
                 } else {
+                    //切换默认桌面
+                    let tenantclassification = layui.data(setter.tableName)["tenantclassification"];
+                    if (tenantclassification == 4 || tenantclassification == 5) {
+                        setter.entry = 'home/homepageplatform';
+                    }
                     //初始左则操作菜单
                     admin.req({
                         url: setter.apiAddress.awinemodule.getroleownedmodules
@@ -187,6 +192,7 @@ layui.extend({
                             });
                         }
                     });
+
                     //原有写法 - 初始控制台结构
                     //container.render('layout').done(function () {
                     //    renderPage();

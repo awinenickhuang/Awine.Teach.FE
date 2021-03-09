@@ -2,10 +2,9 @@
   "ExpandedNodes": [
     "",
     "\\src",
-    "\\src\\views",
-    "\\src\\views\\reportanalysis",
-    "\\src\\views\\reportanalysis\\educationalanalysis"
+    "\\src\\controller",
+    "\\src\\views"
   ],
-  "SelectedNode": "\\src\\views\\reportanalysis\\educationalanalysis\\index.html",
+  "SelectedNode": "\\src\\controller\\studentprofile.js",
   "PreviewInSolutionExplorer": false
 }

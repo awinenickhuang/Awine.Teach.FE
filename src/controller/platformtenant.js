@@ -55,6 +55,12 @@ layui.define(['table', 'form', 'setter', 'verification', 'laydate'], function (e
                         case 3:
                             return '<span style="color:#1E9FFF;">VIP</span>';
                             break;
+                        case 4:
+                            return '<span style="color:#009688;">代理商</span>';
+                            break;
+                        case 5:
+                            return '<span style="color:#FF5722;">运营商</span>';
+                            break;
                         default:
                             return '-';
                             break;

@@ -46,12 +46,6 @@ layui.define(function (exports) {
                     url: setter.apiAddress.consultrecord.monthchartreport
                     , data: { designatedMonth: designatedMonth }
                     , done: function (res) {
-                        var xAxisData = [];
-                        var seriesData = [];
-                        $.each(res.data, function (index, item) {
-                            xAxisData.push(common.formatDate(item.createTime, "MM-dd"));
-                            seriesData.push(item.quantity);
-                        });
                         //生源数量分析
                         var echnormline = []
                             , normline = [
@@ -69,14 +63,14 @@ layui.define(function (exports) {
                                     },
                                     xAxis: [{ //X轴
                                         type: 'category',
-                                        data: xAxisData
+                                        data: res.data.xAxisData
                                     }],
                                     yAxis: [{  //Y轴
                                         type: 'value'
                                     }],
                                     series: [{ //内容
                                         type: 'line',
-                                        data: seriesData,
+                                        data: res.data.seriesData,
                                     }]
                                 }
                             ]
@@ -231,13 +225,6 @@ layui.define(function (exports) {
                     url: setter.apiAddress.consultrecord.coursemonthchartreport
                     , data: { designatedMonth: designatedMonth }
                     , done: function (res) {
-                        var legendData = [];
-                        var seriesData = res.data.seriesData;
-
-                        $.each(res.data.legendData, function (index, leg) {
-                            legendData.push(leg.name);
-                        });
-
                         //课程咨询情况分析
                         var echnormline = []
                             , normline = [
@@ -247,7 +234,7 @@ layui.define(function (exports) {
                                         formatter: '{a} <br/>{b} : {c} ({d}%)'
                                     },
                                     legend: {
-                                        data: legendData
+                                        data: res.data.legendData
                                     },
                                     series: [
                                         {
@@ -255,7 +242,7 @@ layui.define(function (exports) {
                                             type: 'pie',
                                             radius: '55%',
                                             center: ['50%', '60%'],
-                                            data: seriesData,
+                                            data: res.data.seriesData,
                                             emphasis: {
                                                 itemStyle: {
                                                     shadowBlur: 10,

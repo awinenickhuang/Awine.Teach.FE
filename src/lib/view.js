@@ -216,7 +216,6 @@ layui.define(['laytpl', 'layer', 'oidcsetup'], function (exports) {
         }, options))
     };
 
-
     //请求模板文件渲染
     Class.prototype.render = function (views, params) {
         var that = this, router = layui.router();

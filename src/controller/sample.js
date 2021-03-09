@@ -1,6 +1,6 @@
 /**
 
- @Name：layuiAdmin 主页示例
+ @Name：layuiAdmin 运营商或代理商 -> 主页
     
  */
 
@@ -177,8 +177,8 @@ layui.define(function (exports) {
         var echartsApp = [], options = [
             {
                 title: {
-                    text: '全国的 layui 用户分布',
-                    subtext: '不完全统计'
+                    text: '',
+                    subtext: ''
                 },
                 tooltip: {
                     trigger: 'item'
@@ -192,7 +192,7 @@ layui.define(function (exports) {
                 },
                 series: [
                     {
-                        name: '全国的 layui 用户分布',
+                        name: '',
                         type: 'map',
                         mapType: 'china',
                         selectedMode: 'multiple',

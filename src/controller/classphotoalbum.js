@@ -304,6 +304,8 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'laydate', 'laypag
                             , size: 2048 //限制文件大小，单位 KB
                             , exts: 'jpg|png'
                             , headers: { Authorization: "Bearer " + layui.data(setter.tableName)[setter.request.tokenName] }
+                            //, auto: false                                       //自动上传,默认是打开的
+                            //, bindAction: '#btn_file_upload'                    //auto为false时，点击触发上传
                             , before: function (obj) {
                                 //预读本地文件示例，不支持ie8
                                 obj.preview(function (index, file, result) {
