@@ -3,8 +3,12 @@
     "",
     "\\src",
     "\\src\\controller",
-    "\\src\\views"
+    "\\src\\views",
+    "\\src\\views\\operation",
+    "\\src\\views\\operation\\appversion",
+    "\\src\\views\\teaching\\course",
+    "\\start"
   ],
-  "SelectedNode": "\\src\\controller\\studentprofile.js",
+  "SelectedNode": "\\src\\controller\\verification.js",
   "PreviewInSolutionExplorer": false
 }

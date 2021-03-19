@@ -193,7 +193,7 @@ layui.define(['table', 'form', 'setter', 'verification', 'treeGrid'], function (
                 , treeShowName: 'name'
                 , isFilter: false
                 , iconOpen: false
-                , isOpenDefault: false
+                , isOpenDefault: true
                 , loading: true
                 , method: 'get'
                 , isPage: false

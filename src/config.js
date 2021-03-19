@@ -146,6 +146,7 @@ layui.define(['laytpl', 'layer', 'element', 'util'], function (exports) {
                 list: 'http://localhost:8001/api/modules/list',
                 pagelist: 'http://localhost:8001/api/modules/pagelist',
                 listwithchedkedstatus: 'http://localhost:8001/api/modules/listwithchedkedstatus',
+                listwithchedkedstatusforappversion: 'http://localhost:8001/api/modules/listwithchedkedstatusforappversion',
                 treelist: 'http://localhost:8001/api/modules/treelist',
                 add: 'http://localhost:8001/api/modules/add',
                 update: 'http://localhost:8001/api/modules/update',
@@ -207,6 +208,17 @@ layui.define(['laytpl', 'layer', 'element', 'util'], function (exports) {
                 add: 'http://localhost:8001/api/departments/add',
                 delete: 'http://localhost:8001/api/departments/delete',
                 update: 'http://localhost:8001/api/departments/update',
+            },
+            applicationversion: {
+                list: 'http://localhost:8001/api/applicationversion/list',
+                pagelist: 'http://localhost:8001/api/applicationversion/pagelist',
+                add: 'http://localhost:8001/api/applicationversion/add',
+                delete: 'http://localhost:8001/api/applicationversion/delete',
+                update: 'http://localhost:8001/api/applicationversion/update',
+            },
+            applicationversionownedmodule: {
+                saverappversionownedmodules: 'http://localhost:8001/api/applicationversionownedmodule/saverappversionownedmodules',
+                getappversionownedmodules: 'http://localhost:8001/api/applicationversionownedmodule/getappversionownedmodules',
             },
             marketingchannel: {
                 pagelist: 'http://localhost:8002/api/marketingchannel/pagelist',

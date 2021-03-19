@@ -25,7 +25,7 @@ layui.define(['form', 'setter', 'treeGrid', 'xmSelect', 'verification', 'table',
         , treeShowName: 'name'
         , isFilter: false
         , iconOpen: false
-        , isOpenDefault: false//默认收起
+        , isOpenDefault: true
         , loading: true
         , method: 'get'
         , isPage: false
