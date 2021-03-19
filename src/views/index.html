@@ -96,7 +96,7 @@
                                             </a>
                                         </li>
                                     </ul>
-                                    <ul class="layui-row layui-col-space10">
+                                    <!--<ul class="layui-row layui-col-space10">
                                         <li class="layui-col-xs6">
                                             <a href="javascript:;" class="layadmin-backlog-body">
                                                 <h3>未结课班级数量</h3>
@@ -115,7 +115,7 @@
                                                 <p><cite style="color: #FF5722;">5</cite></p>
                                             </a>
                                         </li>
-                                    </ul>
+                                    </ul>-->
                                 </div>
                             </div>
                         </div>
@@ -193,10 +193,9 @@
                             </tr>
                             <tr>
                                 <td>获取渠道</td>
-                                <td style="padding-bottom: 0;">
+                                <td style="padding-bottom: 3px;">
                                     <div class="layui-btn-container">
-                                        <a href="javascript:;" onclick="layer.tips('开放授权', this, {tips: 3});" target="_blank" class="layui-btn layui-btn-danger">升级VIP</a>
-                                        <a href="javascript:;" onclick="layer.tips('开放授权', this, {tips: 3});" target="_blank" class="layui-btn">免费试用</a>
+                                        <button type="button" class="layui-btn layui-btn-warm">永久免费</button>
                                     </div>
                                 </td>
                             </tr>
@@ -217,9 +216,8 @@
                 <div class="layui-card-body">
                     <div class="layui-carousel layadmin-carousel layadmin-news" data-autoplay="true" data-anim="fade" lay-filter="news">
                         <div carousel-item>
-                            <div><a href="#" target="_blank" class="layui-bg-red">快速上手文档</a></div>
-                            <div><a href="#" target="_blank" class="layui-bg-green">联系我的客服</a></div>
-                            <div><a lay-href="/operation/feedback/add" class="layui-bg-blue">定制需求反馈</a></div>
+                            <div><a lay-href="/operation/quickstart/index" class="layui-bg-blue">定制需求反馈</a></div>
+                            <div><a lay-href="/operation/feedback/add" class="layui-bg-green">联系我的客服</a></div>
                         </div>
                     </div>
                 </div>

@@ -2,13 +2,9 @@
   "ExpandedNodes": [
     "",
     "\\src",
-    "\\src\\controller",
-    "\\src\\views",
-    "\\src\\views\\operation",
-    "\\src\\views\\operation\\appversion",
-    "\\src\\views\\teaching\\course",
-    "\\start"
+    "\\src\\lib",
+    "\\src\\lib\\tinymce"
   ],
-  "SelectedNode": "\\src\\controller\\verification.js",
+  "SelectedNode": "\\src\\lib\\tinymce\\tinymce.js",
   "PreviewInSolutionExplorer": false
 }
