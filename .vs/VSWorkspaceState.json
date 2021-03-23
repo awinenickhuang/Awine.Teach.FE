@@ -2,9 +2,13 @@
   "ExpandedNodes": [
     "",
     "\\src",
+    "\\src\\controller",
     "\\src\\lib",
-    "\\src\\lib\\tinymce"
+    "\\src\\lib\\tinymce",
+    "\\src\\views",
+    "\\src\\views\\foundational",
+    "\\src\\views\\foundational\\platformtenant"
   ],
-  "SelectedNode": "\\src\\lib\\tinymce\\tinymce.js",
+  "SelectedNode": "\\src\\views\\foundational\\platformtenant\\edit.html",
   "PreviewInSolutionExplorer": false
 }

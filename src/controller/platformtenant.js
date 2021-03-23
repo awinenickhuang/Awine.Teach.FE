@@ -192,7 +192,7 @@ layui.define(['table', 'form', 'setter', 'verification', 'laydate'], function (e
 
                             //所处行业
                             admin.req({
-                                url: setter.apiAddress.industry.list
+                                url: setter.apiAddress.industrycategory.list
                                 , data: {}
                                 , done: function (res) {
                                     $("#sel-industry-list").append("<option value=\"\">请选择</option>");
@@ -331,7 +331,7 @@ layui.define(['table', 'form', 'setter', 'verification', 'laydate'], function (e
 
                         //初始化行业数据
                         admin.req({
-                            url: setter.apiAddress.industry.list
+                            url: setter.apiAddress.industrycategory.list
                             , data: {}
                             , done: function (res) {
                                 $.each(res.data, function (index, item) {
