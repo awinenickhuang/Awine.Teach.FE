@@ -302,7 +302,7 @@ layui.define(['table', 'form', 'common', 'setter', 'element', 'laydate', 'laypag
                             , url: setter.apiAddress.filemanagement.tencentcosupload //上传接口
                             , accept: 'file'
                             , size: 2048 //限制文件大小，单位 KB
-                            , exts: 'jpg|png'
+                            , exts: 'jpg|jpeg|png'
                             , headers: { Authorization: "Bearer " + layui.data(setter.tableName)[setter.request.tokenName] }
                             //, auto: false                                       //自动上传,默认是打开的
                             //, bindAction: '#btn_file_upload'                    //auto为false时，点击触发上传

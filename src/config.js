@@ -136,8 +136,8 @@ layui.define(['laytpl', 'layer', 'element', 'util'], function (exports) {
         , apiGatewayAddress: 'http://localhost:8000'
         , apiAddress: {
             filemanagement: {
-                localfileupload: 'http://localhost:3000/api/localfilemanagement/localfileupload',
-                tencentcosupload: 'http://localhost:3000/api/tencentcos/tencentcosupload'
+                localfileupload: 'http://localhost:8005/api/localfilemanagement/localfileupload',
+                tencentcosupload: 'http://localhost:8005/api/tencentcos/tencentcosupload'
             },
             area: {
                 getbyparentcode: 'http://localhost:8001/api/administrativedivisions/subordinate',
