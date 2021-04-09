@@ -1,0 +1,33 @@
+﻿<div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+    <ul class="layui-tab-title">
+        <li class="layui-this">定价策略</li>
+        <li>添加策略</li>
+    </ul>
+    <div class="layui-tab-content">
+        <div class="layui-tab-item layui-show">
+            <table class="layui-table" id="saaspricingtactics-table" lay-filter="saaspricingtactics-table"></table>
+        </div>
+        <div class="layui-tab-item">
+            <form class="layui-form" id="saaspricingtactics-add-form" lay-filter="saaspricingtactics-add-form" style="padding:15px;">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">年数</label>
+                    <div class="layui-input-block ">
+                        <input type="text" id="numberOfYears" name="NumberOfYears" lay-verify="required|number" maxlength="2" autocomplete="off" placeholder="使用年限" class="layui-input">
+                        <script type="text/html" template>
+                            <input type="hidden" name="SaaSVersionId" value="{{ d.params.id || '' }}" lay-verify="required" class="layui-input">
+                        </script>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">费用</label>
+                    <div class="layui-input-block ">
+                        <input type="text" id="chargeRates" name="ChargeRates" lay-verify="required|positive" maxlength="9" autocomplete="off" placeholder="收费标准" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item content-center">
+                    <button class="layui-btn layui-btn-sm" type="button" lay-submit lay-filter="saaspricingtactics-form-submit"><i class="layui-icon layui-icon-ok"></i>立即提交</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div> 

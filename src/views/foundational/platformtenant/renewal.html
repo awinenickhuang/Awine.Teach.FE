@@ -2,7 +2,7 @@
     <link rel="stylesheet" href="{{ layui.setter.base }}style/template.css?v={{ layui.admin.v }}-1" media="all">
 </script>
 
-<form class="layui-form" id="branches-edit-form" lay-filter="branches-edit-form-filter" style="padding:15px;">
+<form class="layui-form layui-form-pane" id="editclassfication-edit-form" lay-filter="editclassfication-edit-form-filter" style="padding:15px;">
     <div class="layui-form-item">
         <div class="layui-row">
             <div class="layui-form-item">
@@ -15,16 +15,23 @@
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label">机构数量</label>
+                <label class="layui-form-label lines">机构类型</label>
                 <div class="layui-input-block">
-                    <script type="text/html" template>
-                        <input type="text" name="NumberOfBranches" value="{{ d.params.numberOfBranches || '0' }}" maxlength="16" placeholder="" lay-verify="required|number" autocomplete="off" class="layui-input">
-                    </script>
+                    <select id="sel-editclassfication-list" name="ClassiFication" lay-verify="required|select">
+                        <option value="">请选择</option>
+                        <optgroup label="免费用户">
+                            <option value=1>免费</option>
+                            <option value=2>试用</option>
+                        </optgroup>
+                        <optgroup label="付费用户">
+                            <option value=3>VIP</option>
+                        </optgroup>
+                    </select>
                 </div>
             </div>
         </div>
         <div class="layui-form-item content-center">
-            <button class="layui-btn layui-btn-sm" type="button" lay-submit lay-filter="branches-edit-form-submit"><i class="layui-icon layui-icon-ok"></i>立即提交</button>
+            <button class="layui-btn layui-btn-sm" type="button" lay-submit lay-filter="editclassfication-edit-form-submit"><i class="layui-icon layui-icon-ok"></i>立即提交</button>
         </div>
     </div>
 </form>

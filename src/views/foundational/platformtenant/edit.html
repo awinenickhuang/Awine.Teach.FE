@@ -2,15 +2,8 @@
     <link rel="stylesheet" href="{{ layui.setter.base }}style/template.css?v={{ layui.admin.v }}-1" media="all">
 </script>
 
-<form class="layui-form" id="organization-edit-form" lay-filter="organization-edit-form" style="padding:15px;">
-    <div class="layui-form-item">
-        <label class="layui-form-label">到期时间</label>
-        <div class="layui-input-block ">
-            <script type="text/html" template>
-                <input type="text" id="vipExpirationTime" name="VIPExpirationTime" value="{{ d.params.vipExpirationTime || '' }}" class="layui-input" readonly placeholder="yyyy-MM-dd">
-            </script>
-        </div>
-    </div>
+<form class="layui-form layui-form-pane" id="organization-edit-form" lay-filter="organization-edit-form" style="padding:15px;">
+    <blockquote class="layui-elem-quote">修改联系人不会同步修改机构管理员信息。</blockquote>
     <div class="layui-form-item">
         <label class="layui-form-label">机构名称</label>
         <div class="layui-input-block">
@@ -63,12 +56,6 @@
         <div class="layui-input-block">
             <select class="sel" id="sel-district-edit-code" name="DistrictId" lay-verify="required|select" lay-filter="districtfilter"></select>
             <input type="hidden" id="district-edit-name" name="DistrictName" lay-verify="" autocomplete="off" placeholder="" class="layui-input">
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label lines">业务类型</label>
-        <div class="layui-input-block">
-            <select class="sel" id="sel-industry-list" name="IndustryId" lay-verify="required|select" lay-filter=""></select>
         </div>
     </div>
     <div class="layui-form-item content-center">

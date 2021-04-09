@@ -1,0 +1,77 @@
+﻿<script type="text/html" template>
+    <link rel="stylesheet" href="{{ layui.setter.base }}style/template.css?v={{ layui.admin.v }}-1" media="all">
+</script>
+
+<form class="layui-form" id="parametersettings-edit-form" lay-filter="parametersettings-edit-form" style="padding:15px;">
+    <div class="layui-form-item">
+        <div class="layui-form-item">
+            <label class="layui-form-label">部门数量</label>
+            <div class="layui-input-block ">
+                <script type="text/html" template>
+                    <input type="text" id="maxNumberOfDepartments" name="MaxNumberOfDepartments" value="{{ d.params.maxNumberOfDepartments }}" lay-verify="required|number" maxlength="3" autocomplete="off" placeholder="最大部门数量" class="layui-input">
+                    <input type="hidden" name="Id" value="{{ d.params.id || '' }}" lay-verify="required" class="layui-input">
+                    <input type="hidden" name="AppVersionId" value="{{ d.params.appVersionId || '' }}" lay-verify="required" class="layui-input">
+                </script>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">角色数量</label>
+            <div class="layui-input-block ">
+                <script type="text/html" template>
+                    <input type="text" id="maxNumberOfRoles" name="MaxNumberOfRoles" value="{{ d.params.maxNumberOfRoles }}" lay-verify="required|number" maxlength="3" autocomplete="off" placeholder="最大角色数量" class="layui-input">
+                </script>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">用户数量</label>
+            <div class="layui-input-block ">
+                <script type="text/html" template>
+                    <input type="text" id="maxNumberOfUser" name="MaxNumberOfUser" value="{{ d.params.maxNumberOfUser }}" lay-verify="required|number" maxlength="3" autocomplete="off" placeholder="最大用户数量" class="layui-input">
+                </script>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">课程数量</label>
+            <div class="layui-input-block ">
+                <script type="text/html" template>
+                    <input type="text" id="maxNumberOfCourse" name="MaxNumberOfCourse" value="{{ d.params.maxNumberOfCourse }}" lay-verify="required|number" maxlength="3" autocomplete="off" placeholder="最大课程数量" class="layui-input">
+                </script>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">班级数量</label>
+            <div class="layui-input-block ">
+                <script type="text/html" template>
+                    <input type="text" id="maxNumberOfClass" name="MaxNumberOfClass" value="{{ d.params.maxNumberOfClass }}" lay-verify="required|number" maxlength="5" autocomplete="off" placeholder="最大班级数量" class="layui-input">
+                </script>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">教室数量</label>
+            <div class="layui-input-block ">
+                <script type="text/html" template>
+                    <input type="text" id="maxNumberOfClassRoom" name="MaxNumberOfClassRoom" value="{{ d.params.maxNumberOfClassRoom }}" lay-verify="required|number" maxlength="5" autocomplete="off" placeholder="最大教室数量" class="layui-input">
+                </script>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">学生数量</label>
+            <div class="layui-input-block ">
+                <script type="text/html" template>
+                    <input type="text" id="maxNumberOfStudent" name="MaxNumberOfStudent" value="{{ d.params.maxNumberOfStudent }}" lay-verify="required|number" maxlength="5" autocomplete="off" placeholder="最大学生数量" class="layui-input">
+                </script>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">存储空间</label>
+            <div class="layui-input-block ">
+                <script type="text/html" template>
+                    <input type="text" id="maxStorageSpace" name="MaxStorageSpace" value="{{ d.params.maxStorageSpace }}" lay-verify="required|number" maxlength="10" autocomplete="off" placeholder="单位KB" class="layui-input">
+                </script>
+            </div>
+        </div>
+        <div class="layui-form-item content-center">
+            <button class="layui-btn layui-btn-sm" type="button" lay-submit lay-filter="parametersettings-edit-form-submit"><i class="layui-icon layui-icon-ok"></i>立即提交</button>
+        </div>
+    </div>
+</form>

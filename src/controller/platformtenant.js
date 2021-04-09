@@ -15,16 +15,16 @@ layui.define(['table', 'form', 'setter', 'verification', 'laydate'], function (e
         , toolbar: '#tenant-toolbar'
         , cols: [[
             { field: 'name', title: '机构' },
-            { field: 'industryName', width: 100, align: 'center', title: '分类' },
-            { field: 'contacts', width: 100, align: 'center', title: '负责人' },
-            { field: 'contactsPhone', width: 150, align: 'center', title: '联系方式' },
+            { field: 'industryName', align: 'center', title: '分类' },
+            { field: 'contacts', align: 'center', title: '负责人' },
+            { field: 'contactsPhone', align: 'center', title: '联系方式' },
             {
                 title: '地址', templet: function (d) {
                     return d.provinceName + d.cityName + d.districtName + d.address;
                 }
             },
             {
-                field: 'status', title: '状态', align: 'center', width: 100,
+                field: 'status', title: '机构状态', align: 'center',
                 templet: function (d) {
                     switch (d.status) {
                         case 1:
@@ -42,24 +42,18 @@ layui.define(['table', 'form', 'setter', 'verification', 'laydate'], function (e
                     }
                 }
             },
-            {
-                field: 'classiFication', title: '类型', align: 'center', width: 100,
+            {//租户类型 1-机构总部 2-分支机构 3-代理商 4-运营商
+                field: 'classiFication', title: '机构类型', align: 'center',
                 templet: function (d) {
                     switch (d.classiFication) {
                         case 1:
-                            return '<span style="color:#FFB800;">免费</span>';
+                            return '<span style="color:#FFB800;">机构</span>';
                             break;
                         case 2:
-                            return '<span style="color:#2F4056;">试用</span>';
+                            return '<span style="color:#2F4056;">代理商</span>';
                             break;
                         case 3:
-                            return '<span style="color:#1E9FFF;">VIP</span>';
-                            break;
-                        case 4:
-                            return '<span style="color:#009688;">代理商</span>';
-                            break;
-                        case 5:
-                            return '<span style="color:#FF5722;">运营商</span>';
+                            return '<span style="color:#1E9FFF;">运营商</span>';
                             break;
                         default:
                             return '-';
@@ -68,20 +62,22 @@ layui.define(['table', 'form', 'setter', 'verification', 'laydate'], function (e
                 }
             },
             {
-                field: 'vipExpirationTime', width: 200, title: '到期时间', align: 'center'
+                field: 'appVersionName', title: '版本类型', align: 'center'
+            },
+            {
+                field: 'vipExpirationTime', title: '到期时间', align: 'center'
             },
             {
                 field: 'createTime', width: 200, title: '创建时间', align: 'center'
             },
             {
-                width: 260, title: '操作', align: 'center'
+                width: 200, title: '操作', align: 'center'
                 , templet: function (d) {
                     var htmlButton = new Array();
                     htmlButton.push('<div class="layui-btn-group">')
                     htmlButton.push('<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a>');
                     htmlButton.push('<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="updatestatus"><i class="layui-icon layui-icon-password"></i>状态</a>');
-                    htmlButton.push('<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="updateclassfication"><i class="layui-icon layui-icon-auz"></i>类型</a>');
-                    htmlButton.push('<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="branches"><i class="layui-icon layui-icon-set-fill"></i>机构数量</a>');
+                    htmlButton.push('<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="renewal"><i class="layui-icon layui-icon-auz"></i>续费</a>');
                     htmlButton.push('</div>')
                     return htmlButton.join('');
                 }
@@ -201,6 +197,46 @@ layui.define(['table', 'form', 'setter', 'verification', 'laydate'], function (e
                                     });
                                     form.render("select");
                                 }
+                            });
+
+                            //初始化员工数据 - 当前登录机构
+                            admin.req({
+                                url: setter.apiAddress.aspnetuser.list
+                                , data: { isActive: true }
+                                , done: function (res) {
+                                    $("#sel-performanceowner-list").append("<option value=\"\">请选择</option>");
+                                    $.each(res.data, function (index, item) {
+                                        $("#sel-performanceowner-list").append("<option value=\"" + item.id + "\">" + item.userName + "</option>");
+                                    });
+                                    form.render("select");
+                                }
+                            });
+
+                            //SaaS版本
+                            admin.req({
+                                url: setter.apiAddress.saasversion.list
+                                , data: {}
+                                , done: function (res) {
+                                    $("#sel-saasversion-list").append("<option value=\"\">请选择</option>");
+                                    $.each(res.data, function (index, item) {
+                                        $("#sel-saasversion-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
+                                    });
+                                    form.render("select");
+                                }
+                            });
+                            form.on('select(appversionfilter)', function (data) {
+                                $("#sel-pricingtactics-list").empty();
+                                $("#sel-pricingtactics-list").append("<option value=\"\">请选择</option>");
+                                admin.req({
+                                    url: setter.apiAddress.saaspricingtactics.list
+                                    , data: { saaSVersionId: data.value }
+                                    , done: function (res) {
+                                        $.each(res.data, function (index, item) {
+                                            $("#sel-pricingtactics-list").append("<option value=\"" + item.id + "\">" + item.numberOfYears + "（年）" + item.chargeRates + "（元）" + "</option>");
+                                        });
+                                        form.render("select");
+                                    }
+                                });
                             });
 
                             //监听提交
@@ -329,24 +365,9 @@ layui.define(['table', 'form', 'setter', 'verification', 'laydate'], function (e
                             $("#district-edit-name").val($("#sel-district-edit-code").find("option:selected").text());
                         });
 
-                        //初始化行业数据
-                        admin.req({
-                            url: setter.apiAddress.industrycategory.list
-                            , data: {}
-                            , done: function (res) {
-                                $.each(res.data, function (index, item) {
-                                    if (data.industryId == item.id) {
-                                        $("#sel-industry-list").append("<option selected=\"selected\" value=\"" + item.id + "\">" + item.name + "</option>");
-                                    } else {
-                                        $("#sel-industry-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
-                                    }
-                                });
-                                form.render("select");
-                            }
-                        });
-                        $('#sel-industry-list').val(data.industryId);
                         $('#sel-classification').val(data.classiFication);
                         $('#sel-status').val(data.status);
+
                         //监听提交
                         form.on('submit(organization-edit-form-submit)', function (data) {
                             admin.req({
@@ -362,20 +383,20 @@ layui.define(['table', 'form', 'setter', 'verification', 'laydate'], function (e
                     });
                 }
             });
-        } else if (obj.event === 'updateclassfication') {
+        } else if (obj.event === 'renewal') {
             admin.popupRight({
-                title: '类型管理'
+                title: '续费'
                 , area: admin.screen() < 2 ? ['100%', '100%'] : ['30%', '100%']
                 , resize: false
                 , closeBtn: 1
                 , success: function (layero, index) {
-                    view(this.id).render('foundational/platformtenant/editclassfication', data).done(function () {
+                    view(this.id).render('foundational/platformtenant/renewal', data).done(function () {
                         $('#sel-editclassfication-list').val(data.classiFication);
                         form.render();
                         //监听提交
                         form.on('submit(editclassfication-edit-form-submit)', function (data) {
                             admin.req({
-                                url: setter.apiAddress.tenant.updateclassfication
+                                url: setter.apiAddress.tenant.updatetypeofcharge
                                 , data: data.field
                                 , type: 'POST'
                                 , done: function (res) {
@@ -401,31 +422,6 @@ layui.define(['table', 'form', 'setter', 'verification', 'laydate'], function (e
                         form.on('submit(editstatus-edit-form-submit)', function (data) {
                             admin.req({
                                 url: setter.apiAddress.tenant.updatestatus
-                                , data: data.field
-                                , type: 'POST'
-                                , done: function (res) {
-                                    layer.close(index);
-                                    table.reload('tenant-table');
-                                }
-                            });
-                        });
-                    });
-                }
-            });
-        } else if (obj.event === 'branches') {
-            admin.popupRight({
-                title: '分支机构个数设置'
-                , area: admin.screen() < 2 ? ['100%', '100%'] : ['30%', '100%']
-                , resize: false
-                , closeBtn: 1
-                , success: function (layero, index) {
-                    view(this.id).render('foundational/platformtenant/branches', data).done(function () {
-                        $('#sel-editstatus-list').val(data.status);
-                        form.render();
-                        //监听提交
-                        form.on('submit(branches-edit-form-submit)', function (data) {
-                            admin.req({
-                                url: setter.apiAddress.tenant.updatenumberofbranches
                                 , data: data.field
                                 , type: 'POST'
                                 , done: function (res) {

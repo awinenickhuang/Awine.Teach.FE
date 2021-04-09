@@ -2,8 +2,11 @@
   "ExpandedNodes": [
     "",
     "\\src",
-    "\\src\\lib"
+    "\\src\\controller",
+    "\\src\\views",
+    "\\src\\views\\foundational",
+    "\\src\\views\\foundational\\platformtenant"
   ],
-  "SelectedNode": "\\src\\lib\\view.js",
+  "SelectedNode": "\\src\\config.js",
   "PreviewInSolutionExplorer": false
 }

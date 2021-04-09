@@ -84,18 +84,31 @@ layui.define(['table', 'form', 'setter', 'verification'], function (exports) {
 
     //监听启用状态开关
     form.on('switch(user-active-switch)', function (data) {
-        var isActive = this.checked ? true : false;
-        if (isActive) {
-            layer.tips('提示：启用成功', data.othis, { tips: [2, '#FFB800'] })
-        } else {
-            layer.tips('提示：禁用成功', data.othis, { tips: [2, '#FFB800'] })
-        }
+        var checked = data.elem.checked;
+        //得到美化后的DOM对象 data.othis
+        var message = '确定' + (checked ? '启用' : '禁用') + '吗?';
+        data.elem.checked = !check;
+        form.render();
+
         admin.req({
             url: setter.apiAddress.aspnetuser.enableordisable
-            , data: { Id: data.value, isActive: isActive }
+            , data: { Id: data.value, isActive: checked }
             , type: 'POST'
             , done: function (res) {
-                layui.table.reload('userprofile-table');
+                if (res.statusCode == 200) {
+                    if (checked) {
+                        data.elem.checked = checked;
+                        layer.tips('提示：启用成功', data.othis, { tips: [2, '#FFB800'] });
+                    } else {
+                        layer.tips('提示：禁用成功', data.othis, { tips: [2, '#FFB800'] });
+                    }
+                    layui.table.reload('userprofile-table');
+                } else {
+                    var em = $(data.othis[0]);
+                    data.othis[0].classList.remove('layui-form-onswitch');
+                    em.children('em').checked = checked;
+                }
+                form.render();
             }
         });
     });

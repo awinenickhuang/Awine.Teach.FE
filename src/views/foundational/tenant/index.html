@@ -23,17 +23,12 @@
         <div class="layui-tab layui-tab-brief" lay-filter="tenant-tab-filter">
             <ul class="layui-tab-title">
                 <li class="layui-this">我的机构</li>
-                <li>分支机构</li>
             </ul>
             <div class="layui-tab-content">
                 <div class="layui-tab-item layui-show">
                     <div class="caller-contar" id="tenanttemplateview">
                         <!--机构信息展示区-->
                     </div>
-                    <div id="demo-template-caller1"></div>
-                </div>
-                <div class="layui-tab-item">
-                    <p style="width:100%; text-align:center;padding-top:10px;"><i class="layui-icon layui-icon-face-cry"></i>   暂无分支机构信息</p>
                 </div>
             </div>
         </div>
@@ -43,7 +38,9 @@
     {{#  layui.each(d, function(index, item){ }}
     <div class="caller-contar">
         <div class="caller-item">
-            <img src="{{ layui.setter.base }}style/res/template/tenant_default_logo.png" alt="" class="caller-img caller-fl">
+            <div class="caller-main caller-fr">
+                <img src="{{ layui.setter.base }}style/res/template/tenant_default_logo.png" alt="" class="caller-img">
+            </div>
             <div class="caller-main caller-fl">
                 <p><i class="layui-icon layui-icon-home"></i>&nbsp;&nbsp;<strong style="color:#01AAED;">{{item.name}}</strong></p>
                 <p><i class="layui-icon layui-icon-tips"></i>&nbsp;&nbsp;行业细分：{{item.industryName}}</p>
@@ -72,10 +69,12 @@
                 <p><i class="layui-icon layui-icon-time"></i>&nbsp;&nbsp;入驻时间：{{item.createTime}}</p>
                 <p class="caller-adds"><i class="layui-icon layui-icon-location"></i>{{item.provinceName}}{{item.cityName}}{{item.districtName}}{{item.address}}</p>
             </div>
-            <button class="layui-btn layui-btn-sm caller-fr btn-tenant-edit" id="{{item.id}}" style="margin-right:5px;">
-                <i class="layui-icon layui-icon-edit"></i>
-                更新机构信息
-            </button>
+            <div style="clear:both; text-align:center;">
+                <button class="layui-btn layui-btn-sm btn-tenant-edit" id="{{item.id}}">
+                    <i class="layui-icon layui-icon-edit"></i>
+                    更新机构信息
+                </button>
+            </div>
         </div>
     </div>
     {{#  }); }}

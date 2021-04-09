@@ -1,88 +1,134 @@
 ﻿<script type="text/html" template>
     <link rel="stylesheet" href="{{ layui.setter.base }}style/template.css?v={{ layui.admin.v }}-1" media="all">
 </script>
-<form class="layui-form" id="tenant-add-form" lay-filter="tenant-add-form" style="padding:15px;">
-    <div class="layui-form-item">
-        <label class="layui-form-label">到期时间</label>
-        <div class="layui-input-block ">
-            <input type="text" id="vipExpirationTime" name="VIPExpirationTime" lay-verify="required" readonly class="layui-input" placeholder="yyyy-MM-dd">
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">机构名称</label>
-        <div class="layui-input-block ">
-            <input type="text" id="name" name="Name" lay-verify="required|normallength" maxlength="32" autocomplete="off" placeholder="" class="layui-input">
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label lines">负责人</label>
-        <div class="layui-input-block">
-            <input type="text" id="contacts" name="Contacts" maxlength="6" lay-verify="required|chineselength" autocomplete="off" placeholder="" class="layui-input">
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label lines">联系电话</label>
-        <div class="layui-input-block">
-            <input type="text" id="contactsPhone" name="ContactsPhone" maxlength="16" lay-verify="required|phone" autocomplete="off" placeholder="" class="layui-input">
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">联系地址</label>
-        <div class="layui-input-block">
-            <input type="text" id="address" name="Address" lay-verify="required|normallength" maxlength="32" autocomplete="off" placeholder="" class="layui-input">
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">选择省份</label>
-        <div class="layui-input-block">
-            <select class="sel" id="sel-province-code" name="ProvinceId" lay-verify="required|select" lay-filter="provincefilter"></select>
-            <input type="hidden" id="provinceName" name="ProvinceName" lay-verify="" autocomplete="off" placeholder="" class="layui-input">
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">选择城市</label>
-        <div class="layui-input-block ">
-            <select class="sel" id="sel-city-code" name="CityId" lay-verify="required|select" lay-filter="cityfilter"></select>
-            <input type="hidden" id="cityName" name="CityName" autocomplete="off" placeholder="" class="layui-input">
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">选择地区</label>
-        <div class="layui-input-block">
-            <select class="sel" id="sel-district-code" name="DistrictId" lay-verify="required|select" lay-filter="districtfilter"></select>
-            <input type="hidden" id="districtName" name="DistrictName" lay-verify="" autocomplete="off" placeholder="" class="layui-input">
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label lines">业务类型</label>
-        <div class="layui-input-block">
-            <select class="sel" id="sel-industry-list" name="IndustryId" lay-verify="required|select" lay-filter=""></select>
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label lines">机构类型</label>
-        <div class="layui-input-block">
-            <select name="ClassiFication" lay-verify="required|select">
-                <option value="">请选择</option>
-                <optgroup label="免费用户">
-                    <option value=1>免费</option>
-                    <option value=2>试用</option>
-                </optgroup>
-                <optgroup label="付费用户">
-                    <option value=3>VIP</option>
-                </optgroup>
-            </select>
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label lines">机构状态</label>
-        <div class="layui-input-block">
-            <select name="Status" lay-verify="required|select">
-                <option value="">请选择</option>
-                <option value=1>正常（开放）</option>
-                <option value=2>锁定（异常）</option>
-                <option value=3>锁定（过期）</option>
-            </select>
+<form class="layui-form layui-form-pane" id="tenant-add-form" lay-filter="tenant-add-form" style="padding:15px;">
+    <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+        <ul class="layui-tab-title">
+            <li class="layui-this">机构信息</li>
+            <li>版本选择</li>
+            <li>管理设置</li>
+            <li>业绩设置</li>
+        </ul>
+        <div class="layui-tab-content">
+            <!--机构信息-->
+            <div class="layui-tab-item layui-show">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">机构名称</label>
+                    <div class="layui-input-block ">
+                        <input type="text" id="name" name="Name" lay-verify="required|normallength" maxlength="32" autocomplete="off" placeholder="" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">联系地址</label>
+                    <div class="layui-input-block">
+                        <input type="text" id="address" name="Address" lay-verify="required|normallength" maxlength="32" autocomplete="off" placeholder="" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">选择省份</label>
+                    <div class="layui-input-block">
+                        <select class="sel" id="sel-province-code" name="ProvinceId" lay-verify="required|select" lay-filter="provincefilter"></select>
+                        <input type="hidden" id="provinceName" name="ProvinceName" lay-verify="" autocomplete="off" placeholder="" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">选择城市</label>
+                    <div class="layui-input-block ">
+                        <select class="sel" id="sel-city-code" name="CityId" lay-verify="required|select" lay-filter="cityfilter"></select>
+                        <input type="hidden" id="cityName" name="CityName" autocomplete="off" placeholder="" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">选择地区</label>
+                    <div class="layui-input-block">
+                        <select class="sel" id="sel-district-code" name="DistrictId" lay-verify="required|select" lay-filter="districtfilter"></select>
+                        <input type="hidden" id="districtName" name="DistrictName" lay-verify="" autocomplete="off" placeholder="" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label lines">业务类型</label>
+                    <div class="layui-input-block">
+                        <select class="sel" id="sel-industry-list" name="IndustryId" lay-verify="required|select" lay-filter=""></select>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label lines">机构类型</label>
+                    <div class="layui-input-block">
+                        <select name="ClassiFication" lay-verify="required|select">
+                            <option value="">请选择</option>
+                            <optgroup label="免费用户">
+                                <option value=1>免费</option>
+                                <option value=2>试用</option>
+                            </optgroup>
+                            <optgroup label="付费用户">
+                                <option value=3>付费</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label lines">机构状态</label>
+                    <div class="layui-input-block">
+                        <select name="Status" lay-verify="required|select">
+                            <option value="">请选择</option>
+                            <option value=1>正常（开放）</option>
+                            <option value=2>锁定（异常）</option>
+                            <option value=3>锁定（过期）</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <!--机构信息-->
+            <!--版本选择-->
+            <div class="layui-tab-item">
+                <div class="layui-form-item">
+                    <label class="layui-form-label lines">版本选择</label>
+                    <div class="layui-input-block">
+                        <select class="sel" id="sel-saasversion-list" name="AppVersionId" lay-verify="required|select" lay-filter="appversionfilter"></select>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">定价策略</label>
+                    <div class="layui-input-block ">
+                        <select class="sel" id="sel-pricingtactics-list" name="PricingTactics" lay-verify="required|select" lay-filter=""></select>
+                    </div>
+                </div>
+            </div>
+            <!--版本选择-->
+            <!--管理设置-->
+            <div class="layui-tab-item">
+                <blockquote class="layui-elem-quote">管理员同时也默认为机构的联系人。</blockquote>
+                <div class="layui-form-item">
+                    <label class="layui-form-label lines">姓名</label>
+                    <div class="layui-input-block">
+                        <input type="text" id="contacts" name="Contacts" maxlength="6" lay-verify="required|chineselength" autocomplete="off" placeholder="姓名" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label lines">电话</label>
+                    <div class="layui-input-block">
+                        <input type="text" id="contactsPhone" name="ContactsPhone" maxlength="16" lay-verify="required|phone" autocomplete="off" placeholder="手机号码" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label lines">密码</label>
+                    <div class="layui-input-block">
+                        <input type="password" id="passwordHash" name="PasswordHash" maxlength="16" lay-verify="required" autocomplete="off" placeholder="密码" class="layui-input">
+                    </div>
+                </div>
+            </div>
+            <!--管理设置-->
+            <!--业绩设置-->
+            <div class="layui-tab-item">
+                <blockquote class="layui-elem-quote">如果未设置业绩，系统自动默认为当前操作人。</blockquote>
+                <div class="layui-form-item">
+                    <label class="layui-form-label lines">业绩设置</label>
+                    <div class="layui-input-block">
+                        <select class="sel" id="sel-performanceowner-list" name="PerformanceOwnerId" lay-verify="required|select" lay-filter=""></select>
+                    </div>
+                </div>
+            </div>
+            <!--业绩设置-->
         </div>
     </div>
     <div class="layui-form-item content-center">

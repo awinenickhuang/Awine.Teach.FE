@@ -1,7 +1,7 @@
 ﻿<script type="text/html" template>
     <link rel="stylesheet" href="{{ layui.setter.base }}style/template.css?v={{ layui.admin.v }}-1" media="all">
 </script>
-<form class="layui-form" id="applicationversion-add-form" lay-filter="applicationversion-add-form" style="padding:15px;">
+<form class="layui-form" id="saasversion-add-form" lay-filter="saasversion-add-form" style="padding:15px;">
     <div class="layui-form-item">
         <label class="layui-form-label">标识</label>
         <div class="layui-input-block">
@@ -13,6 +13,9 @@
                 </optgroup>
                 <optgroup label="付费用户">
                     <option value=3>VIP</option>
+                </optgroup>
+                <optgroup label="代理商">
+                    <option value=4>代理商</option>
                 </optgroup>
             </select>
         </div>
@@ -30,6 +33,6 @@
         </div>
     </div>
     <div class="layui-form-item content-center">
-        <button class="layui-btn layui-btn-sm" type="button" lay-submit lay-filter="applicationversion-form-submit"><i class="layui-icon layui-icon-ok"></i>立即提交</button>
+        <button class="layui-btn layui-btn-sm" type="button" lay-submit lay-filter="saasversion-form-submit"><i class="layui-icon layui-icon-ok"></i>立即提交</button>
     </div>
 </form>
