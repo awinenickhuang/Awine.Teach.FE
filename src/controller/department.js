@@ -1,201 +1,205 @@
 ﻿/**
  @Name：部门管理
  */
-layui.define(['treeGrid', 'form', 'setter', 'verification'], function (exports) {
+layui.define(['tree', 'form', 'setter', 'verification', 'xmSelect'], function (exports) {
     var $ = layui.$
         , admin = layui.admin
         , view = layui.view
-        , treeGrid = layui.treeGrid
+        , tree = layui.tree
         , setter = layui.setter
+        , xmSelect = layui.xmSelect
         , form = layui.form;
-    //加载机构 -> 部门数据
 
-    treeGrid.render({
-        id: "department-table"
-        , elem: '#department-table'
-        , url: setter.apiAddress.department.list
-        , headers: {
-            Authorization: "Bearer " + layui.data(setter.tableName)[setter.request.tokenName]
-        }
-        , toolbar: '#department-toolbar'
-        , idField: 'id'
-        , treeId: 'id'
-        , treeUpId: 'parentId'
-        , treeShowName: 'name'
-        , isFilter: false
-        , iconOpen: false
-        , isOpenDefault: true
-        , loading: true
-        , method: 'get'
-        , isPage: false
-        , cellMinWidth: 80
-        , height: 'full-160'
-        , cols: [[
-            { field: 'name', title: '部门' },
-            { field: 'tenantName', title: '机构' },
-            { field: 'describe', title: '描述' },
-            { field: 'displayOrder', width: 100, align: 'center', title: '显示顺序' },
-            { field: 'createTime', width: 200, align: 'center', title: '创建时间' },
-            {
-                width: 220, title: '操作', align: 'center'
-                , templet: function (d) {
-                    var htmlButton = new Array();
-                    htmlButton.push('<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a>');
-                    htmlButton.push('<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</a>');
-                    return htmlButton.join('');
-                }
-            }
-        ]]
-        , parseData: function (res) {
-            return {
-                "code": 0,
-                "msg": res.message,
-                "data": res.data
-            };
-        }
-        , text: {
-            none: '暂无模块数据'
-        }
-    });
+    var departmentTools = {
+        init: function () {
+            admin.req({
+                url: setter.apiAddress.department.tree
+                , data: {}
+                , type: 'GET'
+                , done: function (res) {
+                    //渲染
+                    tree.render({
+                        elem: '#department-tree'
+                        , data: res.data
+                        , onlyIconControl: true                           //是否仅允许节点左侧图标控制展开收缩
+                        , customOperate: true                             //自定义属性
+                        , edit: ['add', 'update', 'del']
+                        , operate: function (obj) {
+                            var type = obj.type;                          //得到操作类型：add、edit、del
+                            var data = obj.data;                          //得到当前节点的数据
+                            var elem = obj.elem;                          //得到当前节点元素
 
+                            //Ajax 操作
+                            var id = data.id;                             //得到节点索引
 
+                            if (type === 'add') {                         //增加节点
+                                admin.popupRight({
+                                    title: '添加'
+                                    , area: admin.screen() < 2 ? ['100%', '100%'] : ['30%', '100%']
+                                    , resize: false
+                                    , closeBtn: 1
+                                    , success: function (layero, index) {
+                                        view(this.id).render('foundational/department/add').done(function () {
+                                            //加载树
+                                            var departmentAddTree = xmSelect.render({
+                                                el: '#xmselect-parent-organization',
+                                                tips: '请选择',
+                                                empty: '呀, 没有数据呢',
+                                                model: { label: { type: 'text' } },
+                                                toolbar: { show: true },
+                                                radio: true,
+                                                clickClose: true,
+                                                tree: {
+                                                    show: true,
+                                                    strict: false,
+                                                    expandedKeys: [-1, -3],
+                                                },
+                                                height: 'auto',
+                                                prop: {
+                                                    value: 'id',
+                                                },
+                                                data: [],
+                                                on: function (data) {
+                                                    var selected = data.arr;
+                                                    if (selected.length > 0) {
+                                                        $("#parentId").val(selected[0].id);
+                                                    } else {
+                                                        $("#parentId").val('');
+                                                    }
+                                                }
+                                            });
 
-    //头工具栏事件
-    treeGrid.on('toolbar(department-table)', function (obj) {
-        var checkStatus = table.checkStatus(obj.config.id);
-        switch (obj.event) {
-            case 'search':
-                admin.popupRight({
-                    title: '搜索'
-                    , area: admin.screen() < 2 ? ['100%', '100%'] : ['30%', '100%']
-                    , resize: false
-                    , closeBtn: 1
-                    , success: function (layero, index) {
-                        view(this.id).render('foundational/department/search').done(function () {
-                            //初始机构数据
-                            admin.req({
-                                url: setter.apiAddress.tenant.list
-                                , data: {}
-                                , done: function (res) {
-                                    $("#sel-organization-search").append("<option value=\"\">请选择机构</option>");
-                                    $.each(res.data, function (index, item) {
-                                        $("#sel-organization-search").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
-                                    });
-                                    form.render("select");
-                                }
-                            });
-                            //监听提交//搜索
-                            form.on('submit(department-search-submit)', function (data) {
-                                var field = data.field;
-                                layer.close(index);
-                                //执行重载
-                                table.reload('department-table', {
-                                    where: {
-                                        tenantId: field.OrganizationId,
-                                    },
-                                    page: {
-                                        curr: 1 //重新从第 1 页开始
+                                            $("#parentId").val(id);
+
+                                            //加载部门树型数据
+                                            admin.req({
+                                                url: setter.apiAddress.department.xmselecttree
+                                                , data: {
+                                                    parentId: id
+                                                }
+                                                , done: function (res) {
+                                                    departmentAddTree.update({
+                                                        data: res.data,
+                                                        autoRow: true,
+                                                    });
+                                                }
+                                            });
+
+                                            form.render(); //更新全部
+
+                                            form.on('submit(department-add-form-submit)', function (data) {
+                                                admin.req({
+                                                    url: setter.apiAddress.department.add
+                                                    , data: data.field
+                                                    , type: 'POST'
+                                                    , done: function (res) {
+                                                        layer.close(index);
+                                                        departmentTools.init();
+                                                    }
+                                                });
+                                            });
+                                        });
                                     }
                                 });
-                            });
-                        });
-                    }
-                });
-                break;
-            case 'add':
-                admin.popupRight({
-                    title: '添加'
-                    , area: admin.screen() < 2 ? ['100%', '100%'] : ['30%', '100%']
-                    , resize: false
-                    , closeBtn: 1
-                    , success: function (layero, index) {
-                        view(this.id).render('foundational/department/add').done(function () {
-                            //初始机构数据
-                            admin.req({
-                                url: setter.apiAddress.tenant.list
-                                , data: {}
-                                , done: function (res) {
-                                    $("#sel-organization-list").append("<option value=\"\">请选择</option>");
-                                    $.each(res.data, function (index, item) {
-                                        $("#sel-organization-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
-                                    });
-                                    form.render("select");
-                                }
-                            });
-                            //监听提交
-                            form.on('submit(department-form-submit)', function (data) {
+                            } else if (type === 'update') { //修改节点
                                 admin.req({
-                                    url: setter.apiAddress.department.add
-                                    , data: data.field
-                                    , type: 'POST'
+                                    url: setter.apiAddress.department.single
+                                    , data: { id: data.id }
+                                    , type: 'GET'
                                     , done: function (res) {
-                                        layer.close(index);
-                                        table.reload('department-table');
-                                    }
-                                });
-                            });
-                        });
-                    }
-                });
-                break;
-        };
-    });
+                                        admin.popupRight({
+                                            title: '修改'
+                                            , area: admin.screen() < 2 ? ['100%', '100%'] : ['30%', '100%']
+                                            , resize: false
+                                            , closeBtn: 1
+                                            , success: function (layero, index) {
+                                                view(this.id).render('foundational/department/edit', res.data).done(function () {
+                                                    var departmentEditTree = xmSelect.render({
+                                                        el: '#xmselect-parent-organization',
+                                                        tips: '请选择',
+                                                        empty: '呀, 没有数据呢',
+                                                        model: { label: { type: 'text' } },
+                                                        toolbar: { show: true },
+                                                        radio: true,
+                                                        clickClose: true,
+                                                        tree: {
+                                                            show: true,
+                                                            strict: false,
+                                                            expandedKeys: [-1, -3],
+                                                        },
+                                                        height: 'auto',
+                                                        prop: {
+                                                            value: 'id',
+                                                        },
+                                                        data: [],
+                                                        on: function (data) {
+                                                            var selected = data.arr;
+                                                            if (selected.length > 0) {
+                                                                $("#parentId").val(selected[0].id);
+                                                            } else {
+                                                                $("#parentId").val('');
+                                                            }
+                                                        }
+                                                    });
 
-    treeGrid.on('tool(department-table)', function (obj) {
-        var data = obj.data;
-        if (obj.event === 'del') {
-            layer.confirm('删除后不可恢复，确定？', { icon: 3 }, function (index) {
-                admin.req({
-                    url: setter.apiAddress.department.delete
-                    , data: { Id: data.id }
-                    , type: 'POST'
-                    , done: function (res) {
-                        layer.close(index);
-                        table.reload('department-table');
-                    }
-                });
-            });
-        } else if (obj.event === 'edit') {
-            admin.popupRight({
-                title: '修改'
-                , area: admin.screen() < 2 ? ['100%', '100%'] : ['30%', '100%']
-                , resize: false
-                , closeBtn: 1
-                , success: function (layero, index) {
-                    view(this.id).render('foundational/department/edit', data).done(function () {
-                        form.render();
-                        //初始机构数据
-                        admin.req({
-                            url: setter.apiAddress.tenant.list
-                            , data: {}
-                            , done: function (res) {
-                                $("#sel-organization-list").append("<option value=\"\">请选择</option>");
-                                $.each(res.data, function (index, item) {
-                                    if (data.tenantId == item.id) {
-                                        $("#sel-organization-list").append("<option selected=\"selected\" value=\"" + item.id + "\">" + item.name + "</option>");
-                                    } else {
-                                        $("#sel-organization-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
+                                                    //加载部门树型数据
+                                                    admin.req({
+                                                        url: setter.apiAddress.department.xmselecttree
+                                                        , data: { parentId: data.parentId }
+                                                        , done: function (res) {
+                                                            departmentEditTree.update({
+                                                                data: res.data,
+                                                                autoRow: true,
+                                                            });
+                                                        }
+                                                    });
+
+                                                    form.render(); //更新全部
+
+                                                    //提交
+                                                    form.on('submit(department-edit-form-submit)', function (data) {
+                                                        admin.req({
+                                                            url: setter.apiAddress.department.update
+                                                            , data: data.field
+                                                            , type: 'POST'
+                                                            , done: function (res) {
+                                                                layer.close(index);
+                                                                departmentTools.init();
+                                                            }
+                                                        });
+                                                    });
+                                                });
+                                            }
+                                        });
                                     }
                                 });
-                                form.render("select");
+                            } else if (type === 'del') { //删除节点
+                                let dellayer = layer.confirm('删除后不可恢复，确定？', {
+                                    title: "提示",
+                                    icon: 7,
+                                    offset: '200px',
+                                    btn: ['确定', '取消']
+                                }, function () {
+                                    admin.req({
+                                        url: setter.apiAddress.department.delete
+                                        , data: { Id: data.id }
+                                        , type: 'POST'
+                                        , done: function (res) {
+                                            layer.close(dellayer);
+                                            departmentTools.init();
+                                        }
+                                    });
+                                })
                             }
-                        });
-                        form.on('submit(department-edit-form-submit)', function (data) {
-                            admin.req({
-                                url: setter.apiAddress.department.update
-                                , data: data.field
-                                , type: 'POST'
-                                , done: function (res) {
-                                    layer.close(index);
-                                    table.reload('department-table');
-                                }
-                            });
-                        });
+                            return false;
+                        }
                     });
                 }
             });
         }
-    });
+    };
+
+    departmentTools.init();
 
     exports('department', {})
 });

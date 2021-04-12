@@ -3,10 +3,14 @@
     "",
     "\\src",
     "\\src\\controller",
+    "\\src\\lib",
     "\\src\\views",
     "\\src\\views\\foundational",
-    "\\src\\views\\foundational\\platformtenant"
+    "\\src\\views\\foundational\\department",
+    "\\src\\views\\foundational\\module",
+    "\\start\\layui",
+    "\\start\\layui\\lay"
   ],
-  "SelectedNode": "\\src\\config.js",
+  "SelectedNode": "\\src\\controller\\classroom.js",
   "PreviewInSolutionExplorer": false
 }

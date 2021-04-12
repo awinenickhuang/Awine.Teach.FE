@@ -4,13 +4,21 @@
 
 <form class="layui-form" id="parametersettings-edit-form" lay-filter="parametersettings-edit-form" style="padding:15px;">
     <div class="layui-form-item">
+        <label class="layui-form-label">分支机构</label>
+        <div class="layui-input-block ">
+            <script type="text/html" template>
+                <input type="text" id="maxNumberOfBranch" name="MaxNumberOfBranch" value="{{ d.params.maxNumberOfBranch }}" lay-verify="required|number" maxlength="2" autocomplete="off" placeholder="最大分支机构数量" class="layui-input">
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item">
         <div class="layui-form-item">
             <label class="layui-form-label">部门数量</label>
             <div class="layui-input-block ">
                 <script type="text/html" template>
                     <input type="text" id="maxNumberOfDepartments" name="MaxNumberOfDepartments" value="{{ d.params.maxNumberOfDepartments }}" lay-verify="required|number" maxlength="3" autocomplete="off" placeholder="最大部门数量" class="layui-input">
                     <input type="hidden" name="Id" value="{{ d.params.id || '' }}" lay-verify="required" class="layui-input">
-                    <input type="hidden" name="AppVersionId" value="{{ d.params.appVersionId || '' }}" lay-verify="required" class="layui-input">
+                    <input type="hidden" name="SaaSVersionId" value="{{ d.params.saaSVersionId || '' }}" lay-verify="required" class="layui-input">
                 </script>
             </div>
         </div>

@@ -56,12 +56,11 @@
                     <div class="layui-input-block">
                         <select name="ClassiFication" lay-verify="required|select">
                             <option value="">请选择</option>
-                            <optgroup label="免费用户">
-                                <option value=1>免费</option>
-                                <option value=2>试用</option>
+                            <optgroup label="用户">
+                                <option value=1>机构</option>
                             </optgroup>
-                            <optgroup label="付费用户">
-                                <option value=3>付费</option>
+                            <optgroup label="渠道">
+                                <option value=2>代理商</option>
                             </optgroup>
                         </select>
                     </div>
@@ -84,13 +83,13 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label lines">版本选择</label>
                     <div class="layui-input-block">
-                        <select class="sel" id="sel-saasversion-list" name="AppVersionId" lay-verify="required|select" lay-filter="appversionfilter"></select>
+                        <select class="sel" id="sel-saasversion-list" name="SaaSVersionId" lay-verify="required|select" lay-filter="appversionfilter"></select>
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">定价策略</label>
                     <div class="layui-input-block ">
-                        <select class="sel" id="sel-pricingtactics-list" name="PricingTactics" lay-verify="required|select" lay-filter=""></select>
+                        <select class="sel" id="sel-pricingtactics-list" name="PricingTacticsId" lay-verify="required|select" lay-filter=""></select>
                     </div>
                 </div>
             </div>
@@ -124,7 +123,7 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label lines">业绩设置</label>
                     <div class="layui-input-block">
-                        <select class="sel" id="sel-performanceowner-list" name="PerformanceOwnerId" lay-verify="required|select" lay-filter=""></select>
+                        <select class="sel" id="sel-performanceowner-list" name="PerformanceOwnerId" lay-verify="" lay-filter=""></select>
                     </div>
                 </div>
             </div>

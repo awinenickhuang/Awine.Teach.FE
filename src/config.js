@@ -203,7 +203,9 @@ layui.define(['laytpl', 'layer', 'element', 'util'], function (exports) {
             department: {
                 list: 'http://localhost:8001/api/departments/list',
                 pagelist: 'http://localhost:8001/api/departments/pagelist',
-                treelist: 'http://localhost:8001/api/departments/treelist',
+                xmselecttree: 'http://localhost:8001/api/departments/xmselecttree',
+                tree: 'http://localhost:8001/api/departments/tree',
+                single: 'http://localhost:8001/api/departments/single',
                 add: 'http://localhost:8001/api/departments/add',
                 delete: 'http://localhost:8001/api/departments/delete',
                 update: 'http://localhost:8001/api/departments/update',
@@ -222,14 +224,14 @@ layui.define(['laytpl', 'layer', 'element', 'util'], function (exports) {
                 delete: 'http://localhost:8001/api/saaspricingtactics/delete',
             },
             saasversionownedmodule: {
-                saverappversionownedmodules: 'http://localhost:8001/api/saasversionownedmodule/savesaasversionownedmodules',
-                getappversionownedmodules: 'http://localhost:8001/api/saasversionownedmodule/getsaasversionownedmodules',
+                saversaasversionownedmodules: 'http://localhost:8001/api/saasversionownedmodule/savesaasversionownedmodules',
+                loadsaasversionownedmodules: 'http://localhost:8001/api/saasversionownedmodule/loadsaasversionownedmodules',
             },
             tenantdefaultsettings: {
                 pagelist: 'http://localhost:8001/api/tenantdefaultsettings/pagelist',
                 list: 'http://localhost:8001/api/tenantdefaultsettings/list',
                 single: 'http://localhost:8001/api/tenantdefaultsettings/single',
-                singleappversion: 'http://localhost:8001/api/tenantdefaultsettings/singleappversion',
+                singlesaasversion: 'http://localhost:8001/api/tenantdefaultsettings/singlesaasversion',
                 add: 'http://localhost:8001/api/tenantdefaultsettings/add',
                 delete: 'http://localhost:8001/api/tenantdefaultsettings/delete',
                 update: 'http://localhost:8001/api/tenantdefaultsettings/update',

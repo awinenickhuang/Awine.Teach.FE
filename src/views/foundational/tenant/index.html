@@ -23,12 +23,16 @@
         <div class="layui-tab layui-tab-brief" lay-filter="tenant-tab-filter">
             <ul class="layui-tab-title">
                 <li class="layui-this">我的机构</li>
+                <li>参数信息</li>
             </ul>
             <div class="layui-tab-content">
                 <div class="layui-tab-item layui-show">
                     <div class="caller-contar" id="tenanttemplateview">
                         <!--机构信息展示区-->
                     </div>
+                </div>
+                <div class="layui-tab-item">
+                    111
                 </div>
             </div>
         </div>
@@ -65,7 +69,6 @@
                     {{#  } }}
                 </p>
                 <p><i class="layui-icon layui-icon-user"></i>&nbsp;&nbsp;联系方式：{{item.contacts}}&nbsp;&nbsp;{{item.contactsPhone}}</p>
-                <p><i class="layui-icon layui-icon-snowflake"></i>&nbsp;&nbsp;允许拥有的分支机构数量：{{item.numberOfBranches}}（家）</p>
                 <p><i class="layui-icon layui-icon-time"></i>&nbsp;&nbsp;入驻时间：{{item.createTime}}</p>
                 <p class="caller-adds"><i class="layui-icon layui-icon-location"></i>{{item.provinceName}}{{item.cityName}}{{item.districtName}}{{item.address}}</p>
             </div>

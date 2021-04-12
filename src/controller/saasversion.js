@@ -1,13 +1,14 @@
 ﻿/**
  @Name：应用版本管理
  */
-layui.define(['table', 'form', 'setter', 'verification', 'treeGrid'], function (exports) {
+layui.define(['table', 'form', 'setter', 'verification', 'element', 'treeGrid'], function (exports) {
     var $ = layui.$
         , admin = layui.admin
         , view = layui.view
         , table = layui.table
         , setter = layui.setter
         , form = layui.form
+        , element = layui.element
         , treeGrid = layui.treeGrid;
 
     table.render({
@@ -17,7 +18,7 @@ layui.define(['table', 'form', 'setter', 'verification', 'treeGrid'], function (
         , cols: [[
             { field: 'name', title: 'SaaS应用版本' },
             {
-                field: 'identifying', title: '版本标识', align: 'center',
+                field: 'identifying', title: '版本分类', align: 'center',
                 templet: function (d) {
                     switch (d.identifying) {
                         case 1:
@@ -30,7 +31,7 @@ layui.define(['table', 'form', 'setter', 'verification', 'treeGrid'], function (
                             return '<span style="color:#FFB800;">VIP</span>';
                             break;
                         case 4:
-                            return '<span style="color:#FFB800;">代理商</span>';
+                            return '<span style="color:#FFB800;">渠道</span>';
                             break;
                         default:
                             return '-';
@@ -217,7 +218,7 @@ layui.define(['table', 'form', 'setter', 'verification', 'treeGrid'], function (
                             saaSVersionOwnedModulesSettings.saaSVersionOwnedModulesArray.saaSVersionId = data.id;
 
                             admin.req({
-                                url: setter.apiAddress.saasversionownedmodule.saverappversionownedmodules
+                                url: setter.apiAddress.saasversionownedmodule.saversaasversionownedmodules
                                 , data: { model: saaSVersionOwnedModulesSettings.saaSVersionOwnedModulesArray }
                                 , type: 'POST'
                                 , done: function (res) {
@@ -231,8 +232,8 @@ layui.define(['table', 'form', 'setter', 'verification', 'treeGrid'], function (
         } else if (obj.event === 'settings') {//参数配置
             //取当前版本的默认参数设置
             admin.req({
-                url: setter.apiAddress.tenantdefaultsettings.singleappversion
-                , data: { appVersionId: data.id }
+                url: setter.apiAddress.tenantdefaultsettings.singlesaasversion
+                , data: { saaSVersionId: data.id }
                 , type: 'GET'
                 , done: function (res) {
                     //渲染窗口
@@ -268,13 +269,12 @@ layui.define(['table', 'form', 'setter', 'verification', 'treeGrid'], function (
             });
         } else if (obj.event === 'saaspricingtactics') {
             admin.popupRight({
-                id: 'LAY_saaspricingtactics'
-                , title: '定价策略'
+                title: '定价策略'
                 , area: admin.screen() < 2 ? ['100%', '100%'] : ['50%', '100%']
                 , resize: true
                 , closeBtn: 1
                 , success: function (layero, index) {
-                    view(this.id).render('operation/saasversion/saaspricingtactics', data).done(function () {
+                    view(this.id).render('operation/saasversion/saaspricingtactics', data).done(function (parentIndex) {
                         form.render();
 
                         table.render({
@@ -315,18 +315,35 @@ layui.define(['table', 'form', 'setter', 'verification', 'treeGrid'], function (
                             }
                         });
 
+                        table.on('tool(saaspricingtactics-table)', function (saaspricingtacticsobj) {
+                            var saaspricingtacticsdata = saaspricingtacticsobj.data;
+                            if (saaspricingtacticsobj.event === 'del') {//删除
+                                layer.confirm('删除后不可恢复，确定？', { icon: 3 }, function (index) {
+                                    admin.req({
+                                        url: setter.apiAddress.saaspricingtactics.delete
+                                        , data: { Id: saaspricingtacticsdata.id }
+                                        , type: 'POST'
+                                        , done: function (res) {
+                                            layer.close(index);
+                                            layer.msg(res.msg, { icon: 1 });
+                                            table.reload('saaspricingtactics-table');
+                                        }
+                                    });
+                                });
+                            }
+                        });
+
                         form.on('submit(saaspricingtactics-form-submit)', function (data) {
                             admin.req({
                                 url: setter.apiAddress.saaspricingtactics.add
                                 , data: data.field
                                 , type: 'POST'
                                 , done: function (res) {
-                                    if (res.statusCode === 200) {
-                                        table.reload('saaspricingtactics-table');
-                                        layer.msg(res.msg, { icon: 1 });
-                                    } else {
-                                        layer.msg(res.msg, { icon: 1 });
-                                    }
+                                    $("#saaspricingtactics-add-form")[0].reset();
+                                    layui.form.render();
+                                    element.tabChange('saaspricingtactics-tab-filter', '0');
+                                    table.reload('saaspricingtactics-table');
+                                    layer.msg(res.msg, { icon: 1 });
                                 }
                             });
                         });

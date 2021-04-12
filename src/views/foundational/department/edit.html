@@ -5,9 +5,12 @@
 <form class="layui-form" id="awinerole-edit-form" lay-filter="department-edit-form" style="padding:15px;">
     <div class="layui-form-item">
         <div class="layui-form-item">
-            <label class="layui-form-label">机构</label>
+            <label class="layui-form-label lines">上级</label>
             <div class="layui-input-block">
-                <select class="sel" id="sel-organization-list" name="TenantId" lay-verify="required|select" lay-filter=""></select>
+                <script type="text/html" template>
+                    <input type="hidden" id="parentId" name="ParentId" value="{{ d.params.parentId || '' }}" lay-verify="required" class="layui-input">
+                </script>
+                <div id="xmselect-parent-organization"></div>
             </div>
         </div>
         <div class="layui-form-item">
