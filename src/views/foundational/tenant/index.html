@@ -22,8 +22,8 @@
     <div class="layadmin-caller">
         <div class="layui-tab layui-tab-brief" lay-filter="tenant-tab-filter">
             <ul class="layui-tab-title">
-                <li class="layui-this">我的机构</li>
-                <li>参数信息</li>
+                <li class="layui-this"><i class="layui-icon layui-icon-home"></i> 我的机构</li>
+                <li><i class="layui-icon layui-icon-menu-fill"></i> 参数信息</li>
             </ul>
             <div class="layui-tab-content">
                 <div class="layui-tab-item layui-show">
@@ -39,51 +39,46 @@
     </div>
 </div>
 <script type="text/html" id="tenanttemplate">
-    {{#  layui.each(d, function(index, item){ }}
     <div class="caller-contar">
         <div class="caller-item">
             <div class="caller-main caller-fr">
                 <img src="{{ layui.setter.base }}style/res/template/tenant_default_logo.png" alt="" class="caller-img">
             </div>
             <div class="caller-main caller-fl">
-                <p><i class="layui-icon layui-icon-home"></i>&nbsp;&nbsp;<strong style="color:#01AAED;">{{item.name}}</strong></p>
-                <p><i class="layui-icon layui-icon-tips"></i>&nbsp;&nbsp;行业细分：{{item.industryName}}</p>
+                <p><i class="layui-icon layui-icon-home"></i>&nbsp;&nbsp;<strong style="color:#01AAED;">{{d.name}}</strong></p>
+                <p><i class="layui-icon layui-icon-tips"></i>&nbsp;&nbsp;行业细分：{{d.industryName}}</p>
                 <p>
                     <i class="layui-icon layui-icon-vercode"></i>&nbsp;&nbsp;付费类型：
-                    {{#  if(item.classiFication===1){ }}
+                    {{#  if(d.classiFication===1){ }}
                     免费
-                    {{#  }else if(item.classiFication===2){ }}
+                    {{#  }else if(d.classiFication===2){ }}
                     试用
-                    {{#  } if(item.classiFication===3){}}
+                    {{#  } if(d.classiFication===3){}}
                     付费（VIP）
                     {{#  } }}
                 </p>
                 <p>
                     <i class="layui-icon layui-icon-password"></i>&nbsp;&nbsp;机构状态：
-                    {{#  if(item.status===1){ }}
+                    {{#  if(d.status===1){ }}
                     正常
-                    {{#  }else if(item.status===2){ }}
+                    {{#  }else if(d.status===2){ }}
                     锁定（异常）
-                    {{#  } if(item.status===3){}}
+                    {{#  } if(d.status===3){}}
                     锁定（过期）
                     {{#  } }}
                 </p>
-                <p><i class="layui-icon layui-icon-user"></i>&nbsp;&nbsp;联系方式：{{item.contacts}}&nbsp;&nbsp;{{item.contactsPhone}}</p>
-                <p><i class="layui-icon layui-icon-time"></i>&nbsp;&nbsp;入驻时间：{{item.createTime}}</p>
-                <p class="caller-adds"><i class="layui-icon layui-icon-location"></i>{{item.provinceName}}{{item.cityName}}{{item.districtName}}{{item.address}}</p>
+                <p><i class="layui-icon layui-icon-user"></i>&nbsp;&nbsp;联系方式：{{d.contacts}}&nbsp;&nbsp;{{d.contactsPhone}}</p>
+                <p><i class="layui-icon layui-icon-time"></i>&nbsp;&nbsp;入驻时间：{{d.createTime}}</p>
+                <p class="caller-adds"><i class="layui-icon layui-icon-location"></i>{{d.provinceName}}{{d.cityName}}{{d.districtName}}{{d.address}}</p>
             </div>
             <div style="clear:both; text-align:center;">
-                <button class="layui-btn layui-btn-sm btn-tenant-edit" id="{{item.id}}">
+                <button class="layui-btn layui-btn-sm btn-tenant-edit" id="{{d.id}}">
                     <i class="layui-icon layui-icon-edit"></i>
                     更新机构信息
                 </button>
             </div>
         </div>
     </div>
-    {{#  }); }}
-    {{#  if(d.length === 0){ }}
-    <p style="width:100%; text-align:center;padding-top:10px;"><i class="layui-icon layui-icon-face-cry"></i>   暂无机构信息</p>
-    {{#  } }}
 </script>
 <script>
     layui.use('tenant', layui.factory('tenant')).use(['tenant'], function () {

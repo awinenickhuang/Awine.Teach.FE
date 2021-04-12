@@ -11,7 +11,7 @@ layui.define(['form', 'setter', 'element', 'verification', 'laytpl'], function (
     var tenant = {
         initTenant: function () {
             admin.req({
-                url: setter.apiAddress.tenant.list
+                url: setter.apiAddress.tenant.single
                 , data: {}
                 , done: function (res) {
                     if (res.data) {

@@ -61,7 +61,7 @@ layui.define(['table', 'form', 'setter', 'verification'], function (exports) {
                     , resize: false
                     , closeBtn: 1
                     , success: function (layero, index) {
-                        view(this.id).render('foundational/industry/add').done(function () {
+                        view(this.id).render('system/industry/add').done(function () {
                             //监听提交
                             form.on('submit(industry-form-submit)', function (data) {
                                 admin.req({
@@ -102,7 +102,7 @@ layui.define(['table', 'form', 'setter', 'verification'], function (exports) {
                 , resize: false
                 , closeBtn: 1
                 , success: function (layero, index) {
-                    view(this.id).render('foundational/industry/edit', data).done(function () {
+                    view(this.id).render('system/industry/edit', data).done(function () {
                         form.render();
                         form.on('submit(industry-edit-form-submit)', function (data) {
                             admin.req({

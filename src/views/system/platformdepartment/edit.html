@@ -1,0 +1,45 @@
+﻿<script type="text/html" template>
+    <link rel="stylesheet" href="{{ layui.setter.base }}style/template.css?v={{ layui.admin.v }}-1" media="all">
+</script>
+
+<form class="layui-form" id="awinerole-edit-form" lay-filter="department-edit-form" style="padding:15px;">
+    <div class="layui-form-item">
+        <div class="layui-form-item">
+            <label class="layui-form-label lines">上级</label>
+            <div class="layui-input-block">
+                <script type="text/html" template>
+                    <input type="hidden" id="parentId" name="ParentId" value="{{ d.params.parentId || '' }}" lay-verify="required" class="layui-input">
+                </script>
+                <div id="xmselect-parent-organization"></div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">名称</label>
+            <div class="layui-input-block">
+                <script type="text/html" template>
+                    <input type="text" name="Name" value="{{ d.params.name || '' }}" lay-verify="required|normallength" placeholder="" maxlength="30" autocomplete="off" class="layui-input">
+                    <input type="hidden" name="Id" value="{{ d.params.id || '' }}" lay-verify="required" class="layui-input">
+                </script>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">描述</label>
+            <div class="layui-input-block">
+                <script type="text/html" template>
+                    <input type="text" name="Describe" value="{{ d.params.describe || '' }}" lay-verify="required|normallength" placeholder="" maxlength="30" autocomplete="off" class="layui-input">
+                </script>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">排序</label>
+            <div class="layui-input-block">
+                <script type="text/html" template>
+                    <input type="text" name="DisplayOrder" value="{{ d.params.displayOrder || '' }}" lay-verify="required|number" placeholder="" maxlength="30" autocomplete="off" class="layui-input">
+                </script>
+            </div>
+        </div>
+        <div class="layui-form-item content-center">
+            <button class="layui-btn layui-btn-sm" type="button" lay-submit lay-filter="department-edit-form-submit"><i class="layui-icon layui-icon-ok"></i>立即提交</button>
+        </div>
+    </div>
+</form>

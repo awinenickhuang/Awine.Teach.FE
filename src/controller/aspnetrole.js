@@ -1,13 +1,14 @@
 ﻿/**
  @Name：角色管理
  */
-layui.define(['table', 'form', 'setter', 'verification', 'treeGrid'], function (exports) {
+layui.define(['table', 'form', 'setter', 'verification', 'treeGrid', 'xmSelect'], function (exports) {
     var $ = layui.$
         , admin = layui.admin
         , view = layui.view
         , table = layui.table
         , setter = layui.setter
         , form = layui.form
+        , xmSelect = layui.xmSelect
         , treeGrid = layui.treeGrid;
     //加载角色数据
     table.render({
@@ -64,17 +65,6 @@ layui.define(['table', 'form', 'setter', 'verification', 'treeGrid'], function (
                     , closeBtn: 1
                     , success: function (layero, index) {
                         view(this.id).render('foundational/aspnetrole/search').done(function () {
-                            admin.req({
-                                url: setter.apiAddress.tenant.list
-                                , data: {}
-                                , done: function (res) {
-                                    $("#sel-organization-search").append("<option value=\"\">请选择机构</option>");
-                                    $.each(res.data, function (index, item) {
-                                        $("#sel-organization-search").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
-                                    });
-                                    form.render("select");
-                                }
-                            });
                             //监听提交//搜索
                             form.on('submit(aspnetrole-search-submit)', function (data) {
                                 var field = data.field;
@@ -131,7 +121,7 @@ layui.define(['table', 'form', 'setter', 'verification', 'treeGrid'], function (
         };
     });
 
-    //-----------------角色操作权限相关代码-----Start------------
+    //角色操作权限相关代码-----Start
 
     var operationPermissions = {
         buttons: [],
@@ -240,7 +230,7 @@ layui.define(['table', 'form', 'setter', 'verification', 'treeGrid'], function (
         }
     };
 
-    //-----------------角色操作权限相关代码-----End------------
+    //角色操作权限相关代码-----End
 
     table.on('tool(awinerole-table)', function (obj) {
         var data = obj.data;
@@ -264,21 +254,6 @@ layui.define(['table', 'form', 'setter', 'verification', 'treeGrid'], function (
                 , closeBtn: 1
                 , success: function (layero, index) {
                     view(this.id).render('foundational/aspnetrole/edit', data).done(function () {
-                        admin.req({
-                            url: setter.apiAddress.tenant.list
-                            , data: {}
-                            , done: function (res) {
-                                $("#sel-organization-list").append("<option value=\"\">请选择</option>");
-                                $.each(res.data, function (index, item) {
-                                    if (data.tenantId == item.id) {
-                                        $("#sel-organization-list").append("<option selected=\"selected\" value=\"" + item.id + "\">" + item.name + "</option>");
-                                    } else {
-                                        $("#sel-organization-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
-                                    }
-                                });
-                                form.render("select");
-                            }
-                        });
                         form.render();
                         form.on('submit(awinerole-edit-form-submit)', function (data) {
                             admin.req({

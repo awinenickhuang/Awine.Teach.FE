@@ -88,7 +88,7 @@ layui.define(['form', 'setter', 'treeGrid', 'xmSelect', 'verification', 'table',
                 , resize: false
                 , closeBtn: 1
                 , success: function (layero, index) {
-                    view(this.id).render('foundational/module/edit', data).done(function () {
+                    view(this.id).render('system/module/edit', data).done(function () {
                         form.render();
                         var parentModuleTree = xmSelect.render({
                             el: '#xmselect-parent-module',
@@ -150,7 +150,7 @@ layui.define(['form', 'setter', 'treeGrid', 'xmSelect', 'verification', 'table',
                 , resize: false
                 , closeBtn: 1
                 , success: function (layero, index) {
-                    view(this.id).render('/foundational/module/buttons', data).done(function () {
+                    view(this.id).render('system/module/buttons', data).done(function () {
 
                         element.on('tab(button-manage-tab)', function (data) {
                             if (data.index == 1) {
@@ -244,7 +244,7 @@ layui.define(['form', 'setter', 'treeGrid', 'xmSelect', 'verification', 'table',
                 , resize: false
                 , closeBtn: 1
                 , success: function (layero, index) {
-                    view(this.id).render('foundational/module/add').done(function () {
+                    view(this.id).render('system/module/add').done(function () {
                         var parentModuleTree = xmSelect.render({
                             el: '#xmselect-parent-module',
                             tips: '顶级系统模块',

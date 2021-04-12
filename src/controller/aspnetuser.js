@@ -1,14 +1,14 @@
 ﻿/**
  @Name：用户管理
  */
-layui.define(['table', 'form', 'setter', 'verification'], function (exports) {
+layui.define(['table', 'form', 'setter', 'verification', 'xmSelect'], function (exports) {
     var $ = layui.$
         , admin = layui.admin
         , view = layui.view
         , table = layui.table
         , setter = layui.setter
+        , xmSelect = layui.xmSelect
         , form = layui.form;
-    //加载用户数据
     table.render({
         elem: '#userprofile-table'
         , url: setter.apiAddress.aspnetuser.pagelist
@@ -116,7 +116,6 @@ layui.define(['table', 'form', 'setter', 'verification'], function (exports) {
     //头工具栏事件
     table.on('toolbar(userprofile-table)', function (obj) {
         var checkStatus = table.checkStatus(obj.config.id);
-        console.log(checkStatus);
         switch (obj.event) {
             case 'search':
                 admin.popupRight({
@@ -126,47 +125,63 @@ layui.define(['table', 'form', 'setter', 'verification'], function (exports) {
                     , closeBtn: 1
                     , success: function (layero, index) {
                         view(this.id).render('foundational/aspnetuser/search').done(function () {
-                            //机构
+
+                            var roleSearchDepartmentTree = xmSelect.render({
+                                el: '#xmselect-organization',
+                                tips: '请选择',
+                                empty: '呀, 没有数据呢',
+                                model: { label: { type: 'text' } },
+                                toolbar: { show: true },
+                                radio: true,
+                                clickClose: true,
+                                tree: {
+                                    show: true,
+                                    strict: false,
+                                    expandedKeys: [-1, -3],
+                                },
+                                height: 'auto',
+                                prop: {
+                                    value: 'id',
+                                },
+                                data: [],
+                                on: function (data) {
+                                    var selected = data.arr;
+                                    if (selected.length > 0) {
+                                        $("#departmentId").val(selected[0].id);
+                                    } else {
+                                        $("#departmentId").val('');
+                                    }
+                                }
+                            });
+
+                            //加载部门树型数据
                             admin.req({
-                                url: setter.apiAddress.tenant.list
+                                url: setter.apiAddress.department.xmselecttree
                                 , data: {}
                                 , done: function (res) {
-                                    $("#sel-organization-list").empty();
-                                    $("#sel-organization-list").append("<option value=\"\">请选择机构</option>");
+                                    roleSearchDepartmentTree.update({
+                                        data: res.data,
+                                        autoRow: true,
+                                    });
+                                }
+                            });
+
+                            form.render(); //更新全部
+
+                            //角色
+                            $("#sel-aspnetrole-list").empty();
+                            admin.req({
+                                url: setter.apiAddress.awinerole.list
+                                , data: {}
+                                , done: function (res) {
+                                    $("#sel-aspnetrole-list").append("<option value=\"\">请选择角色</option>");
                                     $.each(res.data, function (index, item) {
-                                        $("#sel-organization-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
+                                        $("#sel-aspnetrole-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
                                     });
                                     form.render("select");
                                 }
                             });
-                            form.on('select(organization-list-filter)', function (data) {
-                                //部门
-                                $("#sel-department-list").empty();
-                                admin.req({
-                                    url: setter.apiAddress.department.list
-                                    , data: { tenantId: data.tenantId }
-                                    , done: function (res) {
-                                        $("#sel-department-list").append("<option value=\"\">请选择部门</option>");
-                                        $.each(res.data, function (index, item) {
-                                            $("#sel-department-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
-                                        });
-                                        form.render("select");
-                                    }
-                                });
-                                //角色
-                                $("#sel-aspnetrole-list").empty();
-                                admin.req({
-                                    url: setter.apiAddress.awinerole.list
-                                    , data: { tenantId: data.value }
-                                    , done: function (res) {
-                                        $("#sel-aspnetrole-list").append("<option value=\"\">请选择角色</option>");
-                                        $.each(res.data, function (index, item) {
-                                            $("#sel-aspnetrole-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
-                                        });
-                                        form.render("select");
-                                    }
-                                });
-                            });
+
                             //监听提交//搜索
                             form.on('submit(aspnetuser-search-submit)', function (data) {
                                 var field = data.field;
@@ -175,7 +190,6 @@ layui.define(['table', 'form', 'setter', 'verification'], function (exports) {
                                 table.reload('userprofile-table', {
                                     where: {
                                         userName: field.name,
-                                        tenantId: field.organizationId,
                                         departmentId: field.departmentId,
                                         roleId: field.roleId
                                     },
@@ -196,47 +210,67 @@ layui.define(['table', 'form', 'setter', 'verification'], function (exports) {
                     , closeBtn: 1
                     , success: function (layero, index) {
                         view(this.id).render('foundational/aspnetuser/add').done(function () {
-                            form.render();
-                            $("#sel-aspnetRole-list").append("<option value=\"\">请选择角色</option>");
-                            $("#sel-department-list").append("<option value=\"\">请选择部门</option>");
+
+                            var roleAddDepartmentTree = xmSelect.render({
+                                el: '#xmselect-department',
+                                tips: '请选择',
+                                empty: '呀, 没有数据呢',
+                                model: { label: { type: 'text' } },
+                                toolbar: { show: true },
+                                radio: true,
+                                clickClose: true,
+                                tree: {
+                                    show: true,
+                                    strict: false,
+                                    expandedKeys: [-1, -3],
+                                },
+                                height: 'auto',
+                                prop: {
+                                    value: 'id',
+                                },
+                                data: [],
+                                on: function (data) {
+                                    var selected = data.arr;
+                                    if (selected.length > 0) {
+                                        $("#departmentId").val(selected[0].id);
+                                    } else {
+                                        $("#departmentId").val('');
+                                    }
+                                }
+                            });
+
+                            //加载部门树型数据
                             admin.req({
-                                url: setter.apiAddress.tenant.list
+                                url: setter.apiAddress.department.xmselecttree
                                 , data: {}
                                 , done: function (res) {
-                                    $("#sel-organization-list").append("<option value=\"\">请选择机构</option>");
+                                    roleAddDepartmentTree.update({
+                                        data: res.data,
+                                        autoRow: true,
+                                    });
+                                }
+                            });
+
+                            form.render(); //更新全部
+
+
+                            form.render();
+                            $("#sel-aspnetRole-list").append("<option value=\"\">请选择角色</option>");
+
+                            //加载角色
+                            $("#sel-aspnetRole-list").empty();
+                            admin.req({
+                                url: setter.apiAddress.awinerole.list
+                                , data: {}
+                                , done: function (res) {
+                                    $("#sel-aspnetRole-list").append("<option value=\"\">请选择角色</option>");
                                     $.each(res.data, function (index, item) {
-                                        $("#sel-organization-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
+                                        $("#sel-aspnetRole-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
                                     });
                                     form.render("select");
                                 }
                             });
-                            //机构选择加载角色及部门
-                            form.on('select(organization-add-filter)', function (data) {
-                                $("#sel-aspnetRole-list").empty();
-                                admin.req({
-                                    url: setter.apiAddress.awinerole.list
-                                    , data: { tenantId: data.value }
-                                    , done: function (res) {
-                                        $("#sel-aspnetRole-list").append("<option value=\"\">请选择角色</option>");
-                                        $.each(res.data, function (index, item) {
-                                            $("#sel-aspnetRole-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
-                                        });
-                                        form.render("select");
-                                    }
-                                });
-                                $("#sel-department-list").empty();
-                                admin.req({
-                                    url: setter.apiAddress.department.list
-                                    , data: { tenantId: data.value }
-                                    , done: function (res) {
-                                        $("#sel-department-list").append("<option value=\"\">请选择部门</option>");
-                                        $.each(res.data, function (index, item) {
-                                            $("#sel-department-list").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
-                                        });
-                                        form.render("select");
-                                    }
-                                });
-                            });
+
                             //监听提交
                             form.on('submit(userprofile-form-submit)', function (data) {
                                 admin.req({
@@ -246,6 +280,7 @@ layui.define(['table', 'form', 'setter', 'verification'], function (exports) {
                                     , done: function (res) {
                                         layer.close(index);
                                         table.reload('userprofile-table');
+                                        layer.msg(res.msg);
                                     }
                                 });
                             });
@@ -268,22 +303,7 @@ layui.define(['table', 'form', 'setter', 'verification'], function (exports) {
                 , success: function (layero, index) {
                     view(this.id).render('foundational/aspnetuser/edit', data).done(function () {
                         form.render();
-                        //初始机构数据
-                        admin.req({
-                            url: setter.apiAddress.tenant.list
-                            , data: {}
-                            , done: function (res) {
-                                $("#sel-organization-edit").append("<option value=\"\">请选择机构</option>");
-                                $.each(res.data, function (index, item) {
-                                    if (data.tenantId == item.id) {
-                                        $("#sel-organization-edit").append("<option selected=\"selected\" value=\"" + item.id + "\">" + item.name + "</option>");
-                                    } else {
-                                        $("#sel-organization-edit").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
-                                    }
-                                });
-                                form.render("select");
-                            }
-                        });
+
                         //初始化角色
                         admin.req({
                             url: setter.apiAddress.awinerole.list
@@ -300,22 +320,49 @@ layui.define(['table', 'form', 'setter', 'verification'], function (exports) {
                                 form.render("select");
                             }
                         });
+
                         //初始化部门
-                        admin.req({
-                            url: setter.apiAddress.department.list
-                            , data: { tenantId: data.tenantId }
-                            , done: function (res) {
-                                $("#sel-department-edit").append("<option value=\"\">请选择部门</option>");
-                                $.each(res.data, function (index, item) {
-                                    if (data.departmentId == item.id) {
-                                        $("#sel-department-edit").append("<option selected=\"selected\" value=\"" + item.id + "\">" + item.name + "</option>");
-                                    } else {
-                                        $("#sel-department-edit").append("<option value=\"" + item.id + "\">" + item.name + "</option>");
-                                    }
-                                });
-                                form.render("select");
+                        var roleEditDepartmentTree = xmSelect.render({
+                            el: '#xmselect-department-edit',
+                            tips: '请选择',
+                            empty: '呀, 没有数据呢',
+                            model: { label: { type: 'text' } },
+                            toolbar: { show: true },
+                            radio: true,
+                            clickClose: true,
+                            tree: {
+                                show: true,
+                                strict: false,
+                                expandedKeys: [-1, -3],
+                            },
+                            height: 'auto',
+                            prop: {
+                                value: 'id',
+                            },
+                            data: [],
+                            on: function (data) {
+                                var selected = data.arr;
+                                if (selected.length > 0) {
+                                    $("#departmentId").val(selected[0].id);
+                                } else {
+                                    $("#departmentId").val('');
+                                }
                             }
                         });
+
+                        //加载部门树型数据
+                        admin.req({
+                            url: setter.apiAddress.department.xmselecttree
+                            , data: { parentId: data.departmentId }
+                            , done: function (res) {
+                                roleEditDepartmentTree.update({
+                                    data: res.data,
+                                    autoRow: true,
+                                });
+                            }
+                        });
+
+                        form.render(); //更新全部
 
                         $('#sel-gender-edit').val(data.gender);
 
@@ -344,6 +391,7 @@ layui.define(['table', 'form', 'setter', 'verification'], function (exports) {
                                 , done: function (res) {
                                     layer.close(index);
                                     table.reload('userprofile-table');
+                                    layer.msg(res.msg);
                                 }
                             });
                         });
