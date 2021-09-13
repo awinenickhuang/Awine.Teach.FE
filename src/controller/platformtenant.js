@@ -42,18 +42,18 @@ layui.define(['table', 'form', 'setter', 'verification', 'laydate'], function (e
                     }
                 }
             },
-            {//租户类型 1-机构总部 2-分支机构 3-代理商 4-运营商
+            {//租户类型 1-免费 2-试用 3-付费（VIP）8-代理商 9-平台运营
                 field: 'classiFication', title: '机构类型', align: 'center',
                 templet: function (d) {
                     switch (d.classiFication) {
                         case 1:
-                            return '<span style="color:#FFB800;">机构</span>';
+                            return '<span style="color:#FFB800;">免费</span>';
                             break;
                         case 2:
-                            return '<span style="color:#2F4056;">代理商</span>';
+                            return '<span style="color:#2F4056;">试用</span>';
                             break;
                         case 3:
-                            return '<span style="color:#1E9FFF;">运营商</span>';
+                            return '<span style="color:#1E9FFF;">付费（VIP）</span>';
                             break;
                         default:
                             return '-';
@@ -62,7 +62,7 @@ layui.define(['table', 'form', 'setter', 'verification', 'laydate'], function (e
                 }
             },
             {
-                field: 'appVersionName', title: '版本类型', align: 'center'
+                field: 'saaSVersionName', title: '版本类型', align: 'center'
             },
             {
                 field: 'vipExpirationTime', title: '到期时间', align: 'center'
@@ -113,7 +113,7 @@ layui.define(['table', 'form', 'setter', 'verification', 'laydate'], function (e
                     , resize: false
                     , closeBtn: 1
                     , success: function (layero, index) {
-                        view(this.id).render('foundational/platformtenant/add').done(function () {
+                        view(this.id).render('system/platformtenant/add').done(function () {
 
                             form.render(null, "tenant-add-form");
 
@@ -268,7 +268,7 @@ layui.define(['table', 'form', 'setter', 'verification', 'laydate'], function (e
                 , resize: false
                 , closeBtn: 1
                 , success: function (layero, index) {
-                    view(this.id).render('foundational/platformtenant/edit', data).done(function () {
+                    view(this.id).render('system/platformtenant/edit', data).done(function () {
 
                         form.render();
 
@@ -390,7 +390,7 @@ layui.define(['table', 'form', 'setter', 'verification', 'laydate'], function (e
                 , resize: false
                 , closeBtn: 1
                 , success: function (layero, index) {
-                    view(this.id).render('foundational/platformtenant/renewal', data).done(function () {
+                    view(this.id).render('system/platformtenant/renewal', data).done(function () {
                         $('#sel-editclassfication-list').val(data.classiFication);
                         form.render();
                         //监听提交
@@ -415,7 +415,7 @@ layui.define(['table', 'form', 'setter', 'verification', 'laydate'], function (e
                 , resize: false
                 , closeBtn: 1
                 , success: function (layero, index) {
-                    view(this.id).render('foundational/platformtenant/editstatus', data).done(function () {
+                    view(this.id).render('system/platformtenant/editstatus', data).done(function () {
                         $('#sel-editstatus-list').val(data.status);
                         form.render();
                         //监听提交

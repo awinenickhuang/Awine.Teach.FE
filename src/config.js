@@ -229,7 +229,7 @@ layui.define(['laytpl', 'layer', 'element', 'util'], function (exports) {
             },
             tenantdefaultsettings: {
                 pagelist: 'http://localhost:8001/api/tenantdefaultsettings/pagelist',
-                list: 'http://localhost:8001/api/tenantdefaultsettings/list',
+                list: 'http://localhost:8001/api/tenantdefaultsettings/list',                
                 single: 'http://localhost:8001/api/tenantdefaultsettings/single',
                 singlesaasversion: 'http://localhost:8001/api/tenantdefaultsettings/singlesaasversion',
                 add: 'http://localhost:8001/api/tenantdefaultsettings/add',
@@ -239,6 +239,7 @@ layui.define(['laytpl', 'layer', 'element', 'util'], function (exports) {
             tenantsettings: {
                 pagelist: 'http://localhost:8001/api/tenantsettings/pagelist',
                 list: 'http://localhost:8001/api/tenantsettings/list',
+                tenantsettings: 'http://localhost:8001/api/tenantsettings/tenantsettings',
                 single: 'http://localhost:8001/api/tenantsettings/single',
                 add: 'http://localhost:8001/api/tenantsettings/add',
                 delete: 'http://localhost:8001/api/tenantsettings/delete',

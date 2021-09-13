@@ -1,12 +1,14 @@
 ﻿/**
  @Name：机构管理
  */
-layui.define(['form', 'setter', 'element', 'verification', 'laytpl'], function (exports) {
+layui.define(['form', 'setter', 'element', 'verification', 'table', 'laytpl'], function (exports) {
     var $ = layui.$
         , admin = layui.admin
         , view = layui.view
         , setter = layui.setter
         , form = layui.form
+        , element = layui.element
+        , table = layui.table
         , laytpl = layui.laytpl;
     var tenant = {
         initTenant: function () {
@@ -25,8 +27,32 @@ layui.define(['form', 'setter', 'element', 'verification', 'laytpl'], function (
                     }
                 }
             });
+        },
+        initTenantSettings: function () {
+            admin.req({
+                url: setter.apiAddress.tenantsettings.tenantsettings
+                , data: {}
+                , done: function (res) {
+                    if (res.data) {
+                        var gettpl = tenantsettingstemplate.innerHTML
+                            , view = document.getElementById('tenantsettingstemplateview');
+                        laytpl(gettpl).render(res.data, function (html) {
+                            view.innerHTML = html;
+                        });
+                    } else {
+                        layer.msg("找不到机构设置信息");
+                    }
+                }
+            });
         }
     };
+
+    // 监听TAB切换
+    element.on('tab(tenant-tab-filter)', function (data) {
+        if (data.index == 1) {
+            tenant.initTenantSettings();
+        }
+    });
 
     tenant.initTenant();
 

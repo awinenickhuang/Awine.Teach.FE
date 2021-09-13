@@ -16,7 +16,7 @@ layui.define(['table', 'form', 'setter', 'verification', 'element', 'treeGrid'],
         , url: setter.apiAddress.saasversion.pagelist
         , toolbar: '#saasversion-toolbar'
         , cols: [[
-            { field: 'name', title: 'SaaS应用版本' },
+            { field: 'name', title: '版本名称' },
             {
                 field: 'identifying', title: '版本分类', align: 'center',
                 templet: function (d) {
@@ -187,6 +187,7 @@ layui.define(['table', 'form', 'setter', 'verification', 'element', 'treeGrid'],
                                 , data: data.field
                                 , type: 'POST'
                                 , done: function (res) {
+                                    layer.msg(res.msg, { icon: 1 });
                                     layer.close(index);
                                     table.reload('saasversion-table');
                                 }
@@ -223,6 +224,7 @@ layui.define(['table', 'form', 'setter', 'verification', 'element', 'treeGrid'],
                                 , type: 'POST'
                                 , done: function (res) {
                                     layer.msg(res.msg, { icon: 1 });
+                                    layer.close(index);
                                 }
                             });
                         });
@@ -257,6 +259,7 @@ layui.define(['table', 'form', 'setter', 'verification', 'element', 'treeGrid'],
                                                 layer.msg(res.msg, { icon: 1 });
                                             } else {
                                                 layer.msg(res.msg, { icon: 1 });
+                                                layer.close(index);
                                             }
                                         }
                                     });

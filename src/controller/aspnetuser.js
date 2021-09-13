@@ -131,13 +131,16 @@ layui.define(['table', 'form', 'setter', 'verification', 'xmSelect'], function (
                                 tips: '请选择',
                                 empty: '呀, 没有数据呢',
                                 model: { label: { type: 'text' } },
-                                toolbar: { show: true },
+                                toolbar: {
+                                    show: true            //是否展示工具条
+                                },
                                 radio: true,
                                 clickClose: true,
                                 tree: {
-                                    show: true,
-                                    strict: false,
-                                    expandedKeys: [-1, -3],
+                                    show: true,           //是否显示树状结构
+                                    showFolderIcon: true, //是否展示三角图标
+                                    strict: true,        //是否严格遵守父子模式
+                                    expandedKeys: [],  //true 默认全部展开
                                 },
                                 height: 'auto',
                                 prop: {

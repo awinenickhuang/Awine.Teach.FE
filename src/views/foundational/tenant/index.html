@@ -22,8 +22,8 @@
     <div class="layadmin-caller">
         <div class="layui-tab layui-tab-brief" lay-filter="tenant-tab-filter">
             <ul class="layui-tab-title">
-                <li class="layui-this"><i class="layui-icon layui-icon-home"></i> 我的机构</li>
-                <li><i class="layui-icon layui-icon-menu-fill"></i> 参数信息</li>
+                <li class="layui-this" lay-id="0"><i class="layui-icon layui-icon-home"></i> 我的机构</li>
+                <li lay-id="1"><i class="layui-icon layui-icon-menu-fill"></i> 参数信息</li>
             </ul>
             <div class="layui-tab-content">
                 <div class="layui-tab-item layui-show">
@@ -32,7 +32,9 @@
                     </div>
                 </div>
                 <div class="layui-tab-item">
-                    111
+                    <div class="caller-contar" id="tenantsettingstemplateview">
+                        <!--机构设置信息展示区-->
+                    </div>
                 </div>
             </div>
         </div>
@@ -76,6 +78,28 @@
                     <i class="layui-icon layui-icon-edit"></i>
                     更新机构信息
                 </button>
+            </div>
+        </div>
+    </div>
+</script>
+<script type="text/html" id="tenantsettingstemplate">
+    <div class="caller-contar">
+        <div class="caller-item">
+            <div class="caller-main caller-fr">
+                <img src="{{ layui.setter.base }}style/res/template/tenant_default_logo.png" alt="" class="caller-img">
+            </div>
+            <div class="caller-main caller-fl">
+                <p><i class="layui-icon layui-icon-home"></i>&nbsp;&nbsp;<strong style="color:#01AAED;">最大分支机构数量：{{d.maxNumberOfBranch}}</strong>（个）</p>
+                <p><i class="layui-icon layui-icon-tips"></i>&nbsp;&nbsp;最大部门数量：{{d.maxNumberOfDepartments}}（个）</p>
+                <p><i class="layui-icon layui-icon-user"></i>&nbsp;&nbsp;最大角色数量：{{d.maxNumberOfRoles}}（个）</p>
+                <p><i class="layui-icon layui-icon-time"></i>&nbsp;&nbsp;最大用户数量：{{d.maxNumberOfUser}}（个）</p>
+                <p><i class="layui-icon layui-icon-time"></i>&nbsp;&nbsp;最大课程数量：{{d.maxNumberOfCourse}}（个）</p>
+                <p><i class="layui-icon layui-icon-time"></i>&nbsp;&nbsp;最大班级数量：{{d.maxNumberOfClass}}（个）</p>
+                <p><i class="layui-icon layui-icon-time"></i>&nbsp;&nbsp;最大教室数量：{{d.maxNumberOfClassRoom}}（个）</p>
+                <p><i class="layui-icon layui-icon-time"></i>&nbsp;&nbsp;最大学生数量：{{d.maxNumberOfStudent}}（个）</p>
+                <p><i class="layui-icon layui-icon-time"></i>&nbsp;&nbsp;最大存储空间：{{d.maxStorageSpace}}（GB）</p>
+                <p><i class="layui-icon layui-icon-time"></i>&nbsp;&nbsp;可用存储空间：{{d.availableStorageSpace}}（GB）</p>
+                <p><i class="layui-icon layui-icon-time"></i>&nbsp;&nbsp;已用存储空间：{{d.usedStorageSpace}}（GB）</p>
             </div>
         </div>
     </div>
